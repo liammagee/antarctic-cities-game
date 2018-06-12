@@ -1,0 +1,78 @@
+{
+    "version":"1.0",
+    "name": "Water Scenario",
+    "description": "",
+    "icon": "",
+    "feedback_email": "",
+    "threat_type": "",
+    "threat_type_locked": "",
+    "threat_name": "",
+    "popup_1_title": "",
+    "popup_1_description": "",
+    "popup_2_title": "",
+    "popup_2_description": "",
+    "start_country": "",
+    "start_country_locked": "",
+    "start_country_percentage_affected": "",
+    "start_country_percentage_dead": "",
+    "start_country_percentage_zombie": "",
+
+    "scenario_score_adjusted": "",
+    "event_restriction": "",
+    "lock_difficulty": "",
+    "gene_selection": "",
+    "allow_cheats": "",
+
+    "start_specified": 1,
+    "start_day": 1,
+    "start_month": 1,
+    "start_year": 2018,
+
+
+    "threat_details" : {
+    	"threat_template": "",
+    	"starting_conditions": {
+	    	"starting_infectivity": 1,
+	    	"starting_severity": 1,
+	    	"starting_lethality": 10
+    	},
+
+    	"transmission": {
+	    	"transmission_air": 1.0,
+	    	"transmission_sea": 1.0,
+	    	"transmission_land": 1.0    		
+    	},
+
+    	"environmental_effectivness": {
+    		"wealthy_country": 0.0,
+    		"poor_country": 1.0,
+    		"urban_country": 1.0,
+    		"rural_country": 1.0,
+    		"hot_country": 0.1,
+    		"cold_country": 0.1,
+    		"humid_country": 1.0,
+    		"arid_country": 1.0
+    	},
+    	"other_stats": {
+    		"cure_requirement": 0.0, 
+    		"mutation_likelihood": 0.5
+    	},
+    	"other_stats": {
+    		"cure_requirement": 0.0, 
+    		"mutation_likelihood": 0.5
+    	},
+    	"advanced_stats": {
+    		"infectivity_increase_speed": 0.1, 
+    		"minimum_infectivity_increase": 0.1, 
+    		"severity_increase_speed": 0.1, 
+    		"minimum_severity_increase": 1.0, 
+    		"lethality_increase_speed": 0.05, 
+    		"minimum_lethality_increase_speed": 0.4, 
+    		"enable_corpse_transmission": false,
+    		"enable_land_transmission": true,
+    		"enable_sea_transmission": true,
+    		"enable_air_transmission": true,
+    		"infected_points_pot": 0 
+    	}
+    }
+}
