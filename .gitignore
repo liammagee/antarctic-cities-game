@@ -1,0 +1,17 @@
+
+# Cocos2d-x framework files
+frameworks/cocos2d-x/*
+frameworks/cocos2d-x/runtime-src/*
+simulator/*
+publish/*
+
+# Mac
+.DS_Store
+
+
+*.sublime-workspace
+build/
+node_modules
+npm-debug.log
+world/
+

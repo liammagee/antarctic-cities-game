@@ -90,7 +90,9 @@ var GameOver = function(parent, message, prompt) {
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
     gameParams.state = "Game Over";
-    gameParams.startCountry = currentCountry;
+    gameParams.startCountry = null;
+    gameParams.resources = 0;
+    gameParams.strategies = [];
 
     var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({
@@ -225,7 +227,6 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener(actionsListener.clone(), btnFF);
         this.controlsBackground.addChild(btnFF, 100);
 
-
         // Add tweet area
         this.tweetBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 600, 36);
         this.tweetBackground.setAnchorPoint(new cc.p(0,0));
@@ -291,6 +292,7 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.state = "Paused";
                     layer = new ConfigureLayer(world);
                     world.parent.addChild(layer);
+                    world.removeFromParent();
                     return true;
                 }
                 return false;
@@ -299,10 +301,7 @@ var WorldLayer = cc.Layer.extend({
     
         this.dnaSpend = cc.MenuItemLabel.create(cc.LabelTTF.create("DNA", FONT_FACE, 24));
         this.dnaSpend.setAnchorPoint(new cc.p(0,0));
-        this.dnaSpend.attr({
-            x: 10,
-            y: 10
-        });
+        this.dnaSpend.attr({ x: 10, y: 10 });
         this.addChild(this.dnaSpend);
     
         this.worldListener = cc.EventListener.create({
@@ -324,17 +323,10 @@ var WorldLayer = cc.Layer.extend({
     
         this.worldStats = cc.MenuItemLabel.create(cc.LabelTTF.create("World", FONT_FACE, 24));
         this.worldStats.setAnchorPoint(new cc.p(0,0));
-        this.worldStats.attr({
-            x: 300,
-            y: 10
-        });
+        this.worldStats.attr({ x: 300, y: 10 });
         this.addChild(this.worldStats);
 
         // GLOBAL VAIRABLES FOR DEBUGGING
-        grat = this.graticule_sprite;
-        world_sprite = this.world_sprite;
-        // country_sprite = this.country_sprite;
-        thismap = this.map;
         world = this;
 
         var beginSim = function() {
@@ -381,12 +373,22 @@ var WorldLayer = cc.Layer.extend({
             return crossed;
         };
 
+        
         mappedTiles = {};
         sortedObjs = this.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x)  } )
         sortedKeys = {};
         this.map.objectGroups[0].getObjects().forEach(function(obj, index) {
             sortedKeys[obj.name] = index;
         })
+        // Get centroids
+        world.centroids = world.map.objectGroups[0].getObjects().map(function(obj) { 
+            var totalX = 0, totalY = 0;
+            obj.points.forEach(function(pt) {
+                totalX += parseFloat(pt.x);
+                totalY += parseFloat(pt.y);
+            });
+            return { x: totalX / obj.points.length, y: totalY / obj.points.length }
+        });
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
             var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
@@ -466,9 +468,11 @@ var WorldLayer = cc.Layer.extend({
                                 var btnRes = new ccui.Button();
                                 btnRes.setTouchEnabled(true);
                                 btnRes.setScale9Enabled(true);
+                                btnRes.setAnchorPoint(cc.p(0, 0));
                                 btnRes.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
-                                btnRes.x = X_OFFSET + RESOURCE_SIZE / 2 + Math.floor(Math.random() * (size.width - X_OFFSET - RESOURCE_SIZE / 2 ));
-                                btnRes.y = Y_OFFSET + RESOURCE_SIZE / 2  + Math.floor(Math.random() * (size.height - Y_OFFSET - RESOURCE_SIZE / 2 ));
+                                var pt = world.centroids[Math.floor(Math.random() * world.centroids.length)];
+                                btnRes.x = X_OFFSET + RESOURCE_SIZE / 2 + pt.x;
+                                btnRes.y = Y_OFFSET + RESOURCE_SIZE / 2  + (size.height - pt.y);
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE, RESOURCE_SIZE));
                                 btnRes.setColor(cc.color.GREEN);
                                 btnRes.placedAt = gameParams.counter;
@@ -1041,80 +1045,95 @@ var ConfigureLayer = cc.Layer.extend({
 
         var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, size.height);
         layBackground.attr({ x: 0, y: 0 });
-        this.addChild(layBackground, 100);
+        layer.addChild(layBackground, 100);
 
-        var newLabel = new cc.LabelTTF("Add a new Stragegy", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.8;
-        this.addChild(newLabel, 101);
-
-        var economyLabel = new cc.LabelTTF("Water Extraction (3)", FONT_FACE, 38);
-        var btnEconomy = new ccui.Button();
-        btnEconomy.setTouchEnabled(true);
-        btnEconomy.setScale9Enabled(true);
-        btnEconomy.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg", "", "");
-        //btnEconomy.loadTextures("res/icons/guard13007/originals/svg/ffffff/transparent/pause-button.svg", "", "");
-        btnEconomy.x = 100;
-        btnEconomy.y = 100;
-        btnEconomy.setContentSize(cc.size(60, 60));
-        btnEconomy.setColor(cc.color.GREEN);
-        btnEconomy.cost = 4;
-        btnEconomy.strategy = "Reduce CO2";
-        economyLabel.cost = 4;
-        economyLabel.strategy = "Reduce CO2";
-        economyLabel.x = size.width * 0.2;
-        economyLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
-        layBackground.addChild(economyLabel, 101);
-        layBackground.addChild(btnEconomy, 101);
-
-        var politicsLabel = new cc.LabelTTF("New Treaty (4)", FONT_FACE, 38);
-        politicsLabel.cost = 4;
-        politicsLabel.strategy = "Reduce CO2";
-        politicsLabel.x = size.width * 0.4;
-        politicsLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
-        this.addChild(politicsLabel, 101);
-
-        var cultureLabel = new cc.LabelTTF("Education Program (3)", FONT_FACE, 38);
-        cultureLabel.cost = 4;
-        cultureLabel.strategy = "Reduce CO2";
-        cultureLabel.x = size.width * 0.6;
-        cultureLabel.y = size.height * 0.5;
-        this.addChild(cultureLabel, 101);
-
-        var ecologyLabel = new cc.LabelTTF("Reduce CO2 (4)", FONT_FACE, 38);
-        ecologyLabel.cost = 4;
-        ecologyLabel.strategy = "Reduce CO2";
-        ecologyLabel.x = size.width * 0.8;
-        ecologyLabel.y = size.height * 0.5;
-        this.addChild(ecologyLabel, 101);
-
-
-        var listener = cc.EventListener.create({
+        var resourceListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());    
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {     
-                    gameParams.resources -= target.cost;  
-                    gameParams.strategies.push(target.strategy);
-                    layer.removeFromParent();
-                    gameParams.state = "Started";
+                if (cc.rectContainsPoint(rect, locationInNode)) {  
+                    if (gameParams.resources - target.cost > 0) {
+                        gameParams.resources -= target.cost;  
+                        gameParams.strategies.push(target.strategy);
+                        layer.configDnaScoreLabel.setString(gameParams.resources.toString());
+                        console.log(target.cost);
+                    }
                     return true;
                 }
                 return false;
             }
         });
 
-        cc.eventManager.addListener(listener.clone(), btnEconomy);
-        cc.eventManager.addListener(listener.clone(), economyLabel);
-        cc.eventManager.addListener(listener.clone(), politicsLabel);
-        cc.eventManager.addListener(listener.clone(), cultureLabel);
-        cc.eventManager.addListener(listener.clone(), ecologyLabel);
+        var pageView = new ccui.PageView();
+        pageView.setContentSize(cc.size(size.width, size.height - 50));
+        pageView.setAnchorPoint(cc.p(0, 0));
+        pageView.setPosition(cc.p(X_OFFSET, Y_OFFSET));
+        var pageCount = 4;
+       
+        for (var i = 0; i < pageCount; ++i) {
+            var layout = new ccui.Layout();
+            layout.setContentSize(cc.size(layout.getContentSize().width / 2.0, layout.getContentSize().height / 2.0));
+
+            var label = new ccui.Text("page " + (i+1) , "Marker Felt", 30);
+            label.setColor(cc.color(192, 192, 192));
+            label.setPosition(cc.p(100, layout.getH));
+            layout.addChild(label);
+
+            var btnBanking = new ccui.Button();
+            btnBanking.setTouchEnabled(true);
+            btnBanking.setScale9Enabled(true);
+            btnBanking.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg", "", "");
+            btnBanking.x = 100 * (i + 1);
+            btnBanking.y = 100;
+            btnBanking.setContentSize(cc.size(60, 60));
+            btnBanking.setColor(cc.color.GREEN);
+            btnBanking.cost = i+1;
+            btnBanking.strategy = "Water Mining";
+            cc.eventManager.addListener(resourceListener.clone(), btnBanking);
+            // add the label as a child to this layer
+            layout.addChild(btnBanking, 101);
+    
+            pageView.insertPage(layout, i);
+        }
+        layer.addChild(pageView, 100);
+        pageView.setCurrentPageIndex(0);
+
+        //add buttons to jump to specific page
+        var makeButton = function(text, point, index) {
+            var btn = new ccui.Button();
+            btn.setAnchorPoint(cc.p(0, 0));
+            btn.setPosition(point);
+            btn.setTitleText(text);
+            btn.addClickEventListener(function(){
+                pageView.setCurrentPageIndex(index);
+            });
+            layer.addChild(btn, 100);
+        };
+        makeButton("Economy", cc.p(150, 20), 0);
+        makeButton("Politics", cc.p(350, 20), 1);
+        makeButton("Culture", cc.p(550, 20), 2);
+        makeButton("Ecology", cc.p(750, 20), 3);
+
+        var btn = new ccui.Button();
+        btn.setAnchorPoint(cc.p(0, 0));
+        btn.setPosition(cc.p(950, 20));
+        btn.setTitleText("X");
+        btn.addClickEventListener(function(){
+            layer.parent.addChild(world);
+            layer.removeFromParent();
+            gameParams.state = "Started";
+        });
+        layer.addChild(btn, 100);
+
+        this.configDnaScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 18);
+        this.configDnaScoreLabel.setAnchorPoint(cc.p(0, 0));
+        this.configDnaScoreLabel.setPosition(cc.p(50, 20));
+        // this.configDnaScoreLabel.color = new cc.Color(255, 255, 255, 0);
+        dna = this.configDnaScoreLabel;
+        layer.addChild(this.configDnaScoreLabel, 100);
     }
 });
 
