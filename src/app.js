@@ -8,6 +8,8 @@ var YEAR_INTERVAL = (1000 / TIME_INTERVAL) * 10;
 var RESOURCE_INTERVAL = (1000 / TIME_INTERVAL) * 1;
 var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
+var RESOURCE_SIZE = 60; 
+                    
 
 /**
  * Add texture for country virus
@@ -379,16 +381,26 @@ var WorldLayer = cc.Layer.extend({
         sortedKeys = {};
         this.map.objectGroups[0].getObjects().forEach(function(obj, index) {
             sortedKeys[obj.name] = index;
-        })
-        // Get centroids
-        world.centroids = world.map.objectGroups[0].getObjects().map(function(obj) { 
+        });
+
+        // Map objects - polygons and names
+        var objs = world.map.objectGroups[0].getObjects();
+
+        // Create country dictionary
+        var centroids = function(obj) { 
             var totalX = 0, totalY = 0;
             obj.points.forEach(function(pt) {
                 totalX += parseFloat(pt.x);
                 totalY += parseFloat(pt.y);
             });
             return { x: totalX / obj.points.length, y: totalY / obj.points.length }
-        });
+        };
+        world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => (map[obj.name] = { 
+            name: obj.name,
+            centroid: centroids(obj)
+            // Add other properties here
+        }, map), {});
+
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
             var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
@@ -460,7 +472,6 @@ var WorldLayer = cc.Layer.extend({
                     var buttons = [];
                                             
                     // Add chance of new resource
-                    var RESOURCE_SIZE = 60; 
                     var addResource = function() {
                         var r = Math.random();
                         if (gameParams.counter - gameParams.lastResource >= RESOURCE_INTERVAL) {
@@ -468,11 +479,15 @@ var WorldLayer = cc.Layer.extend({
                                 var btnRes = new ccui.Button();
                                 btnRes.setTouchEnabled(true);
                                 btnRes.setScale9Enabled(true);
-                                btnRes.setAnchorPoint(cc.p(0, 0));
+                                //btnRes.setAnchorPoint(cc.p(0, 0));
                                 btnRes.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
-                                var pt = world.centroids[Math.floor(Math.random() * world.centroids.length)];
-                                btnRes.x = X_OFFSET + RESOURCE_SIZE / 2 + pt.x;
-                                btnRes.y = Y_OFFSET + RESOURCE_SIZE / 2  + (size.height - pt.y);
+                                var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
+                                var countryRand = world.countries[Object.keys(world.countries)[ind]];
+                                var pt = countryRand.centroid;
+                                console.log(countryRand.name);
+
+                                btnRes.x = pt.x;
+                                btnRes.y = size.height - pt.y;
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE, RESOURCE_SIZE));
                                 btnRes.setColor(cc.color.GREEN);
                                 btnRes.placedAt = gameParams.counter;

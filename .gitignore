@@ -2,6 +2,7 @@
 # Cocos2d-x framework files
 frameworks/cocos2d-x/*
 frameworks/cocos2d-x/runtime-src/*
+frameworks/runtime-src/
 simulator/*
 publish/*
 
