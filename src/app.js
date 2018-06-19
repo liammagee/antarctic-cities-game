@@ -8,19 +8,23 @@ var DAY_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 60; 
-var RESOURCE_DURATION = 50;
+var RESOURCE_DURATION = 100;
 var SUSTAINABILITY_START = 1000.0;
 var SUSTAINABILITY_TARGET = 2000.0;
 var YEAR_TARGET = 2048;
 
+// Game variables
+var gameParams = {};
+var policyDesign = {};
+
 
 /**
- * 
+ * Update time variables.
  */
-var updateTimes = function(interval) {
+var updateTimeVars = function(interval) {
     gameParams.timeInterval = interval;
     gameParams.resourceInterval = (1000 / gameParams.timeInterval);
-}
+};
 
 /**
  * Add texture for country virus
@@ -32,7 +36,7 @@ var addGLLayer = function(world) {
     rend.setPosition(winSize.width/2,winSize.height/2);
     world.addChild(rend, 99);
     return rend;
-}
+};
 
 /**
  * Message box
@@ -47,17 +51,11 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     parent.pause(); 
 
     var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
-    layBackground.attr({
-        x: WINDOW_WIDTH / 2 - layBackground.width / 2,
-        y: WINDOW_HEIGHT / 2 - layBackground.height / 2
-    });
+    layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 100);
 
     var lblMessage = new cc.LabelTTF(message, FONT_FACE, 14);
-    lblMessage.attr({
-        x: layBackground.width / 2,
-        y: (layBackground.height / 2)
-    });
+    lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
     layBackground.addChild(lblMessage, 2);
 
     var menu = this._menu = cc.Menu.create();
@@ -84,10 +82,7 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
 
     var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE, 24));
     cc.eventManager.addListener(listener.clone(), btnOK);
-    btnOK.attr({
-        x: layBackground.width / 2,
-        y: (layBackground.height / 2) - lblMessage.getContentSize().height * 2
-    });
+    btnOK.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) - lblMessage.getContentSize().height * 2 });
     menu.addChild(btnOK);
 };
 
@@ -108,17 +103,12 @@ var GameOver = function(parent, message, prompt) {
     gameParams.strategies = [];
 
     var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
-    layBackground.attr({
-        x: WINDOW_WIDTH / 2 - layBackground.width / 2,
-        y: WINDOW_HEIGHT / 2 - layBackground.height / 2
+    layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2
     });
     parent.addChild(layBackground, 100);
 
     var lblMessage = new cc.LabelTTF(message, FONT_FACE, 14);
-    lblMessage.attr({
-        x: layBackground.width / 2,
-        y: (layBackground.height / 2)
-    });
+    lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
     layBackground.addChild(lblMessage, 2);
 
     var menu = this._menu = cc.Menu.create();
@@ -206,14 +196,13 @@ var WorldLayer = cc.Layer.extend({
                         gameParams.state = "Paused";
                     }
                     else if (target.x == 60) {  // Pause
-                        updateTimes(DAY_INTERVAL);
+                        updateTimeVars(DAY_INTERVAL);
                         gameParams.state = "Started";
                     }
                     else if (target.x == 100) {  // Pause
-                        updateTimes(DAY_INTERVAL / 2);
+                        updateTimeVars(DAY_INTERVAL / 2);
                         gameParams.state = "Started";
                     }
-                    console.log(target.x);
                     return true;
                 }
                 return false;
@@ -315,7 +304,8 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.state = "Paused";
                     layer = new ConfigureLayer(world);
                     world.parent.addChild(layer);
-                    world.removeFromParent();
+                    // world.removeFromParent();
+                    world.setVisible(false);
                     return true;
                 }
                 return false;
@@ -349,17 +339,16 @@ var WorldLayer = cc.Layer.extend({
         this.worldStats.attr({ x: 300, y: 10 });
         this.addChild(this.worldStats);
 
-        // GLOBAL VAIRABLES FOR DEBUGGING
+        // GLOBAL VARIABLES FOR DEBUGGING
         world = this;
 
         var beginSim = function() {
             gameParams.state = "Prepared";
             gameParams.startTime = Date.now();
-        }
+        };
 
-        var container = this;
-        ShowMessageBoxOK(container, "Welcome to Polarised Cities!", "Next", function(that) {
-            ShowMessageBoxOK(container, "Click on any country to begin!", "OK", function(that) {
+        ShowMessageBoxOK(world, "Welcome to Polarised Cities!", "Next", function(that) {
+            ShowMessageBoxOK(world, "Click on any country to begin!", "OK", function(that) {
                 beginSim();
             });
         });
@@ -394,18 +383,33 @@ var WorldLayer = cc.Layer.extend({
             return crossed;
         };
 
-        
-        mappedTiles = {};
-        sortedObjs = this.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x)  } )
-        sortedKeys = {};
+
+    
+        var mappedTiles = {}, sortedKeys = {};
+        var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { 
+            return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x);  
+        });
         this.map.objectGroups[0].getObjects().forEach(function(obj, index) {
             sortedKeys[obj.name] = index;
         });
 
-        // Map objects - polygons and names
-        var objs = world.map.objectGroups[0].getObjects();
-
-        // Create country dictionary
+        // Generates min, max coordinates
+        var generateCoords = function(points) {
+            var minx = 0, miny = 0, maxx = 0, maxy = 0;
+            for (var i = 0; i < points.length; i++) {
+                var point = points[i];
+                if (minx == 0 || minx > parseInt(point.x)) 
+                    minx = parseInt(point.x);
+                if (miny == 0 || miny > parseInt(point.y)) 
+                    miny = parseInt(point.y);
+                if (maxx < parseInt(point.x)) 
+                    maxx = parseInt(point.x);
+                if (maxy < parseInt(point.y)) 
+                    maxy = parseInt(point.y);
+            };
+            return { minx: minx, miny: miny, maxx: maxx, maxy: maxy };
+        };
+        // Create country centroids
         var centroids = function(obj) { 
             var totalX = 0, totalY = 0;
             obj.points.forEach(function(pt) {
@@ -416,7 +420,11 @@ var WorldLayer = cc.Layer.extend({
         };
         world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => (map[obj.name] = { 
             name: obj.name,
-            centroid: centroids(obj)
+            centroid: centroids(obj),
+            sustainability: 50,
+            drawingPoints: [],
+            extremes: generateCoords(obj.points),
+            points: obj.points
             // Add other properties here
         }, map), {});
 
@@ -447,12 +455,9 @@ var WorldLayer = cc.Layer.extend({
         var currentCountry = null;
         var lastLayerID = -1;
 
-        if (typeof(world.renderer) !== "undefined")
-            world.renderer.removeFromParent()
-        world.renderer = addGLLayer(world);
 
-        var drawNode = new cc.DrawNode();
         var red = cc.color(255.0, 0.0, 0.0, 50.0);
+        var green = cc.color(0.0, 255.0, 0.0, 50.0);
         drawnPoints = [];
 
         var resListener = cc.EventListener.create({
@@ -478,10 +483,78 @@ var WorldLayer = cc.Layer.extend({
             world.yearLabel.setString(gameParams.currentDate.getFullYear());
         };
 
+
+        var generatePoint = function(points, coords) {
+            var minx = coords.minx, miny = coords.miny, maxx = coords.maxx, maxy = coords.maxy;
+            var testx = -1, testy = -1, k = 0, maxTries = 3;
+            var cd = false;
+            var p  = null;
+            do {
+                testx = minx + Math.floor(Math.random() * (maxx - minx));
+                testy = miny + Math.floor(Math.random() * (maxy - miny));
+                cd = collisionDetection(points, cc.p(testx, testy));
+            } while (! cd && (k++) < maxTries);
+            if (cd) {
+                testy = size.height - testy;
+                p = cc.p(testx, testy); 
+            }
+            return p;
+        };
+
+        var generatePointsForCountry = function(country, min, max) {
+            var coords = country.points;
+            var extremes = country.extremes;
+
+            if (min > max) {
+                country.drawingPoints = country.drawingPoints.slice(0, max - 1);
+            }
+            else {
+                for (var j = min; j < max; j++) {
+                    var p = generatePoint(coords, extremes);
+                    if (p != null && country.drawingPoints.indexOf(p) === -1) {
+                        country.drawingPoints.push(p);
+                    }
+                }
+            }
+        };
+        var generatePoints = function() {
+            for (var i = 0; i < Object.keys(world.countries).length; i++) {
+                var country = world.countries[Object.keys(world.countries)[i]];
+                var sustainability = country.sustainability;
+                generatePointsForCountry(country, 0, sustainability);
+            }
+        };
+        generatePoints();
+
+        var drawPoints = function() {
+            if (typeof(world.renderer) !== "undefined")
+                world.renderer.removeFromParent()
+            world.renderer = addGLLayer(world);
+            // world.renderer.clear();
+            for (var i = 0; i < Object.keys(world.countries).length; i++) {
+                var drawNode = new cc.DrawNode();
+                var country = world.countries[Object.keys(world.countries)[i]];
+                world.renderer.begin();
+                drawNode.retain();
+                for (var j = 0; j < country.drawingPoints.length; j++) {
+                    var p = country.drawingPoints[j];
+                    drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, 50.0));
+
+                }
+                drawNode.visit();
+
+                world.renderer.end();
+                world.renderer.retain();
+                drawNode.release();
+            }
+        };
+        drawPoints();
+        world.drawPoints = drawPoints;
+
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
-                if (currentCountry != null && gameParams.startCountry == null)
+                if (currentCountry != null && gameParams.startCountry == null && gameParams.state === "Prepared")
                     gameParams.startCountry = currentCountry;
                 if (gameParams.startCountry != null && gameParams.state === "Prepared") {
                     gameParams.startDate = new Date(Date.now());
@@ -492,7 +565,7 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.resources = 0;
                     gameParams.strategies = [];
                     gameParams.sustainability = SUSTAINABILITY_START;
-                    updateTimes(DAY_INTERVAL);
+                    updateTimeVars(DAY_INTERVAL);
                     printDate(world);
 
                     var buttons = [];
@@ -510,12 +583,11 @@ var WorldLayer = cc.Layer.extend({
                                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                                 var pt = countryRand.centroid;
-                                console.log(countryRand.name);
 
                                 btnRes.x = pt.x;
                                 btnRes.y = size.height - pt.y;
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE, RESOURCE_SIZE));
-                                btnRes.setColor(cc.color.GREEN);
+                                btnRes.setColor(cc.color.RED);
                                 btnRes.placedAt = gameParams.counter;
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
                                 world.addChild(btnRes, 101);
@@ -528,58 +600,11 @@ var WorldLayer = cc.Layer.extend({
                     // Evaluates loss
                     var evaluateLoss = function() {
                         var strategies = gameParams.strategies;
-                        var loss = -1.0;
-                        
+                        var loss = -0.01;
+                        if (strategies.indexOf('Water Mining') > -1) {
+                            loss = 0.1;
+                        }
                         return loss;
-                    };
-
-                    // Generates candidate points for drawing
-                    var generatePoint = function(points) {
-                        var minx = 0, miny = 0, maxx = 0, maxy = 0;
-                        for (var i = 0; i < points.length; i++) {
-                            var point = points[i];
-                            if (minx == 0 || minx > parseInt(point.x)) 
-                                minx = parseInt(point.x);
-                            if (miny == 0 || miny > parseInt(point.y)) 
-                                miny = parseInt(point.y);
-                            if (maxx < parseInt(point.x)) 
-                                maxx = parseInt(point.x);
-                            if (maxy < parseInt(point.y)) 
-                                maxy = parseInt(point.y);
-                        }
-                        var testx = -1, testy = -1, i = 0, maxTries = 3;
-                        var cd = false;
-                        do {
-                            testx = minx + Math.floor(Math.random() * (maxx - minx));
-                            testy = miny + Math.floor(Math.random() * (maxy - miny));
-                            cd = collisionDetection(points, cc.p(testx, testy));
-                        } while (! cd && (i++) < maxTries);
-                        if (cd) {
-                            testy = size.height - testy;
-                            var p = cc.p(testx, testy); 
-                            var np = 10000 * Math.floor(testx / 1) + Math.floor(testy / 1);
-                            if (drawnPoints.indexOf(np) == -1) {
-                                drawnPoints.push(np);
-                                var op = cc.p(testx - 2, testy - 2);
-                                var dp = cc.p(testx + 2, testy + 2);
-
-                                world.renderer.begin();
-                                
-                                drawNode.retain();
-                                drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, 150.0));
-                                drawNode.visit();
-
-                                world.renderer.end();
-                                world.renderer.retain();
-                                drawNode.release();
-                            }
-                        }
-                    }
-                    var generatePoints = function() {
-                        for (var i = 0; i < sortedObjs.length; i++) {
-                            var points = sortedObjs[i].points;
-                            generatePoint(points);
-                        }
                     };
                     
                     // Updates the game state at regular intervals
@@ -611,13 +636,23 @@ var WorldLayer = cc.Layer.extend({
                             // Update labels
                             world.dnaScoreLabel.setString(gameParams.resources);
                             printDate(world);
-                            // world.yearLabel.setString(gameParams.currentDate.getFullYear());
 
                             // Add loss
-                            gameParams.sustainability += evaluateLoss();
+                            var totalSus = 0;
+                            var countryKeys = Object.keys(world.countries);
+                            for (var j = 0; j < countryKeys.length; j++) {
+                                var country = world.countries[countryKeys[j]];
+                                var loss = evaluateLoss();
+                                if (loss != 0 && country.sustainability + loss <= 100 && country.sustainability >= 0) {
+                                    country.sustainability += loss;
+                                    generatePointsForCountry(country, country.sustainability - loss, country.sustainability);
+                                }
+                                totalSus += country.sustainability;
+                            }
+                            totalSus /= countryKeys.length;
+                            gameParams.sustainability = totalSus;
 
-                            // Generate points
-                            generatePoints();
+                            drawPoints();
 
                             // Game over                        
                             if (gameParams.sustainability <= 0) {
@@ -658,7 +693,8 @@ var WorldLayer = cc.Layer.extend({
                 var y = 0;
 
                 var layer = target.getLayer("Tile Layer 1");
-                gid = layer.getTileGIDAt(x, y)
+
+                gid = layer.getTileGIDAt(x, y);
                 if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
                     return;
                 var tile = layer.getTileAt(x, y);
@@ -669,8 +705,6 @@ var WorldLayer = cc.Layer.extend({
                 oldLayers = [];
                 var start = 0, end = sortedObjs.length;
                 if (lastLayerID > -1) {
-                    // start = lastLayerID - 20;
-                    // end = lastLayerID + 20;
                     start = (start < 0) ? 0 : start;
                     end = (end > sortedObjs.length) ? sortedObjs.length : end;
                 }
@@ -742,23 +776,18 @@ var WorldLayer = cc.Layer.extend({
     }
 });
 
-var gameParams = {};
-
 var WorldScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
         var scene = this;
+
         cc.loader.loadJson("res/scenario-water.json",function(error, data){
-            layer = new WorldLayer(data);
+            var layer = new WorldLayer(data);
             scene.addChild(layer);
         });
     }
 });
-
-
-
-// https://github.com/plter/Cocos2d-x-js-3-docs/blob/master/Cocos2d-JS/Features/event-manager/en.md
 
 var LoadingScene = cc.Scene.extend({
     onEnter:function () {
@@ -767,24 +796,18 @@ var LoadingScene = cc.Scene.extend({
         var size = cc.winSize;
         
         var playLabel = new cc.LabelTTF("Play", FONT_FACE, 38);
-        // position the label on the center of the screen
+        playLabel.attr({x: size.width * 0.5, y: size.height * 0.6})
+
         playLabel.x = size.width / 2;
         playLabel.y = size.height * 0.6;
-        // add the label as a child to this layer
         this.addChild(playLabel);
 
         var howToPlayLabel = new cc.LabelTTF("How to Play", FONT_FACE, 38);
-        // position the label on the center of the screen
-        howToPlayLabel.x = size.width / 2;
-        howToPlayLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        howToPlayLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(howToPlayLabel);
 
         var progressLabel = new cc.LabelTTF("Progress", FONT_FACE, 38);
-        // position the label on the center of the screen
-        progressLabel.x = size.width / 2;
-        progressLabel.y = size.height * 0.4;
-        // add the label as a child to this layer
+        progressLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(progressLabel);
 
         var listener1 = cc.EventListener.create({
@@ -832,17 +855,11 @@ var NewGameScene = cc.Scene.extend({
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("New Game", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.6;
-        // add the label as a child to this layer
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
         var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE, 38);
-        // position the label on the center of the screen
-        loadLabel.x = size.width / 2;
-        loadLabel.y = size.height * 0.4;
-        // add the label as a child to this layer
+        loadLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(loadLabel);
 
 
@@ -879,10 +896,8 @@ var NewGameScene = cc.Scene.extend({
 
         cc.eventManager.addListener(listener1, newLabel);
         cc.eventManager.addListener(listener2, loadLabel);
-
     }
 });
-
 
 
 var SelectChallengeScene = cc.Scene.extend({
@@ -892,19 +907,12 @@ var SelectChallengeScene = cc.Scene.extend({
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.8;
-        // add the label as a child to this layer
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(newLabel);
 
         var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE, 38);
-        // position the label on the center of the screen
-        waterLabel.x = size.width / 2;
-        waterLabel.y = size.height * 0.4;
-        // add the label as a child to this layer
+        waterLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(waterLabel);
-
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -923,7 +931,6 @@ var SelectChallengeScene = cc.Scene.extend({
         });
 
         cc.eventManager.addListener(listener1, waterLabel);
-
     }
 });
 
@@ -935,31 +942,19 @@ var SelectDifficultyScene = cc.Scene.extend({
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.8;
-        // add the label as a child to this layer
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
         var casualLabel = new cc.LabelTTF("Casual", FONT_FACE, 38);
-        // position the label on the center of the screen
-        casualLabel.x = size.width * 0.25;
-        casualLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5})
         this.addChild(casualLabel);
 
         var normalLabel = new cc.LabelTTF("Normal", FONT_FACE, 38);
-        // position the label on the center of the screen
-        normalLabel.x = size.width * 0.5;
-        normalLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(normalLabel);
 
         var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE, 38);
-        // position the label on the center of the screen
-        brutalLabel.x = size.width * 0.75;
-        brutalLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5})
         this.addChild(brutalLabel);
 
 
@@ -979,11 +974,9 @@ var SelectDifficultyScene = cc.Scene.extend({
             }
         });
 
-
         cc.eventManager.addListener(listener1.clone(), casualLabel);
         cc.eventManager.addListener(listener1.clone(), normalLabel);
         cc.eventManager.addListener(listener1.clone(), brutalLabel);
-
     }
 });
 
@@ -996,21 +989,12 @@ var EnterNameScene = cc.Scene.extend({
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Enter a name", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.8;
-        // add the label as a child to this layer
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-
         var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE, 38);
-        // position the label on the center of the screen
-        enterNameLabel.x = size.width * 0.5;
-        enterNameLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        enterNameLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(enterNameLabel);
-
-
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -1042,18 +1026,12 @@ var ModifyCodeScene = cc.Scene.extend({
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.8;
-        // add the label as a child to this layer
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
 
         var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE, 38);
-        // position the label on the center of the screen
-        modifyCodeLabel.x = size.width * 0.5;
-        modifyCodeLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(modifyCodeLabel);
 
 
@@ -1105,7 +1083,6 @@ var ConfigureLayer = cc.Layer.extend({
                         gameParams.resources -= target.cost;  
                         gameParams.strategies.push(target.strategy);
                         layer.configDnaScoreLabel.setString(gameParams.resources.toString());
-                        console.log(target.cost);
                     }
                     return true;
                 }
@@ -1121,17 +1098,33 @@ var ConfigureLayer = cc.Layer.extend({
        
         for (var i = 0; i < pageCount; ++i) {
             var layout = new ccui.Layout();
-            layout.setContentSize(cc.size(layout.getContentSize().width / 2.0, layout.getContentSize().height / 2.0));
+            layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
 
-            var label = new ccui.Text("page " + (i+1) , "Marker Felt", 30);
+            var labelText = "Economy";
+            switch(i) {
+                case 0: 
+                    labelText = "Economy";
+                    break;
+                case 1: 
+                    labelText = "Politics";
+                    break;
+                case 2: 
+                    labelText = "Culture";
+                    break;
+                case 3: 
+                    labelText = "Ecology";
+                    break;
+            }
+            var label = new ccui.Text(labelText, "Marker Felt", 30);
             label.setColor(cc.color(192, 192, 192));
-            label.setPosition(cc.p(100, layout.getH));
+            label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
             layout.addChild(label);
 
             var btnBanking = new ccui.Button();
             btnBanking.setTouchEnabled(true);
             btnBanking.setScale9Enabled(true);
             btnBanking.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg", "", "");
+            btnBanking.attr({x: 100 * (i + 1), y: 100});
             btnBanking.x = 100 * (i + 1);
             btnBanking.y = 100;
             btnBanking.setContentSize(cc.size(60, 60));
@@ -1168,8 +1161,9 @@ var ConfigureLayer = cc.Layer.extend({
         btn.setPosition(cc.p(950, 20));
         btn.setTitleText("X");
         btn.addClickEventListener(function(){
-            layer.parent.addChild(world);
+            // layer.parent.addChild(world);
             layer.removeFromParent();
+            world.setVisible(true);
             gameParams.state = "Started";
         });
         layer.addChild(btn, 100);
@@ -1199,32 +1193,20 @@ var StatsLayer = cc.Layer.extend({
         layBackground.attr({ x: 0, y: 0 });
         this.addChild(layBackground, 100);
     
-        var newLabel = new cc.LabelTTF("Statistics", FONT_FACE, 38);
-        // position the label on the center of the screen
-        newLabel.x = size.width / 2;
-        newLabel.y = size.height * 0.8;
-        // add the label as a child to this layer
-        this.addChild(newLabel, 101);
+        var heading = new cc.LabelTTF("Statistics", FONT_FACE, 38);
+        heading.attr({x: size.width * 0.5, y: size.height * 0.8});
+        this.addChild(heading, 101);
 
         var casualLabel = new cc.LabelTTF("Casual", FONT_FACE, 38);
-        // position the label on the center of the screen
-        casualLabel.x = size.width * 0.25;
-        casualLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5});
         this.addChild(casualLabel, 101);
 
         var normalLabel = new cc.LabelTTF("Normal", FONT_FACE, 38);
-        // position the label on the center of the screen
-        normalLabel.x = size.width * 0.5;
-        normalLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
         this.addChild(normalLabel, 101);
 
         var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE, 38);
-        // position the label on the center of the screen
-        brutalLabel.x = size.width * 0.75;
-        brutalLabel.y = size.height * 0.5;
-        // add the label as a child to this layer
+        brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5});
         this.addChild(brutalLabel, 101);
 
 
