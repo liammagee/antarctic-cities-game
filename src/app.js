@@ -4,12 +4,23 @@ var WINDOW_WIDTH = cc.director.getWinSize().width;
 var WINDOW_HEIGHT = cc.director.getWinSize().height;
 var X_OFFSET = 0, Y_OFFSET = 50;
 var TIME_INTERVAL = 50;
-var YEAR_INTERVAL = (1000 / TIME_INTERVAL) * 10;
-var RESOURCE_INTERVAL = (1000 / TIME_INTERVAL) * 1;
+var DAY_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 60; 
-                    
+var RESOURCE_DURATION = 50;
+var SUSTAINABILITY_START = 1000.0;
+var SUSTAINABILITY_TARGET = 2000.0;
+var YEAR_TARGET = 2048;
+
+
+/**
+ * 
+ */
+var updateTimes = function(interval) {
+    gameParams.timeInterval = interval;
+    gameParams.resourceInterval = (1000 / gameParams.timeInterval);
+}
 
 /**
  * Add texture for country virus
@@ -63,7 +74,7 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
             if (cc.rectContainsPoint(rect, locationInNode)) {       
                 layBackground.removeAllChildren(true);
                 layBackground.removeFromParent(true);
-                parent.resume(); //it'd be beautiful if this worked wouldn't it? Sadly, it doesn't seem to do anything..
+                parent.resume(); 
                 callback();
                 return true;
             }
@@ -154,15 +165,25 @@ var WorldLayer = cc.Layer.extend({
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 120, 72);
-        this.controlsBackground.setAnchorPoint(new cc.p(0,0));
+        this.controlsBackground.setAnchorPoint(cc.p(0,0));
         this.controlsBackground.x = size.width - 132;
         this.controlsBackground.y = size.height - 84;
         this.addChild(this.controlsBackground, 100);
 
-        this.yearLabel = new cc.LabelTTF("YEAR", FONT_FACE, 18);
-        this.yearLabel.x = 54;
-        this.yearLabel.y = 54;
+        this.dayLabel = new cc.LabelTTF("", FONT_FACE, 18);
+        this.dayLabel.setAnchorPoint(cc.p(0, 0));
+        this.dayLabel.attr({ x: 14, y: 54 });
+        this.dayLabel.color = new cc.Color(255, 255, 255, 0);
+        this.monthLabel = new cc.LabelTTF("", FONT_FACE, 18);
+        this.monthLabel.setAnchorPoint(cc.p(0, 0));
+        this.monthLabel.attr({ x: 34, y: 54 });
+        this.monthLabel.color = new cc.Color(255, 255, 255, 0);
+        this.yearLabel = new cc.LabelTTF("", FONT_FACE, 18);
+        this.yearLabel.setAnchorPoint(cc.p(0, 0));
+        this.yearLabel.attr({ x: 54, y: 54 });
         this.yearLabel.color = new cc.Color(255, 255, 255, 0);
+        // this.controlsBackground.addChild(this.dayLabel, 100);
+        this.controlsBackground.addChild(this.monthLabel, 100);
         this.controlsBackground.addChild(this.yearLabel, 100);
 
         btnPause = new ccui.Button();
@@ -185,11 +206,11 @@ var WorldLayer = cc.Layer.extend({
                         gameParams.state = "Paused";
                     }
                     else if (target.x == 60) {  // Pause
-                        TIME_INTERVAL = 50;
+                        updateTimes(DAY_INTERVAL);
                         gameParams.state = "Started";
                     }
                     else if (target.x == 100) {  // Pause
-                        TIME_INTERVAL = 25;
+                        updateTimes(DAY_INTERVAL / 2);
                         gameParams.state = "Started";
                     }
                     console.log(target.x);
@@ -354,8 +375,6 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener(this.dnaListener, this.dnaSpend);
         cc.eventManager.addListener(this.worldListener, this.worldStats);
 
-        var oldTile;
-        var oldColor;
         var oldPoint;
 
         var collisionDetection = function(points,test) {
@@ -451,7 +470,13 @@ var WorldLayer = cc.Layer.extend({
                 }
                 return false;
             }
-        });        
+        });  
+        
+        var printDate = function(world) {
+            world.dayLabel.setString(gameParams.currentDate.getDate());
+            world.monthLabel.setString(gameParams.currentDate.getMonth() + 1);
+            world.yearLabel.setString(gameParams.currentDate.getFullYear());
+        };
 
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
@@ -466,15 +491,16 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.lastResource = 0;
                     gameParams.resources = 0;
                     gameParams.strategies = [];
-                    gameParams.sustainability = 1000.0;
-                    world.yearLabel.setString(gameParams.currentDate.getFullYear());
+                    gameParams.sustainability = SUSTAINABILITY_START;
+                    updateTimes(DAY_INTERVAL);
+                    printDate(world);
 
                     var buttons = [];
                                             
                     // Add chance of new resource
                     var addResource = function() {
                         var r = Math.random();
-                        if (gameParams.counter - gameParams.lastResource >= RESOURCE_INTERVAL) {
+                        if (gameParams.counter - gameParams.lastResource >= gameParams.resourceInterval) {
                             if (r < RESOURCE_CHANCE) {
                                 var btnRes = new ccui.Button();
                                 btnRes.setTouchEnabled(true);
@@ -502,8 +528,8 @@ var WorldLayer = cc.Layer.extend({
                     // Evaluates loss
                     var evaluateLoss = function() {
                         var strategies = gameParams.strategies;
-                        var loss = 1.0;
-                        // if (strategies
+                        var loss = -1.0;
+                        
                         return loss;
                     };
 
@@ -562,17 +588,18 @@ var WorldLayer = cc.Layer.extend({
 
                             var d = gameParams.currentDate;
                             gameParams.counter++;
-                            if (gameParams.counter % YEAR_INTERVAL == 0)
-                                d.setFullYear(d.getFullYear()+1);
-
+                            if (gameParams.counter % gameParams.timeInterval == 0) {
+                                gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
+                                gameParams.currentDate.setDate(gameParams.currentDate.getDate() + gameParams.timeInterval);
+                            }
                             
-                            if (gameParams.counter % RESOURCE_INTERVAL == 0)
+                            if (gameParams.counter % gameParams.resourceInterval == 0)
                                 addResource();
 
                             var newButtons = [];
                             for (var i = 0; i < buttons.length; i++){
                                 var button = buttons[i];
-                                if (gameParams.counter > button.placedAt + TIME_INTERVAL) {
+                                if (gameParams.counter > button.placedAt + RESOURCE_DURATION) {
                                     button.removeFromParent();
                                 }
                                 else {
@@ -583,10 +610,11 @@ var WorldLayer = cc.Layer.extend({
                             
                             // Update labels
                             world.dnaScoreLabel.setString(gameParams.resources);
-                            world.yearLabel.setString(gameParams.currentDate.getFullYear());
+                            printDate(world);
+                            // world.yearLabel.setString(gameParams.currentDate.getFullYear());
 
                             // Add loss
-                            gameParams.sustainability -= evaluateLoss();
+                            gameParams.sustainability += evaluateLoss();
 
                             // Generate points
                             generatePoints();
@@ -595,10 +623,13 @@ var WorldLayer = cc.Layer.extend({
                             if (gameParams.sustainability <= 0) {
                                 GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
                             }
+                            else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
+                                GameOver(world, "Game Over! You have sustained the world until " + YEAR_TARGET + "!", "OK");
+                            }
                         }
 
                         // Refresh the timeout
-                        gameParams.timeoutID = setTimeout(updateTime, TIME_INTERVAL);
+                        gameParams.timeoutID = setTimeout(updateTime, gameParams.timeInterval);
                     } 
 
                     // Run the updates in the background, so interaction is not blocked.
