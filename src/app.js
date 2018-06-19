@@ -302,7 +302,7 @@ var WorldLayer = cc.Layer.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
                     gameParams.state = "Paused";
-                    layer = new ConfigureLayer(world);
+                    layer = new DesignPolicyLayer(world);
                     world.parent.addChild(layer);
                     // world.removeFromParent();
                     world.setVisible(false);
@@ -312,7 +312,7 @@ var WorldLayer = cc.Layer.extend({
             }
         });
     
-        this.dnaSpend = cc.MenuItemLabel.create(cc.LabelTTF.create("DNA", FONT_FACE, 24));
+        this.dnaSpend = cc.MenuItemLabel.create(cc.LabelTTF.create("POLICY", FONT_FACE, 24));
         this.dnaSpend.setAnchorPoint(new cc.p(0,0));
         this.dnaSpend.attr({ x: 10, y: 10 });
         this.addChild(this.dnaSpend);
@@ -643,7 +643,7 @@ var WorldLayer = cc.Layer.extend({
                             for (var j = 0; j < countryKeys.length; j++) {
                                 var country = world.countries[countryKeys[j]];
                                 var loss = evaluateLoss();
-                                if (loss != 0 && country.sustainability + loss <= 100 && country.sustainability >= 0) {
+                                if (loss != 0 && country.sustainability <= 100 && country.sustainability >= 0) {
                                     country.sustainability += loss;
                                     generatePointsForCountry(country, country.sustainability - loss, country.sustainability);
                                 }
@@ -1056,7 +1056,7 @@ var ModifyCodeScene = cc.Scene.extend({
 });
 
 
-var ConfigureLayer = cc.Layer.extend({
+var DesignPolicyLayer = cc.Layer.extend({
     ctor:function (world) {
         this._super();
         this.world = world;
@@ -1071,6 +1071,10 @@ var ConfigureLayer = cc.Layer.extend({
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 100);
 
+        var heading = new cc.LabelTTF("Build a Policy Platform", FONT_FACE, 38);
+        heading.attr({x: size.width * 0.5, y: size.height * 0.9});
+        layer.addChild(heading, 101);
+
         var resourceListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
@@ -1082,7 +1086,7 @@ var ConfigureLayer = cc.Layer.extend({
                     if (gameParams.resources - target.cost > 0) {
                         gameParams.resources -= target.cost;  
                         gameParams.strategies.push(target.strategy);
-                        layer.configDnaScoreLabel.setString(gameParams.resources.toString());
+                        layer.availableResourcesLabel.setString(gameParams.resources.toString());
                     }
                     return true;
                 }
@@ -1101,39 +1105,140 @@ var ConfigureLayer = cc.Layer.extend({
             layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
 
             var labelText = "Economy";
+            var policyOptions = [];
             switch(i) {
                 case 0: 
-                    labelText = "Economy";
+                    labelText = "Design your Economic Policy";
+                    policyOptions = [ {
+                        text: "Reduce Inequality", 
+                        location: {x: 200, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/histogram.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Free Trade Agreements", 
+                        location: {x: 200, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Remove Regulations", 
+                        location: {x: 600, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/fire-spell-cast.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Automate Industry", 
+                        location: {x: 600, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/robot-antennas.svg",
+                        cost: 3
+                    } ];
                     break;
                 case 1: 
-                    labelText = "Politics";
+                    labelText = "Design your Political Policy";
+                    policyOptions = [ {
+                        text: "Global Treaties", 
+                        location: {x: 200, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/hand-ok.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Diplomacy", 
+                        location: {x: 200, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/smartphone.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Boost Military", 
+                        location: {x: 600, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/3d-hammer.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Promote Democracy", 
+                        location: {x: 600, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/microphone.svg",
+                        cost: 3
+                    } ];
                     break;
                 case 2: 
-                    labelText = "Culture";
+                    labelText = "Design your Cultural Policy";
+                    policyOptions = [ {
+                        text: "Global Education", 
+                        location: {x: 200, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/teacher.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Social Media", 
+                        location: {x: 200, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/megaphone.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Celebrity Endorsements", 
+                        location: {x: 600, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/person.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Global Festivals", 
+                        location: {x: 600, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/party-flags.svg",
+                        cost: 3
+                    } ];
                     break;
                 case 3: 
-                    labelText = "Ecology";
+                    labelText = "Design your Ecological Policy";
+                    policyOptions = [ {
+                        text: "Green Cities", 
+                        location: {x: 200, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/modern-city.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Fund Renewable Energy", 
+                        location: {x: 200, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/solar-system.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Global Heritage Trust", 
+                        location: {x: 600, y: 100},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/ecology.svg",
+                        cost: 3
+                    },
+                    {
+                        text: "Public Transport", 
+                        location: {x: 600, y: 500},
+                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/bus.svg",
+                        cost: 3
+                    } ];
                     break;
             }
             var label = new ccui.Text(labelText, "Marker Felt", 30);
             label.setColor(cc.color(192, 192, 192));
+            label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
             layout.addChild(label);
 
-            var btnBanking = new ccui.Button();
-            btnBanking.setTouchEnabled(true);
-            btnBanking.setScale9Enabled(true);
-            btnBanking.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg", "", "");
-            btnBanking.attr({x: 100 * (i + 1), y: 100});
-            btnBanking.x = 100 * (i + 1);
-            btnBanking.y = 100;
-            btnBanking.setContentSize(cc.size(60, 60));
-            btnBanking.setColor(cc.color.GREEN);
-            btnBanking.cost = i+1;
-            btnBanking.strategy = "Water Mining";
-            cc.eventManager.addListener(resourceListener.clone(), btnBanking);
-            // add the label as a child to this layer
-            layout.addChild(btnBanking, 101);
+            policyOptions.forEach(function(opt) {
+                var btn = new ccui.Button();
+                btn.setTitleText(opt.text);
+                btn.setTitleFontSize(16);
+                btn.setTitleColor(cc.color.GREEN);
+                btn.setTouchEnabled(true);
+                btn.setAnchorPoint(cc.p(0, 0));
+                btn.setScale9Enabled(true);
+                btn.loadTextures(opt.img, "", "");
+                btn.attr(opt.location);
+                btn.setContentSize(cc.size(60, 60));
+                btn.setColor(cc.color.WHITE);
+                btn.cost = opt.cost;
+                btn.strategy = opt.text;
+                cc.eventManager.addListener(resourceListener.clone(), btn);
+                layout.addChild(btn, 101);
+            });
     
             pageView.insertPage(layout, i);
         }
@@ -1144,6 +1249,7 @@ var ConfigureLayer = cc.Layer.extend({
         var makeButton = function(text, point, index) {
             var btn = new ccui.Button();
             btn.setAnchorPoint(cc.p(0, 0));
+            btn.setColor(cc.color.GREEN);
             btn.setPosition(point);
             btn.setTitleText(text);
             btn.addClickEventListener(function(){
@@ -1151,10 +1257,10 @@ var ConfigureLayer = cc.Layer.extend({
             });
             layer.addChild(btn, 100);
         };
-        makeButton("Economy", cc.p(150, 20), 0);
-        makeButton("Politics", cc.p(350, 20), 1);
-        makeButton("Culture", cc.p(550, 20), 2);
-        makeButton("Ecology", cc.p(750, 20), 3);
+        makeButton("Economy", cc.p(200, 20), 0);
+        makeButton("Politics", cc.p(400, 20), 1);
+        makeButton("Culture", cc.p(600, 20), 2);
+        makeButton("Ecology", cc.p(800, 20), 3);
 
         var btn = new ccui.Button();
         btn.setAnchorPoint(cc.p(0, 0));
@@ -1168,12 +1274,16 @@ var ConfigureLayer = cc.Layer.extend({
         });
         layer.addChild(btn, 100);
 
-        this.configDnaScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 18);
-        this.configDnaScoreLabel.setAnchorPoint(cc.p(0, 0));
-        this.configDnaScoreLabel.setPosition(cc.p(50, 20));
-        // this.configDnaScoreLabel.color = new cc.Color(255, 255, 255, 0);
-        dna = this.configDnaScoreLabel;
-        layer.addChild(this.configDnaScoreLabel, 100);
+        this.resourcesLabel = new cc.LabelTTF("Resources", FONT_FACE, 18);
+        this.resourcesLabel.setAnchorPoint(cc.p(0, 0));
+        this.resourcesLabel.setPosition(cc.p(20, 20));
+
+        this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 18);
+        this.availableResourcesLabel.setAnchorPoint(cc.p(0, 0));
+        this.availableResourcesLabel.setPosition(cc.p(80, 20));
+        // this.availableResourcesLabel.color = new cc.Color(255, 255, 255, 0);
+        dna = this.availableResourcesLabel;
+        layer.addChild(this.availableResourcesLabel, 100);
     }
 });
 
