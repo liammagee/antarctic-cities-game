@@ -9,8 +9,10 @@ var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 60; 
 var RESOURCE_DURATION = 100;
-var SUSTAINABILITY_START = 1000.0;
+var DESTRUCTION_START = 0.0;
 var SUSTAINABILITY_TARGET = 2000.0;
+var LOSS_INITIAL = 1.1;
+var LOSS_RATE_OF = 0.001;
 var YEAR_TARGET = 2048;
 
 // Game variables
@@ -101,6 +103,8 @@ var GameOver = function(parent, message, prompt) {
     gameParams.startCountry = null;
     gameParams.resources = 0;
     gameParams.strategies = [];
+    gameParams.previousLoss = LOSS_INITIAL;
+    gameParams.rateOfDecline = LOSS_RATE_OF;
 
     var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2
@@ -421,10 +425,12 @@ var WorldLayer = cc.Layer.extend({
         world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => (map[obj.name] = { 
             name: obj.name,
             centroid: centroids(obj),
-            sustainability: 50,
-            drawingPoints: [],
             extremes: generateCoords(obj.points),
-            points: obj.points
+            points: obj.points,
+            policy: 0,
+            loss: 0,
+            policyPoints: [],
+            destructionPoints: []
             // Add other properties here
         }, map), {});
 
@@ -501,31 +507,43 @@ var WorldLayer = cc.Layer.extend({
             return p;
         };
 
-        var generatePointsForCountry = function(country, min, max) {
+        var generatePointsForCountry = function(country, points, min, max) {
             var coords = country.points;
             var extremes = country.extremes;
 
+            min = Math.round(min);
+            max = Math.round(max);
+            if (min < 0 || max < 0)
+                return;
             if (min > max) {
-                country.drawingPoints = country.drawingPoints.slice(0, max - 1);
+                points = points.slice(0, max - 1);
             }
             else {
                 for (var j = min; j < max; j++) {
                     var p = generatePoint(coords, extremes);
-                    if (p != null && country.drawingPoints.indexOf(p) === -1) {
-                        country.drawingPoints.push(p);
+                    if (p != null && points.indexOf(p) === -1) {
+                        points.push(p);
                     }
                 }
             }
+            return points;
         };
         var generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
-                var sustainability = country.sustainability;
-                generatePointsForCountry(country, 0, sustainability);
+                var policy = country.policy;
+                var destruction = country.destruction;
+                country.policyPoints = generatePointsForCountry(country, country.policyPoints, 0, policy);
+                country.destructionPoints = generatePointsForCountry(country, country.destructionPoints, 0, destruction);
             }
         };
         generatePoints();
 
+        var genNormRand = function() {
+            var r = (Math.random() - 0.5) * 2.0;
+            var rr2 = (r * r) / 2.0;
+            return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
+        };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
                 world.renderer.removeFromParent()
@@ -536,10 +554,13 @@ var WorldLayer = cc.Layer.extend({
                 var country = world.countries[Object.keys(world.countries)[i]];
                 world.renderer.begin();
                 drawNode.retain();
-                for (var j = 0; j < country.drawingPoints.length; j++) {
-                    var p = country.drawingPoints[j];
-                    drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, 50.0));
-
+                for (var j = 0; j < country.policyPoints.length; j++) {
+                    var p = country.policyPoints[j];
+                    drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, genNormRand()));
+                }
+                for (var j = 0; j < country.destructionPoints.length; j++) {
+                    var p = country.destructionPoints[j];
+                    drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, genNormRand()));
                 }
                 drawNode.visit();
 
@@ -564,7 +585,9 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.lastResource = 0;
                     gameParams.resources = 0;
                     gameParams.strategies = [];
-                    gameParams.sustainability = SUSTAINABILITY_START;
+                    gameParams.destruction = DESTRUCTION_START;
+                    gameParams.previousLoss = LOSS_INITIAL;
+                    gameParams.rateOfDecline = LOSS_RATE_OF;
                     updateTimeVars(DAY_INTERVAL);
                     printDate(world);
 
@@ -597,13 +620,17 @@ var WorldLayer = cc.Layer.extend({
                         }
                     };
 
+                    // Evaluates policy robustness
+                    var evaluatePolicy = function() {
+                        var strategies = gameParams.strategies;
+                        var policy = strategies.length * 0.01;
+                        return policy;
+                    };
+
                     // Evaluates loss
                     var evaluateLoss = function() {
-                        var strategies = gameParams.strategies;
-                        var loss = -0.01;
-                        if (strategies.indexOf('Water Mining') > -1) {
-                            loss = 0.1;
-                        }
+                        var loss = gameParams.previousLoss;
+                        loss *= (1 + gameParams.rateOfDecline);
                         return loss;
                     };
                     
@@ -637,25 +664,36 @@ var WorldLayer = cc.Layer.extend({
                             world.dnaScoreLabel.setString(gameParams.resources);
                             printDate(world);
 
-                            // Add loss
-                            var totalSus = 0;
+                            // Add policy robustness and loss
+                            var totalPolicy = 0, totalLoss = 0;
                             var countryKeys = Object.keys(world.countries);
                             for (var j = 0; j < countryKeys.length; j++) {
                                 var country = world.countries[countryKeys[j]];
-                                var loss = evaluateLoss();
-                                if (loss != 0 && country.sustainability <= 100 && country.sustainability >= 0) {
-                                    country.sustainability += loss;
-                                    generatePointsForCountry(country, country.sustainability - loss, country.sustainability);
+                                var policy = evaluatePolicy();
+                                var loss = evaluateLoss() / (1 + policy);
+                                if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
+                                    country.policy += policy;
+                                    generatePointsForCountry(country, country.policyPoints, country.policy - policy, country.policy);
                                 }
-                                totalSus += country.sustainability;
+                                if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
+                                    generatePointsForCountry(country, country.destructionPoints, country.loss, loss);
+                                    country.loss = loss;
+                                }
+                                totalPolicy += country.policy;
+                                totalLoss += country.loss;
                             }
-                            totalSus /= countryKeys.length;
-                            gameParams.sustainability = totalSus;
+                            totalPolicy /= countryKeys.length;
+                            gameParams.policy = totalPolicy;
+
+                            totalLoss /= countryKeys.length;
+                            gameParams.previousLoss = totalLoss;
+                            gameParams.destruction = totalLoss;
+                            
 
                             drawPoints();
 
                             // Game over                        
-                            if (gameParams.sustainability <= 0) {
+                            if (gameParams.destruction >= 100) {
                                 GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
                             }
                             else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
