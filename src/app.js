@@ -36,7 +36,7 @@ var addGLLayer = function(world) {
     var winSize = cc.director.getWinSize();
     var rend = new cc.RenderTexture(winSize.width, winSize.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
     rend.setPosition(winSize.width/2,winSize.height/2);
-    world.addChild(rend, 99);
+    world.worldBackground.addChild(rend, 99);
     return rend;
 };
 
@@ -246,47 +246,68 @@ var WorldLayer = cc.Layer.extend({
         // Add tweet area
         this.tweetBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 600, 36);
         this.tweetBackground.setAnchorPoint(new cc.p(0,0));
-        this.tweetBackground.x = (size.width / 2) - 300;
-        this.tweetBackground.y = size.height - 48;
+        this.tweetBackground.attr({ x: (size.width / 2) - 300, y: size.height - 48 });
         this.addChild(this.tweetBackground, 100);
 
         this.tweetLabel = new cc.LabelTTF("[MESSAGES GO HERE]", FONT_FACE, 18);
-        this.tweetLabel.x = 300;
-        this.tweetLabel.y = 18;
+        this.tweetLabel.attr({ x: 300, y: 18 });
         this.tweetLabel.color = new cc.Color(255, 255, 255, 0);
         this.tweetBackground.addChild(this.tweetLabel, 100);
 
         // Add dna
         this.dnaScoreBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 100, 36);
         this.dnaScoreBackground.setAnchorPoint(new cc.p(0,0));
-        this.dnaScoreBackground.x = 10;
-        this.dnaScoreBackground.y = 70;
+        this.dnaScoreBackground.attr({ x: 10, y: 70 });
         this.addChild(this.dnaScoreBackground, 100);
 
         this.dnaScoreLabel = new cc.LabelTTF("0", FONT_FACE, 18);
-        this.dnaScoreLabel.x = 50;
-        this.dnaScoreLabel.y = 18;
+        this.dnaScoreLabel.attr({ x: 50, y: 18 });
         this.dnaScoreLabel.color = new cc.Color(255, 255, 255, 0);
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
 
+        // add "World" layer
+        this.worldBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, size.height - Y_OFFSET);
+        // this.worldBackground.setAnchorPoint(new cc.p(0,0));
+        this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
+        this.addChild(this.worldBackground, 1);
+
         // add "World" background
-        this.world_sprite = new cc.Sprite(res.world_png);
-        this.world_sprite.setAnchorPoint(new cc.p(0,0))
-        this.world_sprite.attr({ x: X_OFFSET, y: Y_OFFSET });
-        this.addChild(this.world_sprite, 0);
+        var worldSprite = new cc.Sprite(res.world_png);
+        worldSprite.setAnchorPoint(new cc.p(0,0));
+        worldSprite.attr({ x: 0, y: 0 });
+        this.worldBackground.addChild(worldSprite, 0);
 
         // Add graticule to background
-        this.graticule_sprite = new cc.Sprite(res.grat_png);
-        this.graticule_sprite.setAnchorPoint(new cc.p(0,0))
-        this.graticule_sprite.attr({ x: X_OFFSET, y: Y_OFFSET });
-        this.addChild(this.graticule_sprite, 99);
+        var graticuleSprite = new cc.Sprite(res.grat_png);
+        graticuleSprite.setAnchorPoint(new cc.p(0,0))
+        graticuleSprite.attr({ x: 0, y: 0 });
+        this.worldBackground.addChild(graticuleSprite, 1);
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
         this.map.setAnchorPoint(new cc.p(0,0));
-        this.map.attr({ x: X_OFFSET, y: Y_OFFSET });
-        this.addChild(this.map, 0);
+        this.map.attr({ x: 0, y: 0 });
+        this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
+
+        cc.eventManager.addListener({
+            event: cc.EventListener.MOUSE,
+            // Pan handling
+            onMouseMove: function(event){
+                if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
+                    var node = event.getCurrentTarget(); 
+                    node.x += event.getDeltaX();
+                    node.y += event.getDeltaY();
+                }
+            },
+            // Zoom handling
+            onMouseScroll: function(event){
+                var node = event.getCurrentTarget(); 
+                var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
+                console.log(delta)
+                node.setScale(node.getScale() * (1 + delta / 1000.0));
+            }
+        }, this.worldBackground);
 
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
@@ -316,10 +337,16 @@ var WorldLayer = cc.Layer.extend({
             }
         });
     
+        this.controlBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, Y_OFFSET);
+        this.controlBackground.setAnchorPoint(new cc.p(0,0));
+        this.controlBackground.attr({ x: 0, y: 0 });
+        this.addChild(this.controlBackground, 100);
+
+
         this.dnaSpend = cc.MenuItemLabel.create(cc.LabelTTF.create("POLICY", FONT_FACE, 24));
         this.dnaSpend.setAnchorPoint(new cc.p(0,0));
         this.dnaSpend.attr({ x: 10, y: 10 });
-        this.addChild(this.dnaSpend);
+        this.controlBackground.addChild(this.dnaSpend);
     
         this.worldListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -341,7 +368,7 @@ var WorldLayer = cc.Layer.extend({
         this.worldStats = cc.MenuItemLabel.create(cc.LabelTTF.create("World", FONT_FACE, 24));
         this.worldStats.setAnchorPoint(new cc.p(0,0));
         this.worldStats.attr({ x: 300, y: 10 });
-        this.addChild(this.worldStats);
+        this.controlBackground.addChild(this.worldStats);
 
         // GLOBAL VARIABLES FOR DEBUGGING
         world = this;
@@ -386,8 +413,6 @@ var WorldLayer = cc.Layer.extend({
             }
             return crossed;
         };
-
-
     
         var mappedTiles = {}, sortedKeys = {};
         var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { 
@@ -501,7 +526,7 @@ var WorldLayer = cc.Layer.extend({
                 cd = collisionDetection(points, cc.p(testx, testy));
             } while (! cd && (k++) < maxTries);
             if (cd) {
-                testy = size.height - testy;
+                testy = (size.height - Y_OFFSET) - testy;
                 p = cc.p(testx, testy); 
             }
             return p;
@@ -540,15 +565,15 @@ var WorldLayer = cc.Layer.extend({
         generatePoints();
 
         var genNormRand = function() {
-            var r = (Math.random() - 0.5) * 2.0;
-            var rr2 = (r * r) / 2.0;
-            return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
+            // var r = (Math.random() - 0.5) * 2.0;
+            // var rr2 = (r * r) / 2.0;
+            // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
+            return 50;
         };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
                 world.renderer.removeFromParent()
             world.renderer = addGLLayer(world);
-            // world.renderer.clear();
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var drawNode = new cc.DrawNode();
                 var country = world.countries[Object.keys(world.countries)[i]];
@@ -601,19 +626,16 @@ var WorldLayer = cc.Layer.extend({
                                 var btnRes = new ccui.Button();
                                 btnRes.setTouchEnabled(true);
                                 btnRes.setScale9Enabled(true);
-                                //btnRes.setAnchorPoint(cc.p(0, 0));
                                 btnRes.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
                                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                                 var pt = countryRand.centroid;
-
-                                btnRes.x = pt.x;
-                                btnRes.y = size.height - pt.y;
+                                btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y });
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE, RESOURCE_SIZE));
                                 btnRes.setColor(cc.color.RED);
                                 btnRes.placedAt = gameParams.counter;
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
-                                world.addChild(btnRes, 101);
+                                world.worldBackground.addChild(btnRes, 101);
                                 buttons.push(btnRes);
                             }
                             gameParams.lastResource = gameParams.counter;
@@ -723,8 +745,8 @@ var WorldLayer = cc.Layer.extend({
               // if (cc.Intersection.pointInPolygon(locationInNode, this.polygonCollider.world.points)) {
               // if (cc.rectContainsPoint(rect, locationInNode)) {
               if (true) {
-                var x = parseInt(locationInNode.x / 32);
-                var y = 24 - 1 - parseInt(locationInNode.y / 32);
+                // var x = parseInt(locationInNode.x / 32);
+                // var y = 24 - 1 - parseInt(locationInNode.y / 32);
 
                 // Simplifed
                 var x = 0;
@@ -995,7 +1017,6 @@ var SelectDifficultyScene = cc.Scene.extend({
         brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5})
         this.addChild(brutalLabel);
 
-
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
@@ -1133,7 +1154,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         });
 
         var pageView = new ccui.PageView();
-        pageView.setContentSize(cc.size(size.width, size.height - 50));
+        pageView.setContentSize(cc.size(size.width, size.height - Y_OFFSET));
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(X_OFFSET, Y_OFFSET));
         var pageCount = 4;
