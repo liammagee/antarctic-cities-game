@@ -304,7 +304,6 @@ var WorldLayer = cc.Layer.extend({
             onMouseScroll: function(event){
                 var node = event.getCurrentTarget(); 
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
-                console.log(delta)
                 node.setScale(node.getScale() * (1 + delta / 1000.0));
             }
         }, this.worldBackground);
@@ -439,18 +438,31 @@ var WorldLayer = cc.Layer.extend({
             return { minx: minx, miny: miny, maxx: maxx, maxy: maxy };
         };
         // Create country centroids
-        var centroids = function(obj) { 
+        var centroids = function(points) { 
             var totalX = 0, totalY = 0;
-            obj.points.forEach(function(pt) {
+            points.forEach(function(pt) {
                 totalX += parseFloat(pt.x);
                 totalY += parseFloat(pt.y);
             });
-            return { x: totalX / obj.points.length, y: totalY / obj.points.length }
+            return { x: totalX / points.length, y: totalY / points.length }
+        };
+        // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
+        var areas = function(points) { 
+            var area = 0;
+            for (var i = 0; i < points.length - 1; i++) {
+                var pt1 = points[i];
+                var pt2 = points[i+1];
+                var xy1 = pt1.x * pt2.y;
+                var xy2 = pt1.y * pt2.x;
+                area += Math.abs(xy1 - xy2);
+            }
+            return area / 2;
         };
         world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => (map[obj.name] = { 
             name: obj.name,
-            centroid: centroids(obj),
+            centroid: centroids(obj.points),
             extremes: generateCoords(obj.points),
+            area: areas(obj.points),
             points: obj.points,
             policy: 0,
             loss: 0,
@@ -458,6 +470,26 @@ var WorldLayer = cc.Layer.extend({
             destructionPoints: []
             // Add other properties here
         }, map), {});
+        world.areaMin = 0, world.areaMax = 0, world.areaMean = 0;
+        world.areaMinCountry = "", world.areaMaxCountry = "";
+        Object.keys(world.countries).forEach(function(c) {
+            var country = world.countries[c];
+            if (world.areaMin == 0 || world.areaMin > country.area) {
+                world.areaMin = country.area;
+                world.areaMinCountry = c;
+            }
+            if (world.areaMax < country.area) {
+                world.areaMax = country.area;
+                world.areaMaxCountry = c; 
+            }
+            world.areaMean += country.area;
+        });
+        world.areaMean /= Object.keys(world.countries).length;
+        world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
+        Object.keys(world.countries).forEach(function(c) {
+            var country = world.countries[c];
+            country.numPoints = Math.ceil(country.area / world.areaMean);
+        });
 
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
@@ -545,9 +577,12 @@ var WorldLayer = cc.Layer.extend({
             }
             else {
                 for (var j = min; j < max; j++) {
-                    var p = generatePoint(coords, extremes);
-                    if (p != null && points.indexOf(p) === -1) {
-                        points.push(p);
+                    var numPoints = country.numPoints;
+                    for (var k  = 0; k < numPoints; k++) {
+                        var p = generatePoint(coords, extremes);
+                        if (p != null && points.indexOf(p) === -1) {
+                            points.push(p);
+                        }
                     }
                 }
             }
@@ -568,7 +603,7 @@ var WorldLayer = cc.Layer.extend({
             // var r = (Math.random() - 0.5) * 2.0;
             // var rr2 = (r * r) / 2.0;
             // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
-            return 50;
+            return 150.0;
         };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
