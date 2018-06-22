@@ -193,7 +193,7 @@ var WorldLayer = cc.Layer.extend({
         var size = cc.winSize;
 
         // Make the background white
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        // gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 120, 72);
@@ -556,11 +556,6 @@ var WorldLayer = cc.Layer.extend({
         var currentCountry = null;
         var lastLayerID = -1;
 
-
-        var red = cc.color(255.0, 0.0, 0.0, 50.0);
-        var green = cc.color(0.0, 255.0, 0.0, 50.0);
-        drawnPoints = [];
-
         var resListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
@@ -579,11 +574,10 @@ var WorldLayer = cc.Layer.extend({
         });  
         
         var printDate = function(world) {
-            world.dayLabel.setString(gameParams.currentDate.getDate());
-            world.monthLabel.setString(gameParams.currentDate.getMonth() + 1);
-            world.yearLabel.setString(gameParams.currentDate.getFullYear());
+            // world.dayLabel.setString(gameParams.currentDate.getDate());
+            world.monthLabel.setString((gameParams.currentDate.getMonth() + 1).toString());
+            world.yearLabel.setString((gameParams.currentDate.getFullYear()).toString());
         };
-
 
         var generatePoint = function(points, coords) {
             var minx = coords.minx, miny = coords.miny, maxx = coords.maxx, maxy = coords.maxy;
@@ -641,14 +635,16 @@ var WorldLayer = cc.Layer.extend({
             // var r = (Math.random() - 0.5) * 2.0;
             // var rr2 = (r * r) / 2.0;
             // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
-            return 50.0;
+            return 100.0;
         };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
                 world.renderer.removeFromParent();
             world.renderer = addGLLayer(world);
+            var drawNode = new cc.DrawNode();
+            world.renderer.setOpacity(genNormRand());
+            drawNode.setOpacity(genNormRand());
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
-                var drawNode = new cc.DrawNode();
                 var country = world.countries[Object.keys(world.countries)[i]];
                 world.renderer.begin();
                 drawNode.retain();
@@ -676,8 +672,9 @@ var WorldLayer = cc.Layer.extend({
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === "Prepared")
                     gameParams.startCountry = currentCountry;
                 if (gameParams.startCountry != null && gameParams.state === "Prepared") {
-                    initGameParams();
+                    startGameParams();
                     printDate(world);
+
 
                     var buttons = [];
                                             
