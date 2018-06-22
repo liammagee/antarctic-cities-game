@@ -9,6 +9,7 @@ var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 60; 
 var RESOURCE_DURATION = 100;
+var RESOURCES_INITIAL = 8;
 var DESTRUCTION_START = 0.0;
 var SUSTAINABILITY_TARGET = 2000.0;
 var LOSS_INITIAL = 1.1;
@@ -17,7 +18,6 @@ var YEAR_TARGET = 2048;
 
 // Game variables
 var gameParams = {};
-var policyDesign = {};
 
 
 /**
@@ -38,6 +38,16 @@ var addGLLayer = function(world) {
     rend.setPosition(winSize.width/2,winSize.height/2);
     world.worldBackground.addChild(rend, 99);
     return rend;
+};
+
+/**
+ * Load external data sources
+ * Reference: https://github.com/toddmotto/public-apis#transportation
+ */
+var loadDataSets = function() {
+    cc.loader.loadJson("https://api.openaq.org/v1/cities",function(error, data){
+        console.log(data);
+    });   
 };
 
 /**
@@ -101,7 +111,7 @@ var GameOver = function(parent, message, prompt) {
     window.clearTimeout(gameParams.timeoutID );
     gameParams.state = "Game Over";
     gameParams.startCountry = null;
-    gameParams.resources = 0;
+    gameParams.resources = RESOURCES_INITIAL;
     gameParams.strategies = [];
     gameParams.previousLoss = LOSS_INITIAL;
     gameParams.rateOfDecline = LOSS_RATE_OF;
@@ -260,7 +270,7 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreBackground.attr({ x: 10, y: 70 });
         this.addChild(this.dnaScoreBackground, 100);
 
-        this.dnaScoreLabel = new cc.LabelTTF("0", FONT_FACE, 18);
+        this.dnaScoreLabel = new cc.LabelTTF(RESOURCES_INITIAL, FONT_FACE, 18);
         this.dnaScoreLabel.attr({ x: 50, y: 18 });
         this.dnaScoreLabel.color = new cc.Color(255, 255, 255, 0);
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
@@ -328,7 +338,6 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.state = "Paused";
                     layer = new DesignPolicyLayer(world);
                     world.parent.addChild(layer);
-                    // world.removeFromParent();
                     world.setVisible(false);
                     return true;
                 }
@@ -358,13 +367,14 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.state = "Paused";
                     layer = new StatsLayer(world);
                     world.parent.addChild(layer);
+                    world.setVisible(false);
                     return true;
                 }
                 return false;
             }
         });
     
-        this.worldStats = cc.MenuItemLabel.create(cc.LabelTTF.create("World", FONT_FACE, 24));
+        this.worldStats = cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
         this.worldStats.setAnchorPoint(new cc.p(0,0));
         this.worldStats.attr({ x: 300, y: 10 });
         this.controlBackground.addChild(this.worldStats);
@@ -603,11 +613,11 @@ var WorldLayer = cc.Layer.extend({
             // var r = (Math.random() - 0.5) * 2.0;
             // var rr2 = (r * r) / 2.0;
             // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
-            return 150.0;
+            return 50.0;
         };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
-                world.renderer.removeFromParent()
+                world.renderer.removeFromParent();
             world.renderer = addGLLayer(world);
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var drawNode = new cc.DrawNode();
@@ -643,7 +653,7 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.state = "Started";
                     gameParams.counter = 0;
                     gameParams.lastResource = 0;
-                    gameParams.resources = 0;
+                    gameParams.resources = RESOURCES_INITIAL;
                     gameParams.strategies = [];
                     gameParams.destruction = DESTRUCTION_START;
                     gameParams.previousLoss = LOSS_INITIAL;
@@ -883,6 +893,7 @@ var WorldScene = cc.Scene.extend({
         });
     }
 });
+
 
 var LoadingScene = cc.Scene.extend({
     onEnter:function () {
@@ -1361,22 +1372,20 @@ var DesignPolicyLayer = cc.Layer.extend({
         btn.setPosition(cc.p(950, 20));
         btn.setTitleText("X");
         btn.addClickEventListener(function(){
-            // layer.parent.addChild(world);
             layer.removeFromParent();
             world.setVisible(true);
             gameParams.state = "Started";
         });
         layer.addChild(btn, 100);
 
-        this.resourcesLabel = new cc.LabelTTF("Resources", FONT_FACE, 18);
+        this.resourcesLabel = new cc.LabelTTF("Resources:", FONT_FACE, 18);
         this.resourcesLabel.setAnchorPoint(cc.p(0, 0));
         this.resourcesLabel.setPosition(cc.p(20, 20));
+        layer.addChild(this.resourcesLabel, 100);
 
         this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 18);
         this.availableResourcesLabel.setAnchorPoint(cc.p(0, 0));
-        this.availableResourcesLabel.setPosition(cc.p(80, 20));
-        // this.availableResourcesLabel.color = new cc.Color(255, 255, 255, 0);
-        dna = this.availableResourcesLabel;
+        this.availableResourcesLabel.setPosition(cc.p(120, 20));
         layer.addChild(this.availableResourcesLabel, 100);
     }
 });
@@ -1393,46 +1402,47 @@ var StatsLayer = cc.Layer.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), size.width, size.height);
-        layBackground.attr({ x: 0, y: 0 });
-        this.addChild(layBackground, 100);
-    
+        var layerBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, size.height);
+        layerBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layerBackground, 100);
+
         var heading = new cc.LabelTTF("Statistics", FONT_FACE, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.8});
-        this.addChild(heading, 101);
+        layerBackground.addChild(heading, 101);
 
-        var casualLabel = new cc.LabelTTF("Casual", FONT_FACE, 38);
-        casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5});
-        this.addChild(casualLabel, 101);
+        var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
 
-        var normalLabel = new cc.LabelTTF("Normal", FONT_FACE, 38);
-        normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
-        this.addChild(normalLabel, 101);
+        this.policyLabel = new cc.LabelTTF("Policy Effectiveness: ", FONT_FACE, 24);
+        this.policyLabel.setAnchorPoint(cc.p(0, 0));
+        this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
+        layerBackground.addChild(this.policyLabel, 100);
 
-        var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE, 38);
-        brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5});
-        this.addChild(brutalLabel, 101);
+        this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.policy), FONT_FACE, 24);
+        this.policyIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
+        layerBackground.addChild(this.policyIndicatorLabel, 100);
 
+        this.destructionLabel = new cc.LabelTTF("World Destruction:", FONT_FACE, 24);
+        this.destructionLabel.setAnchorPoint(cc.p(0, 0));
+        this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
+        layerBackground.addChild(this.destructionLabel, 100);
 
-        var listener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
-                    layer.parent.addChild(world);
-                    layer.removeFromParent();
-                    gameParams.state = "Started";
-                    return true;
-                }
-                return false;
-            }
+        this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.destruction), FONT_FACE, 24);
+        this.destructionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
+        layerBackground.addChild(this.destructionIndicatorLabel, 100);
+
+        var btn = new ccui.Button();
+        btn.setAnchorPoint(cc.p(0, 0));
+        btn.setPosition(cc.p(950, 20));
+        btn.setTitleText("X");
+        btn.addClickEventListener(function(){
+            layer.removeFromParent();
+            world.setVisible(true);
+            gameParams.state = "Started";
         });
+        layerBackground.addChild(btn, 100);
 
-        cc.eventManager.addListener(listener.clone(), casualLabel);
-        cc.eventManager.addListener(listener.clone(), normalLabel);
-        cc.eventManager.addListener(listener.clone(), brutalLabel);
     }
 });
+
