@@ -21,6 +21,33 @@ var gameParams = {};
 
 
 /**
+ * Initialises the game parameters.
+ */
+var initGameParams = function() {
+    gameParams = {};
+    gameParams.state = "Initialised";
+    gameParams.startDate = new Date(Date.now());
+    gameParams.currentDate = gameParams.startDate;
+    gameParams.counter = 0;
+    gameParams.lastResource = 0;
+    gameParams.resources = RESOURCES_INITIAL;
+    gameParams.policyName = "Save the World";
+    gameParams.strategies = [];
+    gameParams.policy = 0;
+    gameParams.destruction = DESTRUCTION_START;
+    gameParams.previousLoss = LOSS_INITIAL;
+    gameParams.rateOfDecline = LOSS_RATE_OF;
+    updateTimeVars(DAY_INTERVAL);
+};
+
+/**
+ * Sets up game parameters at the start of play
+ */
+var startGameParams = function() {
+    gameParams.state = "Started";
+};
+
+/**
  * Update time variables.
  */
 var updateTimeVars = function(interval) {
@@ -109,10 +136,11 @@ var GameOver = function(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
+    initGameParams("Game Over");
     gameParams.state = "Game Over";
     gameParams.startCountry = null;
-    gameParams.resources = RESOURCES_INITIAL;
     gameParams.strategies = [];
+    gameParams.resources = RESOURCES_INITIAL;
     gameParams.previousLoss = LOSS_INITIAL;
     gameParams.rateOfDecline = LOSS_RATE_OF;
 
@@ -259,7 +287,7 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.attr({ x: (size.width / 2) - 300, y: size.height - 48 });
         this.addChild(this.tweetBackground, 100);
 
-        this.tweetLabel = new cc.LabelTTF("[MESSAGES GO HERE]", FONT_FACE, 18);
+        this.tweetLabel = new cc.LabelTTF(gameParams.policyName, FONT_FACE, 18);
         this.tweetLabel.attr({ x: 300, y: 18 });
         this.tweetLabel.color = new cc.Color(255, 255, 255, 0);
         this.tweetBackground.addChild(this.tweetLabel, 100);
@@ -648,17 +676,7 @@ var WorldLayer = cc.Layer.extend({
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === "Prepared")
                     gameParams.startCountry = currentCountry;
                 if (gameParams.startCountry != null && gameParams.state === "Prepared") {
-                    gameParams.startDate = new Date(Date.now());
-                    gameParams.currentDate = gameParams.startDate;
-                    gameParams.state = "Started";
-                    gameParams.counter = 0;
-                    gameParams.lastResource = 0;
-                    gameParams.resources = RESOURCES_INITIAL;
-                    gameParams.strategies = [];
-                    gameParams.destruction = DESTRUCTION_START;
-                    gameParams.previousLoss = LOSS_INITIAL;
-                    gameParams.rateOfDecline = LOSS_RATE_OF;
-                    updateTimeVars(DAY_INTERVAL);
+                    initGameParams();
                     printDate(world);
 
                     var buttons = [];
@@ -923,7 +941,8 @@ var LoadingScene = cc.Scene.extend({
                 var locationInNode = target.convertToNodeSpace(event.getLocation());    
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {  
+                    initGameParams();     
                     cc.director.runScene(new WorldScene());
                     // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
                     return true;
@@ -977,7 +996,6 @@ var NewGameScene = cc.Scene.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
-                    gameParams = {};
                     cc.director.runScene(new cc.TransitionMoveInR(1, new SelectChallengeScene()));
                     return true;
                 }
@@ -1093,12 +1111,12 @@ var EnterNameScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Enter a name", FONT_FACE, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
+        var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE, 38);
+        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8});
         this.addChild(newLabel);
 
         var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE, 38);
-        enterNameLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
+        enterNameLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
         this.addChild(enterNameLabel);
 
         var listener1 = cc.EventListener.create({
