@@ -1,34 +1,67 @@
 
+// Imports
 var fs = require('fs');
 var Canvas = require('canvas');
 var d3 = require('d3');
 var topojson = require('topojson-client');
-var topojson_simplify = require('topojson-simplify');
 
+// Augment d3 and topojson libraries
+var d3 = Object.assign({}, require('d3'), require('d3-geo'), require('d3-geo-projection'));
+var topojson = Object.assign({}, require('topojson-client'), require('topojson-simplify'));
 
-
+// Global parameters
 var width = 1334, height = 750;
-// width = 960, height = 960;
+var xmlOnly = false, jsonOnly = false;
+
+// Revise parameters, based on command-line arguments
+args = process.argv.slice(2)
+if (args[0] == 'xml')
+  xmlOnly = true;
+else if (args[0] == 'json')
+  jsonOnly = true;
 
 var Image = Canvas.Image, 
   canvas = new Canvas(width, height), 
   context = canvas.getContext('2d');
 
-var d3 = Object.assign({}, require('d3'), require('d3-geo'), require('d3-geo-projection'))
-var topojson = Object.assign({}, require('topojson-client'), require('topojson-simplify'))
+
+//  Extract data from the topology file
+// Taken from: https://github.com/topojson/world-atlas
+// https://unpkg.com/world-atlas@1/
 
 var data = JSON.parse(fs.readFileSync("./world/110m2-topo.json", 'utf8'));
-// var data = JSON.parse(fs.readFileSync(__dirname +"/world/110m2-topo.json", 'utf8'));
+if (jsonOnly) {
+  var countryData = data.objects.tracts.geometries.map(function(f) { 
+    var properties = {};
+    // All properties: 
+    // scalerank,featurecla,LABELRANK,SOVEREIGNT,SOV_A3,ADM0_DIF,LEVEL,TYPE,ADMIN,ADM0_A3,GEOU_DIF,GEOUNIT,GU_A3,SU_DIF,SUBUNIT,SU_A3,BRK_DIFF,NAME,NAME_LONG,BRK_A3,BRK_NAME,BRK_GROUP,ABBREV,POSTAL,FORMAL_EN,FORMAL_FR,NAME_CIAWF,NOTE_ADM0,NOTE_BRK,NAME_SORT,NAME_ALT,MAPCOLOR7,MAPCOLOR8,MAPCOLOR9,MAPCOLOR13,POP_EST,POP_RANK,GDP_MD_EST,POP_YEAR,LASTCENSUS,GDP_YEAR,ECONOMY,INCOME_GRP,WIKIPEDIA,FIPS_10_,ISO_A2,ISO_A3,ISO_A3_EH,ISO_N3,UN_A3,WB_A2,WB_A3,WOE_ID,WOE_ID_EH,WOE_NOTE,ADM0_A3_IS,ADM0_A3_US,ADM0_A3_UN,ADM0_A3_WB,CONTINENT,REGION_UN,SUBREGION,REGION_WB,NAME_LEN,LONG_LEN,ABBREV_LEN,TINY,HOMEPART,MIN_ZOOM,MIN_LABEL,MAX_LABEL
+    properties["NAME"] = f.properties["NAME"];
+    properties["ECONOMY"] = f.properties["ECONOMY"];
+    properties["INCOME_GRP"] = f.properties["INCOME_GRP"];
+    properties["ISO_A2"] = f.properties["ISO_A2"];
+    properties["ISO_A3"] = f.properties["ISO_A3"];
+    properties["POP_EST"] = f.properties["POP_EST"];
+    properties["SUBREGION"] = f.properties["SUBREGION"];
+    properties["GDP_MD_EST"] = f.properties["GDP_MD_EST"];
+    return properties; 
+  })
+  countryStrs = JSON.stringify(countryData);
+  fs.writeFileSync("./world/countryData.json", countryStrs);
+  return;
+}
+
+// Extract features
 var tracts = topojson.feature(data, data.objects.tracts);
-var data2 = topojson.simplify(topojson.presimplify(data), 0.9);
-var tracts2 = topojson.feature(data2, data2.objects.tracts);
+
+// Simplify the data
+var data_sim = topojson.simplify(topojson.presimplify(data), 0.9);
+var tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
 // var land = topojson.feature(data, data.objects.land);
 // var countries = topojson.feature(data, data.objects.countries);
+
+// Create and configure various projections
 var proj = d3.geoPeirceQuincuncial().precision(.01).translate([width  / 2, height / 2]).rotate([240,90,0]);
 
-
-
-// Create and configure a geographic projection
 var projection1 = d3.geoMercator()
     .translate([width  / 2, height / 2])
     // .scale(width / 2 / Math.PI)
@@ -65,17 +98,14 @@ var projection6 = d3.geoGuyou()
          .rotate([0,90,0]);
 
 
-var xmlOnly = false;
-
+/**
+ * Makes a graphics context
+ * @param {*} canvas 
+ * @param {*} proj 
+ */
 function makeContext(canvas, proj) {
   var context = canvas.getContext('2d');
-
-  // context.fillStyle = '#fff';
-  // context.fillRect(0, 0, width, height);
-
-
-  var path = d3.geoPath(proj,
-        context);
+  var path = d3.geoPath(proj, context);
 
   var bounds = path.bounds(topojson.mesh(data)),
         dx = bounds[1][0] - bounds[0][0],
@@ -93,6 +123,11 @@ function makeContext(canvas, proj) {
   return { path: path, context: context };
 }
 
+/**
+ * Writes out a complete projection to a tilemap
+ * @param {} proj 
+ * @param {*} file 
+ */
 function writeProj(proj, file) {  
 
   // File names
@@ -125,8 +160,6 @@ function writeProj(proj, file) {
   context.scale(scalex, scaley);
   context.translate(translate[0], translate[1]);
 
-
-
   context.strokeStyle = '#fff';
   context.lineWidth = 3.0;
   context.fillStyle = '#000';
@@ -142,7 +175,6 @@ function writeProj(proj, file) {
   context.beginPath();
   path(tracts);
   context.stroke();
-
 
   // Graticule
   var graticule = d3.geoGraticule();
@@ -177,8 +209,10 @@ function writeProj(proj, file) {
   var writing = false;
   var f = function(i ) {
 
-    country = tracts.features[i].properties['SOVEREIGNT'].replace(' ', '_')
-    country_file = country + '_' + file + '.png';
+    var props = tracts.features[i].properties;
+    country = {};
+    country.iso_a3 = props['ISO_A3'];
+    country_file = country.iso_a3 + '_' + file + '.png';
 
     if (!xmlOnly) {
       canvas = new Canvas(width, height);
@@ -219,7 +253,7 @@ function writeProj(proj, file) {
       });
 
       stream2.on('end', function(){
-        console.log('saved png');
+        console.log('saved png: ' + country_file);
         
       });
     }
@@ -239,7 +273,7 @@ function writeProj(proj, file) {
           translate = [-bounds[0][0], -bounds[0][1]];
     
 
-    svg_text = path(tracts2.features[i]);
+    svg_text = path(tracts_sim.features[i]);
     if (svg_text == null)
       return;
 
@@ -254,7 +288,7 @@ function writeProj(proj, file) {
     s = s.join(' ')
 
     // Simplified
-    s_simp = path.bounds(tracts2.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
+    s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
     s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
     s_simp = s_simp.join(' ')
 
@@ -284,7 +318,7 @@ function writeProj(proj, file) {
   for (var i = 0; i < country_files.length; i++) {
     country_file = country_files[i]
     country = countries[i]
-    xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + country + '" tilewidth="1334" tileheight="750" tilecount="1" columns="1">\n'
+    xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + country.iso_a3 + '" tilewidth="1334" tileheight="750" tilecount="1" columns="1">\n'
     xml += '    <image source="countries/' + country_file + '" trans="ff00ff" width="1334" height="750"/>\n'
     xml += '   </tileset>\n'
   }
@@ -312,20 +346,19 @@ function writeProj(proj, file) {
   for (var i = 0; i < country_files.length; i++) {
     country = countries[i]
     tmx_frag = frags[i]
-    xml += '    <object id="' + (obj_id++) + '" name="' + country + '" x="0" y="0" visible="0">'
+    xml += '    <object id="' + (obj_id++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">'
     xml += tmx_frag + '\n'
     xml += '    </object>\n'
   }
   xml += '  </objectgroup>\n'
   xml += '</map>\n'
 
-
-  fs.writeFile("./tmx-"+file+".tmx", xml, function(err) {
+  tmx_file = "./tmx-"+file+".tmx"
+  fs.writeFile(tmx_file, xml, function(err) {
     if(err) {
         return console.log(err);
     }
-
-    console.log("The file was saved!");
+    console.log("The file '" + tmx_file + "' was saved!");
   });
 
   // GRATICULE
@@ -369,17 +402,13 @@ function writeProj(proj, file) {
 
 }
 
-args = process.argv.slice(2)
-if (args[0] == 'xml')
-  xmlOnly = true
-
 
 // Generates projections for various D3 geo projections
 
-// writeProj(projection1, 'test-mercator');
-// writeProj(projection2, 'test-equirectangular');
-// writeProj(projection3, 'test-peirce');
-// writeProj(projection4, 'test-patterson');
-writeProj(projection5, 'test-stereographic');
-// writeProj(projection6, 'test-guyou');
+// writeProj(projection1, 'mercator');
+// writeProj(projection2, 'equirectangular');
+// writeProj(projection3, 'peirce');
+// writeProj(projection4, 'patterson');
+writeProj(projection5, 'stereographic');
+// writeProj(projection6, 'guyou');
 

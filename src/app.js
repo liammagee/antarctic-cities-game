@@ -187,7 +187,7 @@ var GameOver = function(parent, message, prompt) {
 var WorldLayer = cc.Layer.extend({
     sprite:null,
 
-    ctor:function (scenario) {
+    ctor:function (scenarioData, countryData) {
         this._super();
 
         var size = cc.winSize;
@@ -328,6 +328,13 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
+        // GLOBAL VARIABLES FOR DEBUGGING
+        world = this;
+        world.scenarioData = scenarioData;
+        world.countryData = countryData;
+
+
+        // Interaction handling
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             // Pan handling
@@ -406,9 +413,6 @@ var WorldLayer = cc.Layer.extend({
         this.worldStats.setAnchorPoint(new cc.p(0,0));
         this.worldStats.attr({ x: 300, y: 10 });
         this.controlBackground.addChild(this.worldStats);
-
-        // GLOBAL VARIABLES FOR DEBUGGING
-        world = this;
 
         var beginSim = function() {
             gameParams.state = "Prepared";
@@ -502,6 +506,10 @@ var WorldLayer = cc.Layer.extend({
             extremes: generateCoords(obj.points),
             area: areas(obj.points),
             points: obj.points,
+            pop_est: obj.pop_est,
+            gdp_est: obj.gdp_est,
+            iso_a2: obj.iso_a2,
+            iso_a3: obj.iso_a3,
             policy: 0,
             loss: 0,
             policyPoints: [],
@@ -553,7 +561,7 @@ var WorldLayer = cc.Layer.extend({
 
         var oldPoints;
         var oldLayers = [];
-        var currentCountry = null;
+        var currentCountry = null, currentCountryData = null;
         var lastLayerID = -1;
 
         var resListener = cc.EventListener.create({
@@ -669,12 +677,14 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
-                if (currentCountry != null && gameParams.startCountry == null && gameParams.state === "Prepared")
+                console.log(currentCountry);
+                if (currentCountry != null && gameParams.startCountry == null && gameParams.state === "Prepared") {
                     gameParams.startCountry = currentCountry;
+                    gameParams.startCountryData = currentCountryData;
+                }
                 if (gameParams.startCountry != null && gameParams.state === "Prepared") {
                     startGameParams();
                     printDate(world);
-
 
                     var buttons = [];
                                             
@@ -857,6 +867,8 @@ var WorldLayer = cc.Layer.extend({
                                 // layer.opacity=0;
                                 // layer2.opacity=255;
                                 currentCountry = poly.name;
+                                currentCountryData = world.countryData[poly.name];
+                                console.log(poly.name +": " + currentCountryData.POP_EST);
                                 lastLayerID = j;
                                 var lid = sortedKeys[poly.name];
                                 var l = target.getLayer("Tile Layer " + (lid + 3));
@@ -902,9 +914,15 @@ var WorldScene = cc.Scene.extend({
 
         var scene = this;
 
-        cc.loader.loadJson("res/scenario-water.json",function(error, data){
-            var layer = new WorldLayer(data);
-            scene.addChild(layer);
+
+        // Add country data 
+        cc.loader.loadJson("world-atlas/world/countryData.json",function(error, data){
+            countryData = {}; 
+            data.forEach(function(d) { countryData[d["ISO_A3"]] = d; });
+            cc.loader.loadJson("res/scenario-water.json",function(error, scenarioData){
+                var layer = new WorldLayer(scenarioData, countryData);
+                scene.addChild(layer);
+            });
         });
     }
 });
