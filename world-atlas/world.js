@@ -25,6 +25,7 @@ var Image = Canvas.Image,
   context = canvas.getContext('2d');
 
 
+
 //  Extract data from the topology file
 // Taken from: https://github.com/topojson/world-atlas
 // https://unpkg.com/world-atlas@1/

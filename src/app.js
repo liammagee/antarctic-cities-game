@@ -18,6 +18,16 @@ var YEAR_TARGET = 2048;
 
 // Game variables
 var gameParams = {};
+var gameStates = {
+    INITIALISED: 0,
+    PREPARED: 1,
+    STARTED: 2,
+    PAUSED: 3,
+    GAME_OVER: 5
+};
+
+// Colours
+
 
 
 /**
@@ -25,7 +35,7 @@ var gameParams = {};
  */
 var initGameParams = function() {
     gameParams = {};
-    gameParams.state = "Initialised";
+    gameParams.state = gameStates.INITIALISED;
     gameParams.startDate = new Date(Date.now());
     gameParams.currentDate = gameParams.startDate;
     gameParams.counter = 0;
@@ -44,7 +54,7 @@ var initGameParams = function() {
  * Sets up game parameters at the start of play
  */
 var startGameParams = function() {
-    gameParams.state = "Started";
+    gameParams.state = gameStates.STARTED;
 };
 
 /**
@@ -136,8 +146,8 @@ var GameOver = function(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
-    initGameParams("Game Over");
-    gameParams.state = "Game Over";
+    initGameParams();
+    gameParams.state = gameStates.GAME_OVER;
     gameParams.startCountry = null;
     gameParams.strategies = [];
     gameParams.resources = RESOURCES_INITIAL;
@@ -235,15 +245,15 @@ var WorldLayer = cc.Layer.extend({
                     btnFF.setColor(cc.color.WHITE);
                     target.setColor(cc.color.GREEN);
                     if (target.x == 20) {  // Pause
-                        gameParams.state = "Paused";
+                        gameParams.state = gameStates.PAUSED;
                     }
-                    else if (target.x == 60) {  // Pause
+                    else if (target.x == 60) {  // Play
                         updateTimeVars(DAY_INTERVAL);
-                        gameParams.state = "Started";
+                        gameParams.state = gameStates.STARTED;
                     }
-                    else if (target.x == 100) {  // Pause
+                    else if (target.x == 100) {  // Fast Forward
                         updateTimeVars(DAY_INTERVAL / 2);
-                        gameParams.state = "Started";
+                        gameParams.state = gameStates.STARTED;
                     }
                     return true;
                 }
@@ -370,7 +380,7 @@ var WorldLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
-                    gameParams.state = "Paused";
+                    gameParams.state = gameStates.PAUSED;
                     layer = new DesignPolicyLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
@@ -399,7 +409,7 @@ var WorldLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
-                    gameParams.state = "Paused";
+                    gameParams.state = gameStates.PAUSED;
                     layer = new StatsLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
@@ -415,7 +425,7 @@ var WorldLayer = cc.Layer.extend({
         this.controlBackground.addChild(this.worldStats);
 
         var beginSim = function() {
-            gameParams.state = "Prepared";
+            gameParams.state = gameStates.PREPARED;
             gameParams.startTime = Date.now();
         };
 
@@ -678,11 +688,11 @@ var WorldLayer = cc.Layer.extend({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 console.log(currentCountry);
-                if (currentCountry != null && gameParams.startCountry == null && gameParams.state === "Prepared") {
+                if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.startCountryData = currentCountryData;
                 }
-                if (gameParams.startCountry != null && gameParams.state === "Prepared") {
+                if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     startGameParams();
                     printDate(world);
 
@@ -728,7 +738,7 @@ var WorldLayer = cc.Layer.extend({
                     
                     // Updates the game state at regular intervals
                     var updateTime = function() {
-                        if (gameParams.state == "Started") {
+                        if (gameParams.state == gameStates.STARTED) {
 
                             var d = gameParams.currentDate;
                             gameParams.counter++;
@@ -1407,7 +1417,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         btn.addClickEventListener(function(){
             layer.removeFromParent();
             world.setVisible(true);
-            gameParams.state = "Started";
+            gameParams.state = gameStates.STARTED;
         });
         layer.addChild(btn, 100);
 
@@ -1472,7 +1482,7 @@ var StatsLayer = cc.Layer.extend({
         btn.addClickEventListener(function(){
             layer.removeFromParent();
             world.setVisible(true);
-            gameParams.state = "Started";
+            gameParams.state = gameStates.STARTED;
         });
         layerBackground.addChild(btn, 100);
 
