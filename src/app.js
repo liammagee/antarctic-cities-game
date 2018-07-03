@@ -916,7 +916,7 @@ var WorldScene = cc.Scene.extend({
 
 
         // Add country data 
-        cc.loader.loadJson("world-atlas/world/countryData.json",function(error, data){
+        cc.loader.loadJson("res/countryData.json",function(error, data){
             countryData = {}; 
             data.forEach(function(d) { countryData[d["ISO_A3"]] = d; });
             cc.loader.loadJson("res/scenario-water.json",function(error, scenarioData){
