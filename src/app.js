@@ -106,7 +106,7 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
 
-    var layBackground = new cc.LayerColor(COLOR_BACKGROUND, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
+    var layBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 1);
 
