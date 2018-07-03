@@ -14,6 +14,7 @@ publish/*
 build/
 node_modules
 npm-debug.log
-world/
+# world/
+ne_*
 
 docs/*

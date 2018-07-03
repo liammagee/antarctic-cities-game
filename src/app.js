@@ -27,7 +27,14 @@ var gameStates = {
 };
 
 // Colours
-
+COLOR_BACKGROUND = new cc.Color(0, 0, 0, 255); // Black
+// COLOR_FOREGROUND = new cc.Color(192, 192, 192, 255); // Light Grey
+COLOR_FOREGROUND = new cc.Color(255, 255, 255, 255); // White
+COLOR_HIGHLIGHT = new cc.Color(0, 255, 0, 255); // Green
+COLOR_RESOURCE = new cc.Color(255, 0, 0, 255); // Red
+COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100.); // Green, with transparency
+COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100.); // Red, with transparency
+COLOR_BACKGROUND_TRANS = new cc.Color(0, 0, 0, 160); // Black, with transparency
 
 
 /**
@@ -99,9 +106,9 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
 
-    var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
+    var layBackground = new cc.LayerColor(COLOR_BACKGROUND, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
-    parent.addChild(layBackground, 100);
+    parent.addChild(layBackground, 1);
 
     var lblMessage = new cc.LabelTTF(message, FONT_FACE, 14);
     lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
@@ -154,10 +161,10 @@ var GameOver = function(parent, message, prompt) {
     gameParams.previousLoss = LOSS_INITIAL;
     gameParams.rateOfDecline = LOSS_RATE_OF;
 
-    var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 200), WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
+    var layBackground = new cc.LayerColor(COLOR_BACKGROUND, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2
     });
-    parent.addChild(layBackground, 100);
+    parent.addChild(layBackground, 1);
 
     var lblMessage = new cc.LabelTTF(message, FONT_FACE, 14);
     lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
@@ -206,7 +213,7 @@ var WorldLayer = cc.Layer.extend({
         // gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
         // Add controls
-        this.controlsBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 120, 72);
+        this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 120, 72);
         this.controlsBackground.setAnchorPoint(cc.p(0,0));
         this.controlsBackground.x = size.width - 132;
         this.controlsBackground.y = size.height - 84;
@@ -215,15 +222,15 @@ var WorldLayer = cc.Layer.extend({
         this.dayLabel = new cc.LabelTTF("", FONT_FACE, 18);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
         this.dayLabel.attr({ x: 14, y: 54 });
-        this.dayLabel.color = new cc.Color(255, 255, 255, 0);
+        this.dayLabel.color = COLOR_FOREGROUND;
         this.monthLabel = new cc.LabelTTF("", FONT_FACE, 18);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
         this.monthLabel.attr({ x: 34, y: 54 });
-        this.monthLabel.color = new cc.Color(255, 255, 255, 0);
+        this.monthLabel.color = COLOR_FOREGROUND;
         this.yearLabel = new cc.LabelTTF("", FONT_FACE, 18);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.attr({ x: 54, y: 54 });
-        this.yearLabel.color = new cc.Color(255, 255, 255, 0);
+        this.yearLabel.color = COLOR_FOREGROUND;
         // this.controlsBackground.addChild(this.dayLabel, 100);
         this.controlsBackground.addChild(this.monthLabel, 100);
         this.controlsBackground.addChild(this.yearLabel, 100);
@@ -240,10 +247,10 @@ var WorldLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    btnPause.setColor(cc.color.WHITE);
-                    btnPlay.setColor(cc.color.WHITE);
-                    btnFF.setColor(cc.color.WHITE);
-                    target.setColor(cc.color.GREEN);
+                    btnPause.setColor(COLOR_FOREGROUND);
+                    btnPlay.setColor(COLOR_FOREGROUND);
+                    btnFF.setColor(COLOR_FOREGROUND);
+                    target.setColor(COLOR_HIGHLIGHT);
                     if (target.x == 20) {  // Pause
                         gameParams.state = gameStates.PAUSED;
                     }
@@ -264,8 +271,7 @@ var WorldLayer = cc.Layer.extend({
         btnPause.setTouchEnabled(true);
         btnPause.setScale9Enabled(true);
         btnPause.loadTextures("res/icons_png/guard13007/originals/png/ffffff/transparent/pause-button.png", "", "");
-        btnPause.x = 20;
-        btnPause.y = 20;
+        btnPause.attr({ x: 20, y: 20 });
         btnPause.setContentSize(cc.size(512, 512));
         btnPause.setScale(0.078125);
         cc.eventManager.addListener(actionsListener.clone(), btnPause);
@@ -274,8 +280,7 @@ var WorldLayer = cc.Layer.extend({
         btnPlay.setTouchEnabled(true);
         btnPlay.setScale9Enabled(true);
         btnPlay.loadTextures("res/icons_png/guard13007/originals/png/ffffff/transparent/play-button.png", "", "");
-        btnPlay.x = 60;
-        btnPlay.y = 20;
+        btnPlay.attr({ x: 60, y: 20 });
         btnPlay.setContentSize(cc.size(512, 512));
         btnPlay.setScale(0.078125);
         cc.eventManager.addListener(actionsListener.clone(), btnPlay);
@@ -284,15 +289,14 @@ var WorldLayer = cc.Layer.extend({
         btnFF.setTouchEnabled(true);
         btnFF.setScale9Enabled(true);
         btnFF.loadTextures("res/icons_png/delapouite/originals/png/ffffff/transparent/resize.png", "", "");
-        btnFF.x = 100;
-        btnFF.y = 20;
+        btnFF.attr({ x: 100, y: 20 });
         btnFF.setContentSize(cc.size(512, 512));
         btnFF.setScale(0.078125);
         cc.eventManager.addListener(actionsListener.clone(), btnFF);
         this.controlsBackground.addChild(btnFF, 100);
 
         // Add tweet area
-        this.tweetBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 600, 36);
+        this.tweetBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 600, 36);
         this.tweetBackground.setAnchorPoint(new cc.p(0,0));
         this.tweetBackground.attr({ x: (size.width / 2) - 300, y: size.height - 48 });
         this.addChild(this.tweetBackground, 100);
@@ -303,18 +307,18 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.addChild(this.tweetLabel, 100);
 
         // Add dna
-        this.dnaScoreBackground = new cc.LayerColor(new cc.Color(0, 0, 0, 160), 100, 36);
+        this.dnaScoreBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 100, 36);
         this.dnaScoreBackground.setAnchorPoint(new cc.p(0,0));
         this.dnaScoreBackground.attr({ x: 10, y: 70 });
         this.addChild(this.dnaScoreBackground, 100);
 
         this.dnaScoreLabel = new cc.LabelTTF(RESOURCES_INITIAL, FONT_FACE, 18);
         this.dnaScoreLabel.attr({ x: 50, y: 18 });
-        this.dnaScoreLabel.color = new cc.Color(255, 255, 255, 0);
+        this.dnaScoreLabel.color = COLOR_FOREGROUND;
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
 
         // add "World" layer
-        this.worldBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, size.height - Y_OFFSET);
+        this.worldBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height - Y_OFFSET);
         // this.worldBackground.setAnchorPoint(new cc.p(0,0));
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
@@ -390,7 +394,7 @@ var WorldLayer = cc.Layer.extend({
             }
         });
     
-        this.controlBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, Y_OFFSET);
+        this.controlBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
         this.controlBackground.setAnchorPoint(new cc.p(0,0));
         this.controlBackground.attr({ x: 0, y: 0 });
         this.addChild(this.controlBackground, 100);
@@ -650,6 +654,7 @@ var WorldLayer = cc.Layer.extend({
         generatePoints();
 
         var genNormRand = function() {
+            // Produce a random value from a normal distribution with a mean of 120.
             // var r = (Math.random() - 0.5) * 2.0;
             // var rr2 = (r * r) / 2.0;
             // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
@@ -668,11 +673,17 @@ var WorldLayer = cc.Layer.extend({
                 drawNode.retain();
                 for (var j = 0; j < country.policyPoints.length; j++) {
                     var p = country.policyPoints[j];
-                    drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, genNormRand()));
+                    // With dynamic alpha
+                    // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, genNormRand()));
+                    // With static alpha
+                    drawNode.drawDot(p, 3, COLOR_POLICY_POINTS);
                 }
                 for (var j = 0; j < country.destructionPoints.length; j++) {
                     var p = country.destructionPoints[j];
-                    drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, genNormRand()));
+                    // With dynamic alpha
+                    // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, genNormRand()));
+                    // With static alpha
+                    drawNode.drawDot(p, 3, COLOR_DESTRUCTION_POINTS);
                 }
                 drawNode.visit();
 
@@ -687,7 +698,6 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
-                console.log(currentCountry);
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.startCountryData = currentCountryData;
@@ -712,7 +722,7 @@ var WorldLayer = cc.Layer.extend({
                                 var pt = countryRand.centroid;
                                 btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y });
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE, RESOURCE_SIZE));
-                                btnRes.setColor(cc.color.RED);
+                                btnRes.setColor(COLOR_RESOURCE);
                                 btnRes.placedAt = gameParams.counter;
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
                                 world.worldBackground.addChild(btnRes, 101);
@@ -942,24 +952,29 @@ var LoadingScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
+        var layer = this;
         var size = cc.winSize;
+
+        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        layBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layBackground, 1);
         
         var playLabel = new cc.LabelTTF("Play", FONT_FACE, 38);
-        playLabel.attr({x: size.width * 0.5, y: size.height * 0.6})
-
-        playLabel.x = size.width / 2;
-        playLabel.y = size.height * 0.6;
-        this.addChild(playLabel);
+        playLabel.attr({x: size.width * 0.5, y: size.height * 0.6});
+        playLabel.setFontFillColor(COLOR_FOREGROUND);
+        layBackground.addChild(playLabel);
 
         var howToPlayLabel = new cc.LabelTTF("How to Play", FONT_FACE, 38);
-        howToPlayLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
-        this.addChild(howToPlayLabel);
+        howToPlayLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
+        howToPlayLabel.setFontFillColor(COLOR_FOREGROUND);
+        layBackground.addChild(howToPlayLabel);
 
         var progressLabel = new cc.LabelTTF("Progress", FONT_FACE, 38);
-        progressLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
-        this.addChild(progressLabel);
+        progressLabel.attr({x: size.width * 0.5, y: size.height * 0.4});
+        progressLabel.setFontFillColor(COLOR_FOREGROUND);
+        layBackground.addChild(progressLabel);
 
-        var listener1 = cc.EventListener.create({
+        var listenerPlay = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 var target = event.getCurrentTarget();
@@ -976,7 +991,7 @@ var LoadingScene = cc.Scene.extend({
             }
         });
 
-        var listener2 = cc.EventListener.create({
+        var listenerDoNothing = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 var target = event.getCurrentTarget();
@@ -991,9 +1006,9 @@ var LoadingScene = cc.Scene.extend({
             }
         });
 
-        cc.eventManager.addListener(listener1, playLabel);
-        cc.eventManager.addListener(listener2.clone(), howToPlayLabel);
-        cc.eventManager.addListener(listener2.clone(), progressLabel);
+        cc.eventManager.addListener(listenerPlay, playLabel);
+        cc.eventManager.addListener(listenerDoNothing.clone(), howToPlayLabel);
+        cc.eventManager.addListener(listenerDoNothing.clone(), progressLabel);
     }
 });
 
@@ -1002,7 +1017,12 @@ var NewGameScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
+        var layer = this;
         var size = cc.winSize;
+
+        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        layBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layBackground, 1);
 
         var newLabel = new cc.LabelTTF("New Game", FONT_FACE, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
@@ -1088,7 +1108,12 @@ var SelectDifficultyScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
+        var layer = this;
         var size = cc.winSize;
+
+        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        layBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layBackground, 1);
 
         var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
@@ -1215,9 +1240,9 @@ var DesignPolicyLayer = cc.Layer.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, size.height);
+        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layBackground, 100);
+        layer.addChild(layBackground, 1);
 
         var heading = new cc.LabelTTF("Build a Policy Platform", FONT_FACE, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
@@ -1365,7 +1390,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                     break;
             }
             var label = new ccui.Text(labelText, "Marker Felt", 30);
-            label.setColor(cc.color(192, 192, 192));
+            label.setColor(COLOR_FOREGROUND);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
             layout.addChild(label);
@@ -1374,14 +1399,14 @@ var DesignPolicyLayer = cc.Layer.extend({
                 var btn = new ccui.Button();
                 btn.setTitleText(opt.text);
                 btn.setTitleFontSize(16);
-                btn.setTitleColor(cc.color.GREEN);
+                btn.setTitleColor(COLOR_HIGHLIGHT);
                 btn.setTouchEnabled(true);
                 btn.setAnchorPoint(cc.p(0, 0));
                 btn.setScale9Enabled(true);
                 btn.loadTextures(opt.img, "", "");
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(60, 60));
-                btn.setColor(cc.color.WHITE);
+                btn.setColor(COLOR_FOREGROUND);
                 btn.cost = opt.cost;
                 btn.strategy = opt.text;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
@@ -1397,7 +1422,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         var makeButton = function(text, point, index) {
             var btn = new ccui.Button();
             btn.setAnchorPoint(cc.p(0, 0));
-            btn.setColor(cc.color.GREEN);
+            btn.setColor(COLOR_HIGHLIGHT);
             btn.setPosition(point);
             btn.setTitleText(text);
             btn.addClickEventListener(function(){
@@ -1445,7 +1470,7 @@ var StatsLayer = cc.Layer.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layerBackground = new cc.LayerColor(new cc.Color(1, 1, 1, 255), size.width, size.height);
+        var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 100);
 
