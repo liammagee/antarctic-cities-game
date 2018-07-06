@@ -27,14 +27,37 @@ var gameStates = {
 };
 
 // Colours
-COLOR_BACKGROUND = new cc.Color(0, 0, 0, 255); // Black
-// COLOR_FOREGROUND = new cc.Color(192, 192, 192, 255); // Light Grey
-COLOR_FOREGROUND = new cc.Color(255, 255, 255, 255); // White
-COLOR_HIGHLIGHT = new cc.Color(0, 255, 0, 255); // Green
-COLOR_RESOURCE = new cc.Color(255, 0, 0, 255); // Red
+
+COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
+COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
+COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
+COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
+COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
+COLOR_BLACK = new cc.Color(0, 0, 0, 255); // Black
+COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
+
+
+// B&W THEME
+
+// COLOR_BACKGROUND = new cc.Color(0, 0, 0, 255); // Black
+// // COLOR_FOREGROUND = new cc.Color(192, 192, 192, 255); // Light Grey
+// COLOR_FOREGROUND = new cc.Color(255, 255, 255, 255); // White
+// COLOR_HIGHLIGHT = new cc.Color(0, 255, 0, 255); // Green
+// COLOR_RESOURCE = new cc.Color(255, 0, 0, 255); // Red
+// COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100.); // Green, with transparency
+// COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100.); // Red, with transparency
+// COLOR_BACKGROUND_TRANS = new cc.Color(0, 0, 0, 160); // Black, with transparency
+
+// ANTARCTIC CITIES THEME
+
+COLOR_BACKGROUND = COLOR_LICORICE; 
+COLOR_FOREGROUND = COLOR_ICE; 
+COLOR_HIGHLIGHT = COLOR_OAK; 
+COLOR_RESOURCE = COLOR_UMBER; 
 COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100.); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100.); // Red, with transparency
-COLOR_BACKGROUND_TRANS = new cc.Color(0, 0, 0, 160); // Black, with transparency
+COLOR_DESTRUCTION_POINTS = new cc.Color(123, 133, 143, 100); // Red, with transparency
+COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 160); // Black, with transparency
+
 
 
 /**
@@ -827,29 +850,31 @@ var WorldLayer = cc.Layer.extend({
             },
 
             onMouseMove : function(event) {
-              var target = event.getCurrentTarget();
-              var locationInNode = target.convertToNodeSpace(event.getLocation());
-              var s = target.getContentSize();
-              var rect = cc.rect(0, 0, s.width, s.height);
-
-              // if (cc.Intersection.pointInPolygon(locationInNode, this.polygonCollider.world.points)) {
-              // if (cc.rectContainsPoint(rect, locationInNode)) {
-              if (true) {
-                // var x = parseInt(locationInNode.x / 32);
-                // var y = 24 - 1 - parseInt(locationInNode.y / 32);
-
-                // Simplifed
-                var x = 0;
-                var y = 0;
-
-                var layer = target.getLayer("Tile Layer 1");
-
-                gid = layer.getTileGIDAt(x, y);
-                if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
+                if (gameParams.state !== gameStates.STARTED)
                     return;
-                var tile = layer.getTileAt(x, y);
-                var gid = layer.getTileGIDAt(x, y);
-                for (var j = 0; j < oldLayers.length; j++) {
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+
+                // if (cc.Intersection.pointInPolygon(locationInNode, this.polygonCollider.world.points)) {
+                // if (cc.rectContainsPoint(rect, locationInNode)) {
+                if (true) {
+                    // var x = parseInt(locationInNode.x / 32);
+                    // var y = 24 - 1 - parseInt(locationInNode.y / 32);
+
+                    // Simplifed
+                    var x = 0;
+                    var y = 0;
+
+                    var layer = target.getLayer("Tile Layer 1");
+
+                    gid = layer.getTileGIDAt(x, y);
+                    if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
+                        return;
+                    var tile = layer.getTileAt(x, y);
+                    var gid = layer.getTileGIDAt(x, y);
+                    for (var j = 0; j < oldLayers.length; j++) {
                     oldLayers[j].setTileGID((0),cc.p(0,0))
                 }
                 oldLayers = [];
@@ -1240,12 +1265,13 @@ var DesignPolicyLayer = cc.Layer.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        var layBackground = new cc.LayerColor(COLOR_ICE, size.width, size.height);
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
 
-        var heading = new cc.LabelTTF("Build a Policy Platform", FONT_FACE, 38);
+        var heading = new ccui.Text("Build a Policy Platform", FONT_FACE, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
+        heading.setColor(COLOR_LICORICE);
         layer.addChild(heading, 101);
 
         var resourceListener = cc.EventListener.create({
@@ -1389,24 +1415,27 @@ var DesignPolicyLayer = cc.Layer.extend({
                     } ];
                     break;
             }
-            var label = new ccui.Text(labelText, "Marker Felt", 30);
-            label.setColor(COLOR_FOREGROUND);
+            var label = new ccui.Text(labelText, FONT_FACE, 30);
+            label.setColor(COLOR_UMBER);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
             layout.addChild(label);
 
             policyOptions.forEach(function(opt) {
                 var btn = new ccui.Button();
-                btn.setTitleText(opt.text);
-                btn.setTitleFontSize(16);
-                btn.setTitleColor(COLOR_HIGHLIGHT);
                 btn.setTouchEnabled(true);
                 btn.setAnchorPoint(cc.p(0, 0));
                 btn.setScale9Enabled(true);
                 btn.loadTextures(opt.img, "", "");
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(60, 60));
-                btn.setColor(COLOR_FOREGROUND);
+                btn.setColor(COLOR_RESOURCE);
+                btn.setTitleFontSize(20);
+                btn.setTitleFontName(FONT_FACE);
+                // btn.setTitleColor(new cc.Color(214, 225, 227, 255));
+                //new cc.Color(214, 225, 227, 255)
+                btn.setTitleColor(COLOR_LICORICE);
+                btn.setTitleText(opt.text);
                 btn.cost = opt.cost;
                 btn.strategy = opt.text;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
@@ -1422,7 +1451,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         var makeButton = function(text, point, index) {
             var btn = new ccui.Button();
             btn.setAnchorPoint(cc.p(0, 0));
-            btn.setColor(COLOR_HIGHLIGHT);
+            btn.setColor(COLOR_UMBER);
             btn.setPosition(point);
             btn.setTitleText(text);
             btn.addClickEventListener(function(){
@@ -1438,6 +1467,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         var btn = new ccui.Button();
         btn.setAnchorPoint(cc.p(0, 0));
         btn.setPosition(cc.p(950, 20));
+        btn.setColor(COLOR_LICORICE);
         btn.setTitleText("X");
         btn.addClickEventListener(function(){
             layer.removeFromParent();
@@ -1449,11 +1479,13 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.resourcesLabel = new cc.LabelTTF("Resources:", FONT_FACE, 18);
         this.resourcesLabel.setAnchorPoint(cc.p(0, 0));
         this.resourcesLabel.setPosition(cc.p(20, 20));
+        this.resourcesLabel.setColor(COLOR_LICORICE);
         layer.addChild(this.resourcesLabel, 100);
 
         this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 18);
         this.availableResourcesLabel.setAnchorPoint(cc.p(0, 0));
         this.availableResourcesLabel.setPosition(cc.p(120, 20));
+        this.availableResourcesLabel.setColor(COLOR_LICORICE);
         layer.addChild(this.availableResourcesLabel, 100);
     }
 });
