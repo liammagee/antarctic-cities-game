@@ -54,8 +54,8 @@ COLOR_BACKGROUND = COLOR_LICORICE;
 COLOR_FOREGROUND = COLOR_ICE; 
 COLOR_HIGHLIGHT = COLOR_OAK; 
 COLOR_RESOURCE = COLOR_UMBER; 
-COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100.); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(123, 133, 143, 100); // Red, with transparency
+COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
+COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
 COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 160); // Black, with transparency
 
 
@@ -236,9 +236,6 @@ var WorldLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
-        // Make the background white
-        // gl.clearColor(1.0, 1.0, 1.0, 1.0);
-
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 120, 72);
         this.controlsBackground.setAnchorPoint(cc.p(0,0));
@@ -345,8 +342,7 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
 
         // add "World" layer
-        this.worldBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height - Y_OFFSET);
-        // this.worldBackground.setAnchorPoint(new cc.p(0,0));
+        this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
 
@@ -373,7 +369,6 @@ var WorldLayer = cc.Layer.extend({
         world = this;
         world.scenarioData = scenarioData;
         world.countryData = countryData;
-
 
         // Interaction handling
         cc.eventManager.addListener({
@@ -967,7 +962,7 @@ var WorldScene = cc.Scene.extend({
         cc.loader.loadJson("res/countryData.json",function(error, data){
             countryData = {}; 
             data.forEach(function(d) { countryData[d["ISO_A3"]] = d; });
-            cc.loader.loadJson("res/scenario-water.json",function(error, scenarioData){
+            cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
                 var layer = new WorldLayer(scenarioData, countryData);
                 scene.addChild(layer);
             });
