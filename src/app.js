@@ -71,7 +71,6 @@ var initGameParams = function() {
     gameParams.counter = 0;
     gameParams.lastResource = 0;
     gameParams.resources = RESOURCES_INITIAL;
-    gameParams.policyName = "Save the World";
     gameParams.strategies = [];
     gameParams.policy = 0;
     gameParams.destruction = DESTRUCTION_START;
@@ -325,7 +324,7 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.attr({ x: (size.width / 2) - 300, y: size.height - 48 });
         this.addChild(this.tweetBackground, 100);
 
-        this.tweetLabel = new cc.LabelTTF(gameParams.policyName, FONT_FACE, 18);
+        this.tweetLabel = new cc.LabelTTF(scenarioData.name, FONT_FACE, 18);
         this.tweetLabel.attr({ x: 300, y: 18 });
         this.tweetLabel.color = new cc.Color(255, 255, 255, 0);
         this.tweetBackground.addChild(this.tweetLabel, 100);
