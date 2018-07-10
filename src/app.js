@@ -63,10 +63,13 @@ COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 160); // Black, with transpare
 /**
  * Initialises the game parameters.
  */
-var initGameParams = function() {
+var initGameParams = function(scenarioData) {
     gameParams = {};
     gameParams.state = gameStates.INITIALISED;
     gameParams.startDate = new Date(Date.now());
+    gameParams.startDate.setDate(1);
+    gameParams.startDate.setMonth(scenarioData.start_month);
+    gameParams.startDate.setYear(scenarioData.start_year);
     gameParams.currentDate = gameParams.startDate;
     gameParams.counter = 0;
     gameParams.lastResource = 0;
@@ -175,7 +178,7 @@ var GameOver = function(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
-    initGameParams();
+    initGameParams(world.scenarioData);
     gameParams.state = gameStates.GAME_OVER;
     gameParams.startCountry = null;
     gameParams.strategies = [];
@@ -228,6 +231,8 @@ var WorldLayer = cc.Layer.extend({
 
     ctor:function (scenarioData, countryData) {
         this._super();
+
+        initGameParams(scenarioData);     
 
         var size = cc.winSize;
 
@@ -454,8 +459,8 @@ var WorldLayer = cc.Layer.extend({
             gameParams.startTime = Date.now();
         };
 
-        ShowMessageBoxOK(world, "Welcome to Polarised Cities!", "Next", function(that) {
-            ShowMessageBoxOK(world, "Click on any country to begin!", "OK", function(that) {
+        ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
+            ShowMessageBoxOK(world, world.scenarioData.popup_2_description, world.scenarioData.popup_2_title, function(that) {
                 beginSim();
             });
         });
@@ -1004,7 +1009,6 @@ var LoadingScene = cc.Scene.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {  
-                    initGameParams();     
                     cc.director.runScene(new WorldScene());
                     // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
                     return true;
