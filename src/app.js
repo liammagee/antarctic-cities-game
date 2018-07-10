@@ -232,6 +232,10 @@ var WorldLayer = cc.Layer.extend({
 
         var size = cc.winSize;
 
+        var layerBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height);
+        layerBackground.attr({ x: 0, y: 0 });
+        this.addChild(layerBackground, 0);
+
         // Make the background white
         // gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
@@ -958,7 +962,6 @@ var WorldScene = cc.Scene.extend({
         this._super();
 
         var scene = this;
-
 
         // Add country data 
         cc.loader.loadJson("res/countryData.json",function(error, data){
