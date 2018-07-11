@@ -933,7 +933,7 @@ var WorldLayer = cc.Layer.extend({
                                 // layer2.opacity=255;
                                 currentCountry = poly.name;
                                 currentCountryData = world.countryData[poly.name];
-                                console.log(poly.name +": " + currentCountryData.POP_EST);
+                                // console.log(poly.name +": " + currentCountryData.POP_EST);
                                 lastLayerID = j;
                                 var lid = sortedKeys[poly.name];
                                 var l = target.getLayer("Tile Layer " + (lid + 3));
