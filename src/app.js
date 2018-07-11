@@ -454,17 +454,26 @@ var WorldLayer = cc.Layer.extend({
         this.worldStats.attr({ x: 300, y: 10 });
         this.controlBackground.addChild(this.worldStats);
 
-        var beginSim = function() {
-            gameParams.state = gameStates.PREPARED;
-
-            // Add particle emitter
+        var addEmitter = function () {
             world._emitter = new cc.ParticleRain();
-            world.worldBackground.addChild(world._emitter, 10);
+            world.worldBackground.addChild(world._emitter, 110);
     
             world._emitter.life = 4;
     
             world._emitter.texture = cc.textureCache.addImage("res/Images/fire.png");
             world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
+
+            var sourcePos = world._emitter.getSourcePosition();
+            if (sourcePos.x === 0 && sourcePos.y === 0)
+                world._emitter.x = cc.director.getWinSize().width / 2;
+                world._emitter.y = cc.director.getWinSize().height / 2 - 50;
+        };
+
+        var beginSim = function() {
+            gameParams.state = gameStates.PREPARED;
+
+            // Add particle emitter
+            addEmitter();
         };
 
         ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
