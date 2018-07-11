@@ -744,6 +744,12 @@ var WorldLayer = cc.Layer.extend({
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.startCountryData = currentCountryData;
+                    gameParams.currentCountry = currentCountry;
+                    gameParams.currentCountryData = currentCountryData;
+                }
+                if (currentCountry != null && gameParams.state === gameStates.STARTED) {
+                    gameParams.currentCountry = currentCountry;
+                    gameParams.currentCountryData = currentCountryData;
                 }
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     startGameParams();
@@ -1525,30 +1531,83 @@ var StatsLayer = cc.Layer.extend({
         layer.addChild(layerBackground, 100);
 
         var heading = new cc.LabelTTF("Statistics", FONT_FACE, 38);
-        heading.attr({x: size.width * 0.5, y: size.height * 0.8});
+        heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         layerBackground.addChild(heading, 101);
 
         var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
 
         this.policyLabel = new cc.LabelTTF("Policy Effectiveness: ", FONT_FACE, 24);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
+        this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.8));
         layerBackground.addChild(this.policyLabel, 100);
 
         this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.policy), FONT_FACE, 24);
         this.policyIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
+        this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.8));
         layerBackground.addChild(this.policyIndicatorLabel, 100);
 
         this.destructionLabel = new cc.LabelTTF("World Destruction:", FONT_FACE, 24);
         this.destructionLabel.setAnchorPoint(cc.p(0, 0));
-        this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
+        this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.7));
         layerBackground.addChild(this.destructionLabel, 100);
 
         this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.destruction), FONT_FACE, 24);
         this.destructionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
+        this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.7));
         layerBackground.addChild(this.destructionIndicatorLabel, 100);
+
+        // Country details
+        if (gameParams.currentCountry !== null) {
+            this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE, 24);
+            this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
+            this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
+            layerBackground.addChild(this.currentCountryLabel, 100);
+    
+            this.currentCountryIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.NAME, FONT_FACE, 24);
+            this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+            this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
+            layerBackground.addChild(this.currentCountryIndicatorLabel, 100);
+    
+            this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE, 24);
+            this.populationLabel.setAnchorPoint(cc.p(0, 0));
+            this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
+            layerBackground.addChild(this.populationLabel, 100);
+    
+            this.populationIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.POP_EST, FONT_FACE, 24);
+            this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+            this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
+            layerBackground.addChild(this.populationIndicatorLabel, 100);
+    
+            this.gdpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE, 24);
+            this.gdpLabel.setAnchorPoint(cc.p(0, 0));
+            this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
+            layerBackground.addChild(this.gdpLabel, 100);
+    
+            this.gdpIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.GDP_MD_EST, FONT_FACE, 24);
+            this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+            this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
+            layerBackground.addChild(this.gdpIndicatorLabel, 100);
+    
+            this.incomeGrpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE, 24);
+            this.incomeGrpLabel.setAnchorPoint(cc.p(0, 0));
+            this.incomeGrpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.3));
+            layerBackground.addChild(this.incomeGrpLabel, 100);
+    
+            this.incomeGrpIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.INCOME_GRP, FONT_FACE, 24);
+            this.incomeGrpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+            this.incomeGrpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.3));
+            layerBackground.addChild(this.incomeGrpIndicatorLabel, 100);
+    
+            this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE, 24);
+            this.regionLabel.setAnchorPoint(cc.p(0, 0));
+            this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.2));
+            layerBackground.addChild(this.regionLabel, 100);
+    
+            this.regionIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.SUBREGION, FONT_FACE, 24);
+            this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+            this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.2));
+            layerBackground.addChild(this.regionIndicatorLabel, 100);
+        }
 
         var btn = new ccui.Button();
         btn.setAnchorPoint(cc.p(0, 0));
