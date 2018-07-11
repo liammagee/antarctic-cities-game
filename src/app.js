@@ -456,7 +456,15 @@ var WorldLayer = cc.Layer.extend({
 
         var beginSim = function() {
             gameParams.state = gameStates.PREPARED;
-            gameParams.startTime = Date.now();
+
+            // Add particle emitter
+            world._emitter = new cc.ParticleRain();
+            world.worldBackground.addChild(world._emitter, 10);
+    
+            world._emitter.life = 4;
+    
+            world._emitter.texture = cc.textureCache.addImage("res/Images/fire.png");
+            world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
         };
 
         ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
