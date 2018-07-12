@@ -58,7 +58,118 @@ COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
 COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
 COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 160); // Black, with transparency
 
+// RESOURCES
 
+RESOURCES = {
+    economic: {
+        labelText: "Design your Economic Policy",
+        policyOptions: [ {
+            text: "Reduce Inequality", 
+            location: {x: 200, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/histogram.svg",
+            cost: 3
+        },
+        {
+            text: "Free Trade Agreements", 
+            location: {x: 200, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg",
+            cost: 3
+        },
+        {
+            text: "Remove Regulations", 
+            location: {x: 600, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/fire-spell-cast.svg",
+            cost: 3
+        },
+        {
+            text: "Automate Industry", 
+            location: {x: 600, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/robot-antennas.svg",
+            cost: 3
+        } ]
+    },
+    politics: {        
+        labelText: "Design your Political Policy",
+        policyOptions: [ {
+            text: "Global Treaties", 
+            location: {x: 200, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/hand-ok.svg",
+            cost: 3
+        },
+        {
+            text: "Diplomacy", 
+            location: {x: 200, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/smartphone.svg",
+            cost: 3
+        },
+        {
+            text: "Boost Military", 
+            location: {x: 600, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/3d-hammer.svg",
+            cost: 3
+        },
+        {
+            text: "Promote Democracy", 
+            location: {x: 600, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/microphone.svg",
+            cost: 3
+        } ]
+    },
+    cultural: {
+        labelText: "Design your Cultural Policy",
+        policyOptions: [ {
+            text: "Global Education", 
+            location: {x: 200, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/teacher.svg",
+            cost: 3
+        },
+        {
+            text: "Social Media", 
+            location: {x: 200, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/megaphone.svg",
+            cost: 3
+        },
+        {
+            text: "Celebrity Endorsements", 
+            location: {x: 600, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/person.svg",
+            cost: 3
+        },
+        {
+            text: "Global Festivals", 
+            location: {x: 600, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/party-flags.svg",
+            cost: 3
+        } ]
+    },
+    ecology: {
+        labelText: "Design your Ecological Policy",
+        policyOptions: [ {
+            text: "Green Cities", 
+            location: {x: 200, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/modern-city.svg",
+            cost: 3
+        },
+        {
+            text: "Fund Renewable Energy", 
+            location: {x: 200, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/solar-system.svg",
+            cost: 3
+        },
+        {
+            text: "Global Heritage Trust", 
+            location: {x: 600, y: 100},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/ecology.svg",
+            cost: 3
+        },
+        {
+            text: "Public Transport", 
+            location: {x: 600, y: 500},
+            img: "res/icons/delapouite/originals/svg/ffffff/transparent/bus.svg",
+            cost: 3
+        } ]
+    }
+};
 
 /**
  * Initialises the game parameters.
@@ -354,13 +465,13 @@ var WorldLayer = cc.Layer.extend({
         var worldSprite = new cc.Sprite(res.world_png);
         worldSprite.setAnchorPoint(new cc.p(0,0));
         worldSprite.attr({ x: 0, y: 0 });
-        this.worldBackground.addChild(worldSprite, 0);
+        // this.worldBackground.addChild(worldSprite, 0);
 
         // Add graticule to background
         var graticuleSprite = new cc.Sprite(res.grat_png);
         graticuleSprite.setAnchorPoint(new cc.p(0,0))
         graticuleSprite.attr({ x: 0, y: 0 });
-        this.worldBackground.addChild(graticuleSprite, 1);
+        // this.worldBackground.addChild(graticuleSprite, 1);
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
@@ -396,8 +507,10 @@ var WorldLayer = cc.Layer.extend({
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
         // for (var i = 0; i < 169; i++) {
-        // Stereographic projection
-        for (var i = 0; i < 160; i++) {
+        // Stereographic projection - 0.9
+        // for (var i = 0; i < 160; i++) {
+        // Stereographic projection - 0.1
+        for (var i = 0; i < 168; i++) {
             var l = this.map.getLayer("Tile Layer " + (i + 3));
             l.setTileGID(0,cc.p(0,0))
         }
@@ -750,6 +863,7 @@ var WorldLayer = cc.Layer.extend({
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
                     gameParams.currentCountryData = currentCountryData;
+                    console.log(gameParams.currentCountryData.NAME +": " + gameParams.currentCountryData.POP_EST);
                 }
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     startGameParams();
@@ -1327,125 +1441,30 @@ var DesignPolicyLayer = cc.Layer.extend({
             var layout = new ccui.Layout();
             layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
 
+            var resourceGrp = {};
             var labelText = "Economy";
             var policyOptions = [];
             switch(i) {
                 case 0: 
-                    labelText = "Design your Economic Policy";
-                    policyOptions = [ {
-                        text: "Reduce Inequality", 
-                        location: {x: 200, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/histogram.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Free Trade Agreements", 
-                        location: {x: 200, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Remove Regulations", 
-                        location: {x: 600, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/fire-spell-cast.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Automate Industry", 
-                        location: {x: 600, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/robot-antennas.svg",
-                        cost: 3
-                    } ];
+                    resourceGrp = RESOURCES.economic;
                     break;
                 case 1: 
-                    labelText = "Design your Political Policy";
-                    policyOptions = [ {
-                        text: "Global Treaties", 
-                        location: {x: 200, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/hand-ok.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Diplomacy", 
-                        location: {x: 200, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/smartphone.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Boost Military", 
-                        location: {x: 600, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/3d-hammer.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Promote Democracy", 
-                        location: {x: 600, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/microphone.svg",
-                        cost: 3
-                    } ];
-                    break;
+                    resourceGrp = RESOURCES.politics;
+                break;
                 case 2: 
-                    labelText = "Design your Cultural Policy";
-                    policyOptions = [ {
-                        text: "Global Education", 
-                        location: {x: 200, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/teacher.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Social Media", 
-                        location: {x: 200, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/megaphone.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Celebrity Endorsements", 
-                        location: {x: 600, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/person.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Global Festivals", 
-                        location: {x: 600, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/party-flags.svg",
-                        cost: 3
-                    } ];
-                    break;
+                    resourceGrp = RESOURCES.cultural;
+                break;
                 case 3: 
-                    labelText = "Design your Ecological Policy";
-                    policyOptions = [ {
-                        text: "Green Cities", 
-                        location: {x: 200, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/modern-city.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Fund Renewable Energy", 
-                        location: {x: 200, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/solar-system.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Global Heritage Trust", 
-                        location: {x: 600, y: 100},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/ecology.svg",
-                        cost: 3
-                    },
-                    {
-                        text: "Public Transport", 
-                        location: {x: 600, y: 500},
-                        img: "res/icons/delapouite/originals/svg/ffffff/transparent/bus.svg",
-                        cost: 3
-                    } ];
+                    resourceGrp = RESOURCES.ecology;
                     break;
             }
-            var label = new ccui.Text(labelText, FONT_FACE, 30);
+            var label = new ccui.Text(resourceGrp.labelText, FONT_FACE, 30);
             label.setColor(COLOR_UMBER);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
             layout.addChild(label);
 
-            policyOptions.forEach(function(opt) {
+            resourceGrp.policyOptions.forEach(function(opt) {
                 var btn = new ccui.Button();
                 btn.setTouchEnabled(true);
                 btn.setAnchorPoint(cc.p(0, 0));
@@ -1465,7 +1484,6 @@ var DesignPolicyLayer = cc.Layer.extend({
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
             });
-    
             pageView.insertPage(layout, i);
         }
         layer.addChild(pageView, 100);

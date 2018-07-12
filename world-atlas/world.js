@@ -31,6 +31,7 @@ var Image = Canvas.Image,
 // https://unpkg.com/world-atlas@1/
 
 var data = JSON.parse(fs.readFileSync("./world/110m2-topo.json", 'utf8'));
+// var data = JSON.parse(fs.readFileSync("./world/10m-topo.json", 'utf8'));
 if (jsonOnly) {
   var countryData = data.objects.tracts.geometries.map(function(f) { 
     var properties = {};
@@ -55,7 +56,7 @@ if (jsonOnly) {
 var tracts = topojson.feature(data, data.objects.tracts);
 
 // Simplify the data
-var data_sim = topojson.simplify(topojson.presimplify(data), 0.9);
+var data_sim = topojson.simplify(topojson.presimplify(data), 0.1);
 var tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
 // var land = topojson.feature(data, data.objects.land);
 // var countries = topojson.feature(data, data.objects.countries);
@@ -162,7 +163,7 @@ function writeProj(proj, file) {
   context.translate(translate[0], translate[1]);
 
   context.strokeStyle = '#fff';
-  context.lineWidth = 3.0;
+  context.lineWidth = 2.0;
   context.fillStyle = '#000';
 
   // context.beginPath();
