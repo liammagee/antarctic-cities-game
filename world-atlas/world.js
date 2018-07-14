@@ -42,6 +42,8 @@ if (jsonOnly) {
     properties["INCOME_GRP"] = f.properties["INCOME_GRP"];
     properties["ISO_A2"] = f.properties["ISO_A2"];
     properties["ISO_A3"] = f.properties["ISO_A3"];
+    if (f.properties["ISO_A3"] == "-99")
+      properties["ISO_A3"] = f.properties["ADM0_A3_IS"];
     properties["POP_EST"] = f.properties["POP_EST"];
     properties["SUBREGION"] = f.properties["SUBREGION"];
     properties["GDP_MD_EST"] = f.properties["GDP_MD_EST"];
@@ -89,10 +91,7 @@ var projection4 = d3.geoPatterson()
          .rotate([0,90,0]);
 
 
-var projection5 = d3.geoStereographic()
-    .translate([width / 2, height / 2])
-    .precision(0.1)
-         .rotate([0,90,0]);
+var projection5 = d3.geoStereographic().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
 
 var projection6 = d3.geoGuyou()
     .translate([width / 2, height / 2])
@@ -207,14 +206,18 @@ function writeProj(proj, file) {
   
 
   // ADD COUNTRIES
-  var countries = [], country_files = [], frags = [];
+  var countries = [], country_files = [], frags = [], iso_a3s = [];
   var writing = false;
   var f = function(i ) {
 
     var props = tracts.features[i].properties;
     country = {};
     country.iso_a3 = props['ISO_A3'];
+    if (country.iso_a3 == "-99")
+      country.iso_a3 = props['ADM0_A3_IS'];
     country_file = country.iso_a3 + '_' + file + '.png';
+    if (iso_a3s.indexOf(country.iso_a3) !== -1)
+      return;
 
     if (!xmlOnly) {
       canvas = new Canvas(width, height);
@@ -260,7 +263,6 @@ function writeProj(proj, file) {
       });
     }
 
-
     path = d3.geoPath(proj);
     bounds = path.bounds(topojson.mesh(data)),
           dx = bounds[1][0] - bounds[0][0],
@@ -279,7 +281,9 @@ function writeProj(proj, file) {
     if (svg_text == null)
       return;
 
+    // SINGLE POLYGON VERSION
     // Converts SVG to TMX code
+    /* 
     t = svg_text.split(/[LMZ]/).
       map(function(p){ p = p.split(','); return parseInt(p[0]) })
     s = svg_text.split(/[LMZ]/).
@@ -294,20 +298,51 @@ function writeProj(proj, file) {
     s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
     s_simp = s_simp.join(' ')
 
-
     // console.log(s)
     tmx_frag = "<polygon points=\"" + s + "\"/>";
+    */
+
+    // MULTIPOLYGON VERSION
+    /* */
+    zones = svg_text.split(/[Z]/);
+    tmx_frag = "";
+    z = zones[0];
+    var counter = 0;
+    // z = zones[0];
+    zones.forEach(z => {
+      s = z.split(/[LM]/).
+        // map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
+        map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
+        filter(function(p) { return p != "NaN,NaN"; })
+      s = [...new Set(s)]
+      s = s.join(' ')
+
+      // Simplified
+      s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
+      s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
+      s_simp = s_simp.join(' ')
+
+      // console.log(s)
+      if (s.length > 0) {
+        tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
+        tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
+        tmx_frag += '\t</object>\n';
+    
+        // tmx_frag += "\t<polygon points=\"" + s + "\"/>\n";
+      }
+    });
 
     countries.push(country);
+    iso_a3s.push(country.iso_a3);
     country_files.push(country_file);
     frags.push(tmx_frag);
   };
-  // for (let i = 0; i < 10; i++) {
+  // for (let i = 50; i < 60; i++) {
   for (var i = 0; i < tracts.features.length; i++) {
       f(i);
   }
 
-  obj_id = 1
+  obj_id = 1;
   xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
   xml += '<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="1334" tileheight="750" infinite="0" nextobjectid="16">\n'
   xml += '   <tileset firstgid="' + (obj_id++) + '" name="background" tilewidth="1334" tileheight="750" tilecount="1" columns="1">\n'
@@ -348,9 +383,9 @@ function writeProj(proj, file) {
   for (var i = 0; i < country_files.length; i++) {
     country = countries[i]
     tmx_frag = frags[i]
-    xml += '    <object id="' + (obj_id++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">'
+    // xml += '    <object id="' + (obj_id++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">'
     xml += tmx_frag + '\n'
-    xml += '    </object>\n'
+    // xml += '    </object>\n'
   }
   xml += '  </objectgroup>\n'
   xml += '</map>\n'

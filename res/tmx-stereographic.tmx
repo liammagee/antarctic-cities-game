@@ -120,394 +120,388 @@
    <tileset firstgid="40" name="CUB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/CUB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="41" name="-99" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
-    <image source="countries/-99_stereographic.png" trans="ff00ff" width="1334" height="750"/>
-   </tileset>
-   <tileset firstgid="42" name="CYP" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="41" name="CYP" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/CYP_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="43" name="CZE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="42" name="CZE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/CZE_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="44" name="DEU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="43" name="DEU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/DEU_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="45" name="DJI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="44" name="DJI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/DJI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="46" name="DOM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="45" name="DOM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/DOM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="47" name="DZA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="46" name="DZA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/DZA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="48" name="ECU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="47" name="ECU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ECU_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="49" name="EGY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="48" name="EGY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/EGY_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="50" name="ERI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="49" name="ERI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ERI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="51" name="ESP" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="50" name="ESP" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ESP_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="52" name="ETH" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="51" name="ETH" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ETH_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="53" name="FJI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="52" name="FJI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/FJI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="54" name="FLK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="53" name="FLK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/FLK_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="55" name="-99" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
-    <image source="countries/-99_stereographic.png" trans="ff00ff" width="1334" height="750"/>
+   <tileset firstgid="54" name="FRA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+    <image source="countries/FRA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="56" name="GAB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="55" name="GAB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GAB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="57" name="GBR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="56" name="GBR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GBR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="58" name="GEO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="57" name="GEO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GEO_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="59" name="GHA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="58" name="GHA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GHA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="60" name="GIN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="59" name="GIN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GIN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="61" name="GMB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="60" name="GMB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GMB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="62" name="GNB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="61" name="GNB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GNB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="63" name="GNQ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="62" name="GNQ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GNQ_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="64" name="GRC" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="63" name="GRC" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GRC_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="65" name="GTM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="64" name="GTM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GTM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="66" name="GUY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="65" name="GUY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/GUY_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="67" name="HND" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="66" name="HND" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/HND_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="68" name="HRV" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="67" name="HRV" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/HRV_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="69" name="HTI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="68" name="HTI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/HTI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="70" name="HUN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="69" name="HUN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/HUN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="71" name="IDN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="70" name="IDN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/IDN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="72" name="IND" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="71" name="IND" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/IND_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="73" name="IRL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="72" name="IRL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/IRL_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="74" name="IRN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="73" name="IRN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/IRN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="75" name="IRQ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="74" name="IRQ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/IRQ_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="76" name="ISR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="75" name="ISR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ISR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="77" name="ITA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="76" name="ITA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ITA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="78" name="JAM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="77" name="JAM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/JAM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="79" name="JOR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="78" name="JOR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/JOR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="80" name="JPN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="79" name="JPN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/JPN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="81" name="KAZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="80" name="KAZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/KAZ_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="82" name="KEN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="81" name="KEN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/KEN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="83" name="KGZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="82" name="KGZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/KGZ_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="84" name="KHM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="83" name="KHM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/KHM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="85" name="KOR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="84" name="KOR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/KOR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="86" name="-99" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
-    <image source="countries/-99_stereographic.png" trans="ff00ff" width="1334" height="750"/>
+   <tileset firstgid="85" name="KOS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+    <image source="countries/KOS_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="87" name="KWT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="86" name="KWT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/KWT_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="88" name="LAO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="87" name="LAO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LAO_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="89" name="LBN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="88" name="LBN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LBN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="90" name="LBR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="89" name="LBR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LBR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="91" name="LBY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="90" name="LBY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LBY_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="92" name="LKA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="91" name="LKA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LKA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="93" name="LSO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="92" name="LSO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LSO_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="94" name="LUX" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="93" name="LUX" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/LUX_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="95" name="MAR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="94" name="MAR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MAR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="96" name="MDA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="95" name="MDA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MDA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="97" name="MDG" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="96" name="MDG" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MDG_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="98" name="MEX" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="97" name="MEX" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MEX_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="99" name="MKD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="98" name="MKD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MKD_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="100" name="MLI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="99" name="MLI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MLI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="101" name="MMR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="100" name="MMR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MMR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="102" name="MNE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="101" name="MNE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MNE_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="103" name="MNG" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="102" name="MNG" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MNG_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="104" name="MOZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="103" name="MOZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MOZ_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="105" name="MRT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="104" name="MRT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MRT_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="106" name="MWI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="105" name="MWI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MWI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="107" name="MYS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="106" name="MYS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/MYS_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="108" name="NAM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="107" name="NAM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NAM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="109" name="NCL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="108" name="NCL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NCL_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="110" name="NER" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="109" name="NER" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NER_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="111" name="NGA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="110" name="NGA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NGA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="112" name="NIC" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="111" name="NIC" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NIC_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="113" name="NLD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="112" name="NLD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NLD_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="114" name="NPL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="113" name="NPL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NPL_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="115" name="NZL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="114" name="NZL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/NZL_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="116" name="OMN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="115" name="OMN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/OMN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="117" name="PAK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="116" name="PAK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PAK_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="118" name="PAN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="117" name="PAN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PAN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="119" name="PER" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="118" name="PER" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PER_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="120" name="PHL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="119" name="PHL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PHL_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="121" name="PNG" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="120" name="PNG" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PNG_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="122" name="POL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="121" name="POL" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/POL_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="123" name="PRI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="122" name="PRI" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PRI_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="124" name="PRK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="123" name="PRK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PRK_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="125" name="PRT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="124" name="PRT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PRT_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="126" name="PRY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="125" name="PRY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PRY_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="127" name="PSE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="126" name="PSE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/PSE_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="128" name="QAT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="127" name="QAT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/QAT_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="129" name="ROU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="128" name="ROU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ROU_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="130" name="RUS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="129" name="RUS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/RUS_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="131" name="RWA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="130" name="RWA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/RWA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="132" name="ESH" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="131" name="ESH" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ESH_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="133" name="SAU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="132" name="SAU" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SAU_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="134" name="SDN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="133" name="SDN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SDN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="135" name="SSD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="134" name="SSD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SSD_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="136" name="SEN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="135" name="SEN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SEN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="137" name="SLB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="136" name="SLB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SLB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="138" name="SLE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="137" name="SLE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SLE_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="139" name="SLV" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="138" name="SLV" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SLV_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="140" name="-99" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
-    <image source="countries/-99_stereographic.png" trans="ff00ff" width="1334" height="750"/>
-   </tileset>
-   <tileset firstgid="141" name="SOM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="139" name="SOM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SOM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="142" name="SRB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="140" name="SRB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SRB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="143" name="SUR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="141" name="SUR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SUR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="144" name="SVK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="142" name="SVK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SVK_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="145" name="SVN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="143" name="SVN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SVN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="146" name="SWZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="144" name="SWZ" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SWZ_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="147" name="SYR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="145" name="SYR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/SYR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="148" name="TCD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="146" name="TCD" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TCD_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="149" name="TGO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="147" name="TGO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TGO_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="150" name="THA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="148" name="THA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/THA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="151" name="TJK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="149" name="TJK" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TJK_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="152" name="TKM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="150" name="TKM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TKM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="153" name="TLS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="151" name="TLS" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TLS_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="154" name="TTO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="152" name="TTO" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TTO_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="155" name="TUN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="153" name="TUN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TUN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="156" name="TUR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="154" name="TUR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TUR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="157" name="TWN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="155" name="TWN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TWN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="158" name="TZA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="156" name="TZA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/TZA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="159" name="UGA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="157" name="UGA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/UGA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="160" name="UKR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="158" name="UKR" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/UKR_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="161" name="URY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="159" name="URY" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/URY_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="162" name="USA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="160" name="USA" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/USA_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="163" name="UZB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="161" name="UZB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/UZB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="164" name="VEN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="162" name="VEN" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/VEN_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="165" name="VNM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="163" name="VNM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/VNM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="166" name="VUT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="164" name="VUT" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/VUT_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="167" name="YEM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="165" name="YEM" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/YEM_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="168" name="ZAF" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="166" name="ZAF" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ZAF_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="169" name="ZMB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="167" name="ZMB" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ZMB_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
-   <tileset firstgid="170" name="ZWE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
+   <tileset firstgid="168" name="ZWE" tilewidth="1334" tileheight="750" tilecount="1" columns="1">
     <image source="countries/ZWE_stereographic.png" trans="ff00ff" width="1334" height="750"/>
    </tileset>
    <layer name="Tile Layer 1" width="1" height="1">
@@ -1350,352 +1344,865 @@
       168
     </data>
    </layer>
-   <layer name="Tile Layer 169" width="1" height="1">
-    <data encoding="csv">
-      169
-    </data>
-   </layer>
-   <layer name="Tile Layer 170" width="1" height="1">
-    <data encoding="csv">
-      170
-    </data>
-   </layer>
   <objectgroup name="Object Layer 1">
-    <object id="171" name="AFG" x="0" y="0" visible="0"><polygon points="1063,263 1064,268 1068,270 1072,270 1081,275 1089,273 1094,277 1098,276 1097,280 1100,287 1105,291 1104,293 1109,293 1111,296 1121,297 1118,302 1109,303 1107,305 1118,310 1121,318 1118,319 1113,315 1109,310 1105,305 1099,304 1092,307 1087,306 1079,306 1077,302 1073,305 1069,302 1063,302 1058,303 1055,302 1051,298 1049,298 1047,295 1041,294 1034,295 1028,291 1026,289 1019,283 1017,276 1027,277 1031,275 1030,272 1039,267 1045,267 1044,265"/>
-    </object>
-    <object id="172" name="AGO" x="0" y="0" visible="0"><polygon points="734,298 728,298 722,296 720,295 708,293 707,292 705,292 701,292 701,291 704,287 707,285 711,283 712,281 711,277 712,276 712,273 711,271 715,271 725,272 726,275 727,277 731,278 732,278 735,277 739,277 738,278 742,279 742,281 740,283 740,284 739,286 744,287 743,290 742,291 736,289 732,295 711,270 710,268 713,267 715,268"/>
-    </object>
-    <object id="173" name="ALB" x="0" y="0" visible="0"><polygon points="849,115 837,121 833,116 840,107 839,105 846,101 848,102 849,108 846,113"/>
-    </object>
-    <object id="174" name="ARE" x="0" y="0" visible="0"><polygon points="948,260 948,261 952,263 957,267 966,268 975,269 974,270 970,272 968,271 964,272 953,273 951,273 947,269 943,264"/>
-    </object>
-    <object id="175" name="ARG" x="0" y="0" visible="0"><polygon points="599,372 598,373 593,372 596,372 598,371 599,370 600,371 600,372 592,372 590,374 589,374 587,374 586,374 584,374 583,373 582,373 581,373 579,372 576,371 575,371 575,370 573,371 572,370 571,370 569,370 568,370 565,369 561,368 561,367 558,367 556,367 555,365 553,365 551,364 549,363 548,364 543,363 541,362 539,362 537,361 535,359 534,358 527,357 527,355 525,354 524,354 522,352 525,350 527,350 526,349 527,347 528,347 534,346 536,345 539,344 542,343 543,343 545,346 549,343 550,342 549,341 547,340 548,339 550,339 552,340 552,342 552,344 554,347 557,349 559,350 561,351 562,351 565,351 567,351 568,351 569,352 571,354 571,355 569,358 568,359 569,359 571,359 572,360 572,361 570,362 571,363 573,363 574,363 574,362 575,362 575,363 576,364 579,365 578,366 579,367 580,368 583,367 584,367 585,367 586,369 588,370 588,371 589,371 591,372 593,371"/>
-    </object>
-    <object id="176" name="ARM" x="0" y="0" visible="0"><polygon points="1019,175 1029,179 1029,183 1026,184 1026,187 1022,188 1024,193 1018,196 1016,195 1019,190 1015,186 1013,179"/>
-    </object>
-    <object id="177" name="ATA" x="0" y="0" visible="0"><polygon points="649,382 651,383 650,383 650,384 649,384 648,384 649,383 648,382 659,400 660,400 660,401 659,402 659,401 649,378 650,379 651,379 653,380 653,381 652,382 651,382 650,382 650,381 648,379 648,378 638,398 637,398 639,398 638,399 639,400 639,399 640,400 630,392 630,391 631,391 631,392 631,393 630,393 630,380 631,380 632,381 633,382 632,382 632,383 631,383 630,383 630,382 630,381 629,381 627,381 626,380 627,380 621,372 621,373 620,373 621,375 622,375 623,375 623,376 625,377 625,378 627,378 628,377 631,378 632,378 634,378 636,379 637,379 638,380 639,381 640,381 640,383 641,383 640,384 640,385 641,385 642,384 643,384 643,385 645,386 646,385 646,386 647,385 648,385 649,385 650,385 651,384 653,384 655,384 654,384 654,383 654,382 655,382 656,381 655,381 656,380 657,379 657,378 656,378 656,377 655,378 654,378 653,378 653,377 652,377 653,376 653,375 654,374 656,373 656,372 657,372 658,371 658,370 657,370 657,369 658,368 659,368 659,367 660,367 661,367 662,367 662,366 663,366 664,366 665,366 666,366 666,367 667,366 669,366 671,365 672,365 673,365 674,366 675,366 676,365 677,365 677,366 678,366 679,366 680,366 681,366 682,367 685,368 686,368 687,368 689,368 691,367 692,368 691,368 692,369 692,370 693,370 694,369 696,369 698,370 700,370 702,370 702,371 703,371 704,371 706,371 707,372 708,373 707,373 706,374 707,375 706,376 708,377 708,378 709,379 707,380 705,380 704,380 703,380 701,380 700,381 701,381 703,381 704,382 706,382 707,382 708,383 709,383 710,383 711,384 712,384 713,385 713,386 713,387 714,387 715,387 714,388 713,389 713,390 713,391 713,392 713,393 714,394 716,395 714,395 712,396 712,397 711,398 712,399 712,400 711,400 710,400 709,401 708,401 707,402 707,403 707,404 706,404 705,405 704,406 703,407 702,407 701,408 702,409 701,409 699,408 698,408 697,410 695,410 693,411 692,410 691,410 689,410 686,410 686,411 683,411 681,411 681,410 680,410 679,410 678,410 676,410 674,410 673,410 672,410 673,407 674,406 675,405 674,404 674,403 673,402 672,402 672,401 673,401 673,400 673,399 673,398 672,398 671,397 670,396 669,396 669,395 668,395 667,395 666,394 666,388 666,395 665,395 664,395 664,394 663,394 663,393 662,393 660,393 660,394 661,394 660,395 661,395 659,396 659,397 659,398 658,398 658,397 656,397 656,398 655,398 655,399 656,399 657,400 657,401 657,403 656,402 655,402 655,401 654,401 653,401 652,402 651,401 650,402 650,403 649,403 649,402 648,402 646,402 644,401 643,401 643,400 641,400 641,399 639,397 638,397 638,396 637,396 636,396 638,395 637,395 637,394 638,394 637,393 637,392 637,391 636,391 635,392 634,393 632,393 632,392 632,391 633,391 633,390 632,389 633,389 632,388 631,388 632,387 633,387 633,386 634,385 632,385 633,385 633,384 635,384 635,383 634,383 634,381 633,380 632,380 629,380 627,379 626,379 623,378 622,377 621,376 620,375 620,374 620,372 620,371"/>
-    </object>
-    <object id="178" name="ATF" x="0" y="0" visible="0"><polygon points="748,370 748,371 748,372 747,372 746,371"/>
-    </object>
-    <object id="179" name="AUS" x="0" y="0" visible="0"><polygon points="727,439 725,439 723,440 722,440 721,439 721,438 720,437 721,436 722,436 724,437 725,437 727,438 728,438 775,473 772,472 771,473 768,473 767,472 764,470 761,469 760,469 758,468 755,468 750,468 750,467 748,467 745,466 744,466 743,466 741,465 734,464 732,463 731,461 728,460 728,459 727,457 726,455 725,453 726,452 726,450 725,447 724,446 724,445 726,444 727,443 728,441 731,441 732,442 732,441 733,440 738,439 740,439 743,440 744,440 746,440 748,441 748,440 749,439 749,440 750,442 751,442 751,441 752,440 751,439 753,438 754,439 757,439 758,439 761,439 762,438 764,438 767,436 769,433 770,432 771,429 770,428 771,426 772,425 774,424 773,421 775,420 778,418 779,419 780,420 783,421 786,421 789,421 792,421 794,421 796,422 798,421 798,422 801,422 799,423 804,423 807,424 809,424 810,425 808,425 809,426 809,427 810,430 809,431 807,437 809,440 811,441 812,443 809,443 811,443 812,444 810,445 812,446 813,449 812,452 807,452 804,454 806,454 808,458 808,460 805,462 806,462 809,462 808,462 803,463 798,465 796,467 794,467 792,462 791,462 786,462 781,463 779,463 778,463 775,463 774,465 777,469 780,471 782,473 784,475 784,476 781,475 777,474"/>
-    </object>
-    <object id="180" name="AUT" x="0" y="0" visible="0"><polygon points="844,54 830,63 822,64 813,64 806,62 792,58 791,55 782,55 773,55 764,52 766,49 774,51 776,49 784,49 793,50 802,52 802,46 812,41 819,45 830,42 838,46 846,49"/>
-    </object>
-    <object id="181" name="AZE" x="0" y="0" visible="0"><polygon points="1018,196 1024,193 1022,188 1026,187 1026,184 1029,183 1029,179 1039,186 1040,181 1043,182 1044,188 1046,190 1056,190 1051,200 1053,204 1047,201 1028,206 1027,201 1033,201 1031,197 1015,186 1019,190 1016,195 1013,192"/>
-    </object>
-    <object id="182" name="BDI" x="0" y="0" visible="0"><polygon points="772,280 774,278 774,277 776,278 778,277 779,278 779,280 773,281"/>
-    </object>
-    <object id="183" name="BEL" x="0" y="0" visible="0"><polygon points="736,14 734,21 729,27 720,22 714,22 705,16 695,9 705,7 713,8 724,7"/>
-    </object>
-    <object id="184" name="BEN" x="0" y="0" visible="0"><polygon points="679,239 675,239 674,237 674,231 673,229 670,227 671,226 677,223 681,222 684,224 685,227 684,229 680,231 679,233"/>
-    </object>
-    <object id="185" name="BFA" x="0" y="0" visible="0"><polygon points="677,223 671,226 667,226 659,226 652,226 653,230 650,229 646,230 640,228 640,224 644,222 646,219 648,219 655,216 656,215 664,213 668,214 669,217 672,219 672,220 677,221"/>
-    </object>
-    <object id="186" name="BGD" x="0" y="0" visible="0"><polygon points="1011,398 1006,397 1007,396 1002,396 1012,395 1016,393 1016,390 1010,389 1011,385 1022,383 1026,384 1028,381 1033,384 1037,382 1042,383 1038,388 1033,388 1032,395 1031,397 1025,395 1025,394 1021,392 1017,394 1022,396"/>
-    </object>
-    <object id="187" name="BGR" x="0" y="0" visible="0"><polygon points="879,95 879,99 890,102 901,106 910,106 918,107 926,113 920,115 912,118 912,123 905,120 895,119 893,122 885,121 881,117 873,117 867,116 869,111 867,108 876,103 874,99"/>
-    </object>
-    <object id="188" name="BHS" x="0" y="0" visible="0"><polygon points="319,344 319,345 312,346 309,344 299,343 298,347 296,347 297,342 300,340 305,341 300,341 295,342"/>
-    </object>
-    <object id="189" name="BIH" x="0" y="0" visible="0"><polygon points="845,94 839,95 835,99 829,95 822,85 818,79 831,77 845,81 849,84 850,91"/>
-    </object>
-    <object id="190" name="BLR" x="0" y="0" visible="0"><polygon points="1013,55 1003,60 994,56 985,52 975,47 965,41 955,38 946,36 933,36 934,31 943,33 951,35 959,37 967,39 975,42 982,44 990,47 998,49 1005,52"/>
-    </object>
-    <object id="191" name="BLZ" x="0" y="0" visible="0"><polygon points="348,386 344,383 345,382 355,383 359,385 359,386"/>
-    </object>
-    <object id="192" name="BOL" x="0" y="0" visible="0"><polygon points="528,347 527,347 526,349 527,350 525,350 522,352 524,354 524,355 519,354 516,355 513,353 512,354 509,354 507,354 504,352 502,353 499,352 498,351 494,350 493,349 487,350 489,347 488,347 487,344 488,341 494,343 498,342 500,340 502,340 505,338 508,337 512,337 511,338 515,338 518,335 521,336 522,336 525,336 529,339 528,339 525,340 524,341 522,344 524,345"/>
-    </object>
-    <object id="193" name="BRA" x="0" y="0" visible="0"><polygon points="554,347 552,344 552,342 552,340 550,339 548,339 547,340 544,338 542,339 539,338 536,338 536,339 534,340 531,339 529,339 525,336 522,336 521,336 518,335 515,338 511,338 512,337 508,337 505,338 502,340 500,340 498,342 494,343 488,341 487,344 488,347 489,347 487,350 486,352 481,350 482,352 481,354 479,354 478,356 477,355 474,356 471,356 469,355 468,354 466,354 464,352 463,350 463,347 464,346 455,343 451,342 449,343 446,342 445,340 444,341 442,341 445,336 444,335 448,335 451,334 452,332 451,331 452,328 450,328 450,326 448,328 443,326 441,327 445,324 445,323 446,318 444,317 447,315 448,316 452,316 455,318 460,318 463,318 464,315 464,314 466,312 468,311 465,310 469,307 471,306 473,306 474,303 470,299 471,298 481,300 483,300 485,301 486,303 488,303 493,300 496,302 496,299 507,296 510,296 511,297 513,295 520,293 524,291 531,290 537,290 540,290 543,289 545,289 550,292 552,295 552,296 551,300 552,303 552,307 556,309 559,313 559,314 562,316 562,318 564,320 563,321 563,322 561,324 559,326 559,327 557,328 557,331 557,333 559,334 560,334 563,336 563,337 565,340 565,343 566,344 567,346 565,345 565,344 563,344 558,345 557,346 554,346"/>
-    </object>
-    <object id="194" name="BRN" x="0" y="0" visible="0"><polygon points="896,448 897,452 893,450 893,448"/>
-    </object>
-    <object id="195" name="BTN" x="0" y="0" visible="0"><polygon points="1051,395 1049,396 1044,396 1045,390 1044,387 1048,384 1054,386 1056,388 1053,393"/>
-    </object>
-    <object id="196" name="BWA" x="0" y="0" visible="0"><polygon points="743,310 739,310 736,310 733,311 732,311 730,312 728,312 726,311 725,310 719,312 717,311 718,310 717,308 720,303 723,304 726,298 729,298 733,299 734,300 738,300 739,300 739,303 741,306 741,308 742,309"/>
-    </object>
-    <object id="197" name="CAF" x="0" y="0" visible="0"><polygon points="736,241 743,242 749,242 754,241 754,240 760,241 765,241 770,239 776,238 777,242 775,245 778,248 779,250 782,254 781,255 784,258 777,256 773,256 771,255 766,255 764,254 762,255 756,253 751,250 746,252 745,253 740,252 736,253 733,254 733,253 732,251 730,247 732,244"/>
-    </object>
-    <object id="198" name="CAN" x="0" y="0" visible="0"><polygon points="144,239 148,235 153,231 155,237 144,242 138,242 136,239 117,219 110,223 104,227 92,231 97,226 103,222 155,583 160,585 162,591 164,596 161,602 159,609 164,615 155,621 149,613 144,605 150,596 150,588 126,179 135,188 134,182 141,180 144,184 153,181 153,177 164,174 171,179 174,175 191,179 199,186 190,190 182,185 178,186 182,196 178,199 177,193 168,196 159,204 151,212 147,211 145,206 139,207 135,200 127,193 118,186 113,179 117,170 0,328 8,325 17,322 12,316 4,313 6,308 7,303 9,298 11,293 13,289 16,284 18,279 21,274 24,269 26,264 29,259 32,255 35,250 38,245 42,240 46,236 49,231 52,226 56,222 60,217 64,212 68,208 72,204 77,199 84,192 91,185 99,178 107,171 109,181 106,186 104,192 107,198 110,203 106,208 103,214 96,219 89,225 83,232 78,240 85,248 87,257 93,263 99,268 105,274 111,279 111,273 105,267 98,260 96,253 94,245 97,241 99,236 111,233 116,241 144,245 156,240 159,235 162,231 153,221 162,224 170,222 172,231 171,237 169,244 170,250 174,258 170,262 160,259 158,254 157,248 152,255 148,262 138,264 119,260 113,261 113,265 108,266 116,273 131,280 134,286 132,290 129,295 127,299 125,304 129,309 134,315 138,317 136,322 134,327 136,330 144,329 148,337 148,342 153,349 147,352 130,346 105,346 97,351 87,354 80,358 74,363 68,368 62,373 56,378 61,386 57,393 59,398 54,404 53,410 52,415 41,419 47,420 47,426 46,431 46,437 46,442 46,448 46,453 47,459 48,464 49,470 51,475 53,481 55,486 57,491 60,497 62,502 65,508 69,513 72,518 76,523 80,528 84,533 89,538 93,543 98,548 103,553 109,557 114,562 120,566 126,570 132,574 138,579 144,583 143,588 142,594 142,599 141,605 144,611 148,617 139,626 134,627 128,623 123,619 118,615 112,611 107,607 103,603 98,598 94,594 89,590 84,585 79,581 75,577 71,572 67,568 63,563 59,558 55,554 51,549 48,545 44,540 41,535 38,530 35,526 32,521 29,516 26,511 23,507 20,502 18,497 15,492 13,487 11,482 9,477 7,472 5,467 3,462 1,457 0,452 0,447 -1,442 -3,437 -4,432 -5,427 -6,422 -6,417 -7,412 -7,406 -7,401 -8,396 -8,391 -8,386 -8,381 -8,376 -7,371 -7,366 -6,361 -5,353 -4,344 -2,336"/>
-    </object>
-    <object id="199" name="CHE" x="0" y="0" visible="0"><polygon points="766,49 764,52 773,55 766,59 759,57 756,61 750,59 744,61 735,59 732,55 727,56 728,53 736,49 744,46 756,45"/>
-    </object>
-    <object id="200" name="CHL" x="0" y="0" visible="0"><polygon points="593,372 598,373 599,372 600,373 599,374 598,374 597,375 594,376 591,376 592,376 594,375 595,374 594,374 593,373 524,354 525,354 527,355 527,357 534,358 535,359 537,361 539,362 541,362 543,363 548,364 549,363 551,364 553,365 555,365 556,367 558,367 561,367 561,368 565,369 568,370 569,370 571,370 572,370 573,371 575,370 575,371 576,371 579,372 581,373 582,373 583,373 584,374 586,374 587,374 589,374 590,374 592,372 593,374 593,375 590,376 588,376 587,376 585,376 582,376 580,375 578,374 577,375 575,374 572,373 573,372 569,371 568,371 570,372 570,373 562,371 561,370 558,370 556,369 549,366 545,365 541,364 540,364 536,363 534,362 529,361 517,357 513,356 508,356 507,354 509,354 512,354 513,353 516,355 519,354 524,355"/>
-    </object>
-    <object id="201" name="CHN" x="0" y="0" visible="0"><polygon points="1209,620 1185,616 1169,612 1161,615 1153,618 1135,620 1121,616 1110,623 1109,629 1104,634 1100,638 1092,626 1083,618 1078,610 1088,606 1089,600 1079,597 1068,591 1071,588 1066,586 1076,586 1073,582 1077,574 1072,572 1077,569 1082,568 1079,562 1080,555 1078,550 1082,543 1081,538 1083,533 1085,537 1090,537 1092,543 1100,542 1101,537 1099,530 1095,525 1099,521 1096,517 1088,518 1083,521 1079,519 1073,522 1075,529 1067,531 1064,533 1059,532 1063,526 1060,523 1060,517 1056,513 1047,516 1038,515 1020,515 1015,513 1015,510 1011,510 1006,511 997,506 998,504 993,499 988,494 984,488 983,482 981,476 983,473 982,470 985,469 983,467 984,462 985,458 979,456 980,454 985,454 987,455 991,451 991,449 995,446 998,445 1001,446 1004,443 1007,442 1005,439 1007,433 1006,431 1006,429 999,428 1001,426 1004,427 1003,424 1007,420 1012,422 1014,420 1021,419 1021,416 1029,417 1034,421 1045,422 1052,419 1052,417 1054,413 1057,414 1062,413 1060,410 1062,406 1058,402 1052,398 1051,395 1053,393 1056,388 1054,386 1048,384 1054,383 1052,381 1053,377 1054,372 1058,366 1061,364 1062,362 1066,357 1068,354 1066,352 1070,347 1074,342 1083,339 1082,342 1087,342 1091,340 1098,340 1108,334 1108,326 1115,323 1118,319 1121,318 1130,316 1130,311 1139,309 1144,308 1150,312 1155,315 1156,321 1164,322 1168,328 1173,329 1182,337 1185,337 1192,336 1197,339 1218,332 1222,337 1226,343 1230,345 1257,348 1256,354 1254,360 1262,363 1278,362 1280,367 1291,372 1293,374 1281,376 1273,381 1267,390 1255,394 1238,392 1231,394 1229,401 1226,408 1217,414 1215,418 1202,419 1194,422 1193,428 1191,433 1188,439 1187,446 1184,451 1173,457 1171,464 1166,465 1170,472 1169,481 1165,489 1166,495 1172,505 1182,504 1189,509 1184,513 1179,516 1182,523 1180,533 1185,539 1186,544 1181,552 1175,555 1179,557 1193,556 1202,553 1200,547 1207,542 1208,539 1215,539 1225,546 1235,553 1224,558 1225,563 1226,569 1232,571 1244,582 1246,587 1247,587 1243,591 1238,596 1234,600 1229,604 1224,608 1220,612 1214,616 970,453 969,450 972,448 977,449 979,451 977,456 975,456"/>
-    </object>
-    <object id="202" name="CIV" x="0" y="0" visible="0"><polygon points="640,228 646,230 650,229 653,230 654,234 653,236 652,239 654,241 654,242 649,242 641,243 633,245 633,242 628,240 627,237 628,235 630,234 627,231 628,230 633,229 636,228 637,229"/>
-    </object>
-    <object id="203" name="CMR" x="0" y="0" visible="0"><polygon points="736,241 732,244 730,247 732,251 733,253 733,254 732,256 726,253 721,253 714,252 707,251 708,249 707,247 705,247 704,244 708,240 713,239 717,241 720,240 723,237 726,236 732,231 737,229 739,228 737,227 739,226 741,228 739,232 740,235 734,233 733,235 737,237 737,241"/>
-    </object>
-    <object id="204" name="COD" x="0" y="0" visible="0"><polygon points="744,287 739,286 740,284 740,283 742,281 742,279 738,278 739,277 735,277 732,278 731,278 727,277 726,275 725,272 715,271 711,271 711,270 715,268 719,268 720,269 727,267 727,266 730,264 736,262 738,260 740,257 744,255 745,253 746,252 751,250 756,253 762,255 764,254 766,255 771,255 773,256 777,256 784,258 784,261 786,261 791,262 791,263 793,266 790,268 791,269 788,270 783,271 780,273 779,275 777,275 774,277 774,278 772,280 769,284 770,286 769,289 768,288 763,287 761,288 761,289 756,293 758,294 759,294 758,296 756,295 755,293 753,292 753,291 751,291 749,290 748,289 745,288"/>
-    </object>
-    <object id="205" name="COG" x="0" y="0" visible="0"><polygon points="715,268 713,267 710,268 708,266 711,265 711,263 715,263 715,262 717,263 720,264 723,262 723,260 722,258 725,256 721,255 721,253 726,253 732,256 733,254 736,253 740,252 745,253 744,255 740,257 738,260 736,262 730,264 727,266 727,267 720,269 719,268"/>
-    </object>
-    <object id="206" name="COL" x="0" y="0" visible="0"><polygon points="448,335 444,335 445,336 442,341 444,341 445,340 446,342 449,343 451,342 455,343 464,346 461,347 458,345 455,346 454,348 454,349 453,351 448,351 442,354 442,355 439,356 438,359 433,362 428,360 428,359 424,356 423,357 420,356 416,356 415,356 411,356 409,356 407,356 406,354 402,354 403,353 401,350 401,349 395,348 394,344 395,342 393,338 392,336 394,335 396,336 395,337 400,341 405,343 406,342 412,342 414,342 417,341 418,338 420,337 424,336 427,332 428,331 431,333 434,334 439,334 440,335 444,334"/>
-    </object>
-    <object id="207" name="CRI" x="0" y="0" visible="0"><polygon points="400,369 398,371 396,371 393,374 393,375 390,377 385,376 385,373 387,371 387,370 389,370 394,368 394,369 397,368"/>
-    </object>
-    <object id="208" name="CUB" x="0" y="0" visible="0"><polygon points="317,361 319,355 323,352 325,351 326,348 336,343 339,340 340,340 342,338 345,336 347,336 346,341 343,348 340,345 337,348 331,350 331,352 326,356 324,360 321,360 320,363 324,368 324,371 320,368 318,365"/>
-    </object>
-    <object id="209" name="-99" x="0" y="0" visible="0"><polygon points="909,171 916,172 924,173 916,175"/>
-    </object>
-    <object id="210" name="CYP" x="0" y="0" visible="0"><polygon points="909,171 916,175 907,174 905,170"/>
-    </object>
-    <object id="211" name="CZE" x="0" y="0" visible="0"><polygon points="846,49 838,46 830,42 819,45 812,41 803,33 803,26 816,23 829,21 837,22 848,28 851,34 861,34 860,37 868,39 870,45 858,47"/>
-    </object>
-    <object id="212" name="DEU" x="0" y="0" visible="0"><polygon points="838,12 837,22 829,21 816,23 803,26 803,33 812,41 802,46 802,52 793,50 784,49 776,49 774,51 766,49 756,45 744,46 747,39 754,34 739,31 734,28 734,21 736,14 737,3 744,4 745,2 753,2 762,3 771,4 780,4 788,5 797,6 806,8 814,9 826,10"/>
-    </object>
-    <object id="213" name="DJI" x="0" y="0" visible="0"><polygon points="865,266 863,268 860,267 861,269 858,269 854,267 856,266 862,265"/>
-    </object>
-    <object id="214" name="DOM" x="0" y="0" visible="0"><polygon points="353,329 354,326 360,321 366,319 367,321 364,325 362,328 365,330 362,330"/>
-    </object>
-    <object id="215" name="DZA" x="0" y="0" visible="0"><polygon points="691,201 684,201 685,198 678,197 677,195 668,191 657,187 647,183 635,179 622,175 609,171 609,169 607,164 617,160 630,157 632,155 640,153 640,149 647,146 657,145 653,134 649,130 657,127 665,126 671,124 678,122 692,122 705,121 709,123 717,121 726,122 735,123 732,126 732,131 729,136 724,138 724,142 733,149 733,158 734,164 732,168 730,175 727,176 730,180 731,184 734,184 738,186 740,189 729,191 717,194 708,196 699,199"/>
-    </object>
-    <object id="216" name="ECU" x="0" y="0" visible="0"><polygon points="433,362 438,359 439,356 442,355 445,355 447,356 450,359 451,362 454,363 456,364 457,365 455,366 454,368 451,367 448,366 446,366 448,367 446,368 445,368 441,368 441,367 436,365 434,365"/>
-    </object>
-    <object id="217" name="EGY" x="0" y="0" visible="0"><polygon points="873,229 866,226 859,223 852,220 844,218 836,215 828,213 820,210 812,208 834,181 835,177 839,175 839,173 843,172 852,174 858,178 865,182 874,182 884,185 884,188 886,187 895,192 899,192 895,199 887,203 881,205 880,200 882,193 879,198 877,204 876,210 875,216 875,221 871,223"/>
-    </object>
-    <object id="218" name="ERI" x="0" y="0" visible="0"><polygon points="865,266 862,265 862,258 857,253 853,253 852,251 849,252 844,249 845,248 855,244 861,244 865,244 864,248 861,251 864,258 864,264"/>
-    </object>
-    <object id="219" name="ESP" x="0" y="0" visible="0"><polygon points="585,92 584,87 579,84 591,78 603,78 615,77 626,78 637,78 649,77 652,80 661,82 670,83 673,82 683,85 694,85 694,89 685,93 674,94 667,100 664,106 667,109 663,112 661,116 655,117 649,122 640,122 631,122 624,127 620,127 614,122 606,121 605,120 608,115 605,114 606,110 602,106 606,105 605,96 609,94 606,90 594,92 591,89"/>
-    </object>
-    <object id="220" name="ETH" x="0" y="0" visible="0"><polygon points="862,265 856,266 854,267 858,269 856,270 855,275 859,279 862,283 865,285 855,285 846,285 841,283 836,282 833,281 830,280 830,279 826,278 824,279 819,276 817,272 815,271 816,269 814,268 815,265 814,264 814,261 811,260 814,259 818,259 820,257 824,255 827,255 832,253 836,253 844,249 849,252 852,251 853,253 857,253 862,258"/>
-    </object>
-    <object id="221" name="FJI" x="0" y="0" visible="0"><polygon points="671,487 670,486 671,485 674,485 675,486 673,487 668,488 670,487 671,488 666,489 666,488"/>
-    </object>
-    <object id="222" name="FLK" x="0" y="0" visible="0"><polygon points="596,366 596,365 597,364 596,364 598,363 598,364 598,365 597,365 597,366"/>
-    </object>
-    <object id="223" name="-99" x="0" y="0" visible="0"><polygon points="695,9 705,16 714,22 720,22 729,27 734,28 739,31 754,34 747,39 744,46 736,49 728,53 727,56 732,55 735,59 736,65 732,67 734,73 739,75 737,78 727,81 718,80 709,78 695,80 694,85 683,85 673,82 670,83 661,82 652,80 649,77 653,73 654,57 644,48 636,44 627,42 619,41 617,34 631,32 640,33 649,34 645,23 656,27 668,23 681,19 685,11 470,299 474,303 473,306 471,306 469,307 466,304 463,304 460,304 459,301 463,299 469,299 753,91 749,96 745,94 744,89 754,84"/>
-    </object>
-    <object id="224" name="GAB" x="0" y="0" visible="0"><polygon points="714,252 721,253 721,255 725,256 722,258 723,260 723,262 720,264 717,263 715,262 715,263 711,263 711,265 708,266 703,261 701,258 705,254 713,255"/>
-    </object>
-    <object id="225" name="GBR" x="0" y="0" visible="0"><polygon points="683,0 679,2 683,7 673,13 657,13 648,14 638,16 633,14 626,19 615,18 608,22 602,21 609,15 617,9 627,6 618,6 608,5 605,1 614,0 622,0 631,0 640,0 649,0 658,0 667,0 675,0"/>
-    </object>
-    <object id="226" name="GEO" x="0" y="0" visible="0"><polygon points="1029,179 1019,175 1017,169 1009,166 1013,164 1017,159 1015,155 1013,150 1015,149 1022,155 1029,160 1034,167 1039,171 1043,175 1043,182 1040,181 1039,186"/>
-    </object>
-    <object id="227" name="GHA" x="0" y="0" visible="0"><polygon points="653,230 652,226 659,226 667,226 668,228 669,232 670,233 669,236 671,240 664,241 658,243 654,242 654,241 652,239 653,236 654,234"/>
-    </object>
-    <object id="228" name="GIN" x="0" y="0" visible="0"><polygon points="628,230 627,231 630,234 628,235 627,237 625,238 623,238 623,236 621,235 619,236 617,236 616,233 613,232 607,233 604,236 599,234 596,233 593,231 594,230 599,228 598,226 604,226 609,225 616,226 621,224 625,226 624,228"/>
-    </object>
-    <object id="229" name="GMB" x="0" y="0" visible="0"><polygon points="582,227 582,225 587,224 589,223 592,224 595,223 594,224 589,224 586,226"/>
-    </object>
-    <object id="230" name="GNB" x="0" y="0" visible="0"><polygon points="598,226 599,228 594,230 593,231 588,231 584,229 589,227"/>
-    </object>
-    <object id="231" name="GNQ" x="0" y="0" visible="0"><polygon points="707,251 714,252 713,255 705,254 705,253"/>
-    </object>
-    <object id="232" name="GRC" x="0" y="0" visible="0"><polygon points="837,121 849,115 858,115 867,116 873,117 881,117 885,121 893,122 895,119 898,122 890,125 881,122 870,121 873,126 864,125 862,121 859,126 860,129 857,130 861,136 859,139 853,136 853,140 848,139 847,144 843,143 838,140 839,130 849,149 851,152 858,154 865,156 863,157 853,155 854,154 846,151"/>
-    </object>
-    <object id="233" name="GTM" x="0" y="0" visible="0"><polygon points="348,386 359,386 359,385 360,383 363,386 367,386 370,389 369,392 366,395 362,395 358,394 358,390 356,390 351,393 351,391 348,391"/>
-    </object>
-    <object id="234" name="GUY" x="0" y="0" visible="0"><polygon points="466,312 464,314 464,315 463,318 460,318 455,318 452,316 448,316 447,315 444,317 440,317 438,316 438,313 435,313 434,310 437,309 444,309 450,308 453,309 452,311 455,312"/>
-    </object>
-    <object id="235" name="HND" x="0" y="0" visible="0"><polygon points="367,386 363,386 360,383 359,381 360,377 359,376 360,371 366,367 367,372 366,373 371,376 369,377 371,379 373,379 375,380 372,382 370,382 370,384"/>
-    </object>
-    <object id="236" name="HRV" x="0" y="0" visible="0"><polygon points="849,84 845,81 831,77 818,79 822,85 829,95 835,99 834,100 828,96 823,92 816,89 811,82 811,75 805,73 801,76 801,70 810,70 816,73 824,67 833,67 840,73 852,75 854,82"/>
-    </object>
-    <object id="237" name="HTI" x="0" y="0" visible="0"><polygon points="353,329 362,330 359,336 359,337 356,339 355,338 359,333 358,332 352,332 350,334 349,333"/>
-    </object>
-    <object id="238" name="HUN" x="0" y="0" visible="0"><polygon points="830,63 844,54 851,58 862,57 878,58 885,57 897,61 900,67 892,68 883,72 874,76 866,76 852,75 840,73 833,67"/>
-    </object>
-    <object id="239" name="IDN" x="0" y="0" visible="0"><polygon points="833,445 834,445 838,443 837,445 834,446 829,454 828,454 827,452 828,450 829,450 830,452 845,443 843,444 841,444 844,440 845,441 836,451 834,451 836,448 839,446 840,446 839,447 837,448 862,426 859,430 861,431 856,434 854,434 851,437 847,438 848,436 851,434 853,431 858,427 859,425 862,422 864,422 865,420 868,422 866,424 863,426 815,473 814,471 816,472 817,474 841,465 840,463 843,463 844,463 842,465 834,471 831,470 834,469 839,466 840,467 838,469 806,488 791,477 795,477 798,476 798,475 802,474 803,475 802,477 805,478 808,479 816,477 818,476 825,475 825,473 828,474 831,474 828,477 832,475 835,475 838,474 840,474 837,477 837,478 831,480 825,478 820,478 821,481 819,484 816,485 810,487 861,467 860,465 861,463 863,461 868,456 866,455 861,455 861,457 859,461 857,460 859,460 858,458 858,456 852,456 851,456 846,456 844,455 844,454 846,453 847,455 848,453 850,454 854,453 857,454 857,452 848,450 849,449 851,448 853,450 857,450 858,450 860,450 862,451 864,452 870,456 871,459 868,460 865,462 862,465 862,467 852,474 849,472 850,471 850,470 854,471 857,474 855,473 853,474 893,435 890,435 887,436 886,439 886,442 884,444 883,445 888,448 888,449 892,451 887,456 885,453 880,454 879,453 873,454 875,452 873,450 870,449 869,447 866,446 861,443 862,443 863,441 865,440 867,439 869,438 869,436 871,435 874,432 879,433 880,432 884,432 888,432 891,433 868,421 869,419 873,418 877,415 883,413 893,412 897,410 904,409 907,407 911,406 914,404 919,402 921,402 919,407 914,409 909,412 903,414 903,416 899,418 895,419 893,420 890,419 887,421 882,421 881,423 878,424 874,422"/>
-    </object>
-    <object id="240" name="IND" x="0" y="0" visible="0"><polygon points="1011,398 1022,396 1017,394 1021,392 1025,394 1025,395 1031,397 1032,395 1033,388 1038,388 1042,383 1037,382 1033,384 1028,381 1026,384 1022,383 1011,385 1009,384 1007,378 1003,378 999,377 994,372 986,369 978,364 975,364 971,360 970,358 966,358 955,360 949,359 941,360 940,359 936,358 935,359 933,356 927,355 931,352 941,348 947,345 956,342 962,338 979,333 986,331 991,330 985,326 984,323 989,318 992,319 994,317 997,312 1003,313 1005,317 1007,321 1013,319 1015,316 1020,315 1021,312 1031,314 1033,319 1043,321 1052,322 1062,325 1068,324 1074,326 1077,323 1089,317 1094,319 1095,326 1098,330 1108,334 1098,340 1091,340 1087,342 1082,342 1083,339 1074,342 1070,347 1066,352 1061,350 1054,349 1050,356 1046,363 1046,368 1042,370 1041,378 1041,381 1052,381 1054,383 1048,384 1044,387 1045,390 1044,396 1049,396 1051,395 1052,398 1058,402 1062,406 1060,410 1062,413 1057,414 1054,413 1052,417 1048,415 1043,415 1045,413 1041,408 1037,408 1031,405 1022,403 1024,400 1012,399"/>
-    </object>
-    <object id="241" name="IRL" x="0" y="0" visible="0"><polygon points="577,3 567,7 550,7 551,5 564,4"/>
-    </object>
-    <object id="242" name="IRN" x="0" y="0" visible="0"><polygon points="1063,263 1044,265 1045,267 1039,267 1030,272 1031,275 1027,277 1017,276 1012,281 1012,286 1006,288 1007,289 1004,291 996,287 988,288 985,283 981,277 978,273 984,269 984,267 973,263 970,259 971,254 968,250 972,245 976,239 973,238 972,235 968,235 970,229 975,227 978,223 975,217 978,212 984,209 989,210 993,207 991,204 996,197 999,192 1002,191 1009,185 1015,186 1013,192 1016,195 1018,196 1031,197 1033,201 1027,201 1028,206 1024,211 1027,215 1027,219 1033,225 1042,230 1045,229 1051,232 1059,233 1065,237 1068,240 1068,246 1071,250 1068,257 1070,260"/>
-    </object>
-    <object id="243" name="IRQ" x="0" y="0" visible="0"><polygon points="996,197 991,204 993,207 989,210 984,209 978,212 975,217 978,223 975,227 970,229 968,235 965,233 963,231 954,232 945,226 944,219 942,211 938,205 932,200 937,195 946,195 956,197 966,193 970,189 975,190 982,189 986,189 991,193"/>
-    </object>
-    <object id="244" name="ISR" x="0" y="0" visible="0"><polygon points="895,199 899,192 913,186 918,187 915,189 912,190 911,189 903,193 907,193 905,195 895,200"/>
-    </object>
-    <object id="245" name="ITA" x="0" y="0" visible="0"><polygon points="773,55 782,55 791,55 792,58 806,62 804,70 796,68 787,69 784,75 786,80 793,85 795,91 803,98 810,99 808,102 814,105 820,109 825,114 822,117 819,113 813,111 807,114 812,117 809,120 805,120 799,125 795,124 802,119 799,111 793,106 787,101 781,100 775,96 770,91 764,86 763,78 752,74 737,78 739,75 734,73 732,67 736,65 735,59 744,61 750,59 756,61 759,57 766,59 795,122 790,127 787,131 782,128 775,125 768,122 770,120 780,121 787,122 748,97 752,102 749,110 741,111 738,109 740,102 739,98"/>
-    </object>
-    <object id="246" name="JAM" x="0" y="0" visible="0"><polygon points="351,348 353,346 356,344 356,348 352,351"/>
-    </object>
-    <object id="247" name="JOR" x="0" y="0" visible="0"><polygon points="937,195 932,200 930,201 923,199 916,197 917,204 912,204 907,203 900,204 894,201 895,200 905,195 907,193 912,190 915,189 919,194 928,194"/>
-    </object>
-    <object id="248" name="JPN" x="0" y="0" visible="0"><polygon points="978,566 976,565 975,561 979,561 980,558 978,556 983,554 986,556 987,560 983,561 984,564 961,598 958,593 954,591 953,587 957,581 967,576 968,567 974,566 979,569 987,563 990,557 996,553 986,554 978,546 978,543 983,542 988,546 993,545 999,546 997,550 999,554 997,559 998,564 994,568 989,572 982,574 988,585 981,585 980,591 978,598 982,606 992,611 994,615 988,620 974,614 968,610 968,602 990,644 983,645 981,650 971,644 980,638 979,629 988,629 996,628 991,620 999,616 1008,621 1011,627 1003,631 1017,646 999,644"/>
-    </object>
-    <object id="249" name="KAZ" x="0" y="0" visible="0"><polygon points="1329,315 1310,323 1321,326 1317,331 1313,336 1316,340 1320,345 1317,348 1307,352 1305,357 1298,360 1301,368 1291,372 1280,367 1278,362 1262,363 1254,360 1256,354 1257,348 1230,345 1226,343 1222,337 1218,332 1197,339 1192,336 1185,337 1190,330 1188,322 1185,314 1183,312 1185,304 1180,301 1173,302 1173,297 1173,293 1169,290 1163,290 1155,286 1147,282 1138,282 1141,278 1137,272 1145,268 1143,266 1155,264 1159,255 1152,249 1144,242 1150,234 1151,226 1152,217 1142,212 1131,207 1092,223 1089,221 1093,215 1092,210 1084,207 1079,206 1088,202 1085,195 1092,189 1094,184 1099,188 1107,185 1114,188 1118,193 1130,189 1136,185 1129,180 1127,175 1116,172 1106,169 1104,166 1111,163 1114,157 1108,154 1110,146 1123,143 1124,141 1144,137 1144,146 1154,141 1169,143 1185,144 1191,148 1197,153 1199,159 1200,165 1202,171 1203,177 1216,181 1221,185 1226,190 1226,200 1232,200 1239,208 1248,207 1249,200 1250,194 1251,194 1256,198 1260,203 1265,207 1269,212 1273,216 1276,221 1280,226 1283,230 1287,235 1291,240 1294,244 1298,249 1301,254 1303,259 1306,264 1309,268 1312,273 1314,278 1317,283 1319,288 1321,293 1323,298 1325,303 1327,308"/>
-    </object>
-    <object id="250" name="KEN" x="0" y="0" visible="0"><polygon points="814,268 816,269 815,271 817,272 819,276 824,279 826,278 830,279 830,280 833,281 826,282 817,289 816,291 810,291 808,292 804,293 802,293 800,289 801,288 798,283 794,279 796,277 804,275 806,271 806,269"/>
-    </object>
-    <object id="251" name="KGZ" x="0" y="0" visible="0"><polygon points="1185,337 1182,337 1173,329 1168,328 1164,322 1156,321 1155,315 1150,312 1144,308 1139,309 1136,304 1132,300 1132,294 1128,289 1135,288 1136,293 1140,294 1141,298 1153,303 1156,296 1151,293 1153,289 1163,291 1163,290 1169,290 1173,293 1173,297 1173,302 1180,301 1185,304 1183,312 1185,314 1188,322 1190,330"/>
-    </object>
-    <object id="252" name="KHM" x="0" y="0" visible="0"><polygon points="948,424 954,425 958,427 957,431 955,434 952,436 955,437 951,440 948,440 942,438 941,433 937,434 938,431 937,428 939,426"/>
-    </object>
-    <object id="253" name="KOR" x="0" y="0" visible="0"><polygon points="1045,561 1031,560 1025,558 1016,554 1014,551 1017,547 1017,543 1021,539 1030,544 1041,546 1039,549 1049,549 1047,552 1049,555 1044,560"/>
-    </object>
-    <object id="254" name="-99" x="0" y="0" visible="0"><polygon points="849,108 848,102 851,101 858,99 863,104 860,107"/>
-    </object>
-    <object id="255" name="KWT" x="0" y="0" visible="0"><polygon points="954,232 963,231 965,233 959,239 956,237 957,235"/>
-    </object>
-    <object id="256" name="LAO" x="0" y="0" visible="0"><polygon points="1001,426 999,428 1006,429 1006,431 994,433 992,437 987,437 984,434 979,437 965,439 960,441 956,441 951,440 955,437 952,436 955,434 957,435 961,436 967,434 973,435 978,433 980,431 978,430 980,427 978,423 983,424 989,425 990,423 993,423 996,422"/>
-    </object>
-    <object id="257" name="LBN" x="0" y="0" visible="0"><polygon points="918,187 913,186 927,182 928,185 923,185"/>
-    </object>
-    <object id="258" name="LBR" x="0" y="0" visible="0"><polygon points="627,237 628,240 633,242 633,245 627,244 618,242 615,240 615,239 619,236 621,235 623,236 623,238 625,238"/>
-    </object>
-    <object id="259" name="LBY" x="0" y="0" visible="0"><polygon points="740,189 738,186 734,184 731,184 730,180 727,176 730,175 732,168 734,164 733,158 737,157 738,153 750,150 752,146 760,149 769,150 777,154 779,159 786,161 793,164 799,168 807,166 808,162 812,160 818,159 823,160 832,163 833,165 843,170 843,172 839,173 839,175 835,177 834,181 812,208 807,215 801,213 800,215 792,209 783,203 773,198 763,192 756,193 751,194 749,191"/>
-    </object>
-    <object id="260" name="LKA" x="0" y="0" visible="0"><polygon points="929,366 924,366 921,363 924,362 930,361 939,361 936,363"/>
-    </object>
-    <object id="261" name="LSO" x="0" y="0" visible="0"><polygon points="733,319 733,320 731,321 728,321 728,319 729,319 732,319"/>
-    </object>
-    <object id="262" name="LUX" x="0" y="0" visible="0"><polygon points="729,27 734,21 734,28"/>
-    </object>
-    <object id="263" name="MAR" x="0" y="0" visible="0"><polygon points="649,130 653,134 657,145 647,146 640,149 640,153 632,155 630,157 617,160 607,164 609,169 608,172 603,174 592,175 591,178 589,179 588,184 581,189 581,195 580,198 567,201 566,199 569,195 568,191 572,187 572,183 573,180 577,178 579,173 582,171 588,169 595,164 600,160 596,154 598,147 602,143 614,138 620,128 625,128 630,130 638,129"/>
-    </object>
-    <object id="264" name="MDA" x="0" y="0" visible="0"><polygon points="939,75 950,75 955,80 960,85 957,98 947,95 935,100 943,90 943,83 942,76"/>
-    </object>
-    <object id="265" name="MDG" x="0" y="0" visible="0"><polygon points="808,319 807,321 804,322 803,323 801,324 802,323 799,324 797,324 795,325 775,330 771,329 769,327 770,326 772,325 774,323 776,322 780,321 782,321 783,319 785,317 789,317 794,318 799,319 805,318 809,317"/>
-    </object>
-    <object id="266" name="MEX" x="0" y="0" visible="0"><polygon points="344,383 348,386 348,391 351,391 351,393 356,390 358,390 358,394 362,395 366,395 361,399 358,403 362,408 360,413 359,416 357,422 354,426 354,432 352,433 350,437 344,441 338,440 330,444 326,448 322,452 319,455 317,459 312,460 310,465 305,467 306,469 302,474 290,481 287,482 287,489 291,489 299,485 303,481 307,476 311,474 316,468 322,466 326,462 330,461 329,460 333,456 338,457 334,459 332,462 330,467 322,470 320,475 320,479 318,482 316,480 310,481 307,485 306,487 295,496 289,500 284,495 280,491 282,491 281,486 281,482 280,474 277,468 274,463 270,464 266,457 273,449 280,446 282,440 275,438 274,435 276,432 285,427 288,425 296,422 299,416 298,415 310,416 322,416 333,413 337,410 343,408 344,404 347,403 344,398 341,393 339,391 328,389 325,383 325,378 330,378 333,380 338,380 345,381"/>
-    </object>
-    <object id="267" name="MKD" x="0" y="0" visible="0"><polygon points="849,115 846,113 849,108 860,107 867,108 869,111 867,116 858,115"/>
-    </object>
-    <object id="268" name="MLI" x="0" y="0" visible="0"><polygon points="668,214 664,213 656,215 655,216 648,219 646,219 644,222 640,224 640,228 637,229 636,228 633,229 628,230 624,228 625,226 621,224 616,226 609,225 608,223 606,222 603,219 605,216 610,216 616,215 626,214 637,213 637,210 632,196 625,180 635,179 647,183 657,187 668,191 677,195 678,197 685,198 684,201 691,201 690,208 687,210 686,212 674,213 672,214"/>
-    </object>
-    <object id="269" name="MMR" x="0" y="0" visible="0"><polygon points="1002,396 1007,396 1006,397 1011,398 1012,399 1024,400 1022,403 1031,405 1037,408 1041,408 1045,413 1043,415 1048,415 1052,417 1052,419 1045,422 1034,421 1029,417 1021,416 1021,419 1014,420 1012,422 1007,420 1003,424 1004,427 1001,426 996,422 993,418 993,416 987,414 986,412 981,413 972,416 968,414 967,413 959,415 954,415 949,416 940,412 944,412 947,413 951,413 956,413 959,412 973,412 978,411 972,405 974,401 981,403 987,402 994,400 996,400 997,399"/>
-    </object>
-    <object id="270" name="MNE" x="0" y="0" visible="0"><polygon points="848,102 846,101 839,105 834,100 835,99 839,95 845,94 851,101"/>
-    </object>
-    <object id="271" name="MNG" x="0" y="0" visible="0"><polygon points="1333,449 1324,455 1319,462 1313,468 1299,467 1294,472 1288,475 1288,483 1287,490 1282,496 1271,501 1261,503 1256,509 1250,515 1249,522 1248,530 1250,535 1252,541 1240,546 1235,553 1225,546 1215,539 1208,539 1207,542 1200,547 1202,553 1193,556 1179,557 1175,555 1181,552 1186,544 1185,539 1180,533 1182,523 1179,516 1184,513 1189,509 1182,504 1172,505 1166,495 1165,489 1169,481 1170,472 1166,465 1171,464 1173,457 1184,451 1187,446 1188,439 1191,433 1193,428 1194,422 1202,419 1215,418 1217,414 1226,408 1229,401 1231,394 1238,392 1255,394 1267,390 1273,381 1281,376 1293,374 1296,381 1303,387 1311,393 1315,398 1319,403 1313,408 1312,415 1303,419 1299,427 1295,434 1306,442 1317,440 1334,448 1333,448"/>
-    </object>
-    <object id="272" name="MOZ" x="0" y="0" visible="0"><polygon points="774,298 776,299 779,301 782,302 789,303 792,303 784,309 784,310 779,311 776,311 770,310 765,311 760,311 758,312 757,315 755,317 752,318 747,317 745,317 745,318 744,319 742,318 743,317 746,315 747,311 752,311 755,309 755,308 758,307 760,305 757,302 755,301 756,300 756,299 766,301 767,302 768,303 765,305 766,307 768,306 769,306 771,304 772,303 770,301 772,299"/>
-    </object>
-    <object id="273" name="MRT" x="0" y="0" visible="0"><polygon points="609,171 622,175 635,179 625,180 632,196 637,210 637,213 626,214 616,215 610,216 605,216 603,219 595,215 588,214 579,217 577,211 574,206 573,204 567,202 568,201 579,199 590,197 587,192 588,190 593,189 589,179 600,178 610,177"/>
-    </object>
-    <object id="274" name="MWI" x="0" y="0" visible="0"><polygon points="774,298 772,299 770,301 772,303 771,304 769,306 768,306 766,307 765,305 768,303 767,302 766,301 765,300 769,298 770,297 773,295 774,294 773,293 776,294 776,296"/>
-    </object>
-    <object id="275" name="MYS" x="0" y="0" visible="0"><polygon points="896,448 893,448 893,450 897,452 899,454 901,456 900,457 897,458 895,457 890,460 888,459 889,458 887,458 887,456 892,451 888,449 888,448 883,445 884,444 886,442 886,439 887,436 890,435 893,435 891,436 890,438 893,439 892,444 920,420 916,421 913,422 908,421 904,421 902,422 897,422 897,420 906,416 908,416 911,415 915,415 917,414 921,415 923,415 921,417 918,417 918,419"/>
-    </object>
-    <object id="276" name="NAM" x="0" y="0" visible="0"><polygon points="701,292 705,292 707,292 708,293 720,295 722,296 728,298 734,298 736,298 738,300 734,300 733,299 729,298 726,298 723,304 720,303 717,308 714,313 711,314 710,314 708,313 707,311 705,312 704,311 704,309 704,304 705,301 703,299 703,295 701,293"/>
-    </object>
-    <object id="277" name="NCL" x="0" y="0" visible="0"><polygon points="706,477 701,476 702,476 706,476 710,478"/>
-    </object>
-    <object id="278" name="NER" x="0" y="0" visible="0"><polygon points="684,224 681,222 677,223 677,221 672,220 672,219 669,217 668,214 672,214 674,213 686,212 687,210 690,208 691,201 699,199 708,196 717,194 729,191 740,189 749,191 751,194 756,193 755,199 758,203 756,204 751,211 749,215 741,217 737,221 738,222 737,224 741,224 739,226 737,227 736,227 734,223 729,224 725,222 718,222 715,223 712,223 706,220 701,221 700,220 695,218 689,218 685,222"/>
-    </object>
-    <object id="279" name="NGA" x="0" y="0" visible="0"><polygon points="679,239 679,233 680,231 684,229 685,227 684,224 685,222 689,218 695,218 700,220 701,221 706,220 712,223 715,223 718,222 725,222 729,224 734,223 736,227 737,227 739,228 737,229 732,231 726,236 723,237 720,240 717,241 713,239 708,240 704,244 696,245 692,245 689,241 686,239"/>
-    </object>
-    <object id="280" name="NIC" x="0" y="0" visible="0"><polygon points="387,370 387,371 385,373 385,376 375,381 375,380 373,379 371,379 369,377 371,376 366,373 367,372 366,367 375,369 379,369 384,371"/>
-    </object>
-    <object id="281" name="NLD" x="0" y="0" visible="0"><polygon points="745,2 744,4 737,3 736,14 724,7 713,8 705,7 711,4 714,0 729,1"/>
-    </object>
-    <object id="282" name="NPL" x="0" y="0" visible="0"><polygon points="1066,352 1068,354 1066,357 1062,362 1061,364 1058,366 1054,372 1053,377 1052,381 1041,381 1041,378 1042,370 1046,368 1046,363 1050,356 1054,349 1061,350"/>
-    </object>
-    <object id="283" name="NZL" x="0" y="0" visible="0"><polygon points="679,449 679,448 678,449 677,448 678,446 679,446 678,445 680,445 681,444 682,442 684,441 685,440 686,441 688,441 688,442 686,444 685,444 683,446 681,448 681,449 680,450 678,456 676,455 676,456 675,455 675,454 672,454 670,454 669,454 670,452 672,452 672,451 674,449 675,448 676,449 675,450 676,451 678,451 678,452 677,452 677,454 678,455 681,457 682,458 681,458 680,458 678,457"/>
-    </object>
-    <object id="284" name="OMN" x="0" y="0" visible="0"><polygon points="974,270 975,269 953,273 964,272 968,271 970,272 967,275 967,277 970,282 966,288 952,288 951,286 946,287 943,288 936,286 932,286 930,285 926,285 922,282 916,280 923,273 931,276 938,279 951,276"/>
-    </object>
-    <object id="285" name="PAK" x="0" y="0" visible="0"><polygon points="1017,276 1019,283 1026,289 1028,291 1034,295 1041,294 1047,295 1049,298 1051,298 1055,302 1058,303 1063,302 1069,302 1073,305 1077,302 1079,306 1087,306 1092,307 1099,304 1105,305 1109,310 1113,315 1118,319 1115,323 1108,326 1108,334 1098,330 1095,326 1094,319 1089,317 1077,323 1074,326 1068,324 1062,325 1052,322 1043,321 1033,319 1031,314 1021,312 1020,315 1015,316 1013,319 1007,321 1005,317 1003,313 997,312 997,309 1000,307 1003,303 997,297 993,292 988,288 996,287 1004,291 1007,289 1006,288 1012,286 1012,281"/>
-    </object>
-    <object id="286" name="PAN" x="0" y="0" visible="0"><polygon points="402,354 406,354 407,356 409,356 404,357 403,357 399,359 402,363 405,362 406,364 403,364 403,366 401,366 400,369 397,368 394,369 394,368 397,367 398,365 397,361 396,360 399,356"/>
-    </object>
-    <object id="287" name="PER" x="0" y="0" visible="0"><polygon points="487,350 493,349 494,350 498,351 499,352 502,353 504,352 507,354 508,356 506,357 504,357 500,360 495,362 492,363 489,364 489,363 484,364 477,365 469,366 465,367 460,370 459,369 455,370 452,369 451,367 454,368 455,366 457,365 456,364 454,363 451,362 450,359 447,356 445,355 442,355 442,354 448,351 453,351 454,349 454,348 455,346 458,345 461,347 464,346 463,347 463,350 464,352 466,354 468,354 469,355 471,356 474,356 477,355 478,356 479,354 481,354 482,352 481,350 486,352"/>
-    </object>
-    <object id="288" name="PHL" x="0" y="0" visible="0"><polygon points="883,480 878,479 876,477 881,477 880,476 876,475 875,474 881,472 884,473 885,474 888,473 888,472 889,471 889,469 890,469 893,471 892,474 889,474 889,477 890,478 888,479 891,480 887,481 897,478 895,474 899,473 900,475 903,476 901,478 899,476 901,480 907,464 906,459 908,461 910,466 913,469 909,468 910,475 905,478 903,477 903,474 901,485 895,483 899,482 894,481 894,480 897,481 901,481 901,483 906,482 903,485 916,476 913,474 921,474 918,476 942,485 939,486 932,486 929,484 929,481 925,480 921,479 918,481 912,484 911,481 914,481 913,479 918,479 919,476 922,475 924,477 924,476 928,476 936,477 933,478 940,481 944,483"/>
-    </object>
-    <object id="289" name="PNG" x="0" y="0" visible="0"><polygon points="791,477 806,488 799,489 792,490 786,490 785,489 778,490 777,489 779,488 777,487 773,487 769,486 768,487 767,486 761,486 763,485 764,485 770,483 776,484 779,485 784,484 787,481 785,480 786,479 751,497 752,496 756,498 758,499 766,496 770,492 771,492 777,491 777,492 773,493 772,495 771,494 770,495 768,497 769,498 767,498 764,499 764,498 767,499 772,500 775,500 769,500 765,500"/>
-    </object>
-    <object id="290" name="POL" x="0" y="0" visible="0"><polygon points="934,31 933,36 932,46 919,49 908,53 905,57 898,51 886,49 879,49 875,45 870,45 868,39 860,37 861,34 851,34 848,28 837,22 838,12 847,13 855,15 864,16 872,17 880,19 889,21 897,23 905,25 920,28"/>
-    </object>
-    <object id="291" name="PRI" x="0" y="0" visible="0"><polygon points="371,313 374,312 375,313 372,317 369,316"/>
-    </object>
-    <object id="292" name="PRK" x="0" y="0" visible="0"><polygon points="1078,550 1080,555 1079,562 1082,568 1077,569 1072,572 1077,574 1073,582 1076,586 1066,586 1064,586 1067,585 1065,578 1058,575 1058,568 1060,562 1056,560 1045,561 1044,560 1049,555 1047,552 1049,549 1059,545 1067,552"/>
-    </object>
-    <object id="293" name="PRT" x="0" y="0" visible="0"><polygon points="585,92 591,89 594,92 606,90 609,94 605,96 606,105 602,106 606,110 605,114 608,115 605,120 606,121 603,123 595,124 593,115 586,113 586,109 589,106 589,99"/>
-    </object>
-    <object id="294" name="PRY" x="0" y="0" visible="0"><polygon points="547,340 549,341 550,342 549,343 545,346 543,343 542,343 539,344 536,345 534,346 528,347 524,345 522,344 524,341 525,340 528,339 529,339 531,339 534,340 536,339 536,338 539,338 542,339 544,338"/>
-    </object>
-    <object id="295" name="PSE" x="0" y="0" visible="0"><polygon points="907,193 903,193 911,189 912,190"/>
-    </object>
-    <object id="296" name="QAT" x="0" y="0" visible="0"><polygon points="948,256 952,254 957,254 957,256 950,258"/>
-    </object>
-    <object id="297" name="ROU" x="0" y="0" visible="0"><polygon points="926,113 918,107 910,106 901,106 890,102 879,99 879,95 872,89 873,86 868,83 866,76 874,76 883,72 892,68 900,67 905,67 916,71 919,74 929,74 939,75 942,76 943,83 943,90 935,100 946,105 944,107 937,106"/>
-    </object>
-    <object id="298" name="RUS" x="0" y="0" visible="0"><polygon points="917,749 916,749 921,742 925,736 934,742 937,745 927,747 1090,691 1086,682 1073,673 1060,659 1059,651 1057,643 1053,637 1052,630 1051,622 1050,615 1049,608 1052,599 1056,597 1065,597 1066,588 1064,586 1066,586 1071,588 1068,591 1079,597 1089,600 1088,606 1078,610 1083,618 1092,626 1100,638 1104,634 1109,629 1110,623 1121,616 1135,620 1153,618 1161,615 1169,612 1185,616 1209,620 1204,624 1199,628 1194,632 1188,636 1182,640 1176,644 1170,647 1164,651 1159,655 1153,659 1146,662 1140,666 1134,669 1127,673 1121,676 1114,679 1102,686 1247,587 1246,587 1244,582 1232,571 1226,569 1225,563 1224,558 1235,553 1240,546 1252,541 1250,535 1248,530 1249,522 1250,515 1256,509 1261,503 1271,501 1282,496 1287,490 1288,483 1288,475 1294,472 1299,467 1313,468 1319,462 1324,455 1333,449 1332,454 1331,459 1329,464 1327,469 1326,474 1323,479 1321,484 1318,489 1316,494 1314,499 1312,504 1309,509 1306,513 1303,518 1300,523 1297,528 1294,532 1291,537 1287,542 1284,547 1280,551 1276,556 1272,560 1268,565 1263,570 1258,576 1252,582 1334,448 1317,440 1306,442 1295,434 1299,427 1303,419 1312,415 1313,408 1319,403 1315,398 1311,393 1303,387 1296,381 1293,374 1291,372 1301,368 1298,360 1305,357 1307,352 1317,348 1320,345 1316,340 1313,336 1317,331 1321,326 1310,323 1329,315 1331,320 1333,325 1334,330 1336,335 1337,340 1338,345 1338,350 1339,355 1340,360 1341,365 1341,370 1342,375 1342,380 1342,385 1342,390 1341,396 1341,401 1341,406 1341,411 1340,416 1340,421 1339,426 1338,431 1336,436 1335,442 1251,194 1250,194 1249,200 1248,207 1239,208 1232,200 1226,200 1226,190 1221,185 1216,181 1203,177 1202,171 1200,165 1199,159 1197,153 1191,148 1185,144 1169,143 1154,141 1144,146 1144,137 1124,141 1123,143 1110,146 1108,154 1114,157 1111,163 1104,166 1106,169 1096,170 1088,167 1071,169 1067,177 1060,180 1056,190 1046,190 1044,188 1043,182 1043,175 1039,171 1034,167 1029,160 1022,155 1015,149 1013,150 1011,140 1005,134 1004,127 1011,129 1025,126 1024,122 1039,124 1041,123 1032,121 1037,118 1044,118 1053,121 1061,114 1073,110 1069,106 1064,101 1059,99 1058,93 1050,91 1042,83 1045,77 1038,73 1045,69 1045,66 1053,69 1060,72 1067,75 1074,78 1081,81 1088,84 1095,88 1102,91 1108,94 1115,97 1122,101 1128,104 1135,108 1141,111 1147,115 1153,119 1159,122 1166,126 1172,130 1177,134 1183,137 1189,141 1194,145 1199,150 1205,153 1210,157 1216,162 1221,166 1226,170 1231,174 1235,179 1240,183 1246,188 983,112 987,111 994,119 996,122 1004,125 1000,127 990,125 974,124 971,121 977,119 970,113 984,113 1070,700 1068,698 1053,691 1039,685 1026,680 1034,679 1042,677 1033,664 1016,661 1010,656 1021,657 1020,650 1029,655 1037,662 1049,669 1054,676 1068,687 1085,692 1086,693 1078,697"/>
-    </object>
-    <object id="299" name="RWA" x="0" y="0" visible="0"><polygon points="779,278 778,277 776,278 774,277 777,275 779,275 782,275 782,277"/>
-    </object>
-    <object id="300" name="ESH" x="0" y="0" visible="0"><polygon points="609,169 609,171 610,177 600,178 589,179 593,189 588,190 587,192 590,197 579,199 568,201 567,202 567,201 580,198 581,195 581,189 588,184 591,178 592,175 603,174 608,172"/>
-    </object>
-    <object id="301" name="SAU" x="0" y="0" visible="0"><polygon points="948,260 943,264 947,269 951,273 953,273 951,276 938,279 931,276 923,273 917,269 911,266 906,265 898,266 891,260 885,257 885,255 880,257 877,257 880,253 879,251 882,245 880,240 881,236 886,232 888,228 885,224 887,221 889,214 889,206 887,205 894,201 900,204 907,203 912,204 917,204 916,197 923,199 930,201 932,200 938,205 942,211 944,219 945,226 954,232 957,235 956,237 959,239 956,242 956,249 952,251 948,256 950,258"/>
-    </object>
-    <object id="302" name="SDN" x="0" y="0" visible="0"><polygon points="778,248 775,245 777,242 776,238 776,236 777,234 775,233 778,231 780,229 786,226 790,227 800,215 801,213 807,215 812,208 820,210 828,213 836,215 844,218 852,220 859,223 866,226 873,229 871,233 869,233 866,236 863,240 865,244 861,244 855,244 845,248 844,249 836,253 832,253 827,255 824,255 820,257 818,259 821,255 820,253 824,249 819,248 818,251 810,252 808,252 806,249 799,250 795,249 795,248 789,247 788,244 784,243 779,246 776,246"/>
-    </object>
-    <object id="303" name="SSD" x="0" y="0" visible="0"><polygon points="784,258 781,255 782,254 779,250 778,248 776,246 779,246 784,243 788,244 789,247 795,248 795,249 799,250 806,249 808,252 810,252 818,251 819,248 824,249 820,253 821,255 818,259 814,259 811,260 814,261 814,264 815,265 814,268 806,269 803,269 797,267 795,266 793,266 791,263 791,262 786,261 784,261"/>
-    </object>
-    <object id="304" name="SEN" x="0" y="0" visible="0"><polygon points="609,225 604,226 598,226 589,227 584,229 582,227 586,226 589,224 594,224 595,223 592,224 589,223 587,224 582,225 578,223 575,223 577,222 579,217 588,214 595,215 603,219 606,222 608,223"/>
-    </object>
-    <object id="305" name="SLB" x="0" y="0" visible="0"><polygon points="726,494 725,494 727,493 729,494 731,495 734,494 735,495 733,495 728,496 728,495 732,496 733,497 732,498 736,497 738,497 742,498 737,497 745,497 747,497 749,498"/>
-    </object>
-    <object id="306" name="SLE" x="0" y="0" visible="0"><polygon points="604,236 607,233 613,232 616,233 617,236 619,236 615,239 615,240 610,240 607,239"/>
-    </object>
-    <object id="307" name="SLV" x="0" y="0" visible="0"><polygon points="370,389 367,386 370,384 370,382 372,382 374,384"/>
-    </object>
-    <object id="308" name="-99" x="0" y="0" visible="0"><polygon points="858,269 861,269 861,273 871,277 879,280 881,281 873,284 865,285 862,283 859,279 855,275 856,270"/>
-    </object>
-    <object id="309" name="SOM" x="0" y="0" visible="0"><polygon points="833,281 836,282 841,283 846,285 855,285 865,285 873,284 881,281 886,283 890,284 884,287 877,288 865,290 858,291 844,292 838,291 831,290 826,290 820,290 816,291 817,289 826,282"/>
-    </object>
-    <object id="310" name="SRB" x="0" y="0" visible="0"><polygon points="879,95 874,99 876,103 867,108 860,107 863,104 858,99 851,101 845,94 850,91 849,84 854,82 852,75 866,76 868,83 873,86 872,89"/>
-    </object>
-    <object id="311" name="SUR" x="0" y="0" visible="0"><polygon points="469,307 465,310 468,311 466,312 455,312 452,311 453,309 450,308 453,305 455,303 459,301 460,304 463,304 466,304"/>
-    </object>
-    <object id="312" name="SVK" x="0" y="0" visible="0"><polygon points="844,54 846,49 858,47 870,45 875,45 879,49 886,49 898,51 905,57 897,61 885,57 878,58 862,57 851,58"/>
-    </object>
-    <object id="313" name="SVN" x="0" y="0" visible="0"><polygon points="806,62 813,64 822,64 830,63 833,67 824,67 816,73 810,70 801,70 804,70"/>
-    </object>
-    <object id="314" name="SWZ" x="0" y="0" visible="0"><polygon points="743,317 742,318 741,319 740,319 740,317 742,316"/>
-    </object>
-    <object id="315" name="SYR" x="0" y="0" visible="0"><polygon points="982,189 975,190 970,189 966,193 956,197 946,195 937,195 928,194 919,194 915,189 918,187 923,185 928,185 927,182 931,178 935,177 945,176 954,178 961,182 971,184"/>
-    </object>
-    <object id="316" name="TCD" x="0" y="0" visible="0"><polygon points="776,238 770,239 765,241 760,241 754,240 754,241 749,242 743,242 736,241 737,241 737,237 733,235 734,233 740,235 739,232 741,228 739,226 741,224 737,224 738,222 737,221 741,217 749,215 751,211 756,204 758,203 755,199 756,193 763,192 773,198 783,203 792,209 800,215 790,227 786,226 780,229 778,231 775,233 777,234 776,236"/>
-    </object>
-    <object id="317" name="TGO" x="0" y="0" visible="0"><polygon points="671,226 670,227 673,229 674,231 674,237 675,239 671,240 669,236 670,233 669,232 668,228 667,226"/>
-    </object>
-    <object id="318" name="THA" x="0" y="0" visible="0"><polygon points="955,434 957,431 958,427 954,425 948,424 951,422 952,420 955,421 956,418 951,417 940,414 936,414 936,415 927,416 924,417 923,419 920,420 918,419 918,417 921,417 923,415 927,413 933,411 930,411 933,410 940,412 949,416 954,415 959,415 967,413 968,414 972,416 981,413 986,412 987,414 993,416 993,418 996,422 993,423 990,423 989,425 983,424 978,423 980,427 978,430 980,431 978,433 973,435 967,434 961,436 957,435"/>
-    </object>
-    <object id="319" name="TJK" x="0" y="0" visible="0"><polygon points="1121,318 1118,310 1107,305 1109,303 1118,302 1121,297 1111,296 1109,293 1104,293 1105,291 1100,287 1111,287 1118,284 1118,280 1123,280 1125,284 1141,285 1147,291 1142,291 1140,294 1136,293 1135,288 1128,289 1132,294 1132,300 1136,304 1139,309 1130,311 1130,316"/>
-    </object>
-    <object id="320" name="TKM" x="0" y="0" visible="0"><polygon points="1097,280 1098,276 1094,277 1089,273 1081,275 1072,270 1068,270 1064,268 1063,263 1070,260 1068,257 1071,250 1068,246 1068,240 1065,237 1059,233 1051,232 1045,229 1050,226 1060,223 1059,219 1066,217 1063,214 1072,212 1075,216 1082,219 1084,213 1089,210 1082,207 1074,210 1079,206 1084,207 1092,210 1093,215 1089,221 1092,223 1098,227 1102,225 1110,227 1120,229 1121,237 1113,240 1112,243 1118,247 1117,250 1109,255 1106,261 1104,266 1103,272 1103,279"/>
-    </object>
-    <object id="321" name="TLS" x="0" y="0" visible="0"><polygon points="828,454 829,454 830,454 827,458 826,457"/>
-    </object>
-    <object id="322" name="TTO" x="0" y="0" visible="0"><polygon points="419,312 421,309 424,311 422,313"/>
-    </object>
-    <object id="323" name="TUN" x="0" y="0" visible="0"><polygon points="733,158 733,149 724,142 724,138 729,136 732,131 732,126 735,123 744,121 750,123 748,126 756,124 751,128 752,132 750,137 744,139 745,142 748,142 752,146 750,150 738,153 737,157"/>
-    </object>
-    <object id="324" name="TUR" x="0" y="0" visible="0"><polygon points="1019,175 1013,179 1015,186 1009,185 1002,191 999,192 996,197 991,193 986,189 982,189 971,184 961,182 954,178 945,176 935,177 935,172 931,168 923,169 912,166 910,162 902,159 899,160 893,159 889,154 881,152 882,146 879,141 886,138 884,134 897,131 909,134 917,131 924,133 931,136 944,136 955,137 967,142 971,147 975,152 983,158 992,161 997,164 1009,166 1017,169 895,119 905,120 912,123 910,125 915,129 913,130 903,128 889,130 890,125 898,122"/>
-    </object>
-    <object id="325" name="TWN" x="0" y="0" visible="0"><polygon points="973,498 962,490 969,490 973,491 977,495 979,499 976,500"/>
-    </object>
-    <object id="326" name="TZA" x="0" y="0" visible="0"><polygon points="772,280 773,281 779,280 779,278 782,277 782,275 783,275 794,279 798,283 801,288 800,289 802,293 798,294 797,295 797,297 793,299 791,302 792,303 789,303 782,302 779,301 776,299 774,298 776,296 776,294 773,293 769,289 770,286 769,284"/>
-    </object>
-    <object id="327" name="UGA" x="0" y="0" visible="0"><polygon points="779,275 780,273 783,271 788,270 791,269 790,268 793,266 795,266 797,267 803,269 806,269 806,271 804,275 796,277 794,279 783,275 782,275"/>
-    </object>
-    <object id="328" name="UKR" x="0" y="0" visible="0"><polygon points="1045,66 1045,69 1038,73 1045,77 1042,83 1050,91 1058,93 1059,99 1064,101 1069,106 1073,110 1061,114 1053,121 1044,118 1037,118 1032,121 1025,118 1017,118 1009,115 998,115 994,119 987,111 983,112 978,108 972,104 974,101 965,99 955,102 946,105 935,100 947,95 957,98 960,85 955,80 950,75 939,75 929,74 919,74 916,71 905,67 900,67 897,61 905,57 908,53 919,49 932,46 933,36 946,36 955,38 965,41 975,47 985,52 994,56 1003,60 1013,55 1021,57 1029,60 1037,63"/>
-    </object>
-    <object id="329" name="URY" x="0" y="0" visible="0"><polygon points="561,351 559,350 557,349 554,347 554,346 557,346 558,345 563,344 565,344 565,345 567,346 568,347 567,348 566,349 564,350 563,351"/>
-    </object>
-    <object id="330" name="USA" x="0" y="0" visible="0"><polygon points="144,583 138,579 132,574 126,570 120,566 114,562 109,557 103,553 98,548 93,543 89,538 84,533 80,528 76,523 72,518 69,513 65,508 62,502 60,497 57,491 55,486 53,481 51,475 49,470 48,464 47,459 46,453 46,448 46,442 46,437 46,431 47,426 47,420 41,419 52,415 53,410 54,404 59,398 57,393 61,386 56,378 62,373 68,368 74,363 80,358 87,354 97,351 105,346 130,346 147,352 153,349 148,342 148,337 144,329 136,330 134,327 136,322 138,317 134,315 129,309 125,304 127,299 129,295 132,290 134,286 131,280 116,273 108,266 113,265 113,261 119,260 138,264 148,262 153,262 155,269 155,276 155,282 163,287 177,288 180,286 178,294 177,301 178,306 179,298 182,297 181,303 180,308 190,311 197,315 189,317 202,317 212,323 205,321 200,322 191,322 196,323 214,325 215,323 229,324 234,328 235,333 239,336 239,338 245,342 249,347 257,352 262,353 275,353 294,351 301,352 305,353 305,356 299,357 284,361 279,359 267,363 265,364 268,369 261,374 262,378 261,382 263,387 271,386 271,392 267,395 268,398 266,401 269,407 276,410 280,414 288,417 296,416 299,416 296,422 288,425 285,427 276,432 274,435 275,438 282,440 280,446 273,449 266,457 270,464 274,463 277,468 280,474 281,482 281,486 282,491 280,491 284,495 289,500 286,501 282,509 283,513 286,517 281,520 277,527 269,535 262,544 255,547 252,552 243,554 235,557 229,562 216,564 195,571 179,578 166,588 163,588 159,579 168,572 163,572 531,559 533,560 533,562 530,564 527,561 527,560"/>
-    </object>
-    <object id="331" name="UZB" x="0" y="0" visible="0"><polygon points="1100,287 1097,280 1103,279 1103,272 1104,266 1106,261 1109,255 1117,250 1118,247 1112,243 1113,240 1121,237 1120,229 1110,227 1102,225 1098,227 1092,223 1131,207 1142,212 1152,217 1151,226 1150,234 1144,242 1152,249 1159,255 1155,264 1143,266 1145,268 1137,272 1141,278 1138,282 1147,282 1155,286 1163,290 1163,291 1153,289 1151,293 1156,296 1153,303 1141,298 1140,294 1142,291 1147,291 1141,285 1125,284 1123,280 1118,280 1118,284 1111,287"/>
-    </object>
-    <object id="332" name="VEN" x="0" y="0" visible="0"><polygon points="444,317 446,318 445,323 445,324 441,327 443,326 448,328 450,326 450,328 452,328 451,331 452,332 451,334 448,335 444,334 440,335 439,334 434,334 431,333 428,331 427,332 424,336 420,337 418,338 417,341 414,342 412,342 406,342 405,343 400,341 395,337 396,336 396,338 401,338 404,339 408,339 408,338 405,337 403,337 399,337 399,333 397,333 396,331 400,331 401,329 407,328 410,323 413,322 415,320 414,318 419,312 418,315 421,314 423,313 427,311 431,312 434,310 435,313 438,313 438,316 440,317"/>
-    </object>
-    <object id="333" name="VNM" x="0" y="0" visible="0"><polygon points="1006,431 1007,433 1005,439 1007,442 1004,443 1001,446 998,445 995,446 991,449 989,444 984,440 981,439 965,442 960,444 955,445 944,444 936,442 934,439 933,436 930,433 927,429 931,428 934,430 937,428 938,431 937,434 941,433 942,438 948,440 951,440 956,441 960,441 965,439 979,437 984,434 987,437 992,437 994,433"/>
-    </object>
-    <object id="334" name="VUT" x="0" y="0" visible="0"><polygon points="703,486 704,486 705,487 706,489 707,487 708,489"/>
-    </object>
-    <object id="335" name="YEM" x="0" y="0" visible="0"><polygon points="923,273 916,280 912,279 908,280 903,279 896,276 890,275 887,273 884,273 876,270 872,270 866,267 875,258 877,257 880,257 885,255 885,257 891,260 898,266 906,265 911,266 917,269"/>
-    </object>
-    <object id="336" name="ZAF" x="0" y="0" visible="0"><polygon points="717,308 718,310 717,311 719,312 725,310 726,311 728,312 730,312 732,311 733,311 736,310 739,310 743,310 747,311 746,315 743,317 742,316 740,317 740,319 741,319 742,318 744,319 741,321 740,321 737,321 732,323 726,324 724,324 720,324 718,324 716,323 714,322 707,322 706,322 705,320 706,319 706,318 707,317 706,316 705,312 707,311 708,313 710,314 711,314 714,313 733,319 732,319 729,319 728,319 728,321 731,321 733,320"/>
-    </object>
-    <object id="337" name="ZMB" x="0" y="0" visible="0"><polygon points="734,298 732,295 736,289 742,291 743,290 744,287 745,288 748,289 749,290 751,291 753,291 753,292 755,293 756,295 758,296 759,294 758,294 756,293 761,289 761,288 763,287 768,288 769,289 773,293 774,294 773,295 770,297 769,298 765,300 766,301 756,299 756,300 753,300 749,300 743,302 739,300 738,300 736,298"/>
-    </object>
-    <object id="338" name="ZWE" x="0" y="0" visible="0"><polygon points="743,310 742,309 741,308 741,306 739,303 739,300 743,302 749,300 753,300 756,300 755,301 757,302 760,305 758,307 755,308 755,309 752,311 747,311"/>
-    </object>
+	<object id="171" name="AFG" x="0" y="0" visible="0">
+		<polygon points="1063,263 1064,268 1068,270 1072,270 1081,275 1089,273 1094,277 1098,276 1097,280 1100,287 1105,291 1104,293 1109,293 1111,296 1121,297 1118,302 1109,303 1107,305 1118,310 1121,318 1118,319 1113,315 1109,310 1105,305 1099,304 1092,307 1087,306 1079,306 1077,302 1073,305 1069,302 1063,302 1058,303 1055,302 1051,298 1049,298 1047,295 1041,294 1034,295 1028,291 1026,289 1019,283 1017,276 1027,277 1031,275 1030,272 1039,267 1045,267 1044,265"/>
+	</object>
+
+	<object id="172" name="AGO" x="0" y="0" visible="0">
+		<polygon points="734,298 728,298 722,296 720,295 708,293 707,292 705,292 701,292 701,291 704,287 707,285 711,283 712,281 711,277 712,276 712,273 711,271 715,271 725,272 726,275 727,277 731,278 732,278 735,277 739,277 738,278 742,279 742,281 740,283 740,284 739,286 744,287 743,290 742,291 736,289 732,295"/>
+	</object>
+	<object id="173" name="AGO" x="0" y="0" visible="0">
+		<polygon points="711,270 710,268 713,267 715,268"/>
+	</object>
+
+	<object id="173" name="ALB" x="0" y="0" visible="0">
+		<polygon points="849,115 837,121 833,116 840,107 839,105 846,101 848,102 849,108 846,113"/>
+	</object>
+
+	<object id="174" name="ARE" x="0" y="0" visible="0">
+		<polygon points="948,260 948,261 952,263 957,267 966,268 975,269 974,270 970,272 968,271 964,272 953,273 951,273 947,269 943,264"/>
+	</object>
+
+	<object id="175" name="ARG" x="0" y="0" visible="0">
+		<polygon points="599,372 598,373 593,372 596,372 598,371 599,370 600,371 600,372"/>
+	</object>
+	<object id="176" name="ARG" x="0" y="0" visible="0">
+		<polygon points="593,372 592,372 590,374 589,374 587,374 586,374 584,374 583,373 582,373 581,373 579,372 576,371 575,371 575,370 573,371 572,370 571,370 569,370 568,370 565,369 561,368 561,367 558,367 556,367 555,365 553,365 551,364 549,363 548,364 543,363 541,362 539,362 537,361 535,359 534,358 527,357 527,355 525,354 524,354 522,352 525,350 527,350 526,349 527,347 528,347 534,346 536,345 539,344 542,343 543,343 545,346 549,343 550,342 549,341 547,340 548,339 550,339 552,340 552,342 552,344 554,347 557,349 559,350 561,351 562,351 565,351 567,351 568,351 569,352 571,354 571,355 569,358 568,359 569,359 571,359 572,360 572,361 570,362 571,363 573,363 574,363 574,362 575,362 575,363 576,364 579,365 578,366 579,367 580,368 583,367 584,367 585,367 586,369 588,370 588,371 589,371 591,372 593,371"/>
+	</object>
+
+	<object id="176" name="ARM" x="0" y="0" visible="0">
+		<polygon points="1019,175 1029,179 1029,183 1026,184 1026,187 1022,188 1024,193 1018,196 1016,195 1019,190 1015,186 1013,179"/>
+	</object>
+
+	<object id="177" name="ATA" x="0" y="0" visible="0">
+		<polygon points="649,382 651,383 650,383 650,384 649,384 648,384 649,383 648,382"/>
+	</object>
+	<object id="178" name="ATA" x="0" y="0" visible="0">
+		<polygon points="659,400 660,400 660,401 659,402 659,401"/>
+	</object>
+	<object id="179" name="ATA" x="0" y="0" visible="0">
+		<polygon points="649,378 650,379 651,379 653,380 653,381 652,382 651,382 650,382 650,381 648,379 648,378"/>
+	</object>
+	<object id="180" name="ATA" x="0" y="0" visible="0">
+		<polygon points="638,398 637,398 639,398 638,399"/>
+	</object>
+	<object id="181" name="ATA" x="0" y="0" visible="0">
+		<polygon points="639,400 639,399 640,400"/>
+	</object>
+	<object id="182" name="ATA" x="0" y="0" visible="0">
+		<polygon points="630,392 630,391 631,391 631,392 631,393 630,393"/>
+	</object>
+	<object id="183" name="ATA" x="0" y="0" visible="0">
+		<polygon points="630,380 631,380 632,381 633,382 632,382 632,383 631,383 630,383 630,382 630,381 629,381 627,381 626,380 627,380"/>
+	</object>
+	<object id="184" name="ATA" x="0" y="0" visible="0">
+		<polygon points="621,372 621,373 620,373 621,375 622,375 623,375 623,376 625,377 625,378 627,378 628,377 631,378 632,378 634,378 636,379 637,379 638,380 639,381 640,381 640,383 641,383 640,384 640,385 641,385 642,384 643,384 643,385 645,386 646,385 646,386 647,385 648,385 649,385 650,385 651,384 653,384 655,384 654,384 654,383 654,382 655,382 656,381 655,381 656,380 657,379 657,378 656,378 656,377 655,378 654,378 653,378 653,377 652,377 653,376 653,375 654,374 656,373 656,372 657,372 658,371 658,370 657,370 657,369 658,368 659,368 659,367 660,367 661,367 662,367 662,366 663,366 664,366 665,366 666,366 666,367 667,366 669,366 671,365 672,365 673,365 674,366 675,366 676,365 677,365 677,366 678,366 679,366 680,366 681,366 682,367 685,368 686,368 687,368 689,368 691,367 692,368 691,368 692,369 692,370 693,370 694,369 696,369 698,370 700,370 702,370 702,371 703,371 704,371 706,371 707,372 708,373 707,373 706,374 707,375 706,376 708,377 708,378 709,379 707,380 705,380 704,380 703,380 701,380 700,381 701,381 703,381 704,382 706,382 707,382 708,383 709,383 710,383 711,384 712,384 713,385 713,386 713,387 714,387 715,387 714,388 713,389 713,390 713,391 713,392 713,393 714,394 716,395 714,395 712,396 712,397 711,398 712,399 712,400 711,400 710,400 709,401 708,401 707,402 707,403 707,404 706,404 705,405 704,406 703,407 702,407 701,408 702,409 701,409 699,408 698,408 697,410 695,410 693,411 692,410 691,410 689,410 686,410 686,411 683,411 681,411 681,410 680,410 679,410 678,410 676,410 674,410 673,410 672,410 673,407 674,406 675,405 674,404 674,403 673,402 672,402 672,401 673,401 673,400 673,399 673,398 672,398 671,397 670,396 669,396 669,395 668,395 667,395 666,394 666,388 666,395 665,395 664,395 664,394 663,394 663,393 662,393 660,393 660,394 661,394 660,395 661,395 659,396 659,397 659,398 658,398 658,397 656,397 656,398 655,398 655,399 656,399 657,400 657,401 657,403 656,402 655,402 655,401 654,401 653,401 652,402 651,401 650,402 650,403 649,403 649,402 648,402 646,402 644,401 643,401 643,400 641,400 641,399 639,397 638,397 638,396 637,396 636,396 638,395 637,395 637,394 638,394 637,393 637,392 637,391 636,391 635,392 634,393 632,393 632,392 632,391 633,391 633,390 632,389 633,389 632,388 631,388 632,387 633,387 633,386 634,385 632,385 633,385 633,384 635,384 635,383 634,383 634,381 633,380 632,380 629,380 627,379 626,379 623,378 622,377 621,376 620,375 620,374 620,372 620,371"/>
+	</object>
+
+	<object id="178" name="ATF" x="0" y="0" visible="0">
+		<polygon points="748,370 748,371 748,372 747,372 746,371"/>
+	</object>
+
+	<object id="179" name="AUS" x="0" y="0" visible="0">
+		<polygon points="727,439 725,439 723,440 722,440 721,439 721,438 720,437 721,436 722,436 724,437 725,437 727,438 728,438"/>
+	</object>
+	<object id="180" name="AUS" x="0" y="0" visible="0">
+		<polygon points="775,473 772,472 771,473 768,473 767,472 764,470 761,469 760,469 758,468 755,468 750,468 750,467 748,467 745,466 744,466 743,466 741,465 734,464 732,463 731,461 728,460 728,459 727,457 726,455 725,453 726,452 726,450 725,447 724,446 724,445 726,444 727,443 728,441 731,441 732,442 732,441 733,440 738,439 740,439 743,440 744,440 746,440 748,441 748,440 749,439 749,440 750,442 751,442 751,441 752,440 751,439 753,438 754,439 757,439 758,439 761,439 762,438 764,438 767,436 769,433 770,432 771,429 770,428 771,426 772,425 774,424 773,421 775,420 778,418 779,419 780,420 783,421 786,421 789,421 792,421 794,421 796,422 798,421 798,422 801,422 799,423 804,423 807,424 809,424 810,425 808,425 809,426 809,427 810,430 809,431 807,437 809,440 811,441 812,443 809,443 811,443 812,444 810,445 812,446 813,449 812,452 807,452 804,454 806,454 808,458 808,460 805,462 806,462 809,462 808,462 803,463 798,465 796,467 794,467 792,462 791,462 786,462 781,463 779,463 778,463 775,463 774,465 777,469 780,471 782,473 784,475 784,476 781,475 777,474"/>
+	</object>
+
+	<object id="180" name="AUT" x="0" y="0" visible="0">
+		<polygon points="844,54 830,63 822,64 813,64 806,62 792,58 791,55 782,55 773,55 764,52 766,49 774,51 776,49 784,49 793,50 802,52 802,46 812,41 819,45 830,42 838,46 846,49"/>
+	</object>
+
+	<object id="181" name="AZE" x="0" y="0" visible="0">
+		<polygon points="1018,196 1024,193 1022,188 1026,187 1026,184 1029,183 1029,179 1039,186 1040,181 1043,182 1044,188 1046,190 1056,190 1051,200 1053,204 1047,201 1028,206 1027,201 1033,201 1031,197"/>
+	</object>
+	<object id="182" name="AZE" x="0" y="0" visible="0">
+		<polygon points="1015,186 1019,190 1016,195 1013,192"/>
+	</object>
+
+	<object id="182" name="BDI" x="0" y="0" visible="0">
+		<polygon points="772,280 774,278 774,277 776,278 778,277 779,278 779,280 773,281"/>
+	</object>
+
+	<object id="183" name="BEL" x="0" y="0" visible="0">
+		<polygon points="736,14 734,21 729,27 720,22 714,22 705,16 695,9 705,7 713,8 724,7"/>
+	</object>
+
+	<object id="184" name="BEN" x="0" y="0" visible="0">
+		<polygon points="679,239 675,239 674,237 674,231 673,229 670,227 671,226 677,223 681,222 684,224 685,227 684,229 680,231 679,233"/>
+	</object>
+
+	<object id="185" name="BFA" x="0" y="0" visible="0">
+		<polygon points="677,223 671,226 667,226 659,226 652,226 653,230 650,229 646,230 640,228 640,224 644,222 646,219 648,219 655,216 656,215 664,213 668,214 669,217 672,219 672,220 677,221"/>
+	</object>
+
+	<object id="186" name="BGD" x="0" y="0" visible="0">
+		<polygon points="1011,398 1006,397 1007,396 1002,396 1012,395 1016,393 1016,390 1010,389 1011,385 1022,383 1026,384 1028,381 1033,384 1037,382 1042,383 1038,388 1033,388 1032,395 1031,397 1025,395 1025,394 1021,392 1017,394 1022,396"/>
+	</object>
+
+	<object id="187" name="BGR" x="0" y="0" visible="0">
+		<polygon points="879,95 879,99 890,102 901,106 910,106 918,107 926,113 920,115 912,118 912,123 905,120 895,119 893,122 885,121 881,117 873,117 867,116 869,111 867,108 876,103 874,99"/>
+	</object>
+
+	<object id="188" name="BHS" x="0" y="0" visible="0">
+		<polygon points="319,344 319,345 312,346 309,344"/>
+	</object>
+	<object id="189" name="BHS" x="0" y="0" visible="0">
+		<polygon points="299,343 298,347 296,347 297,342"/>
+	</object>
+	<object id="190" name="BHS" x="0" y="0" visible="0">
+		<polygon points="300,340 305,341 300,341 295,342"/>
+	</object>
+
+	<object id="189" name="BIH" x="0" y="0" visible="0">
+		<polygon points="845,94 839,95 835,99 829,95 822,85 818,79 831,77 845,81 849,84 850,91"/>
+	</object>
+
+	<object id="190" name="BLR" x="0" y="0" visible="0">
+		<polygon points="1013,55 1003,60 994,56 985,52 975,47 965,41 955,38 946,36 933,36 934,31 943,33 951,35 959,37 967,39 975,42 982,44 990,47 998,49 1005,52"/>
+	</object>
+
+	<object id="191" name="BLZ" x="0" y="0" visible="0">
+		<polygon points="348,386 344,383 345,382 355,383 359,385 359,386"/>
+	</object>
+
+	<object id="192" name="BOL" x="0" y="0" visible="0">
+		<polygon points="528,347 527,347 526,349 527,350 525,350 522,352 524,354 524,355 519,354 516,355 513,353 512,354 509,354 507,354 504,352 502,353 499,352 498,351 494,350 493,349 487,350 489,347 488,347 487,344 488,341 494,343 498,342 500,340 502,340 505,338 508,337 512,337 511,338 515,338 518,335 521,336 522,336 525,336 529,339 528,339 525,340 524,341 522,344 524,345"/>
+	</object>
+
+	<object id="193" name="BRA" x="0" y="0" visible="0">
+		<polygon points="554,347 552,344 552,342 552,340 550,339 548,339 547,340 544,338 542,339 539,338 536,338 536,339 534,340 531,339 529,339 525,336 522,336 521,336 518,335 515,338 511,338 512,337 508,337 505,338 502,340 500,340 498,342 494,343 488,341 487,344 488,347 489,347 487,350 486,352 481,350 482,352 481,354 479,354 478,356 477,355 474,356 471,356 469,355 468,354 466,354 464,352 463,350 463,347 464,346 455,343 451,342 449,343 446,342 445,340 444,341 442,341 445,336 444,335 448,335 451,334 452,332 451,331 452,328 450,328 450,326 448,328 443,326 441,327 445,324 445,323 446,318 444,317 447,315 448,316 452,316 455,318 460,318 463,318 464,315 464,314 466,312 468,311 465,310 469,307 471,306 473,306 474,303 470,299 471,298 481,300 483,300 485,301 486,303 488,303 493,300 496,302 496,299 507,296 510,296 511,297 513,295 520,293 524,291 531,290 537,290 540,290 543,289 545,289 550,292 552,295 552,296 551,300 552,303 552,307 556,309 559,313 559,314 562,316 562,318 564,320 563,321 563,322 561,324 559,326 559,327 557,328 557,331 557,333 559,334 560,334 563,336 563,337 565,340 565,343 566,344 567,346 565,345 565,344 563,344 558,345 557,346 554,346"/>
+	</object>
+
+	<object id="194" name="BRN" x="0" y="0" visible="0">
+		<polygon points="896,448 897,452 893,450 893,448"/>
+	</object>
+
+	<object id="195" name="BTN" x="0" y="0" visible="0">
+		<polygon points="1051,395 1049,396 1044,396 1045,390 1044,387 1048,384 1054,386 1056,388 1053,393"/>
+	</object>
+
+	<object id="196" name="BWA" x="0" y="0" visible="0">
+		<polygon points="743,310 739,310 736,310 733,311 732,311 730,312 728,312 726,311 725,310 719,312 717,311 718,310 717,308 720,303 723,304 726,298 729,298 733,299 734,300 738,300 739,300 739,303 741,306 741,308 742,309"/>
+	</object>
+
+	<object id="197" name="CAF" x="0" y="0" visible="0">
+		<polygon points="736,241 743,242 749,242 754,241 754,240 760,241 765,241 770,239 776,238 777,242 775,245 778,248 779,250 782,254 781,255 784,258 777,256 773,256 771,255 766,255 764,254 762,255 756,253 751,250 746,252 745,253 740,252 736,253 733,254 733,253 732,251 730,247 732,244"/>
+	</object>
+
+	<object id="198" name="CAN" x="0" y="0" visible="0">
+		<polygon points="144,239 148,235 153,231 155,237 144,242 138,242 136,239"/>
+	</object>
+	<object id="199" name="CAN" x="0" y="0" visible="0">
+		<polygon points="117,219 110,223 104,227 92,231 97,226 103,222"/>
+	</object>
+	<object id="200" name="CAN" x="0" y="0" visible="0">
+		<polygon points="155,583 160,585 162,591 164,596 161,602 159,609 164,615 155,621 149,613 144,605 150,596 150,588"/>
+	</object>
+	<object id="201" name="CAN" x="0" y="0" visible="0">
+		<polygon points="126,179 135,188 134,182 141,180 144,184 153,181 153,177 164,174 171,179 174,175 191,179 199,186 190,190 182,185 178,186 182,196 178,199 177,193 168,196 159,204 151,212 147,211 145,206 139,207 135,200 127,193 118,186 113,179 117,170"/>
+	</object>
+	<object id="202" name="CAN" x="0" y="0" visible="0">
+		<polygon points="0,328 8,325 17,322 12,316 4,313 6,308 7,303 9,298 11,293 13,289 16,284 18,279 21,274 24,269 26,264 29,259 32,255 35,250 38,245 42,240 46,236 49,231 52,226 56,222 60,217 64,212 68,208 72,204 77,199 84,192 91,185 99,178 107,171 109,181 106,186 104,192 107,198 110,203 106,208 103,214 96,219 89,225 83,232 78,240 85,248 87,257 93,263 99,268 105,274 111,279 111,273 105,267 98,260 96,253 94,245 97,241 99,236 111,233 116,241 144,245 156,240 159,235 162,231 153,221 162,224 170,222 172,231 171,237 169,244 170,250 174,258 170,262 160,259 158,254 157,248 152,255 148,262 138,264 119,260 113,261 113,265 108,266 116,273 131,280 134,286 132,290 129,295 127,299 125,304 129,309 134,315 138,317 136,322 134,327 136,330 144,329 148,337 148,342 153,349 147,352 130,346 105,346 97,351 87,354 80,358 74,363 68,368 62,373 56,378 61,386 57,393 59,398 54,404 53,410 52,415 41,419 47,420 47,426 46,431 46,437 46,442 46,448 46,453 47,459 48,464 49,470 51,475 53,481 55,486 57,491 60,497 62,502 65,508 69,513 72,518 76,523 80,528 84,533 89,538 93,543 98,548 103,553 109,557 114,562 120,566 126,570 132,574 138,579 144,583 143,588 142,594 142,599 141,605 144,611 148,617 139,626 134,627 128,623 123,619 118,615 112,611 107,607 103,603 98,598 94,594 89,590 84,585 79,581 75,577 71,572 67,568 63,563 59,558 55,554 51,549 48,545 44,540 41,535 38,530 35,526 32,521 29,516 26,511 23,507 20,502 18,497 15,492 13,487 11,482 9,477 7,472 5,467 3,462 1,457 0,452 0,447 -1,442 -3,437 -4,432 -5,427 -6,422 -6,417 -7,412 -7,406 -7,401 -8,396 -8,391 -8,386 -8,381 -8,376 -7,371 -7,366 -6,361 -5,353 -4,344 -2,336"/>
+	</object>
+
+	<object id="199" name="CHE" x="0" y="0" visible="0">
+		<polygon points="766,49 764,52 773,55 766,59 759,57 756,61 750,59 744,61 735,59 732,55 727,56 728,53 736,49 744,46 756,45"/>
+	</object>
+
+	<object id="200" name="CHL" x="0" y="0" visible="0">
+		<polygon points="593,372 598,373 599,372 600,373 599,374 598,374 597,375 594,376 591,376 592,376 594,375 595,374 594,374 593,373"/>
+	</object>
+	<object id="201" name="CHL" x="0" y="0" visible="0">
+		<polygon points="524,354 525,354 527,355 527,357 534,358 535,359 537,361 539,362 541,362 543,363 548,364 549,363 551,364 553,365 555,365 556,367 558,367 561,367 561,368 565,369 568,370 569,370 571,370 572,370 573,371 575,370 575,371 576,371 579,372 581,373 582,373 583,373 584,374 586,374 587,374 589,374 590,374 592,372 593,372 593,374 595,374 593,375 591,376 590,376 588,376 587,376 585,376 582,376 580,375 578,374 577,375 575,374 572,373 573,372 569,371 568,371 570,372 570,373 562,371 561,370 558,370 556,369 549,366 545,365 541,364 540,364 536,363 534,362 529,361 517,357 513,356 508,356 507,354 509,354 512,354 513,353 516,355 519,354 524,355"/>
+	</object>
+
+	<object id="201" name="CHN" x="0" y="0" visible="0">
+		<polygon points="1209,620 1185,616 1169,612 1161,615 1153,618 1135,620 1121,616 1110,623 1109,629 1104,634 1100,638 1092,626 1083,618 1078,610 1088,606 1089,600 1079,597 1068,591 1071,588 1066,586 1076,586 1073,582 1077,574 1072,572 1077,569 1082,568 1079,562 1080,555 1078,550 1082,543 1081,538 1083,533 1085,537 1090,537 1092,543 1100,542 1101,537 1099,530 1095,525 1099,521 1096,517 1088,518 1083,521 1079,519 1073,522 1075,529 1067,531 1064,533 1059,532 1063,526 1060,523 1060,517 1056,513 1047,516 1038,515 1020,515 1015,513 1015,510 1011,510 1006,511 997,506 998,504 993,499 988,494 984,488 983,482 981,476 983,473 982,470 985,469 983,467 984,462 985,458 979,456 980,454 985,454 987,455 991,451 991,449 995,446 998,445 1001,446 1004,443 1007,442 1005,439 1007,433 1006,431 1006,429 999,428 1001,426 1004,427 1003,424 1007,420 1012,422 1014,420 1021,419 1021,416 1029,417 1034,421 1045,422 1052,419 1052,417 1054,413 1057,414 1062,413 1060,410 1062,406 1058,402 1052,398 1051,395 1053,393 1056,388 1054,386 1048,384 1054,383 1052,381 1053,377 1054,372 1058,366 1061,364 1062,362 1066,357 1068,354 1066,352 1070,347 1074,342 1083,339 1082,342 1087,342 1091,340 1098,340 1108,334 1108,326 1115,323 1118,319 1121,318 1130,316 1130,311 1139,309 1144,308 1150,312 1155,315 1156,321 1164,322 1168,328 1173,329 1182,337 1185,337 1192,336 1197,339 1218,332 1222,337 1226,343 1230,345 1257,348 1256,354 1254,360 1262,363 1278,362 1280,367 1291,372 1293,374 1281,376 1273,381 1267,390 1255,394 1238,392 1231,394 1229,401 1226,408 1217,414 1215,418 1202,419 1194,422 1193,428 1191,433 1188,439 1187,446 1184,451 1173,457 1171,464 1166,465 1170,472 1169,481 1165,489 1166,495 1172,505 1182,504 1189,509 1184,513 1179,516 1182,523 1180,533 1185,539 1186,544 1181,552 1175,555 1179,557 1193,556 1202,553 1200,547 1207,542 1208,539 1215,539 1225,546 1235,553 1224,558 1225,563 1226,569 1232,571 1244,582 1246,587 1247,587 1243,591 1238,596 1234,600 1229,604 1224,608 1220,612 1214,616"/>
+	</object>
+	<object id="202" name="CHN" x="0" y="0" visible="0">
+		<polygon points="970,453 969,450 972,448 977,449 979,451 977,456 975,456"/>
+	</object>
+
+	<object id="202" name="CIV" x="0" y="0" visible="0">
+		<polygon points="640,228 646,230 650,229 653,230 654,234 653,236 652,239 654,241 654,242 649,242 641,243 633,245 633,242 628,240 627,237 628,235 630,234 627,231 628,230 633,229 636,228 637,229"/>
+	</object>
+
+	<object id="203" name="CMR" x="0" y="0" visible="0">
+		<polygon points="736,241 732,244 730,247 732,251 733,253 733,254 732,256 726,253 721,253 714,252 707,251 708,249 707,247 705,247 704,244 708,240 713,239 717,241 720,240 723,237 726,236 732,231 737,229 739,228 737,227 739,226 741,228 739,232 740,235 734,233 733,235 737,237 737,241"/>
+	</object>
+
+	<object id="204" name="COD" x="0" y="0" visible="0">
+		<polygon points="744,287 739,286 740,284 740,283 742,281 742,279 738,278 739,277 735,277 732,278 731,278 727,277 726,275 725,272 715,271 711,271 711,270 715,268 719,268 720,269 727,267 727,266 730,264 736,262 738,260 740,257 744,255 745,253 746,252 751,250 756,253 762,255 764,254 766,255 771,255 773,256 777,256 784,258 784,261 786,261 791,262 791,263 793,266 790,268 791,269 788,270 783,271 780,273 779,275 777,275 774,277 774,278 772,280 769,284 770,286 769,289 768,288 763,287 761,288 761,289 756,293 758,294 759,294 758,296 756,295 755,293 753,292 753,291 751,291 749,290 748,289 745,288"/>
+	</object>
+
+	<object id="205" name="COG" x="0" y="0" visible="0">
+		<polygon points="715,268 713,267 710,268 708,266 711,265 711,263 715,263 715,262 717,263 720,264 723,262 723,260 722,258 725,256 721,255 721,253 726,253 732,256 733,254 736,253 740,252 745,253 744,255 740,257 738,260 736,262 730,264 727,266 727,267 720,269 719,268"/>
+	</object>
+
+	<object id="206" name="COL" x="0" y="0" visible="0">
+		<polygon points="448,335 444,335 445,336 442,341 444,341 445,340 446,342 449,343 451,342 455,343 464,346 461,347 458,345 455,346 454,348 454,349 453,351 448,351 442,354 442,355 439,356 438,359 433,362 428,360 428,359 424,356 423,357 420,356 416,356 415,356 411,356 409,356 407,356 406,354 402,354 403,353 401,350 401,349 395,348 394,344 395,342 393,338 392,336 394,335 396,336 395,337 400,341 405,343 406,342 412,342 414,342 417,341 418,338 420,337 424,336 427,332 428,331 431,333 434,334 439,334 440,335 444,334"/>
+	</object>
+
+	<object id="207" name="CRI" x="0" y="0" visible="0">
+		<polygon points="400,369 398,371 396,371 393,374 393,375 390,377 385,376 385,373 387,371 387,370 389,370 394,368 394,369 397,368"/>
+	</object>
+
+	<object id="208" name="CUB" x="0" y="0" visible="0">
+		<polygon points="317,361 319,355 323,352 325,351 326,348 336,343 339,340 340,340 342,338 345,336 347,336 346,341 343,348 340,345 337,348 331,350 331,352 326,356 324,360 321,360 320,363 324,368 324,371 320,368 318,365"/>
+	</object>
+
+	<object id="209" name="CYP" x="0" y="0" visible="0">
+		<polygon points="909,171 916,172 924,173 916,175"/>
+	</object>
+
+	<object id="211" name="CZE" x="0" y="0" visible="0">
+		<polygon points="846,49 838,46 830,42 819,45 812,41 803,33 803,26 816,23 829,21 837,22 848,28 851,34 861,34 860,37 868,39 870,45 858,47"/>
+	</object>
+
+	<object id="212" name="DEU" x="0" y="0" visible="0">
+		<polygon points="838,12 837,22 829,21 816,23 803,26 803,33 812,41 802,46 802,52 793,50 784,49 776,49 774,51 766,49 756,45 744,46 747,39 754,34 739,31 734,28 734,21 736,14 737,3 744,4 745,2 753,2 762,3 771,4 780,4 788,5 797,6 806,8 814,9 826,10"/>
+	</object>
+
+	<object id="213" name="DJI" x="0" y="0" visible="0">
+		<polygon points="865,266 863,268 860,267 861,269 858,269 854,267 856,266 862,265"/>
+	</object>
+
+	<object id="215" name="DOM" x="0" y="0" visible="0">
+		<polygon points="353,329 354,326 360,321 366,319 367,321 364,325 362,328 365,330 362,330"/>
+	</object>
+
+	<object id="216" name="DZA" x="0" y="0" visible="0">
+		<polygon points="691,201 684,201 685,198 678,197 677,195 668,191 657,187 647,183 635,179 622,175 609,171 609,169 607,164 617,160 630,157 632,155 640,153 640,149 647,146 657,145 653,134 649,130 657,127 665,126 671,124 678,122 692,122 705,121 709,123 717,121 726,122 735,123 732,126 732,131 729,136 724,138 724,142 733,149 733,158 734,164 732,168 730,175 727,176 730,180 731,184 734,184 738,186 740,189 729,191 717,194 708,196 699,199"/>
+	</object>
+
+	<object id="217" name="ECU" x="0" y="0" visible="0">
+		<polygon points="433,362 438,359 439,356 442,355 445,355 447,356 450,359 451,362 454,363 456,364 457,365 455,366 454,368 451,367 448,366 446,366 448,367 446,368 445,368 441,368 441,367 436,365 434,365"/>
+	</object>
+
+	<object id="218" name="EGY" x="0" y="0" visible="0">
+		<polygon points="873,229 866,226 859,223 852,220 844,218 836,215 828,213 820,210 812,208 834,181 835,177 839,175 839,173 843,172 852,174 858,178 865,182 874,182 884,185 884,188 886,187 895,192 899,192 895,199 887,203 881,205 880,200 882,193 879,198 877,204 876,210 875,216 875,221 871,223"/>
+	</object>
+
+	<object id="219" name="ERI" x="0" y="0" visible="0">
+		<polygon points="865,266 862,265 862,258 857,253 853,253 852,251 849,252 844,249 845,248 855,244 861,244 865,244 864,248 861,251 864,258 864,264"/>
+	</object>
+
+	<object id="220" name="ESP" x="0" y="0" visible="0">
+		<polygon points="585,92 584,87 579,84 591,78 603,78 615,77 626,78 637,78 649,77 652,80 661,82 670,83 673,82 683,85 694,85 694,89 685,93 674,94 667,100 664,106 667,109 663,112 661,116 655,117 649,122 640,122 631,122 624,127 620,127 614,122 606,121 605,120 608,115 605,114 606,110 602,106 606,105 605,96 609,94 606,90 594,92 591,89"/>
+	</object>
+
+	<object id="222" name="ETH" x="0" y="0" visible="0">
+		<polygon points="862,265 856,266 854,267 858,269 856,270 855,275 859,279 862,283 865,285 855,285 846,285 841,283 836,282 833,281 830,280 830,279 826,278 824,279 819,276 817,272 815,271 816,269 814,268 815,265 814,264 814,261 811,260 814,259 818,259 820,257 824,255 827,255 832,253 836,253 844,249 849,252 852,251 853,253 857,253 862,258"/>
+	</object>
+
+	<object id="224" name="FJI" x="0" y="0" visible="0">
+		<polygon points="671,487 670,486 671,485 674,485 675,486 673,487"/>
+	</object>
+	<object id="225" name="FJI" x="0" y="0" visible="0">
+		<polygon points="668,488 670,487 671,488 666,489 666,488"/>
+	</object>
+
+	<object id="225" name="FLK" x="0" y="0" visible="0">
+		<polygon points="596,366 596,365 597,364 596,364 598,363 598,364 598,365 597,365 597,366"/>
+	</object>
+
+	<object id="226" name="FRA" x="0" y="0" visible="0">
+		<polygon points="695,9 705,16 714,22 720,22 729,27 734,28 739,31 754,34 747,39 744,46 736,49 728,53 727,56 732,55 735,59 736,65 732,67 734,73 739,75 737,78 727,81 718,80 709,78 695,80 694,85 683,85 673,82 670,83 661,82 652,80 649,77 653,73 654,57 644,48 636,44 627,42 619,41 617,34 631,32 640,33 649,34 645,23 656,27 668,23 681,19 685,11"/>
+	</object>
+	<object id="227" name="FRA" x="0" y="0" visible="0">
+		<polygon points="470,299 474,303 473,306 471,306 469,307 466,304 463,304 460,304 459,301 463,299 469,299"/>
+	</object>
+	<object id="228" name="FRA" x="0" y="0" visible="0">
+		<polygon points="753,91 749,96 745,94 744,89 754,84"/>
+	</object>
+
+	<object id="227" name="GAB" x="0" y="0" visible="0">
+		<polygon points="714,252 721,253 721,255 725,256 722,258 723,260 723,262 720,264 717,263 715,262 715,263 711,263 711,265 708,266 703,261 701,258 705,254 713,255"/>
+	</object>
+
+	<object id="228" name="GBR" x="0" y="0" visible="0">
+		<polygon points="683,0 679,2 683,7 673,13 657,13 648,14 638,16 633,14 626,19 615,18 608,22 602,21 609,15 617,9 627,6 618,6 608,5 605,1 614,0 622,0 631,0 640,0 649,0 658,0 667,0 675,0"/>
+	</object>
+
+	<object id="229" name="GEO" x="0" y="0" visible="0">
+		<polygon points="1029,179 1019,175 1017,169 1009,166 1013,164 1017,159 1015,155 1013,150 1015,149 1022,155 1029,160 1034,167 1039,171 1043,175 1043,182 1040,181 1039,186"/>
+	</object>
+
+	<object id="230" name="GHA" x="0" y="0" visible="0">
+		<polygon points="653,230 652,226 659,226 667,226 668,228 669,232 670,233 669,236 671,240 664,241 658,243 654,242 654,241 652,239 653,236 654,234"/>
+	</object>
+
+	<object id="231" name="GIN" x="0" y="0" visible="0">
+		<polygon points="628,230 627,231 630,234 628,235 627,237 625,238 623,238 623,236 621,235 619,236 617,236 616,233 613,232 607,233 604,236 599,234 596,233 593,231 594,230 599,228 598,226 604,226 609,225 616,226 621,224 625,226 624,228"/>
+	</object>
+
+	<object id="232" name="GMB" x="0" y="0" visible="0">
+		<polygon points="582,227 582,225 587,224 589,223 592,224 595,223 594,224 589,224 586,226"/>
+	</object>
+
+	<object id="233" name="GNB" x="0" y="0" visible="0">
+		<polygon points="598,226 599,228 594,230 593,231 588,231 584,229 589,227"/>
+	</object>
+
+	<object id="234" name="GNQ" x="0" y="0" visible="0">
+		<polygon points="707,251 714,252 713,255 705,254 705,253"/>
+	</object>
+
+	<object id="235" name="GRC" x="0" y="0" visible="0">
+		<polygon points="837,121 849,115 858,115 867,116 873,117 881,117 885,121 893,122 895,119 898,122 890,125 881,122 870,121 873,126 864,125 862,121 859,126 860,129 857,130 861,136 859,139 853,136 853,140 848,139 847,144 843,143 838,140 839,130"/>
+	</object>
+	<object id="236" name="GRC" x="0" y="0" visible="0">
+		<polygon points="849,149 851,152 858,154 865,156 863,157 853,155 854,154 846,151"/>
+	</object>
+
+	<object id="237" name="GTM" x="0" y="0" visible="0">
+		<polygon points="348,386 359,386 359,385 360,383 363,386 367,386 370,389 369,392 366,395 362,395 358,394 358,390 356,390 351,393 351,391 348,391"/>
+	</object>
+
+	<object id="238" name="GUY" x="0" y="0" visible="0">
+		<polygon points="466,312 464,314 464,315 463,318 460,318 455,318 452,316 448,316 447,315 444,317 440,317 438,316 438,313 435,313 434,310 437,309 444,309 450,308 453,309 452,311 455,312"/>
+	</object>
+
+	<object id="239" name="HND" x="0" y="0" visible="0">
+		<polygon points="367,386 363,386 360,383 359,381 360,377 359,376 360,371 366,367 367,372 366,373 371,376 369,377 371,379 373,379 375,380 372,382 370,382 370,384"/>
+	</object>
+
+	<object id="240" name="HRV" x="0" y="0" visible="0">
+		<polygon points="849,84 845,81 831,77 818,79 822,85 829,95 835,99 834,100 828,96 823,92 816,89 811,82 811,75 805,73 801,76 801,70 810,70 816,73 824,67 833,67 840,73 852,75 854,82"/>
+	</object>
+
+	<object id="241" name="HTI" x="0" y="0" visible="0">
+		<polygon points="353,329 362,330 359,336 359,337 356,339 355,338 359,333 358,332 352,332 350,334 349,333"/>
+	</object>
+
+	<object id="242" name="HUN" x="0" y="0" visible="0">
+		<polygon points="830,63 844,54 851,58 862,57 878,58 885,57 897,61 900,67 892,68 883,72 874,76 866,76 852,75 840,73 833,67"/>
+	</object>
+
+	<object id="243" name="IDN" x="0" y="0" visible="0">
+		<polygon points="833,445 834,445 838,443 837,445 834,446"/>
+	</object>
+	<object id="244" name="IDN" x="0" y="0" visible="0">
+		<polygon points="829,454 828,454 827,452 828,450 829,450 830,452"/>
+	</object>
+	<object id="245" name="IDN" x="0" y="0" visible="0">
+		<polygon points="845,443 843,444 841,444 844,440 845,441"/>
+	</object>
+	<object id="246" name="IDN" x="0" y="0" visible="0">
+		<polygon points="836,451 834,451 836,448 839,446 840,446 839,447 837,448"/>
+	</object>
+	<object id="247" name="IDN" x="0" y="0" visible="0">
+		<polygon points="862,426 859,430 861,431 856,434 854,434 851,437 847,438 848,436 851,434 853,431 858,427 859,425 862,422 864,422 865,420 868,422 866,424 863,426"/>
+	</object>
+	<object id="248" name="IDN" x="0" y="0" visible="0">
+		<polygon points="815,473 814,471 816,472 817,474"/>
+	</object>
+	<object id="249" name="IDN" x="0" y="0" visible="0">
+		<polygon points="841,465 840,463 843,463 844,463 842,465"/>
+	</object>
+	<object id="250" name="IDN" x="0" y="0" visible="0">
+		<polygon points="834,471 831,470 834,469 839,466 840,467 838,469"/>
+	</object>
+	<object id="251" name="IDN" x="0" y="0" visible="0">
+		<polygon points="806,488 791,477 795,477 798,476 798,475 802,474 803,475 802,477 805,478 808,479 816,477 818,476 825,475 825,473 828,474 831,474 828,477 832,475 835,475 838,474 840,474 837,477 837,478 831,480 825,478 820,478 821,481 819,484 816,485 810,487"/>
+	</object>
+	<object id="252" name="IDN" x="0" y="0" visible="0">
+		<polygon points="861,467 860,465 861,463 863,461 868,456 866,455 861,455 861,457 859,461 857,460 859,460 858,458 858,456 852,456 851,456 846,456 844,455 844,454 846,453 847,455 848,453 850,454 854,453 857,454 857,452 848,450 849,449 851,448 853,450 857,450 858,450 860,450 862,451 864,452 870,456 871,459 868,460 865,462 862,465 862,467"/>
+	</object>
+	<object id="253" name="IDN" x="0" y="0" visible="0">
+		<polygon points="852,474 849,472 850,471 850,470 854,471 857,474 855,473 853,474"/>
+	</object>
+	<object id="254" name="IDN" x="0" y="0" visible="0">
+		<polygon points="893,435 890,435 887,436 886,439 886,442 884,444 883,445 888,448 888,449 892,451 887,456 885,453 880,454 879,453 873,454 875,452 873,450 870,449 869,447 866,446 861,443 862,443 863,441 865,440 867,439 869,438 869,436 871,435 874,432 879,433 880,432 884,432 888,432 891,433"/>
+	</object>
+	<object id="255" name="IDN" x="0" y="0" visible="0">
+		<polygon points="868,421 869,419 873,418 877,415 883,413 893,412 897,410 904,409 907,407 911,406 914,404 919,402 921,402 919,407 914,409 909,412 903,414 903,416 899,418 895,419 893,420 890,419 887,421 882,421 881,423 878,424 874,422"/>
+	</object>
+
+	<object id="244" name="IND" x="0" y="0" visible="0">
+		<polygon points="1011,398 1022,396 1017,394 1021,392 1025,394 1025,395 1031,397 1032,395 1033,388 1038,388 1042,383 1037,382 1033,384 1028,381 1026,384 1022,383 1011,385 1009,384 1007,378 1003,378 999,377 994,372 986,369 978,364 975,364 971,360 970,358 966,358 955,360 949,359 941,360 940,359 936,358 935,359 933,356 927,355 931,352 941,348 947,345 956,342 962,338 979,333 986,331 991,330 985,326 984,323 989,318 992,319 994,317 997,312 1003,313 1005,317 1007,321 1013,319 1015,316 1020,315 1021,312 1031,314 1033,319 1043,321 1052,322 1062,325 1068,324 1074,326 1077,323 1089,317 1094,319 1095,326 1098,330 1108,334 1098,340 1091,340 1087,342 1082,342 1083,339 1074,342 1070,347 1066,352 1061,350 1054,349 1050,356 1046,363 1046,368 1042,370 1041,378 1041,381 1052,381 1054,383 1048,384 1044,387 1045,390 1044,396 1049,396 1051,395 1052,398 1058,402 1062,406 1060,410 1062,413 1057,414 1054,413 1052,417 1048,415 1043,415 1045,413 1041,408 1037,408 1031,405 1022,403 1024,400 1012,399"/>
+	</object>
+
+	<object id="245" name="IRL" x="0" y="0" visible="0">
+		<polygon points="577,3 567,7 550,7 551,5 564,4"/>
+	</object>
+
+	<object id="246" name="IRN" x="0" y="0" visible="0">
+		<polygon points="1063,263 1044,265 1045,267 1039,267 1030,272 1031,275 1027,277 1017,276 1012,281 1012,286 1006,288 1007,289 1004,291 996,287 988,288 985,283 981,277 978,273 984,269 984,267 973,263 970,259 971,254 968,250 972,245 976,239 973,238 972,235 968,235 970,229 975,227 978,223 975,217 978,212 984,209 989,210 993,207 991,204 996,197 999,192 1002,191 1009,185 1015,186 1013,192 1016,195 1018,196 1031,197 1033,201 1027,201 1028,206 1024,211 1027,215 1027,219 1033,225 1042,230 1045,229 1051,232 1059,233 1065,237 1068,240 1068,246 1071,250 1068,257 1070,260"/>
+	</object>
+
+	<object id="247" name="IRQ" x="0" y="0" visible="0">
+		<polygon points="996,197 991,204 993,207 989,210 984,209 978,212 975,217 978,223 975,227 970,229 968,235 965,233 963,231 954,232 945,226 944,219 942,211 938,205 932,200 937,195 946,195 956,197 966,193 970,189 975,190 982,189 986,189 991,193"/>
+	</object>
+
+	<object id="249" name="ISR" x="0" y="0" visible="0">
+		<polygon points="895,199 899,192 913,186 918,187 915,189 912,190 911,189 903,193 907,193 905,195 895,200"/>
+	</object>
+
+	<object id="250" name="ITA" x="0" y="0" visible="0">
+		<polygon points="773,55 782,55 791,55 792,58 806,62 804,70 796,68 787,69 784,75 786,80 793,85 795,91 803,98 810,99 808,102 814,105 820,109 825,114 822,117 819,113 813,111 807,114 812,117 809,120 805,120 799,125 795,124 802,119 799,111 793,106 787,101 781,100 775,96 770,91 764,86 763,78 752,74 737,78 739,75 734,73 732,67 736,65 735,59 744,61 750,59 756,61 759,57 766,59"/>
+	</object>
+	<object id="251" name="ITA" x="0" y="0" visible="0">
+		<polygon points="795,122 790,127 787,131 782,128 775,125 768,122 770,120 780,121 787,122"/>
+	</object>
+	<object id="252" name="ITA" x="0" y="0" visible="0">
+		<polygon points="748,97 752,102 749,110 741,111 738,109 740,102 739,98"/>
+	</object>
+
+	<object id="251" name="JAM" x="0" y="0" visible="0">
+		<polygon points="351,348 353,346 356,344 356,348 352,351"/>
+	</object>
+
+	<object id="252" name="JOR" x="0" y="0" visible="0">
+		<polygon points="937,195 932,200 930,201 923,199 916,197 917,204 912,204 907,203 900,204 894,201 895,200 905,195 907,193 912,190 915,189 919,194 928,194"/>
+	</object>
+
+	<object id="253" name="JPN" x="0" y="0" visible="0">
+		<polygon points="978,566 976,565 975,561 979,561 980,558 978,556 983,554 986,556 987,560 983,561 984,564"/>
+	</object>
+	<object id="254" name="JPN" x="0" y="0" visible="0">
+		<polygon points="961,598 958,593 954,591 953,587 957,581 967,576 968,567 974,566 979,569 987,563 990,557 996,553 986,554 978,546 978,543 983,542 988,546 993,545 999,546 997,550 999,554 997,559 998,564 994,568 989,572 982,574 988,585 981,585 980,591 978,598 982,606 992,611 994,615 988,620 974,614 968,610 968,602"/>
+	</object>
+	<object id="255" name="JPN" x="0" y="0" visible="0">
+		<polygon points="990,644 983,645 981,650 971,644 980,638 979,629 988,629 996,628 991,620 999,616 1008,621 1011,627 1003,631 1017,646 999,644"/>
+	</object>
+
+	<object id="254" name="KAZ" x="0" y="0" visible="0">
+		<polygon points="1329,315 1310,323 1321,326 1317,331 1313,336 1316,340 1320,345 1317,348 1307,352 1305,357 1298,360 1301,368 1291,372 1280,367 1278,362 1262,363 1254,360 1256,354 1257,348 1230,345 1226,343 1222,337 1218,332 1197,339 1192,336 1185,337 1190,330 1188,322 1185,314 1183,312 1185,304 1180,301 1173,302 1173,297 1173,293 1169,290 1163,290 1155,286 1147,282 1138,282 1141,278 1137,272 1145,268 1143,266 1155,264 1159,255 1152,249 1144,242 1150,234 1151,226 1152,217 1142,212 1131,207 1092,223 1089,221 1093,215 1092,210 1084,207 1079,206 1088,202 1085,195 1092,189 1094,184 1099,188 1107,185 1114,188 1118,193 1130,189 1136,185 1129,180 1127,175 1116,172 1106,169 1104,166 1111,163 1114,157 1108,154 1110,146 1123,143 1124,141 1144,137 1144,146 1154,141 1169,143 1185,144 1191,148 1197,153 1199,159 1200,165 1202,171 1203,177 1216,181 1221,185 1226,190 1226,200 1232,200 1239,208 1248,207 1249,200 1250,194 1251,194 1256,198 1260,203 1265,207 1269,212 1273,216 1276,221 1280,226 1283,230 1287,235 1291,240 1294,244 1298,249 1301,254 1303,259 1306,264 1309,268 1312,273 1314,278 1317,283 1319,288 1321,293 1323,298 1325,303 1327,308"/>
+	</object>
+
+	<object id="255" name="KEN" x="0" y="0" visible="0">
+		<polygon points="814,268 816,269 815,271 817,272 819,276 824,279 826,278 830,279 830,280 833,281 826,282 817,289 816,291 810,291 808,292 804,293 802,293 800,289 801,288 798,283 794,279 796,277 804,275 806,271 806,269"/>
+	</object>
+
+	<object id="256" name="KGZ" x="0" y="0" visible="0">
+		<polygon points="1185,337 1182,337 1173,329 1168,328 1164,322 1156,321 1155,315 1150,312 1144,308 1139,309 1136,304 1132,300 1132,294 1128,289 1135,288 1136,293 1140,294 1141,298 1153,303 1156,296 1151,293 1153,289 1163,291 1163,290 1169,290 1173,293 1173,297 1173,302 1180,301 1185,304 1183,312 1185,314 1188,322 1190,330"/>
+	</object>
+
+	<object id="257" name="KHM" x="0" y="0" visible="0">
+		<polygon points="948,424 954,425 958,427 957,431 955,434 952,436 955,437 951,440 948,440 942,438 941,433 937,434 938,431 937,428 939,426"/>
+	</object>
+
+	<object id="258" name="KOR" x="0" y="0" visible="0">
+		<polygon points="1045,561 1031,560 1025,558 1016,554 1014,551 1017,547 1017,543 1021,539 1030,544 1041,546 1039,549 1049,549 1047,552 1049,555 1044,560"/>
+	</object>
+
+	<object id="259" name="KOS" x="0" y="0" visible="0">
+		<polygon points="849,108 848,102 851,101 858,99 863,104 860,107"/>
+	</object>
+
+	<object id="260" name="KWT" x="0" y="0" visible="0">
+		<polygon points="954,232 963,231 965,233 959,239 956,237 957,235"/>
+	</object>
+
+	<object id="261" name="LAO" x="0" y="0" visible="0">
+		<polygon points="1001,426 999,428 1006,429 1006,431 994,433 992,437 987,437 984,434 979,437 965,439 960,441 956,441 951,440 955,437 952,436 955,434 957,435 961,436 967,434 973,435 978,433 980,431 978,430 980,427 978,423 983,424 989,425 990,423 993,423 996,422"/>
+	</object>
+
+	<object id="262" name="LBN" x="0" y="0" visible="0">
+		<polygon points="918,187 913,186 927,182 928,185 923,185"/>
+	</object>
+
+	<object id="263" name="LBR" x="0" y="0" visible="0">
+		<polygon points="627,237 628,240 633,242 633,245 627,244 618,242 615,240 615,239 619,236 621,235 623,236 623,238 625,238"/>
+	</object>
+
+	<object id="264" name="LBY" x="0" y="0" visible="0">
+		<polygon points="740,189 738,186 734,184 731,184 730,180 727,176 730,175 732,168 734,164 733,158 737,157 738,153 750,150 752,146 760,149 769,150 777,154 779,159 786,161 793,164 799,168 807,166 808,162 812,160 818,159 823,160 832,163 833,165 843,170 843,172 839,173 839,175 835,177 834,181 812,208 807,215 801,213 800,215 792,209 783,203 773,198 763,192 756,193 751,194 749,191"/>
+	</object>
+
+	<object id="265" name="LKA" x="0" y="0" visible="0">
+		<polygon points="929,366 924,366 921,363 924,362 930,361 939,361 936,363"/>
+	</object>
+
+	<object id="266" name="LSO" x="0" y="0" visible="0">
+		<polygon points="733,319 733,320 731,321 728,321 728,319 729,319 732,319"/>
+	</object>
+
+	<object id="268" name="LUX" x="0" y="0" visible="0">
+		<polygon points="729,27 734,21 734,28"/>
+	</object>
+
+	<object id="270" name="MAR" x="0" y="0" visible="0">
+		<polygon points="649,130 653,134 657,145 647,146 640,149 640,153 632,155 630,157 617,160 607,164 609,169 608,172 603,174 592,175 591,178 589,179 588,184 581,189 581,195 580,198 567,201 566,199 569,195 568,191 572,187 572,183 573,180 577,178 579,173 582,171 588,169 595,164 600,160 596,154 598,147 602,143 614,138 620,128 625,128 630,130 638,129"/>
+	</object>
+
+	<object id="271" name="MDA" x="0" y="0" visible="0">
+		<polygon points="939,75 950,75 955,80 960,85 957,98 947,95 935,100 943,90 943,83 942,76"/>
+	</object>
+
+	<object id="272" name="MDG" x="0" y="0" visible="0">
+		<polygon points="808,319 807,321 804,322 803,323 801,324 802,323 799,324 797,324 795,325 775,330 771,329 769,327 770,326 772,325 774,323 776,322 780,321 782,321 783,319 785,317 789,317 794,318 799,319 805,318 809,317"/>
+	</object>
+
+	<object id="273" name="MEX" x="0" y="0" visible="0">
+		<polygon points="344,383 348,386 348,391 351,391 351,393 356,390 358,390 358,394 362,395 366,395 361,399 358,403 362,408 360,413 359,416 357,422 354,426 354,432 352,433 350,437 344,441 338,440 330,444 326,448 322,452 319,455 317,459 312,460 310,465 305,467 306,469 302,474 290,481 287,482 287,489 291,489 299,485 303,481 307,476 311,474 316,468 322,466 326,462 330,461 329,460 333,456 338,457 334,459 332,462 330,467 322,470 320,475 320,479 318,482 316,480 310,481 307,485 306,487 295,496 289,500 284,495 280,491 282,491 281,486 281,482 280,474 277,468 274,463 270,464 266,457 273,449 280,446 282,440 275,438 274,435 276,432 285,427 288,425 296,422 299,416 298,415 310,416 322,416 333,413 337,410 343,408 344,404 347,403 344,398 341,393 339,391 328,389 325,383 325,378 330,378 333,380 338,380 345,381"/>
+	</object>
+
+	<object id="274" name="MKD" x="0" y="0" visible="0">
+		<polygon points="849,115 846,113 849,108 860,107 867,108 869,111 867,116 858,115"/>
+	</object>
+
+	<object id="275" name="MLI" x="0" y="0" visible="0">
+		<polygon points="668,214 664,213 656,215 655,216 648,219 646,219 644,222 640,224 640,228 637,229 636,228 633,229 628,230 624,228 625,226 621,224 616,226 609,225 608,223 606,222 603,219 605,216 610,216 616,215 626,214 637,213 637,210 632,196 625,180 635,179 647,183 657,187 668,191 677,195 678,197 685,198 684,201 691,201 690,208 687,210 686,212 674,213 672,214"/>
+	</object>
+
+	<object id="276" name="MMR" x="0" y="0" visible="0">
+		<polygon points="1002,396 1007,396 1006,397 1011,398 1012,399 1024,400 1022,403 1031,405 1037,408 1041,408 1045,413 1043,415 1048,415 1052,417 1052,419 1045,422 1034,421 1029,417 1021,416 1021,419 1014,420 1012,422 1007,420 1003,424 1004,427 1001,426 996,422 993,418 993,416 987,414 986,412 981,413 972,416 968,414 967,413 959,415 954,415 949,416 940,412 944,412 947,413 951,413 956,413 959,412 973,412 978,411 972,405 974,401 981,403 987,402 994,400 996,400 997,399"/>
+	</object>
+
+	<object id="277" name="MNE" x="0" y="0" visible="0">
+		<polygon points="848,102 846,101 839,105 834,100 835,99 839,95 845,94 851,101"/>
+	</object>
+
+	<object id="278" name="MNG" x="0" y="0" visible="0">
+		<polygon points="1333,449 1324,455 1319,462 1313,468 1299,467 1294,472 1288,475 1288,483 1287,490 1282,496 1271,501 1261,503 1256,509 1250,515 1249,522 1248,530 1250,535 1252,541 1240,546 1235,553 1225,546 1215,539 1208,539 1207,542 1200,547 1202,553 1193,556 1179,557 1175,555 1181,552 1186,544 1185,539 1180,533 1182,523 1179,516 1184,513 1189,509 1182,504 1172,505 1166,495 1165,489 1169,481 1170,472 1166,465 1171,464 1173,457 1184,451 1187,446 1188,439 1191,433 1193,428 1194,422 1202,419 1215,418 1217,414 1226,408 1229,401 1231,394 1238,392 1255,394 1267,390 1273,381 1281,376 1293,374 1296,381 1303,387 1311,393 1315,398 1319,403 1313,408 1312,415 1303,419 1299,427 1295,434 1306,442 1317,440 1334,448 1333,448"/>
+	</object>
+
+	<object id="279" name="MOZ" x="0" y="0" visible="0">
+		<polygon points="774,298 776,299 779,301 782,302 789,303 792,303 784,309 784,310 779,311 776,311 770,310 765,311 760,311 758,312 757,315 755,317 752,318 747,317 745,317 745,318 744,319 742,318 743,317 746,315 747,311 752,311 755,309 755,308 758,307 760,305 757,302 755,301 756,300 756,299 766,301 767,302 768,303 765,305 766,307 768,306 769,306 771,304 772,303 770,301 772,299"/>
+	</object>
+
+	<object id="280" name="MRT" x="0" y="0" visible="0">
+		<polygon points="609,171 622,175 635,179 625,180 632,196 637,210 637,213 626,214 616,215 610,216 605,216 603,219 595,215 588,214 579,217 577,211 574,206 573,204 567,202 568,201 579,199 590,197 587,192 588,190 593,189 589,179 600,178 610,177"/>
+	</object>
+
+	<object id="281" name="MWI" x="0" y="0" visible="0">
+		<polygon points="774,298 772,299 770,301 772,303 771,304 769,306 768,306 766,307 765,305 768,303 767,302 766,301 765,300 769,298 770,297 773,295 774,294 773,293 776,294 776,296"/>
+	</object>
+
+	<object id="282" name="MYS" x="0" y="0" visible="0">
+		<polygon points="896,448 893,448 893,450 897,452 899,454 901,456 900,457 897,458 895,457 890,460 888,459 889,458 887,458 887,456 892,451 888,449 888,448 883,445 884,444 886,442 886,439 887,436 890,435 893,435 891,436 890,438 893,439 892,444"/>
+	</object>
+	<object id="283" name="MYS" x="0" y="0" visible="0">
+		<polygon points="920,420 916,421 913,422 908,421 904,421 902,422 897,422 897,420 906,416 908,416 911,415 915,415 917,414 921,415 923,415 921,417 918,417 918,419"/>
+	</object>
+
+	<object id="283" name="NAM" x="0" y="0" visible="0">
+		<polygon points="701,292 705,292 707,292 708,293 720,295 722,296 728,298 734,298 736,298 738,300 734,300 733,299 729,298 726,298 723,304 720,303 717,308 714,313 711,314 710,314 708,313 707,311 705,312 704,311 704,309 704,304 705,301 703,299 703,295 701,293"/>
+	</object>
+
+	<object id="284" name="NCL" x="0" y="0" visible="0">
+		<polygon points="706,477 701,476 702,476 706,476 710,478"/>
+	</object>
+
+	<object id="285" name="NER" x="0" y="0" visible="0">
+		<polygon points="684,224 681,222 677,223 677,221 672,220 672,219 669,217 668,214 672,214 674,213 686,212 687,210 690,208 691,201 699,199 708,196 717,194 729,191 740,189 749,191 751,194 756,193 755,199 758,203 756,204 751,211 749,215 741,217 737,221 738,222 737,224 741,224 739,226 737,227 736,227 734,223 729,224 725,222 718,222 715,223 712,223 706,220 701,221 700,220 695,218 689,218 685,222"/>
+	</object>
+
+	<object id="286" name="NGA" x="0" y="0" visible="0">
+		<polygon points="679,239 679,233 680,231 684,229 685,227 684,224 685,222 689,218 695,218 700,220 701,221 706,220 712,223 715,223 718,222 725,222 729,224 734,223 736,227 737,227 739,228 737,229 732,231 726,236 723,237 720,240 717,241 713,239 708,240 704,244 696,245 692,245 689,241 686,239"/>
+	</object>
+
+	<object id="287" name="NIC" x="0" y="0" visible="0">
+		<polygon points="387,370 387,371 385,373 385,376 375,381 375,380 373,379 371,379 369,377 371,376 366,373 367,372 366,367 375,369 379,369 384,371"/>
+	</object>
+
+	<object id="288" name="NLD" x="0" y="0" visible="0">
+		<polygon points="745,2 744,4 737,3 736,14 724,7 713,8 705,7 711,4 714,0 729,1"/>
+	</object>
+
+	<object id="290" name="NPL" x="0" y="0" visible="0">
+		<polygon points="1066,352 1068,354 1066,357 1062,362 1061,364 1058,366 1054,372 1053,377 1052,381 1041,381 1041,378 1042,370 1046,368 1046,363 1050,356 1054,349 1061,350"/>
+	</object>
+
+	<object id="291" name="NZL" x="0" y="0" visible="0">
+		<polygon points="679,449 679,448 678,449 677,448 678,446 679,446 678,445 680,445 681,444 682,442 684,441 685,440 686,441 688,441 688,442 686,444 685,444 683,446 681,448 681,449 680,450"/>
+	</object>
+	<object id="292" name="NZL" x="0" y="0" visible="0">
+		<polygon points="678,456 676,455 676,456 675,455 675,454 672,454 670,454 669,454 670,452 672,452 672,451 674,449 675,448 676,449 675,450 676,451 678,451 678,452 677,452 677,454 678,455 681,457 682,458 681,458 680,458 678,457"/>
+	</object>
+
+	<object id="292" name="OMN" x="0" y="0" visible="0">
+		<polygon points="974,270 975,269"/>
+	</object>
+	<object id="293" name="OMN" x="0" y="0" visible="0">
+		<polygon points="953,273 964,272 968,271 970,272 967,275 967,277 970,282 966,288 952,288 951,286 946,287 943,288 936,286 932,286 930,285 926,285 922,282 916,280 923,273 931,276 938,279 951,276"/>
+	</object>
+
+	<object id="293" name="PAK" x="0" y="0" visible="0">
+		<polygon points="1017,276 1019,283 1026,289 1028,291 1034,295 1041,294 1047,295 1049,298 1051,298 1055,302 1058,303 1063,302 1069,302 1073,305 1077,302 1079,306 1087,306 1092,307 1099,304 1105,305 1109,310 1113,315 1118,319 1115,323 1108,326 1108,334 1098,330 1095,326 1094,319 1089,317 1077,323 1074,326 1068,324 1062,325 1052,322 1043,321 1033,319 1031,314 1021,312 1020,315 1015,316 1013,319 1007,321 1005,317 1003,313 997,312 997,309 1000,307 1003,303 997,297 993,292 988,288 996,287 1004,291 1007,289 1006,288 1012,286 1012,281"/>
+	</object>
+
+	<object id="294" name="PAN" x="0" y="0" visible="0">
+		<polygon points="402,354 406,354 407,356 409,356 404,357 403,357 399,359 402,363 405,362 406,364 403,364 403,366 401,366 400,369 397,368 394,369 394,368 397,367 398,365 397,361 396,360 399,356"/>
+	</object>
+
+	<object id="295" name="PER" x="0" y="0" visible="0">
+		<polygon points="487,350 493,349 494,350 498,351 499,352 502,353 504,352 507,354 508,356 506,357 504,357 500,360 495,362 492,363 489,364 489,363 484,364 477,365 469,366 465,367 460,370 459,369 455,370 452,369 451,367 454,368 455,366 457,365 456,364 454,363 451,362 450,359 447,356 445,355 442,355 442,354 448,351 453,351 454,349 454,348 455,346 458,345 461,347 464,346 463,347 463,350 464,352 466,354 468,354 469,355 471,356 474,356 477,355 478,356 479,354 481,354 482,352 481,350 486,352"/>
+	</object>
+
+	<object id="296" name="PHL" x="0" y="0" visible="0">
+		<polygon points="883,480 878,479 876,477 881,477 880,476 876,475 875,474 881,472 884,473 885,474 888,473 888,472 889,471 889,469 890,469 893,471 892,474 889,474 889,477 890,478 888,479 891,480 887,481"/>
+	</object>
+	<object id="297" name="PHL" x="0" y="0" visible="0">
+		<polygon points="897,478 895,474 899,473 900,475 903,476 901,478 899,476 901,480"/>
+	</object>
+	<object id="298" name="PHL" x="0" y="0" visible="0">
+		<polygon points="907,464 906,459 908,461 910,466 913,469 909,468"/>
+	</object>
+	<object id="299" name="PHL" x="0" y="0" visible="0">
+		<polygon points="910,475 905,478 903,477 903,474"/>
+	</object>
+	<object id="300" name="PHL" x="0" y="0" visible="0">
+		<polygon points="901,485 895,483 899,482 894,481 894,480 897,481 901,481 901,483 906,482 903,485"/>
+	</object>
+	<object id="301" name="PHL" x="0" y="0" visible="0">
+		<polygon points="916,476 913,474 921,474 918,476"/>
+	</object>
+	<object id="302" name="PHL" x="0" y="0" visible="0">
+		<polygon points="942,485 939,486 932,486 929,484 929,481 925,480 921,479 918,481 912,484 906,482 911,481 914,481 913,479 918,479 919,476 922,475 924,477 924,476 928,476 936,477 933,478 940,481 944,483"/>
+	</object>
+
+	<object id="297" name="PNG" x="0" y="0" visible="0">
+		<polygon points="791,477 806,488 799,489 792,490 786,490 785,489 778,490 777,489 779,488 777,487 773,487 769,486 768,487 767,486 761,486 763,485 764,485 770,483 776,484 779,485 784,484 787,481 785,480 786,479"/>
+	</object>
+	<object id="298" name="PNG" x="0" y="0" visible="0">
+		<polygon points="751,497 752,496 756,498 758,499"/>
+	</object>
+	<object id="299" name="PNG" x="0" y="0" visible="0">
+		<polygon points="766,496 770,492 771,492 777,491 777,492 773,493 772,495 771,494 770,495 768,497 769,498 767,498"/>
+	</object>
+	<object id="300" name="PNG" x="0" y="0" visible="0">
+		<polygon points="764,499 764,498 767,499 772,500 775,500 769,500 765,500"/>
+	</object>
+
+	<object id="298" name="POL" x="0" y="0" visible="0">
+		<polygon points="934,31 933,36 932,46 919,49 908,53 905,57 898,51 886,49 879,49 875,45 870,45 868,39 860,37 861,34 851,34 848,28 837,22 838,12 847,13 855,15 864,16 872,17 880,19 889,21 897,23 905,25 920,28"/>
+	</object>
+
+	<object id="299" name="PRI" x="0" y="0" visible="0">
+		<polygon points="371,313 374,312 375,313 372,317 369,316"/>
+	</object>
+
+	<object id="300" name="PRK" x="0" y="0" visible="0">
+		<polygon points="1078,550 1080,555 1079,562 1082,568 1077,569 1072,572 1077,574 1073,582 1076,586 1066,586 1064,586 1067,585 1065,578 1058,575 1058,568 1060,562 1056,560 1045,561 1044,560 1049,555 1047,552 1049,549 1059,545 1067,552"/>
+	</object>
+
+	<object id="301" name="PRT" x="0" y="0" visible="0">
+		<polygon points="585,92 591,89 594,92 606,90 609,94 605,96 606,105 602,106 606,110 605,114 608,115 605,120 606,121 603,123 595,124 593,115 586,113 586,109 589,106 589,99"/>
+	</object>
+
+	<object id="302" name="PRY" x="0" y="0" visible="0">
+		<polygon points="547,340 549,341 550,342 549,343 545,346 543,343 542,343 539,344 536,345 534,346 528,347 524,345 522,344 524,341 525,340 528,339 529,339 531,339 534,340 536,339 536,338 539,338 542,339 544,338"/>
+	</object>
+
+	<object id="303" name="PSE" x="0" y="0" visible="0">
+		<polygon points="907,193 903,193 911,189 912,190"/>
+	</object>
+
+	<object id="304" name="QAT" x="0" y="0" visible="0">
+		<polygon points="948,256 952,254 957,254 957,256 950,258"/>
+	</object>
+
+	<object id="305" name="ROU" x="0" y="0" visible="0">
+		<polygon points="926,113 918,107 910,106 901,106 890,102 879,99 879,95 872,89 873,86 868,83 866,76 874,76 883,72 892,68 900,67 905,67 916,71 919,74 929,74 939,75 942,76 943,83 943,90 935,100 946,105 944,107 937,106"/>
+	</object>
+
+	<object id="306" name="RUS" x="0" y="0" visible="0">
+		<polygon points="917,749 916,749 921,742 925,736 934,742 937,745 927,747"/>
+	</object>
+	<object id="307" name="RUS" x="0" y="0" visible="0">
+		<polygon points="1090,691 1086,682 1073,673 1060,659 1059,651 1057,643 1053,637 1052,630 1051,622 1050,615 1049,608 1052,599 1056,597 1065,597 1066,588 1064,586 1066,586 1071,588 1068,591 1079,597 1089,600 1088,606 1078,610 1083,618 1092,626 1100,638 1104,634 1109,629 1110,623 1121,616 1135,620 1153,618 1161,615 1169,612 1185,616 1209,620 1204,624 1199,628 1194,632 1188,636 1182,640 1176,644 1170,647 1164,651 1159,655 1153,659 1146,662 1140,666 1134,669 1127,673 1121,676 1114,679 1102,686"/>
+	</object>
+	<object id="308" name="RUS" x="0" y="0" visible="0">
+		<polygon points="1247,587 1246,587 1244,582 1232,571 1226,569 1225,563 1224,558 1235,553 1240,546 1252,541 1250,535 1248,530 1249,522 1250,515 1256,509 1261,503 1271,501 1282,496 1287,490 1288,483 1288,475 1294,472 1299,467 1313,468 1319,462 1324,455 1333,449 1332,454 1331,459 1329,464 1327,469 1326,474 1323,479 1321,484 1318,489 1316,494 1314,499 1312,504 1309,509 1306,513 1303,518 1300,523 1297,528 1294,532 1291,537 1287,542 1284,547 1280,551 1276,556 1272,560 1268,565 1263,570 1258,576 1252,582"/>
+	</object>
+	<object id="309" name="RUS" x="0" y="0" visible="0">
+		<polygon points="1334,448 1317,440 1306,442 1295,434 1299,427 1303,419 1312,415 1313,408 1319,403 1315,398 1311,393 1303,387 1296,381 1293,374 1291,372 1301,368 1298,360 1305,357 1307,352 1317,348 1320,345 1316,340 1313,336 1317,331 1321,326 1310,323 1329,315 1331,320 1333,325 1334,330 1336,335 1337,340 1338,345 1338,350 1339,355 1340,360 1341,365 1341,370 1342,375 1342,380 1342,385 1342,390 1341,396 1341,401 1341,406 1341,411 1340,416 1340,421 1339,426 1338,431 1336,436 1335,442"/>
+	</object>
+	<object id="310" name="RUS" x="0" y="0" visible="0">
+		<polygon points="1251,194 1250,194 1249,200 1248,207 1239,208 1232,200 1226,200 1226,190 1221,185 1216,181 1203,177 1202,171 1200,165 1199,159 1197,153 1191,148 1185,144 1169,143 1154,141 1144,146 1144,137 1124,141 1123,143 1110,146 1108,154 1114,157 1111,163 1104,166 1106,169 1096,170 1088,167 1071,169 1067,177 1060,180 1056,190 1046,190 1044,188 1043,182 1043,175 1039,171 1034,167 1029,160 1022,155 1015,149 1013,150 1011,140 1005,134 1004,127 1011,129 1025,126 1024,122 1039,124 1041,123 1032,121 1037,118 1044,118 1053,121 1061,114 1073,110 1069,106 1064,101 1059,99 1058,93 1050,91 1042,83 1045,77 1038,73 1045,69 1045,66 1053,69 1060,72 1067,75 1074,78 1081,81 1088,84 1095,88 1102,91 1108,94 1115,97 1122,101 1128,104 1135,108 1141,111 1147,115 1153,119 1159,122 1166,126 1172,130 1177,134 1183,137 1189,141 1194,145 1199,150 1205,153 1210,157 1216,162 1221,166 1226,170 1231,174 1235,179 1240,183 1246,188"/>
+	</object>
+	<object id="311" name="RUS" x="0" y="0" visible="0">
+		<polygon points="983,112 987,111 994,119 996,122 1004,125 1000,127 990,125 974,124 971,121 977,119 970,113 984,113"/>
+	</object>
+	<object id="312" name="RUS" x="0" y="0" visible="0">
+		<polygon points="1070,700 1068,698 1053,691 1039,685 1026,680 1034,679 1042,677 1033,664 1016,661 1010,656 1021,657 1020,650 1029,655 1037,662 1049,669 1054,676 1068,687 1085,692 1086,693 1078,697"/>
+	</object>
+
+	<object id="307" name="RWA" x="0" y="0" visible="0">
+		<polygon points="779,278 778,277 776,278 774,277 777,275 779,275 782,275 782,277"/>
+	</object>
+
+	<object id="308" name="ESH" x="0" y="0" visible="0">
+		<polygon points="609,169 609,171 610,177 600,178 589,179 593,189 588,190 587,192 590,197 579,199 568,201 567,202 567,201 580,198 581,195 581,189 588,184 591,178 592,175 603,174 608,172"/>
+	</object>
+
+	<object id="309" name="SAU" x="0" y="0" visible="0">
+		<polygon points="948,260 943,264 947,269 951,273 953,273 951,276 938,279 931,276 923,273 917,269 911,266 906,265 898,266 891,260 885,257 885,255 880,257 877,257 880,253 879,251 882,245 880,240 881,236 886,232 888,228 885,224 887,221 889,214 889,206 887,205 894,201 900,204 907,203 912,204 917,204 916,197 923,199 930,201 932,200 938,205 942,211 944,219 945,226 954,232 957,235 956,237 959,239 956,242 956,249 952,251 948,256 950,258"/>
+	</object>
+
+	<object id="310" name="SDN" x="0" y="0" visible="0">
+		<polygon points="778,248 775,245 777,242 776,238 776,236 777,234 775,233 778,231 780,229 786,226 790,227 800,215 801,213 807,215 812,208 820,210 828,213 836,215 844,218 852,220 859,223 866,226 873,229 871,233 869,233 866,236 863,240 865,244 861,244 855,244 845,248 844,249 836,253 832,253 827,255 824,255 820,257 818,259 821,255 820,253 824,249 819,248 818,251 810,252 808,252 806,249 799,250 795,249 795,248 789,247 788,244 784,243 779,246 776,246"/>
+	</object>
+
+	<object id="311" name="SSD" x="0" y="0" visible="0">
+		<polygon points="784,258 781,255 782,254 779,250 778,248 776,246 779,246 784,243 788,244 789,247 795,248 795,249 799,250 806,249 808,252 810,252 818,251 819,248 824,249 820,253 821,255 818,259 814,259 811,260 814,261 814,264 815,265 814,268 806,269 803,269 797,267 795,266 793,266 791,263 791,262 786,261 784,261"/>
+	</object>
+
+	<object id="312" name="SEN" x="0" y="0" visible="0">
+		<polygon points="609,225 604,226 598,226 589,227 584,229 582,227 586,226 589,224 594,224 595,223 592,224 589,223 587,224 582,225 578,223 575,223 577,222 579,217 588,214 595,215 603,219 606,222 608,223"/>
+	</object>
+
+	<object id="313" name="SLB" x="0" y="0" visible="0">
+		<polygon points="726,494 725,494 727,493 729,494"/>
+	</object>
+	<object id="314" name="SLB" x="0" y="0" visible="0">
+		<polygon points="731,495 734,494 735,495 733,495"/>
+	</object>
+	<object id="315" name="SLB" x="0" y="0" visible="0">
+		<polygon points="728,496 728,495 732,496 733,497 732,498"/>
+	</object>
+	<object id="316" name="SLB" x="0" y="0" visible="0">
+		<polygon points="736,497 738,497 742,498 737,497"/>
+	</object>
+	<object id="317" name="SLB" x="0" y="0" visible="0">
+		<polygon points="745,497 747,497 749,498"/>
+	</object>
+
+	<object id="314" name="SLE" x="0" y="0" visible="0">
+		<polygon points="604,236 607,233 613,232 616,233 617,236 619,236 615,239 615,240 610,240 607,239"/>
+	</object>
+
+	<object id="315" name="SLV" x="0" y="0" visible="0">
+		<polygon points="370,389 367,386 370,384 370,382 372,382 374,384"/>
+	</object>
+
+	<object id="316" name="SOM" x="0" y="0" visible="0">
+		<polygon points="858,269 861,269 861,273 871,277 879,280 881,281 873,284 865,285 862,283 859,279 855,275 856,270"/>
+	</object>
+
+	<object id="318" name="SRB" x="0" y="0" visible="0">
+		<polygon points="879,95 874,99 876,103 867,108 860,107 863,104 858,99 851,101 845,94 850,91 849,84 854,82 852,75 866,76 868,83 873,86 872,89"/>
+	</object>
+
+	<object id="319" name="SUR" x="0" y="0" visible="0">
+		<polygon points="469,307 465,310 468,311 466,312 455,312 452,311 453,309 450,308 453,305 455,303 459,301 460,304 463,304 466,304"/>
+	</object>
+
+	<object id="320" name="SVK" x="0" y="0" visible="0">
+		<polygon points="844,54 846,49 858,47 870,45 875,45 879,49 886,49 898,51 905,57 897,61 885,57 878,58 862,57 851,58"/>
+	</object>
+
+	<object id="321" name="SVN" x="0" y="0" visible="0">
+		<polygon points="806,62 813,64 822,64 830,63 833,67 824,67 816,73 810,70 801,70 804,70"/>
+	</object>
+
+	<object id="323" name="SWZ" x="0" y="0" visible="0">
+		<polygon points="743,317 742,318 741,319 740,319 740,317 742,316"/>
+	</object>
+
+	<object id="324" name="SYR" x="0" y="0" visible="0">
+		<polygon points="982,189 975,190 970,189 966,193 956,197 946,195 937,195 928,194 919,194 915,189 918,187 923,185 928,185 927,182 931,178 935,177 945,176 954,178 961,182 971,184"/>
+	</object>
+
+	<object id="325" name="TCD" x="0" y="0" visible="0">
+		<polygon points="776,238 770,239 765,241 760,241 754,240 754,241 749,242 743,242 736,241 737,241 737,237 733,235 734,233 740,235 739,232 741,228 739,226 741,224 737,224 738,222 737,221 741,217 749,215 751,211 756,204 758,203 755,199 756,193 763,192 773,198 783,203 792,209 800,215 790,227 786,226 780,229 778,231 775,233 777,234 776,236"/>
+	</object>
+
+	<object id="326" name="TGO" x="0" y="0" visible="0">
+		<polygon points="671,226 670,227 673,229 674,231 674,237 675,239 671,240 669,236 670,233 669,232 668,228 667,226"/>
+	</object>
+
+	<object id="327" name="THA" x="0" y="0" visible="0">
+		<polygon points="955,434 957,431 958,427 954,425 948,424 951,422 952,420 955,421 956,418 951,417 940,414 936,414 936,415 927,416 924,417 923,419 920,420 918,419 918,417 921,417 923,415 927,413 933,411 930,411 933,410 940,412 949,416 954,415 959,415 967,413 968,414 972,416 981,413 986,412 987,414 993,416 993,418 996,422 993,423 990,423 989,425 983,424 978,423 980,427 978,430 980,431 978,433 973,435 967,434 961,436 957,435"/>
+	</object>
+
+	<object id="328" name="TJK" x="0" y="0" visible="0">
+		<polygon points="1121,318 1118,310 1107,305 1109,303 1118,302 1121,297 1111,296 1109,293 1104,293 1105,291 1100,287 1111,287 1118,284 1118,280 1123,280 1125,284 1141,285 1147,291 1142,291 1140,294 1136,293 1135,288 1128,289 1132,294 1132,300 1136,304 1139,309 1130,311 1130,316"/>
+	</object>
+
+	<object id="329" name="TKM" x="0" y="0" visible="0">
+		<polygon points="1097,280 1098,276 1094,277 1089,273 1081,275 1072,270 1068,270 1064,268 1063,263 1070,260 1068,257 1071,250 1068,246 1068,240 1065,237 1059,233 1051,232 1045,229 1050,226 1060,223 1059,219 1066,217 1063,214 1072,212 1075,216 1082,219 1084,213 1089,210 1082,207 1074,210 1079,206 1084,207 1092,210 1093,215 1089,221 1092,223 1098,227 1102,225 1110,227 1120,229 1121,237 1113,240 1112,243 1118,247 1117,250 1109,255 1106,261 1104,266 1103,272 1103,279"/>
+	</object>
+
+	<object id="330" name="TLS" x="0" y="0" visible="0">
+		<polygon points="828,454 829,454 830,454 827,458 826,457"/>
+	</object>
+
+	<object id="331" name="TTO" x="0" y="0" visible="0">
+		<polygon points="419,312 421,309 424,311 422,313"/>
+	</object>
+
+	<object id="332" name="TUN" x="0" y="0" visible="0">
+		<polygon points="733,158 733,149 724,142 724,138 729,136 732,131 732,126 735,123 744,121 750,123 748,126 756,124 751,128 752,132 750,137 744,139 745,142 748,142 752,146 750,150 738,153 737,157"/>
+	</object>
+
+	<object id="333" name="TUR" x="0" y="0" visible="0">
+		<polygon points="1019,175 1013,179 1015,186 1009,185 1002,191 999,192 996,197 991,193 986,189 982,189 971,184 961,182 954,178 945,176 935,177 935,172 931,168 923,169 912,166 910,162 902,159 899,160 893,159 889,154 881,152 882,146 879,141 886,138 884,134 897,131 909,134 917,131 924,133 931,136 944,136 955,137 967,142 971,147 975,152 983,158 992,161 997,164 1009,166 1017,169"/>
+	</object>
+	<object id="334" name="TUR" x="0" y="0" visible="0">
+		<polygon points="895,119 905,120 912,123 910,125 915,129 913,130 903,128 889,130 890,125 898,122"/>
+	</object>
+
+	<object id="334" name="TWN" x="0" y="0" visible="0">
+		<polygon points="973,498 962,490 969,490 973,491 977,495 979,499 976,500"/>
+	</object>
+
+	<object id="335" name="TZA" x="0" y="0" visible="0">
+		<polygon points="772,280 773,281 779,280 779,278 782,277 782,275 783,275 794,279 798,283 801,288 800,289 802,293 798,294 797,295 797,297 793,299 791,302 792,303 789,303 782,302 779,301 776,299 774,298 776,296 776,294 773,293 769,289 770,286 769,284"/>
+	</object>
+
+	<object id="336" name="UGA" x="0" y="0" visible="0">
+		<polygon points="779,275 780,273 783,271 788,270 791,269 790,268 793,266 795,266 797,267 803,269 806,269 806,271 804,275 796,277 794,279 783,275 782,275"/>
+	</object>
+
+	<object id="337" name="UKR" x="0" y="0" visible="0">
+		<polygon points="1045,66 1045,69 1038,73 1045,77 1042,83 1050,91 1058,93 1059,99 1064,101 1069,106 1073,110 1061,114 1053,121 1044,118 1037,118 1032,121 1025,118 1017,118 1009,115 998,115 994,119 987,111 983,112 978,108 972,104 974,101 965,99 955,102 946,105 935,100 947,95 957,98 960,85 955,80 950,75 939,75 929,74 919,74 916,71 905,67 900,67 897,61 905,57 908,53 919,49 932,46 933,36 946,36 955,38 965,41 975,47 985,52 994,56 1003,60 1013,55 1021,57 1029,60 1037,63"/>
+	</object>
+
+	<object id="338" name="URY" x="0" y="0" visible="0">
+		<polygon points="561,351 559,350 557,349 554,347 554,346 557,346 558,345 563,344 565,344 565,345 567,346 568,347 567,348 566,349 564,350 563,351"/>
+	</object>
+
+	<object id="339" name="USA" x="0" y="0" visible="0">
+		<polygon points="144,583 138,579 132,574 126,570 120,566 114,562 109,557 103,553 98,548 93,543 89,538 84,533 80,528 76,523 72,518 69,513 65,508 62,502 60,497 57,491 55,486 53,481 51,475 49,470 48,464 47,459 46,453 46,448 46,442 46,437 46,431 47,426 47,420 41,419 52,415 53,410 54,404 59,398 57,393 61,386 56,378 62,373 68,368 74,363 80,358 87,354 97,351 105,346 130,346 147,352 153,349 148,342 148,337 144,329 136,330 134,327 136,322 138,317 134,315 129,309 125,304 127,299 129,295 132,290 134,286 131,280 116,273 108,266 113,265 113,261 119,260 138,264 148,262 153,262 155,269 155,276 155,282 163,287 177,288 180,286 178,294 177,301 178,306 179,298 182,297 181,303 180,308 190,311 197,315 189,317 202,317 212,323 205,321 200,322 191,322 196,323 214,325 215,323 229,324 234,328 235,333 239,336 239,338 245,342 249,347 257,352 262,353 275,353 294,351 301,352 305,353 305,356 299,357 284,361 279,359 267,363 265,364 268,369 261,374 262,378 261,382 263,387 271,386 271,392 267,395 268,398 266,401 269,407 276,410 280,414 288,417 296,416 299,416 296,422 288,425 285,427 276,432 274,435 275,438 282,440 280,446 273,449 266,457 270,464 274,463 277,468 280,474 281,482 281,486 282,491 280,491 284,495 289,500 286,501 282,509 283,513 286,517 281,520 277,527 269,535 262,544 255,547 252,552 243,554 235,557 229,562 216,564 195,571 179,578 166,588 163,588 159,579 168,572 163,572"/>
+	</object>
+	<object id="340" name="USA" x="0" y="0" visible="0">
+		<polygon points="531,559 533,560 533,562 530,564 527,561 527,560"/>
+	</object>
+
+	<object id="340" name="UZB" x="0" y="0" visible="0">
+		<polygon points="1100,287 1097,280 1103,279 1103,272 1104,266 1106,261 1109,255 1117,250 1118,247 1112,243 1113,240 1121,237 1120,229 1110,227 1102,225 1098,227 1092,223 1131,207 1142,212 1152,217 1151,226 1150,234 1144,242 1152,249 1159,255 1155,264 1143,266 1145,268 1137,272 1141,278 1138,282 1147,282 1155,286 1163,290 1163,291 1153,289 1151,293 1156,296 1153,303 1141,298 1140,294 1142,291 1147,291 1141,285 1125,284 1123,280 1118,280 1118,284 1111,287"/>
+	</object>
+
+	<object id="341" name="VEN" x="0" y="0" visible="0">
+		<polygon points="444,317 446,318 445,323 445,324 441,327 443,326 448,328 450,326 450,328 452,328 451,331 452,332 451,334 448,335 444,334 440,335 439,334 434,334 431,333 428,331 427,332 424,336 420,337 418,338 417,341 414,342 412,342 406,342 405,343 400,341 395,337 396,336 396,338 401,338 404,339 408,339 408,338 405,337 403,337 399,337 399,333 397,333 396,331 400,331 401,329 407,328 410,323 413,322 415,320 414,318 419,312 418,315 421,314 423,313 427,311 431,312 434,310 435,313 438,313 438,316 440,317"/>
+	</object>
+
+	<object id="342" name="VNM" x="0" y="0" visible="0">
+		<polygon points="1006,431 1007,433 1005,439 1007,442 1004,443 1001,446 998,445 995,446 991,449 989,444 984,440 981,439 965,442 960,444 955,445 944,444 936,442 934,439 933,436 930,433 927,429 931,428 934,430 937,428 938,431 937,434 941,433 942,438 948,440 951,440 956,441 960,441 965,439 979,437 984,434 987,437 992,437 994,433"/>
+	</object>
+
+	<object id="343" name="VUT" x="0" y="0" visible="0">
+		<polygon points="703,486 704,486 705,487"/>
+	</object>
+	<object id="344" name="VUT" x="0" y="0" visible="0">
+		<polygon points="706,489 705,487 707,487 708,489"/>
+	</object>
+
+	<object id="344" name="YEM" x="0" y="0" visible="0">
+		<polygon points="923,273 916,280 912,279 908,280 903,279 896,276 890,275 887,273 884,273 876,270 872,270 866,267 875,258 877,257 880,257 885,255 885,257 891,260 898,266 906,265 911,266 917,269"/>
+	</object>
+
+	<object id="345" name="ZAF" x="0" y="0" visible="0">
+		<polygon points="717,308 718,310 717,311 719,312 725,310 726,311 728,312 730,312 732,311 733,311 736,310 739,310 743,310 747,311 746,315 743,317 742,316 740,317 740,319 741,319 742,318 744,319 741,321 740,321 737,321 732,323 726,324 724,324 720,324 718,324 716,323 714,322 707,322 706,322 705,320 706,319 706,318 707,317 706,316 705,312 707,311 708,313 710,314 711,314 714,313"/>
+	</object>
+	<object id="346" name="ZAF" x="0" y="0" visible="0">
+		<polygon points="733,319 732,319 729,319 728,319 728,321 731,321 733,320"/>
+	</object>
+
+	<object id="346" name="ZMB" x="0" y="0" visible="0">
+		<polygon points="734,298 732,295 736,289 742,291 743,290 744,287 745,288 748,289 749,290 751,291 753,291 753,292 755,293 756,295 758,296 759,294 758,294 756,293 761,289 761,288 763,287 768,288 769,289 773,293 774,294 773,295 770,297 769,298 765,300 766,301 756,299 756,300 753,300 749,300 743,302 739,300 738,300 736,298"/>
+	</object>
+
+	<object id="347" name="ZWE" x="0" y="0" visible="0">
+		<polygon points="743,310 742,309 741,308 741,306 739,303 739,300 743,302 749,300 753,300 756,300 755,301 757,302 760,305 758,307 755,308 755,309 752,311 747,311"/>
+	</object>
+
   </objectgroup>
 </map>

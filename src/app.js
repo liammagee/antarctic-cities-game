@@ -510,7 +510,7 @@ var WorldLayer = cc.Layer.extend({
         // Stereographic projection - 0.9
         // for (var i = 0; i < 160; i++) {
         // Stereographic projection - 0.1
-        for (var i = 0; i < 168; i++) {
+        for (var i = 0; i < 166; i++) {
             var l = this.map.getLayer("Tile Layer " + (i + 3));
             l.setTileGID(0,cc.p(0,0))
         }
@@ -606,17 +606,17 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener(this.dnaListener, this.dnaSpend);
         cc.eventManager.addListener(this.worldListener, this.worldStats);
 
-        var oldPoint;
-
         var collisionDetection = function(points,test) {
             var crossed = false;
             var times = 0;
+            // Double check the detection is within the widest bounds
+            var maxx = Math.max(...points.map(p => parseInt(p.x)));
             for (var i = 0; i < points.length; i++) {
                 var p1 = points[i];
                 var p2 = (i == points.length - 1) ? points[0] : points[i+1];
                 var x1 = parseFloat(p1.x), y1 = parseFloat(p1.y), x2 = parseFloat(p2.x), y2 = parseFloat(p2.y);
                 if ((y1 < test.y && y2 >= test.y) || (y1 > test.y && y2 <= test.y)) {
-                    if ((x1 + x2) / 2.0 < test.x) {
+                    if ((x1 + x2) / 2.0 < test.x && test.x < maxx) {
                         times++;
                         crossed = !crossed;
                     }
@@ -629,9 +629,9 @@ var WorldLayer = cc.Layer.extend({
         var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { 
             return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x);  
         });
-        this.map.objectGroups[0].getObjects().forEach(function(obj, index) {
-            sortedKeys[obj.name] = index;
-        });
+        var keys = world.map.objectGroups[0].getObjects().map(obj => { return obj.name; } );
+        keys = [...new Set(keys)];
+        keys.forEach((key, index) => { sortedKeys[key] = index; });
 
         // Generates min, max coordinates
         var generateCoords = function(points) {
@@ -707,6 +707,7 @@ var WorldLayer = cc.Layer.extend({
             country.numPoints = Math.ceil(country.area / world.areaMean);
         });
 
+        var errors = 0;
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
             var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
@@ -728,6 +729,7 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }
+        world.mappedTiles = mappedTiles;
 
         var oldPoints;
         var oldLayers = [];
@@ -963,8 +965,6 @@ var WorldLayer = cc.Layer.extend({
                             totalLoss /= countryKeys.length;
                             gameParams.previousLoss = totalLoss;
                             gameParams.destruction = totalLoss;
-                            
-
                             drawPoints();
 
                             // Game over                        
@@ -994,101 +994,57 @@ var WorldLayer = cc.Layer.extend({
                     return;
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+                var x = 0, y = 0;
 
-                // if (cc.Intersection.pointInPolygon(locationInNode, this.polygonCollider.world.points)) {
-                // if (cc.rectContainsPoint(rect, locationInNode)) {
-                if (true) {
-                    // var x = parseInt(locationInNode.x / 32);
-                    // var y = 24 - 1 - parseInt(locationInNode.y / 32);
+                var layer = target.getLayer("Tile Layer 1");
+                gid = layer.getTileGIDAt(x, y);
+                if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
+                    return;
 
-                    // Simplifed
-                    var x = 0;
-                    var y = 0;
-
-                    var layer = target.getLayer("Tile Layer 1");
-
-                    gid = layer.getTileGIDAt(x, y);
-                    if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
-                        return;
-                    var tile = layer.getTileAt(x, y);
-                    var gid = layer.getTileGIDAt(x, y);
-                    for (var j = 0; j < oldLayers.length; j++) {
-                    oldLayers[j].setTileGID((0),cc.p(0,0))
-                }
-                oldLayers = [];
                 var start = 0, end = sortedObjs.length;
                 if (lastLayerID > -1) {
                     start = (start < 0) ? 0 : start;
                     end = (end > sortedObjs.length) ? sortedObjs.length : end;
                 }
+
+                var ed = function(pt1, pt2) {
+                    return Math.sqrt(Math.pow(pt1.x - pt2.x, 2) + Math.pow(pt1.y - pt2.y, 2));
+                };
+                var minED = -1, selectedCountry = null;
                 for (var j = start; j < end; j++) {
                     var poly = sortedObjs[j];
-                    var ny = size.height - poly.y;
                     var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
                     var cd = collisionDetection(poly.points, mousePoint);
                     if (cd) {
-                        var showPoints = mappedTiles[poly];
-                        var fp = (showPoints != null) ? showPoints[0] : null;
-                        var update = true;
-                        if (oldPoints != null && typeof(oldPoints) !== "undefined") {
-                            oldPoint = oldPoints[0];
-                            if (oldPoint.x == fp.x && oldPoint.y == fp.y) {
-                                    update = false;
-                            }
-                        }
-                        if (update) {
-                            var tgid = layer.getTileGIDAt(fp.x, fp.y);
-                            for (var k = 0; k < showPoints.length; k++) {
-                                var p = showPoints[k];
-                                var tgid = layer.getTileGIDAt(p.x, p.y);
-                                tgid = (tgid < 944) ? tgid + 1 : tgid - 1;
-
-                                // Simplifed
-                                // tgid = 1;
-                                // layer.removeTileAt(p.x, p.y);
-                                // layer.setTileGID(tgid, p);
-                                // layer.opacity=0;
-                                // layer2.opacity=255;
-                                currentCountry = poly.name;
-                                currentCountryData = world.countryData[poly.name];
-                                // console.log(poly.name +": " + currentCountryData.POP_EST);
-                                lastLayerID = j;
-                                var lid = sortedKeys[poly.name];
-                                var l = target.getLayer("Tile Layer " + (lid + 3));
-                                l.setTileGID((lid + 3),cc.p(0, 0));
-                                oldLayers.push(l);
-                            }
-                            oldPoints = showPoints;
-                        }
-                    }
-                    else {
-                        if (oldPoints != null && typeof(oldPoints) !== "undefined") {
-                            for (var k = 0; k < oldPoints.length; k++) {
-                                var p = oldPoints[k];
-                                var tgid = layer.getTileGIDAt(p.x, p.y);
-                                tgid = (tgid < 944) ? tgid : tgid - 1;
-                                // layer.setTileGID(tgid, p);
-
-                                // Simplifed
-                                // tgid = 3;
-                                // layer.setTileGID(tgid, cc.p(0,0));
-                                // layer2.setTileGID(0,cc.p(0,0))
-
-                                var l = target.getLayer("Tile Layer " + (j + 3));
-                                l.setTileGID((0),cc.p(0, 0))
-                            }
-                            oldPoints = null;
+                        lastLayerID = j;
+                        var countryObj = world.countries[poly.name];
+                        var ced = ed(countryObj.centroid, mousePoint);
+                        if (minED === -1 || ced < minED) {
+                            minED = ced;
+                            selectedCountry = poly.name;
                         }
                     }
                 }
 
+                // Pick the match with the closest centroid ID
+                var currentLayer = null;
+                if (selectedCountry != null) {
+                    currentCountry = selectedCountry;
+                    currentCountryData = world.countryData[selectedCountry];
+                    var lid = sortedKeys[selectedCountry];
+                    currentLayer = target.getLayer("Tile Layer " + (lid + 3));
+                    currentLayer.setTileGID((lid + 3),cc.p(0, 0));
+                }
+                oldLayers.forEach(layer => {
+                    if (currentLayer === null || layer != currentLayer)
+                        layer.setTileGID((0),cc.p(0,0));
+                });
+                oldLayers = [];
+                if (oldLayers.indexOf(oldLayers) === -1 && currentLayer != null)
+                    oldLayers.push(currentLayer);
+
                 return true;
-              } else {
-                return false;
-              }
-          }
+            }
         }, this.map);
     }
 });
