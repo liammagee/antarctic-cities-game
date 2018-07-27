@@ -20,6 +20,14 @@ if (args[0] == 'xml')
 else if (args[0] == 'json')
   jsonOnly = true;
 
+jsonFile = '50m-topo.json';
+if (typeof(args[1]) !== 'undefined') {
+  jsonFile = args[1];
+  console.log(jsonFile);
+}
+  
+
+
 var Image = Canvas.Image, 
   canvas = new Canvas(width, height), 
   context = canvas.getContext('2d');
@@ -30,10 +38,11 @@ var Image = Canvas.Image,
 // Taken from: https://github.com/topojson/world-atlas
 // https://unpkg.com/world-atlas@1/
 
-var data = JSON.parse(fs.readFileSync("./world/110m2-topo.json", 'utf8'));
-// var data = JSON.parse(fs.readFileSync("./world/10m-topo.json", 'utf8'));
+// var data = JSON.parse(fs.readFileSync("./world/110m2-topo.json", 'utf8'));
+// var data = JSON.parse(fs.readFileSync("./world/50m.json", 'utf8'));
+var data = JSON.parse(fs.readFileSync("./world/" + jsonFile, 'utf8'));
 if (jsonOnly) {
-  var countryData = data.objects.tracts.geometries.map(function(f) { 
+  var countryData = data.objects.tracts.map(function(f) { 
     var properties = {};
     // All properties: 
     // scalerank,featurecla,LABELRANK,SOVEREIGNT,SOV_A3,ADM0_DIF,LEVEL,TYPE,ADMIN,ADM0_A3,GEOU_DIF,GEOUNIT,GU_A3,SU_DIF,SUBUNIT,SU_A3,BRK_DIFF,NAME,NAME_LONG,BRK_A3,BRK_NAME,BRK_GROUP,ABBREV,POSTAL,FORMAL_EN,FORMAL_FR,NAME_CIAWF,NOTE_ADM0,NOTE_BRK,NAME_SORT,NAME_ALT,MAPCOLOR7,MAPCOLOR8,MAPCOLOR9,MAPCOLOR13,POP_EST,POP_RANK,GDP_MD_EST,POP_YEAR,LASTCENSUS,GDP_YEAR,ECONOMY,INCOME_GRP,WIKIPEDIA,FIPS_10_,ISO_A2,ISO_A3,ISO_A3_EH,ISO_N3,UN_A3,WB_A2,WB_A3,WOE_ID,WOE_ID_EH,WOE_NOTE,ADM0_A3_IS,ADM0_A3_US,ADM0_A3_UN,ADM0_A3_WB,CONTINENT,REGION_UN,SUBREGION,REGION_WB,NAME_LEN,LONG_LEN,ABBREV_LEN,TINY,HOMEPART,MIN_ZOOM,MIN_LABEL,MAX_LABEL
@@ -58,8 +67,8 @@ if (jsonOnly) {
 var tracts = topojson.feature(data, data.objects.tracts);
 
 // Simplify the data
-var data_sim = topojson.simplify(topojson.presimplify(data), 0.1);
-var tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
+//var data_sim = topojson.simplify(topojson.presimplify(data), 0.9);
+var tracts_sim = tracts; //topojson.feature(data_sim, data_sim.objects.tracts);
 // var land = topojson.feature(data, data.objects.land);
 // var countries = topojson.feature(data, data.objects.countries);
 
@@ -215,6 +224,14 @@ function writeProj(proj, file) {
     country.iso_a3 = props['ISO_A3'];
     if (country.iso_a3 == "-99")
       country.iso_a3 = props['ADM0_A3_IS'];
+    country.NAME = props.NAME;
+    country.ECONOMY = props.ECONOMY;
+    country.INCOME_GRP = props.INCOME_GRP;
+    country.ISO_A2 = props.ISO_A2;
+    country.POP_EST = props.POP_EST;
+    country.SUBREGION = props.SUBREGION;
+    country.GDP_MD_EST = props.GDP_MD_EST;
+
     country_file = country.iso_a3 + '_' + file + '.png';
     if (iso_a3s.indexOf(country.iso_a3) !== -1)
       return;
@@ -322,12 +339,22 @@ function writeProj(proj, file) {
       s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
       s_simp = s_simp.join(' ')
 
-      // console.log(s)
       if (s.length > 0) {
         tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
         tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
+        tmx_frag += "\t\t<properties>\n";
+        if (counter == 1) {
+          tmx_frag += "\t\t\t<property name=\"NAME\" value=\"" + country.NAME + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"ECONOMY\" value=\"" + country.ECONOMY + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"INCOME_GRP\" value=\"" + country.INCOME_GRP + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"ISO_A2\" value=\"" + country.ISO_A2 + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"POP_EST\" value=\"" + country.POP_EST + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"SUBREGION\" value=\"" + country.SUBREGION + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"GDP_MD_EST\" value=\"" + country.GDP_MD_EST + "\"/>\n";
+          tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
+        }
+        tmx_frag += "\t\t</properties>\n";
         tmx_frag += '\t</object>\n';
-    
         // tmx_frag += "\t<polygon points=\"" + s + "\"/>\n";
       }
     });

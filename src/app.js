@@ -510,7 +510,9 @@ var WorldLayer = cc.Layer.extend({
         // Stereographic projection - 0.9
         // for (var i = 0; i < 160; i++) {
         // Stereographic projection - 0.1
-        for (var i = 0; i < 166; i++) {
+        // for (var i = 0; i < 166; i++) {
+        // 50m Stereographic projection - 0.0
+        for (var i = 0; i < 225; i++) {
             var l = this.map.getLayer("Tile Layer " + (i + 3));
             l.setTileGID(0,cc.p(0,0))
         }
@@ -676,16 +678,23 @@ var WorldLayer = cc.Layer.extend({
             extremes: generateCoords(obj.points),
             area: areas(obj.points),
             points: obj.points,
-            pop_est: obj.pop_est,
-            gdp_est: obj.gdp_est,
-            iso_a2: obj.iso_a2,
-            iso_a3: obj.iso_a3,
+            pop_est: obj.POP_EST,
+            gdp_est: obj.GDP_MD_EST,
+            iso_a2: obj.ISO_A2,
+            iso_a3: obj.ISO_A3,
+            subregion: obj.SUBREGION,
+            economy: obj.ECONOMY,
+            income_grp: obj.INCOME_GRP,
             policy: 0,
             loss: 0,
             policyPoints: [],
             destructionPoints: []
-            // Add other properties here
         }, map), {});
+        // Add population density
+        Object.keys(world.countries).forEach(c => { 
+            var country = world.countries[c];
+            country.density = country.pop_est / country.area;
+        } );
         world.areaMin = 0, world.areaMax = 0, world.areaMean = 0;
         world.areaMinCountry = "", world.areaMaxCountry = "";
         Object.keys(world.countries).forEach(function(c) {
@@ -707,7 +716,6 @@ var WorldLayer = cc.Layer.extend({
             country.numPoints = Math.ceil(country.area / world.areaMean);
         });
 
-        var errors = 0;
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
             var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
@@ -729,9 +737,7 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }
-        world.mappedTiles = mappedTiles;
 
-        var oldPoints;
         var oldLayers = [];
         var currentCountry = null, currentCountryData = null;
         var lastLayerID = -1;
@@ -803,20 +809,17 @@ var WorldLayer = cc.Layer.extend({
         var generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
-                var policy = country.policy;
-                var destruction = country.destruction;
-                country.policyPoints = generatePointsForCountry(country, country.policyPoints, 0, policy);
-                country.destructionPoints = generatePointsForCountry(country, country.destructionPoints, 0, destruction);
+                country.policyPoints = generatePointsForCountry(country, country.policyPoints, 0, pcountry.policyolicy);
+                country.destructionPoints = generatePointsForCountry(country, country.destructionPoints, 0, country.destruction);
             }
         };
         generatePoints();
 
         var genNormRand = function() {
             // Produce a random value from a normal distribution with a mean of 120.
-            // var r = (Math.random() - 0.5) * 2.0;
-            // var rr2 = (r * r) / 2.0;
-            // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
-            return 100.0;
+            var r = (Math.random() - 0.5) * 2.0;
+            var rr2 = (r * r) / 2.0;
+            return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
         };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
