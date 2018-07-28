@@ -66,25 +66,29 @@ RESOURCES = {
         policyOptions: [ {
             text: "Reduce Inequality", 
             location: {x: 200, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/histogram.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_ON.png",
             cost: 3
         },
         {
             text: "Free Trade Agreements", 
             location: {x: 200, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/bank.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_ON.png",
             cost: 3
         },
         {
             text: "Remove Regulations", 
             location: {x: 600, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/fire-spell-cast.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_ON.png",
             cost: 3
         },
         {
             text: "Automate Industry", 
             location: {x: 600, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/robot-antennas.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_ON.png",
             cost: 3
         } ]
     },
@@ -93,25 +97,29 @@ RESOURCES = {
         policyOptions: [ {
             text: "Global Treaties", 
             location: {x: 200, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/hand-ok.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_ON.png",
             cost: 3
         },
         {
             text: "Diplomacy", 
             location: {x: 200, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/smartphone.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_ON.png",
             cost: 3
         },
         {
             text: "Boost Military", 
             location: {x: 600, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/3d-hammer.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_ON.png",
             cost: 3
         },
         {
             text: "Promote Democracy", 
             location: {x: 600, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/microphone.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_ON.png",
             cost: 3
         } ]
     },
@@ -120,25 +128,29 @@ RESOURCES = {
         policyOptions: [ {
             text: "Global Education", 
             location: {x: 200, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/teacher.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_ON.png",
             cost: 3
         },
         {
             text: "Social Media", 
             location: {x: 200, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/megaphone.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_ON.png",
             cost: 3
         },
         {
             text: "Celebrity Endorsements", 
             location: {x: 600, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/person.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_ON.png",
             cost: 3
         },
         {
             text: "Global Festivals", 
             location: {x: 600, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/party-flags.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_ON.png",
             cost: 3
         } ]
     },
@@ -147,25 +159,29 @@ RESOURCES = {
         policyOptions: [ {
             text: "Green Cities", 
             location: {x: 200, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/modern-city.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_ON.png",
             cost: 3
         },
         {
             text: "Fund Renewable Energy", 
             location: {x: 200, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/solar-system.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_ON.png",
             cost: 3
         },
         {
             text: "Global Heritage Trust", 
             location: {x: 600, y: 100},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/ecology.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_ON.png",
             cost: 3
         },
         {
             text: "Public Transport", 
             location: {x: 600, y: 500},
-            img: "res/icons/delapouite/originals/svg/ffffff/transparent/bus.svg",
+            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_NORMAL.png",
+            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_ON.png",
             cost: 3
         } ]
     }
@@ -809,7 +825,7 @@ var WorldLayer = cc.Layer.extend({
         var generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
-                country.policyPoints = generatePointsForCountry(country, country.policyPoints, 0, pcountry.policyolicy);
+                country.policyPoints = generatePointsForCountry(country, country.policyPoints, 0, country.policy);
                 country.destructionPoints = generatePointsForCountry(country, country.destructionPoints, 0, country.destruction);
             }
         };
@@ -1379,9 +1395,11 @@ var DesignPolicyLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {  
-                    if (gameParams.resources - target.cost > 0) {
+                    if (gameParams.resources - target.cost > 0 && 
+                        gameParams.strategies.indexOf(target.strategy) == -1) {
                         gameParams.resources -= target.cost;  
                         gameParams.strategies.push(target.strategy);
+                        target.enabled = false;
                         layer.availableResourcesLabel.setString(gameParams.resources.toString());
                     }
                     return true;
@@ -1428,10 +1446,10 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.setTouchEnabled(true);
                 btn.setAnchorPoint(cc.p(0, 0));
                 btn.setScale9Enabled(true);
-                btn.loadTextures(opt.img, "", "");
+                btn.loadTextures(opt.img_normal, "", opt.img_on);
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(60, 60));
-                btn.setColor(COLOR_RESOURCE);
+                // btn.setColor(COLOR_RESOURCE);
                 btn.setTitleFontSize(20);
                 btn.setTitleFontName(FONT_FACE);
                 // btn.setTitleColor(new cc.Color(214, 225, 227, 255));
@@ -1440,6 +1458,8 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.setTitleText(opt.text);
                 btn.cost = opt.cost;
                 btn.strategy = opt.text;
+                if (gameParams.strategies.indexOf(opt.text) > -1)
+                    btn.enabled = false;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
             });
