@@ -16,6 +16,8 @@ var LOSS_INITIAL = 1.1;
 var LOSS_RATE_OF = 0.001;
 var YEAR_TARGET = 2048;
 
+var TAG_SPRITE_BATCH_NODE = 1;
+
 // Game variables
 var gameParams = {};
 var gameStates = {
@@ -24,167 +26,6 @@ var gameStates = {
     STARTED: 2,
     PAUSED: 3,
     GAME_OVER: 5
-};
-
-// Colours
-
-COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
-COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
-COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
-COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
-COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
-COLOR_BLACK = new cc.Color(0, 0, 0, 255); // Black
-COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
-
-
-// B&W THEME
-
-// COLOR_BACKGROUND = new cc.Color(0, 0, 0, 255); // Black
-// // COLOR_FOREGROUND = new cc.Color(192, 192, 192, 255); // Light Grey
-// COLOR_FOREGROUND = new cc.Color(255, 255, 255, 255); // White
-// COLOR_HIGHLIGHT = new cc.Color(0, 255, 0, 255); // Green
-// COLOR_RESOURCE = new cc.Color(255, 0, 0, 255); // Red
-// COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100.); // Green, with transparency
-// COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100.); // Red, with transparency
-// COLOR_BACKGROUND_TRANS = new cc.Color(0, 0, 0, 160); // Black, with transparency
-
-// ANTARCTIC CITIES THEME
-
-COLOR_BACKGROUND = COLOR_LICORICE; 
-COLOR_FOREGROUND = COLOR_ICE; 
-COLOR_HIGHLIGHT = COLOR_OAK; 
-COLOR_RESOURCE = COLOR_UMBER; 
-COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
-COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 160); // Black, with transparency
-
-// RESOURCES
-
-RESOURCES = {
-    economic: {
-        labelText: "Design your Economic Policy",
-        policyOptions: [ {
-            text: "Reduce Inequality", 
-            location: {x: 200, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_ON.png",
-            cost: 3
-        },
-        {
-            text: "Free Trade Agreements", 
-            location: {x: 200, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_ON.png",
-            cost: 3
-        },
-        {
-            text: "Remove Regulations", 
-            location: {x: 600, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_ON.png",
-            cost: 3
-        },
-        {
-            text: "Automate Industry", 
-            location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_ON.png",
-            cost: 3
-        } ]
-    },
-    politics: {        
-        labelText: "Design your Political Policy",
-        policyOptions: [ {
-            text: "Global Treaties", 
-            location: {x: 200, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_ON.png",
-            cost: 3
-        },
-        {
-            text: "Diplomacy", 
-            location: {x: 200, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_ON.png",
-            cost: 3
-        },
-        {
-            text: "Boost Military", 
-            location: {x: 600, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_ON.png",
-            cost: 3
-        },
-        {
-            text: "Promote Democracy", 
-            location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_ON.png",
-            cost: 3
-        } ]
-    },
-    cultural: {
-        labelText: "Design your Cultural Policy",
-        policyOptions: [ {
-            text: "Global Education", 
-            location: {x: 200, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_ON.png",
-            cost: 3
-        },
-        {
-            text: "Social Media", 
-            location: {x: 200, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_ON.png",
-            cost: 3
-        },
-        {
-            text: "Celebrity Endorsements", 
-            location: {x: 600, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_ON.png",
-            cost: 3
-        },
-        {
-            text: "Global Festivals", 
-            location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_ON.png",
-            cost: 3
-        } ]
-    },
-    ecology: {
-        labelText: "Design your Ecological Policy",
-        policyOptions: [ {
-            text: "Green Cities", 
-            location: {x: 200, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_ON.png",
-            cost: 3
-        },
-        {
-            text: "Fund Renewable Energy", 
-            location: {x: 200, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_ON.png",
-            cost: 3
-        },
-        {
-            text: "Global Heritage Trust", 
-            location: {x: 600, y: 100},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_ON.png",
-            cost: 3
-        },
-        {
-            text: "Public Transport", 
-            location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_ON.png",
-            cost: 3
-        } ]
-    }
 };
 
 /**
@@ -220,6 +61,7 @@ var startGameParams = function() {
  * Update time variables.
  */
 var updateTimeVars = function(interval) {
+    console.log(interval);
     gameParams.timeInterval = interval;
     gameParams.resourceInterval = (1000 / gameParams.timeInterval);
 };
@@ -233,6 +75,22 @@ var addGLLayer = function(world) {
     var rend = new cc.RenderTexture(winSize.width, winSize.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
     rend.setPosition(winSize.width/2,winSize.height/2);
     world.worldBackground.addChild(rend, 99);
+    return rend;
+};
+/**
+ * Add texture for country virus
+ * @param {*} world 
+ */
+var addGLLayer_withShader = function(world) {
+    var winSize = cc.director.getWinSize();
+    var rend = new cc.RenderTexture(winSize.width, winSize.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
+    if( 'opengl' in cc.sys.capabilities ) {
+        //var glnode = new cc.GLNode();
+        var shaderNode = new ShaderNode("res/Shaders/example_ColorBars.vsh", "res/Shaders/example_ColorBars.fsh");
+        this.addChild(shaderNode,10);
+        shaderNode.x = winSize.width/2;
+        shaderNode.y = winSize.height/2;
+    }
     return rend;
 };
 
@@ -356,7 +214,7 @@ var GameOver = function(parent, message, prompt) {
 var WorldLayer = cc.Layer.extend({
     sprite:null,
 
-    ctor:function (scenarioData, countryData) {
+    ctor:function (scenarioData) {
         this._super();
 
         initGameParams(scenarioData);     
@@ -414,7 +272,7 @@ var WorldLayer = cc.Layer.extend({
                         gameParams.state = gameStates.STARTED;
                     }
                     else if (target.x == 100) {  // Fast Forward
-                        updateTimeVars(DAY_INTERVAL / 2);
+                        updateTimeVars(DAY_INTERVAL / 10);
                         gameParams.state = gameStates.STARTED;
                     }
                     return true;
@@ -425,7 +283,7 @@ var WorldLayer = cc.Layer.extend({
 
         btnPause.setTouchEnabled(true);
         btnPause.setScale9Enabled(true);
-        btnPause.loadTextures("res/icons_png/guard13007/originals/png/ffffff/transparent/pause-button.png", "", "");
+        btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png", "");
         btnPause.attr({ x: 20, y: 20 });
         btnPause.setContentSize(cc.size(512, 512));
         btnPause.setScale(0.078125);
@@ -434,7 +292,7 @@ var WorldLayer = cc.Layer.extend({
         
         btnPlay.setTouchEnabled(true);
         btnPlay.setScale9Enabled(true);
-        btnPlay.loadTextures("res/icons_png/guard13007/originals/png/ffffff/transparent/play-button.png", "", "");
+        btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png", "");
         btnPlay.attr({ x: 60, y: 20 });
         btnPlay.setContentSize(cc.size(512, 512));
         btnPlay.setScale(0.078125);
@@ -443,7 +301,7 @@ var WorldLayer = cc.Layer.extend({
         
         btnFF.setTouchEnabled(true);
         btnFF.setScale9Enabled(true);
-        btnFF.loadTextures("res/icons_png/delapouite/originals/png/ffffff/transparent/resize.png", "", "");
+        btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png", "");
         btnFF.attr({ x: 100, y: 20 });
         btnFF.setContentSize(cc.size(512, 512));
         btnFF.setScale(0.078125);
@@ -472,12 +330,21 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreLabel.color = COLOR_FOREGROUND;
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
 
-        // add "World" layer
+        // add "World" background layer
+        this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
+        this.spriteBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
+        this.addChild(this.spriteBackground, 1);
+
+        var dotSpriteBatch = new cc.SpriteBatchNode(res.dot_png, 1000);
+        dotSpriteBatch.setAnchorPoint(new cc.p(0,0));
+        dotSpriteBatch.attr({ x: 0, y: 0 });
+        this.spriteBackground.addChild(dotSpriteBatch, 100, TAG_SPRITE_BATCH_NODE);
+
+        // add "World" background layer
         this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
 
-        // add "World" background
         var worldSprite = new cc.Sprite(res.world_png);
         worldSprite.setAnchorPoint(new cc.p(0,0));
         worldSprite.attr({ x: 0, y: 0 });
@@ -499,7 +366,6 @@ var WorldLayer = cc.Layer.extend({
         // GLOBAL VARIABLES FOR DEBUGGING
         world = this;
         world.scenarioData = scenarioData;
-        world.countryData = countryData;
 
         // Interaction handling
         cc.eventManager.addListener({
@@ -604,7 +470,7 @@ var WorldLayer = cc.Layer.extend({
             gameParams.state = gameStates.PREPARED;
 
             // Add particle emitter
-            addEmitter();
+            //addEmitter();
         };
 
         ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
@@ -688,6 +554,33 @@ var WorldLayer = cc.Layer.extend({
             }
             return area / 2;
         };
+        world.countries = world.map.objectGroups[0].getObjects().reduce(function(map, obj) {  
+            if (!map[obj.name]) {
+                map[obj.name] = {
+                    name: obj.name,
+                    centroid: centroids(obj.points),
+                    extremes: generateCoords(obj.points),
+                    area: areas(obj.points),
+                    points: obj.points,
+                    pop_est: obj.POP_EST,
+                    gdp_est: obj.GDP_MD_EST,
+                    gid: obj.GID,
+                    iso_a2: obj.ISO_A2,
+                    iso_a3: obj.ISO_A3,
+                    subregion: obj.SUBREGION,
+                    economy: obj.ECONOMY,
+                    income_grp: obj.INCOME_GRP,
+                    policy: 0,
+                    loss: 0,
+                    policyPoints: [],
+                    policyDots: [],
+                    destructionPoints: [],
+                    destructionDots: []    
+                };
+            } 
+            return map; 
+        }, {});
+        /*
         world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => (map[obj.name] = { 
             name: obj.name,
             centroid: centroids(obj.points),
@@ -704,8 +597,11 @@ var WorldLayer = cc.Layer.extend({
             policy: 0,
             loss: 0,
             policyPoints: [],
-            destructionPoints: []
+            policyDots: [],
+            destructionPoints: [],
+            destructionDots: []
         }, map), {});
+        */
         // Add population density
         Object.keys(world.countries).forEach(c => { 
             var country = world.countries[c];
@@ -798,8 +694,19 @@ var WorldLayer = cc.Layer.extend({
             return p;
         };
 
-        var generatePointsForCountry = function(country, points, min, max) {
+        var generatePointsForCountry = function(country, policy, min, max) {
+            var batchNode = world.spriteBackground.getChildByTag(TAG_SPRITE_BATCH_NODE);
             var coords = country.points;
+            var points = []; //country.policyPoints;
+            var dots = []; //country.policyDots;
+            if (policy) {
+                points = country.policyPoints;
+                dots = country.policyDots;
+            }
+            else {
+                points = country.destructionPoints;
+                dots = country.destructionDots;
+            }
             var extremes = country.extremes;
 
             min = Math.round(min);
@@ -807,6 +714,14 @@ var WorldLayer = cc.Layer.extend({
             if (min < 0 || max < 0)
                 return;
             if (min > max) {
+                // Sprite-based dots
+                /*
+                for (var i = max; i < min; i++) {
+                    var sprite = dots[i];
+                    if (sprite != null)
+                        sprite.removeFromParent();
+                }
+                */
                 points = points.slice(0, max - 1);
             }
             else {
@@ -815,6 +730,23 @@ var WorldLayer = cc.Layer.extend({
                     for (var k  = 0; k < numPoints; k++) {
                         var p = generatePoint(coords, extremes);
                         if (p != null && points.indexOf(p) === -1) {
+                            /*
+                            // Sprite-based dots
+                            var sprite = new cc.Sprite(batchNode.texture, cc.rect(0, 0, 60, 60));
+                            //sprite.setScale(0.1);
+                            if (policy) {
+                                sprite.setColor(new cc.Color(0, 255, 0));
+                            }
+                            else {
+                                sprite.setColor(new cc.Color(255, 0, 0));
+                            }
+                            // sprite.attr({x: p.x, y: p.y});
+                            sprite.setAnchorPoint(cc.p(0, 0));
+                            sprite.setPosition(p);
+
+                            batchNode.addChild(sprite, 1);
+                            dots.push(sprite);
+                            */
                             points.push(p);
                         }
                     }
@@ -825,25 +757,28 @@ var WorldLayer = cc.Layer.extend({
         var generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
-                country.policyPoints = generatePointsForCountry(country, country.policyPoints, 0, country.policy);
-                country.destructionPoints = generatePointsForCountry(country, country.destructionPoints, 0, country.destruction);
+                country.policyPoints = generatePointsForCountry(country, true, 0, country.policy);
+                country.destructionPoints = generatePointsForCountry(country, false, 0, country.destruction);
             }
         };
         generatePoints();
 
         var genNormRand = function() {
             // Produce a random value from a normal distribution with a mean of 120.
-            var r = (Math.random() - 0.5) * 2.0;
-            var rr2 = (r * r) / 2.0;
-            return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
+            // var r = (Math.random() - 0.5) * 2.0;
+            // var rr2 = (r * r) / 2.0;
+            // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
+            return 100.0;
         };
         var drawPoints = function() {
             if (typeof(world.renderer) !== "undefined")
                 world.renderer.removeFromParent();
+
             world.renderer = addGLLayer(world);
             var drawNode = new cc.DrawNode();
             world.renderer.setOpacity(genNormRand());
             drawNode.setOpacity(genNormRand());
+            var dots = [];
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
                 world.renderer.begin();
@@ -855,6 +790,7 @@ var WorldLayer = cc.Layer.extend({
                     // With static alpha
                     drawNode.drawDot(p, 3, COLOR_POLICY_POINTS);
                 }
+                //console.log('got here ' + country.destructionPoints.length);
                 for (var j = 0; j < country.destructionPoints.length; j++) {
                     var p = country.destructionPoints[j];
                     // With dynamic alpha
@@ -862,12 +798,20 @@ var WorldLayer = cc.Layer.extend({
                     // With static alpha
                     drawNode.drawDot(p, 3, COLOR_DESTRUCTION_POINTS);
                 }
+                // dots.push(drawNode);
                 drawNode.visit();
 
                 world.renderer.end();
                 world.renderer.retain();
                 drawNode.release();
             }
+            // world.renderer.begin();
+            // for (var i = 0; i < dots.length; i++) {
+            //     var dot = dots[i];
+            //     dot.visit();
+            // }
+            // world.renderer.end();
+            // world.renderer.retain();
         };
         drawPoints();
         world.drawPoints = drawPoints;
@@ -883,8 +827,8 @@ var WorldLayer = cc.Layer.extend({
                 }
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
-                    gameParams.currentCountryData = currentCountryData;
-                    console.log(gameParams.currentCountryData.NAME +": " + gameParams.currentCountryData.POP_EST);
+                    var country = world.countries[currentCountry];
+                    console.log(country.name +": " + country.pop_est);
                 }
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     startGameParams();
@@ -938,7 +882,7 @@ var WorldLayer = cc.Layer.extend({
                             gameParams.counter++;
                             if (gameParams.counter % gameParams.timeInterval == 0) {
                                 gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
-                                gameParams.currentDate.setDate(gameParams.currentDate.getDate() + gameParams.timeInterval);
+                                gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
                             }
                             
                             if (gameParams.counter % gameParams.resourceInterval == 0)
@@ -969,10 +913,10 @@ var WorldLayer = cc.Layer.extend({
                                 var loss = evaluateLoss() / (1 + policy);
                                 if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
                                     country.policy += policy;
-                                    generatePointsForCountry(country, country.policyPoints, country.policy - policy, country.policy);
+                                    generatePointsForCountry(country, true, country.policy - policy, country.policy);
                                 }
                                 if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
-                                    generatePointsForCountry(country, country.destructionPoints, country.loss, loss);
+                                    generatePointsForCountry(country, false, country.loss, loss);
                                     country.loss = loss;
                                 }
                                 totalPolicy += country.policy;
@@ -1049,17 +993,16 @@ var WorldLayer = cc.Layer.extend({
                 var currentLayer = null;
                 if (selectedCountry != null) {
                     currentCountry = selectedCountry;
-                    currentCountryData = world.countryData[selectedCountry];
-                    var lid = sortedKeys[selectedCountry];
-                    currentLayer = target.getLayer("Tile Layer " + (lid + 3));
-                    currentLayer.setTileGID((lid + 3),cc.p(0, 0));
+                    var gid = world.countries[selectedCountry].gid;
+                    currentLayer = target.getLayer("Tile Layer " + gid);
+                    currentLayer.setTileGID((gid),cc.p(0, 0));
                 }
                 oldLayers.forEach(layer => {
                     if (currentLayer === null || layer != currentLayer)
                         layer.setTileGID((0),cc.p(0,0));
                 });
                 oldLayers = [];
-                if (oldLayers.indexOf(oldLayers) === -1 && currentLayer != null)
+                if (currentLayer != null)
                     oldLayers.push(currentLayer);
 
                 return true;
@@ -1075,13 +1018,9 @@ var WorldScene = cc.Scene.extend({
         var scene = this;
 
         // Add country data 
-        cc.loader.loadJson("res/countryData.json",function(error, data){
-            countryData = {}; 
-            data.forEach(function(d) { countryData[d["ISO_A3"]] = d; });
-            cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
-                var layer = new WorldLayer(scenarioData, countryData);
-                scene.addChild(layer);
-            });
+        cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
+            var layer = new WorldLayer(scenarioData);
+            scene.addChild(layer);
         });
     }
 });
@@ -1449,7 +1388,6 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.loadTextures(opt.img_normal, "", opt.img_on);
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(60, 60));
-                // btn.setColor(COLOR_RESOURCE);
                 btn.setTitleFontSize(20);
                 btn.setTitleFontName(FONT_FACE);
                 // btn.setTitleColor(new cc.Color(214, 225, 227, 255));
@@ -1555,12 +1493,13 @@ var StatsLayer = cc.Layer.extend({
 
         // Country details
         if (gameParams.currentCountry !== null) {
+            var country = world.countries[gameParams.currentCountry];
             this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE, 24);
             this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
             this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
             layerBackground.addChild(this.currentCountryLabel, 100);
     
-            this.currentCountryIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.NAME, FONT_FACE, 24);
+            this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE, 24);
             this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
             layerBackground.addChild(this.currentCountryIndicatorLabel, 100);
@@ -1570,7 +1509,7 @@ var StatsLayer = cc.Layer.extend({
             this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
             layerBackground.addChild(this.populationLabel, 100);
     
-            this.populationIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.POP_EST, FONT_FACE, 24);
+            this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE, 24);
             this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
             layerBackground.addChild(this.populationIndicatorLabel, 100);
@@ -1580,7 +1519,7 @@ var StatsLayer = cc.Layer.extend({
             this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
             layerBackground.addChild(this.gdpLabel, 100);
     
-            this.gdpIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.GDP_MD_EST, FONT_FACE, 24);
+            this.gdpIndicatorLabel = new cc.LabelTTF(country.gdp_est, FONT_FACE, 24);
             this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
             layerBackground.addChild(this.gdpIndicatorLabel, 100);
@@ -1590,7 +1529,7 @@ var StatsLayer = cc.Layer.extend({
             this.incomeGrpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.3));
             layerBackground.addChild(this.incomeGrpLabel, 100);
     
-            this.incomeGrpIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.INCOME_GRP, FONT_FACE, 24);
+            this.incomeGrpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE, 24);
             this.incomeGrpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.incomeGrpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.3));
             layerBackground.addChild(this.incomeGrpIndicatorLabel, 100);
@@ -1600,7 +1539,7 @@ var StatsLayer = cc.Layer.extend({
             this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.2));
             layerBackground.addChild(this.regionLabel, 100);
     
-            this.regionIndicatorLabel = new cc.LabelTTF(gameParams.currentCountryData.SUBREGION, FONT_FACE, 24);
+            this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE, 24);
             this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.2));
             layerBackground.addChild(this.regionIndicatorLabel, 100);

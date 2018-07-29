@@ -217,7 +217,7 @@ function writeProj(proj, file) {
   // ADD COUNTRIES
   var countries = [], country_files = [], frags = [], iso_a3s = [];
   var writing = false;
-  var f = function(i ) {
+  var f = function(i, gid) {
 
     var props = tracts.features[i].properties;
     country = {};
@@ -234,7 +234,7 @@ function writeProj(proj, file) {
 
     country_file = country.iso_a3 + '_' + file + '.png';
     if (iso_a3s.indexOf(country.iso_a3) !== -1)
-      return;
+      return false;
 
     if (!xmlOnly) {
       canvas = new Canvas(width, height);
@@ -332,30 +332,33 @@ function writeProj(proj, file) {
         map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
         filter(function(p) { return p != "NaN,NaN"; })
       s = [...new Set(s)]
-      s = s.join(' ')
+      if (s.length > 3) {
+        s = s.join(' ')
 
-      // Simplified
-      s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
-      s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
-      s_simp = s_simp.join(' ')
-
-      if (s.length > 0) {
-        tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
-        tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
-        tmx_frag += "\t\t<properties>\n";
-        if (counter == 1) {
-          tmx_frag += "\t\t\t<property name=\"NAME\" value=\"" + country.NAME + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"ECONOMY\" value=\"" + country.ECONOMY + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"INCOME_GRP\" value=\"" + country.INCOME_GRP + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"ISO_A2\" value=\"" + country.ISO_A2 + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"POP_EST\" value=\"" + country.POP_EST + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"SUBREGION\" value=\"" + country.SUBREGION + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"GDP_MD_EST\" value=\"" + country.GDP_MD_EST + "\"/>\n";
-          tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
+        // Simplified
+        s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
+        s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
+        s_simp = s_simp.join(' ')
+  
+        if (s.length > 0) {
+          tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
+          tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
+          tmx_frag += "\t\t<properties>\n";
+          if (counter == 1) {
+            tmx_frag += "\t\t\t<property name=\"GID\" value=\"" + (gid + 3) + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"NAME\" value=\"" + country.NAME + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"ECONOMY\" value=\"" + country.ECONOMY + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"INCOME_GRP\" value=\"" + country.INCOME_GRP + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"ISO_A2\" value=\"" + country.ISO_A2 + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"POP_EST\" value=\"" + country.POP_EST + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"SUBREGION\" value=\"" + country.SUBREGION + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"GDP_MD_EST\" value=\"" + country.GDP_MD_EST + "\"/>\n";
+            tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
+          }
+          tmx_frag += "\t\t</properties>\n";
+          tmx_frag += '\t</object>\n';
+          // tmx_frag += "\t<polygon points=\"" + s + "\"/>\n";
         }
-        tmx_frag += "\t\t</properties>\n";
-        tmx_frag += '\t</object>\n';
-        // tmx_frag += "\t<polygon points=\"" + s + "\"/>\n";
       }
     });
 
@@ -363,10 +366,14 @@ function writeProj(proj, file) {
     iso_a3s.push(country.iso_a3);
     country_files.push(country_file);
     frags.push(tmx_frag);
+
+    return true;
   };
   // for (let i = 50; i < 60; i++) {
+  var counter = 0;
   for (var i = 0; i < tracts.features.length; i++) {
-      f(i);
+      if (f(i, counter))
+        counter++;
   }
 
   obj_id = 1;
@@ -423,6 +430,38 @@ function writeProj(proj, file) {
         return console.log(err);
     }
     console.log("The file '" + tmx_file + "' was saved!");
+  });
+  res_js = `
+  var res = {
+    world_png : "res/world-stereographic-perspective.png",
+    dot_png : "res/Images/dot.png",
+    grat_png : "res/graticule-stereographic-perspective.png",
+    world_tilemap_tmx : "res/tmx-stereographic.tmx",
+    world_tilemap_background : "res/background-stereographic.png",
+    world_tilemap_foreground : "res/foreground-stereographic.png",
+  `;
+
+  for (var i = 0; i < countries.length; i++) {
+    country = countries[i];
+    country_file = country_files[i];
+    if (country.iso_a3 == "-99")
+      continue;
+    res_js = res_js + country.iso_a3 + '_png:\"res/countries/'+country_file+'\",\n'
+  }
+  res_js += `
+};
+
+var g_resources = [];
+for (var i in res) {
+    g_resources.push(res[i]);
+}
+`; 
+  res_file = "./resource.js"
+  fs.writeFile(res_file, res_js, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("The file '" + res_file + "' was saved!");
   });
 
   // GRATICULE

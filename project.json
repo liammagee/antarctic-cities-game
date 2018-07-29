@@ -12,6 +12,7 @@
     "modules" : ["cocos2d", "extensions"],
 
     "jsList" : [
+        "src/dat.js",
         "src/resource.js",
         "src/app.js"
     ]
