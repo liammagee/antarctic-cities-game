@@ -561,7 +561,7 @@ var WorldLayer = cc.Layer.extend({
         world.countries = world.map.objectGroups[0].getObjects().reduce(function(map, obj) {  
             if (!map[obj.name]) {
                 map[obj.name] = {
-                    name: obj.name,
+                    name: obj.NAME,
                     centroid: centroids(obj.points),
                     extremes: generateCoords(obj.points),
                     area: areas(obj.points),
@@ -815,6 +815,8 @@ var WorldLayer = cc.Layer.extend({
                     console.log(country.name +": " + country.pop_est);
                 }
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
+                    var country = world.countries[currentCountry];
+                    country.policy = 1.0;
                     startGameParams();
                     printDate(world);
 
@@ -849,9 +851,10 @@ var WorldLayer = cc.Layer.extend({
                     };
 
                     // Evaluates policy robustness
-                    var evaluatePolicy = function() {
+                    var evaluatePolicy = function(country) {
                         var strategies = gameParams.strategies;
                         var policy = strategies.length * 0.01;
+                        policy *= country.policy;
                         return policy;
                     };
 
@@ -865,7 +868,6 @@ var WorldLayer = cc.Layer.extend({
                     // Updates the game state at regular intervals
                     var updateTime = function() {
                         if (gameParams.state == gameStates.STARTED) {
-
                             var d = gameParams.currentDate;
                             gameParams.counter++;
                             if (gameParams.counter % gameParams.timeInterval == 0) {
@@ -877,7 +879,7 @@ var WorldLayer = cc.Layer.extend({
                                 var countryKeys = Object.keys(world.countries);
                                 for (var j = 0; j < countryKeys.length; j++) {
                                     var country = world.countries[countryKeys[j]];
-                                    var policy = evaluatePolicy();
+                                    var policy = evaluatePolicy(country);
                                     var loss = evaluateLoss() / (1 + policy);
                                     if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
                                         country.policy += policy;

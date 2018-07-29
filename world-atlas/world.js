@@ -325,10 +325,8 @@ function writeProj(proj, file) {
     tmx_frag = "";
     z = zones[0];
     var counter = 0;
-    // z = zones[0];
     zones.forEach(z => {
       s = z.split(/[LM]/).
-        // map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
         map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
         filter(function(p) { return p != "NaN,NaN"; })
       s = [...new Set(s)]
@@ -357,7 +355,6 @@ function writeProj(proj, file) {
           }
           tmx_frag += "\t\t</properties>\n";
           tmx_frag += '\t</object>\n';
-          // tmx_frag += "\t<polygon points=\"" + s + "\"/>\n";
         }
       }
     });
