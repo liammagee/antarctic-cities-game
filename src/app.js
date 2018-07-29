@@ -9,13 +9,7 @@ var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 60; 
 var RESOURCE_DURATION = 100;
-var RESOURCES_INITIAL = 8;
-var DESTRUCTION_START = 0.0;
 var SUSTAINABILITY_TARGET = 2000.0;
-var LOSS_INITIAL = 1.1;
-var LOSS_RATE_OF = 0.001;
-var YEAR_TARGET = 2048;
-
 var TAG_SPRITE_BATCH_NODE = 1;
 
 // Game variables
@@ -38,15 +32,19 @@ var initGameParams = function(scenarioData) {
     gameParams.startDate.setDate(1);
     gameParams.startDate.setMonth(scenarioData.start_month);
     gameParams.startDate.setYear(scenarioData.start_year);
+    gameParams.targetDate = new Date(Date.now());
+    gameParams.targetDate.setDate(1);
+    gameParams.targetDate.setMonth(scenarioData.target_month);
+    gameParams.targetDate.setYear(scenarioData.target_year);
     gameParams.currentDate = gameParams.startDate;
     gameParams.counter = 0;
     gameParams.lastResource = 0;
-    gameParams.resources = RESOURCES_INITIAL;
     gameParams.strategies = [];
     gameParams.policy = 0;
-    gameParams.destruction = DESTRUCTION_START;
-    gameParams.previousLoss = LOSS_INITIAL;
-    gameParams.rateOfDecline = LOSS_RATE_OF;
+    gameParams.resources = scenarioData.starting_resources;
+    gameParams.destruction = scenarioData.threat_details.starting_conditions.starting_destruction;
+    gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_degradation;
+    gameParams.rateOfDecline = scenarioData.threat_details.advanced_stats.destruction_increase_speed;
     updateTimeVars(DAY_INTERVAL);
 };
 
@@ -167,9 +165,6 @@ var GameOver = function(parent, message, prompt) {
     gameParams.state = gameStates.GAME_OVER;
     gameParams.startCountry = null;
     gameParams.strategies = [];
-    gameParams.resources = RESOURCES_INITIAL;
-    gameParams.previousLoss = LOSS_INITIAL;
-    gameParams.rateOfDecline = LOSS_RATE_OF;
 
     var layBackground = new cc.LayerColor(COLOR_BACKGROUND, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2
@@ -226,9 +221,9 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(layerBackground, 0);
 
         // Add controls
-        this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 120, 72);
+        this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
         this.controlsBackground.setAnchorPoint(cc.p(0,0));
-        this.controlsBackground.x = size.width - 132;
+        this.controlsBackground.x = size.width - 138;
         this.controlsBackground.y = size.height - 84;
         this.addChild(this.controlsBackground, 100);
 
@@ -260,20 +255,25 @@ var WorldLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    btnPause.setColor(COLOR_FOREGROUND);
-                    btnPlay.setColor(COLOR_FOREGROUND);
-                    btnFF.setColor(COLOR_FOREGROUND);
-                    target.setColor(COLOR_HIGHLIGHT);
-                    if (target.x == 20) {  // Pause
+                    if (target == btnPause) {  // Pause
                         gameParams.state = gameStates.PAUSED;
+                        btnPause.enabled = false;
+                        btnPlay.enabled = true;
+                        btnFF.enabled = true;
                     }
-                    else if (target.x == 60) {  // Play
+                    else if (target == btnPlay) {  // Play
                         updateTimeVars(DAY_INTERVAL);
                         gameParams.state = gameStates.STARTED;
+                        btnPause.enabled = true;
+                        btnPlay.enabled = false;
+                        btnFF.enabled = true;
                     }
-                    else if (target.x == 100) {  // Fast Forward
+                    else if (target == btnFF) {  // Fast Forward
                         updateTimeVars(DAY_INTERVAL / 10);
                         gameParams.state = gameStates.STARTED;
+                        btnPause.enabled = true;
+                        btnPlay.enabled = true;
+                        btnFF.enabled = false;
                     }
                     return true;
                 }
@@ -283,30 +283,34 @@ var WorldLayer = cc.Layer.extend({
 
         btnPause.setTouchEnabled(true);
         btnPause.setScale9Enabled(true);
-        btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png", "");
-        btnPause.attr({ x: 20, y: 20 });
-        btnPause.setContentSize(cc.size(512, 512));
-        btnPause.setScale(0.078125);
+        btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
+        btnPause.attr({ x: 21, y: 21 });
+        btnPause.setContentSize(cc.size(105, 105));
+        btnPause.setScale(0.4);
         cc.eventManager.addListener(actionsListener.clone(), btnPause);
-        this.controlsBackground.addChild(btnPause, 100);
+        this.controlsBackground.addChild(btnPause, 100, "pause");
         
         btnPlay.setTouchEnabled(true);
         btnPlay.setScale9Enabled(true);
-        btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png", "");
-        btnPlay.attr({ x: 60, y: 20 });
-        btnPlay.setContentSize(cc.size(512, 512));
-        btnPlay.setScale(0.078125);
+        btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png");
+        btnPlay.attr({ x: 62, y: 21 });
+        btnPlay.setContentSize(cc.size(105, 105));
+        btnPlay.setScale(0.4);
         cc.eventManager.addListener(actionsListener.clone(), btnPlay);
-        this.controlsBackground.addChild(btnPlay, 100);
+        this.controlsBackground.addChild(btnPlay, 100, "play");
         
         btnFF.setTouchEnabled(true);
         btnFF.setScale9Enabled(true);
-        btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png", "");
-        btnFF.attr({ x: 100, y: 20 });
-        btnFF.setContentSize(cc.size(512, 512));
-        btnFF.setScale(0.078125);
+        btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png");
+        btnFF.attr({ x: 103, y: 21 });
+        btnFF.setContentSize(cc.size(105, 105));
+        btnFF.setScale(0.4);
         cc.eventManager.addListener(actionsListener.clone(), btnFF);
-        this.controlsBackground.addChild(btnFF, 100);
+        this.controlsBackground.addChild(btnFF, 100, "fast");
+
+        btnPause.enabled = false;
+        btnPlay.enabled = false;
+        btnFF.enabled = false;
 
         // Add tweet area
         this.tweetBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 600, 36);
@@ -325,7 +329,7 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreBackground.attr({ x: 10, y: 70 });
         this.addChild(this.dnaScoreBackground, 100);
 
-        this.dnaScoreLabel = new cc.LabelTTF(RESOURCES_INITIAL, FONT_FACE, 18);
+        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE, 18);
         this.dnaScoreLabel.attr({ x: 50, y: 18 });
         this.dnaScoreLabel.color = COLOR_FOREGROUND;
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
@@ -580,28 +584,7 @@ var WorldLayer = cc.Layer.extend({
             } 
             return map; 
         }, {});
-        /*
-        world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => (map[obj.name] = { 
-            name: obj.name,
-            centroid: centroids(obj.points),
-            extremes: generateCoords(obj.points),
-            area: areas(obj.points),
-            points: obj.points,
-            pop_est: obj.POP_EST,
-            gdp_est: obj.GDP_MD_EST,
-            iso_a2: obj.ISO_A2,
-            iso_a3: obj.ISO_A3,
-            subregion: obj.SUBREGION,
-            economy: obj.ECONOMY,
-            income_grp: obj.INCOME_GRP,
-            policy: 0,
-            loss: 0,
-            policyPoints: [],
-            policyDots: [],
-            destructionPoints: [],
-            destructionDots: []
-        }, map), {});
-        */
+
         // Add population density
         Object.keys(world.countries).forEach(c => { 
             var country = world.countries[c];
@@ -774,9 +757,13 @@ var WorldLayer = cc.Layer.extend({
             if (typeof(world.renderer) !== "undefined")
                 world.renderer.removeFromParent();
 
-            world.renderer = addGLLayer(world);
-            var drawNode = new cc.DrawNode();
+            var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
+            rend.setPosition(size.width/2,size.height/2);
+            world.worldBackground.addChild(rend, 99);
+            world.renderer = rend;
             world.renderer.setOpacity(genNormRand());
+
+            var drawNode = new cc.DrawNode();
             drawNode.setOpacity(genNormRand());
             var dots = [];
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
@@ -790,7 +777,6 @@ var WorldLayer = cc.Layer.extend({
                     // With static alpha
                     drawNode.drawDot(p, 3, COLOR_POLICY_POINTS);
                 }
-                //console.log('got here ' + country.destructionPoints.length);
                 for (var j = 0; j < country.destructionPoints.length; j++) {
                     var p = country.destructionPoints[j];
                     // With dynamic alpha
@@ -821,9 +807,7 @@ var WorldLayer = cc.Layer.extend({
             onMouseUp : function(event) {
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
-                    gameParams.startCountryData = currentCountryData;
                     gameParams.currentCountry = currentCountry;
-                    gameParams.currentCountryData = currentCountryData;
                 }
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
@@ -833,6 +817,10 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     startGameParams();
                     printDate(world);
+
+                    world.controlsBackground.getChildByName('pause').enabled = true;
+                    world.controlsBackground.getChildByName('play').enabled = true;
+                    world.controlsBackground.getChildByName('fast').enabled = true;
 
                     var buttons = [];
                                             
@@ -883,6 +871,33 @@ var WorldLayer = cc.Layer.extend({
                             if (gameParams.counter % gameParams.timeInterval == 0) {
                                 gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
                                 gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
+
+                                // Add policy robustness and loss
+                                var totalPolicy = 0, totalLoss = 0;
+                                var countryKeys = Object.keys(world.countries);
+                                for (var j = 0; j < countryKeys.length; j++) {
+                                    var country = world.countries[countryKeys[j]];
+                                    var policy = evaluatePolicy();
+                                    var loss = evaluateLoss() / (1 + policy);
+                                    if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
+                                        country.policy += policy;
+                                        generatePointsForCountry(country, true, country.policy - policy, country.policy);
+                                    }
+                                    if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
+                                        generatePointsForCountry(country, false, country.loss, loss);
+                                        country.loss = loss;
+                                    }
+                                    totalPolicy += country.policy;
+                                    totalLoss += country.loss;
+                                }
+                                totalPolicy /= countryKeys.length;
+                                gameParams.policy = totalPolicy;
+
+                                totalLoss /= countryKeys.length;
+                                gameParams.previousLoss = totalLoss;
+                                gameParams.destruction = totalLoss;
+
+                                drawPoints();                                
                             }
                             
                             if (gameParams.counter % gameParams.resourceInterval == 0)
@@ -904,38 +919,14 @@ var WorldLayer = cc.Layer.extend({
                             world.dnaScoreLabel.setString(gameParams.resources);
                             printDate(world);
 
-                            // Add policy robustness and loss
-                            var totalPolicy = 0, totalLoss = 0;
-                            var countryKeys = Object.keys(world.countries);
-                            for (var j = 0; j < countryKeys.length; j++) {
-                                var country = world.countries[countryKeys[j]];
-                                var policy = evaluatePolicy();
-                                var loss = evaluateLoss() / (1 + policy);
-                                if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
-                                    country.policy += policy;
-                                    generatePointsForCountry(country, true, country.policy - policy, country.policy);
-                                }
-                                if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
-                                    generatePointsForCountry(country, false, country.loss, loss);
-                                    country.loss = loss;
-                                }
-                                totalPolicy += country.policy;
-                                totalLoss += country.loss;
-                            }
-                            totalPolicy /= countryKeys.length;
-                            gameParams.policy = totalPolicy;
-
-                            totalLoss /= countryKeys.length;
-                            gameParams.previousLoss = totalLoss;
-                            gameParams.destruction = totalLoss;
-                            drawPoints();
 
                             // Game over                        
                             if (gameParams.destruction >= 100) {
                                 GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
                             }
-                            else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
-                                GameOver(world, "Game Over! You have sustained the world until " + YEAR_TARGET + "!", "OK");
+                            // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
+                            else if (gameParams.currentDate >= gameParams.targetDate) {
+                                GameOver(world, "Game Over! You have sustained the world until " + gameParams.targetDate.getFullYear() + "!", "OK");
                             }
                         }
 
