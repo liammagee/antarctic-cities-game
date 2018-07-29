@@ -574,6 +574,7 @@ var WorldLayer = cc.Layer.extend({
                     subregion: obj.SUBREGION,
                     economy: obj.ECONOMY,
                     income_grp: obj.INCOME_GRP,
+                    equator_dist: obj.EQUATOR_DIST,
                     policy: 0,
                     loss: 0,
                     policyPoints: [],

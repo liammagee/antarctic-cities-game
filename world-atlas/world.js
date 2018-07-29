@@ -94,18 +94,9 @@ var projection3 = d3
       // // .rotate([100,90,-190])
       .rotate([240,90,0]);
 
-var projection4 = d3.geoPatterson()
-    .translate([width / 2, height / 2])
-    .precision(0.1)
-         .rotate([0,90,0]);
-
-
+var projection4 = d3.geoPatterson().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
 var projection5 = d3.geoStereographic().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
-
-var projection6 = d3.geoGuyou()
-    .translate([width / 2, height / 2])
-    .precision(0.1)
-         .rotate([0,90,0]);
+var projection6 = d3.geoGuyou().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
 
 
 /**
@@ -323,40 +314,52 @@ function writeProj(proj, file) {
     /* */
     zones = svg_text.split(/[Z]/);
     tmx_frag = "";
-    z = zones[0];
     var counter = 0;
-    zones.forEach(z => {
-      s = z.split(/[LM]/).
-        map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
-        filter(function(p) { return p != "NaN,NaN"; })
-      s = [...new Set(s)]
-      if (s.length > 3) {
-        s = s.join(' ')
-
-        // Simplified
-        s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
-        s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
-        s_simp = s_simp.join(' ')
   
-        if (s.length > 0) {
-          tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
-          tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
-          tmx_frag += "\t\t<properties>\n";
-          if (counter == 1) {
-            tmx_frag += "\t\t\t<property name=\"GID\" value=\"" + (gid + 3) + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"NAME\" value=\"" + country.NAME + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"ECONOMY\" value=\"" + country.ECONOMY + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"INCOME_GRP\" value=\"" + country.INCOME_GRP + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"ISO_A2\" value=\"" + country.ISO_A2 + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"POP_EST\" value=\"" + country.POP_EST + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"SUBREGION\" value=\"" + country.SUBREGION + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"GDP_MD_EST\" value=\"" + country.GDP_MD_EST + "\"/>\n";
-            tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
-          }
-          tmx_frag += "\t\t</properties>\n";
-          tmx_frag += '\t</object>\n';
-        }
+    // Parses the SVG comma-delimited pairs to builds an array of arrays of coordinate pairs
+    var coords = zones.map(z => {
+      s = z.split(/[LM]/). 
+        map((p) => { p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
+        filter((p) => { return p != "NaN,NaN"; });
+      s = [...new Set(s)];
+      s = s.sort((a, b) => { return a.length - b.length; });
+      return s;
+    }).filter(s => { return s.length > 0; }).sort((a, b) => { return b.length - a.length; }).filter(s => { return s.length > 3; });
+
+    // Calculate the approximate distance of the country's largest land mass from the equator
+    var orig_coords = tracts_sim.features[i].geometry.coordinates.sort((a, b) => { return b[0].length - a[0].length;})
+    var mainland_coords = orig_coords[0];
+    // When there are multiple polygons, i.e. land masses
+    if (coords.length > 1)
+      mainland_coords = orig_coords[0][0];
+    var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
+    var meanLongitudes = sumOfLongitudes / mainland_coords.length;
+
+    // For each element in the array, i.e. land mass, construct a TMX object
+    coords.forEach(s => {
+      s = s.join(' ');
+
+      s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
+      s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
+      s_simp = s_simp.join(' ')
+
+      tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
+      tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
+      tmx_frag += "\t\t<properties>\n";
+      if (counter == 1) {
+        tmx_frag += "\t\t\t<property name=\"GID\" value=\"" + (gid + 3) + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"NAME\" value=\"" + country.NAME + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"ECONOMY\" value=\"" + country.ECONOMY + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"INCOME_GRP\" value=\"" + country.INCOME_GRP + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"ISO_A2\" value=\"" + country.ISO_A2 + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"POP_EST\" value=\"" + country.POP_EST + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"SUBREGION\" value=\"" + country.SUBREGION + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"GDP_MD_EST\" value=\"" + country.GDP_MD_EST + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"EQUATOR_DIST\" value=\"" + meanLongitudes + "\"/>\n";
       }
+      tmx_frag += "\t\t</properties>\n";
+      tmx_frag += '\t</object>\n';
     });
 
     countries.push(country);
