@@ -1,4 +1,3 @@
-
 // Global parameters
 var WINDOW_WIDTH = cc.director.getWinSize().width;
 var WINDOW_HEIGHT = cc.director.getWinSize().height;
@@ -9,7 +8,6 @@ var RESOURCE_CHANCE = 0.5;
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 60; 
 var RESOURCE_DURATION = 100;
-var SUSTAINABILITY_TARGET = 2000.0;
 var TAG_SPRITE_BATCH_NODE = 1;
 
 // Game variables
@@ -1249,7 +1247,6 @@ var SelectDifficultyScene = cc.Scene.extend({
 });
 
 
-
 var EnterNameScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
@@ -1281,10 +1278,8 @@ var EnterNameScene = cc.Scene.extend({
         });
 
         cc.eventManager.addListener(listener1.clone(), enterNameLabel);
-
     }
 });
-
 
 
 var ModifyCodeScene = cc.Scene.extend({
@@ -1297,11 +1292,9 @@ var ModifyCodeScene = cc.Scene.extend({
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-
         var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(modifyCodeLabel);
-
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -1354,10 +1347,12 @@ var DesignPolicyLayer = cc.Layer.extend({
                 if (cc.rectContainsPoint(rect, locationInNode)) {  
                     if (gameParams.resources - target.cost > 0 && 
                         gameParams.strategies.indexOf(target.strategy) == -1) {
+                        
                         gameParams.resources -= target.cost;  
                         gameParams.strategies.push(target.strategy);
                         target.enabled = false;
                         layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                        
                     }
                     return true;
                 }
@@ -1384,10 +1379,10 @@ var DesignPolicyLayer = cc.Layer.extend({
                     break;
                 case 1: 
                     resourceGrp = RESOURCES.politics;
-                break;
+                    break;
                 case 2: 
                     resourceGrp = RESOURCES.cultural;
-                break;
+                    break;
                 case 3: 
                     resourceGrp = RESOURCES.ecology;
                     break;
@@ -1408,8 +1403,6 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.setContentSize(cc.size(60, 60));
                 btn.setTitleFontSize(20);
                 btn.setTitleFontName(FONT_FACE);
-                // btn.setTitleColor(new cc.Color(214, 225, 227, 255));
-                //new cc.Color(214, 225, 227, 255)
                 btn.setTitleColor(COLOR_LICORICE);
                 btn.setTitleText(opt.text);
                 btn.cost = opt.cost;
