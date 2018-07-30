@@ -289,29 +289,7 @@ function writeProj(proj, file) {
     if (svg_text == null)
       return;
 
-    // SINGLE POLYGON VERSION
-    // Converts SVG to TMX code
-    /* 
-    t = svg_text.split(/[LMZ]/).
-      map(function(p){ p = p.split(','); return parseInt(p[0]) })
-    s = svg_text.split(/[LMZ]/).
-      // map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
-      map(function(p){ p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
-      filter(function(p) { return p != "NaN,NaN"; })
-    s = [...new Set(s)]
-    s = s.join(' ')
-
-    // Simplified
-    s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
-    s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
-    s_simp = s_simp.join(' ')
-
-    // console.log(s)
-    tmx_frag = "<polygon points=\"" + s + "\"/>";
-    */
-
     // MULTIPOLYGON VERSION
-    /* */
     zones = svg_text.split(/[Z]/);
     tmx_frag = "";
     var counter = 0;
@@ -339,9 +317,11 @@ function writeProj(proj, file) {
     coords.forEach(s => {
       s = s.join(' ');
 
+      /*
       s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
       s_simp = [s_simp[0], [s_simp[0][0],s_simp[1][1]], s_simp[1],[s_simp[1][0],s_simp[0][1]]]
-      s_simp = s_simp.join(' ')
+      s_simp = s_simp.join(' ');
+      */
 
       tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
       tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";

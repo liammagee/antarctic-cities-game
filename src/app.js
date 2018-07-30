@@ -513,13 +513,13 @@ var WorldLayer = cc.Layer.extend({
             return crossed;
         };
     
-        var mappedTiles = {}, sortedKeys = {};
+        var mappedTiles = {};
+
+        // Sorts objects by their relative screen position, to avoid overlapping tiles
         var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { 
             return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x);  
         });
-        var keys = world.map.objectGroups[0].getObjects().map(obj => { return obj.name; } );
-        keys = [...new Set(keys)];
-        keys.forEach((key, index) => { sortedKeys[key] = index; });
+
 
         // Generates min, max coordinates
         var generateCoords = function(points) {
@@ -585,6 +585,36 @@ var WorldLayer = cc.Layer.extend({
             } 
             return map; 
         }, {});
+
+        // Add proportion of main land mass with shared borders
+        /*
+        var countryKeys = Object.keys(world.countries);
+        for (var i = 0; i < countryKeys.length; i++) {
+            var c1 = world.countries[countryKeys[i]];
+            var counter = 0;
+            var matches = 0;
+            var neighbours = [];
+            for (var j = 0; j < countryKeys.length; j++) {
+                if (i == j)
+                    continue;
+                var c2 = world.countries[countryKeys[j]];
+                for (var k = 0; k < c1.points.length; k++) {
+                    for (var l = 0; l < c2.points.length; l++) {
+                        var p1 = c1.points[k];
+                        var p2 = c2.points[l];
+                        if (p1[0] == p2[0] && p1[1] == p2[1]) {
+                            matches++;
+                            if (neighbours.indexOf(countryKeys[j]) == -1) 
+                                neighbours.push(countryKeys[j]);
+                        }
+                        counter++;
+                    }
+                }
+            }
+            c1.landmassProportion = matches / counter;
+            c1.neighbours = neighbours;
+        }
+        */
 
         // Add population density
         Object.keys(world.countries).forEach(c => { 
@@ -962,7 +992,7 @@ var WorldLayer = cc.Layer.extend({
                 if (lastLayerID > -1) {
                     start = (start < 0) ? 0 : start;
                     end = (end > sortedObjs.length) ? sortedObjs.length : end;
-                }
+                };
 
                 var ed = function(pt1, pt2) {
                     return Math.sqrt(Math.pow(pt1.x - pt2.x, 2) + Math.pow(pt1.y - pt2.y, 2));
