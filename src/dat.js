@@ -24,34 +24,50 @@ RESOURCES = {
         policyOptions: [ {
             id: 1,
             text: "Reduce Inequality", 
-            location: {x: 200, y: 100},
+            text_long: "Reduce Inequality", 
+            description: "",
+            location: {x: 300, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 2,
             text: "Free Trade Agreements", 
-            location: {x: 200, y: 500},
+            text_long: "Free Trade Agreements", 
+            description: "",
+            location: {x: 300, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 3,
             text: "Remove Regulations", 
-            location: {x: 600, y: 100},
+            text_long: "Remove Regulations", 
+            description: "",
+            location: {x: 600, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 4, 
             text: "Automate Industry", 
+            text_long: "Automate Industry", 
+            description: "",
             location: {x: 600, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         } ]
     },
     politics: {        
@@ -59,34 +75,50 @@ RESOURCES = {
         policyOptions: [ {
             id: 5,
             text: "Global Treaties", 
-            location: {x: 200, y: 100},
+            text_long: "Global Treaties", 
+            description: "",
+            location: {x: 300, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 6,
             text: "Diplomacy", 
-            location: {x: 200, y: 500},
+            text_long: "Diplomacy", 
+            description: "",
+            location: {x: 300, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 7,
             text: "Boost Military", 
-            location: {x: 600, y: 100},
+            text_long: "Boost Military", 
+            description: "",
+            location: {x: 600, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 8,
             text: "Promote Democracy", 
+            text_long: "Promote Democracy", 
+            description: "",
             location: {x: 600, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         } ]
     },
     cultural: {
@@ -94,34 +126,50 @@ RESOURCES = {
         policyOptions: [ {
             id: 9,
             text: "Global Education", 
-            location: {x: 200, y: 100},
+            text_long: "Global Education", 
+            description: "",
+            location: {x: 300, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 10,
             text: "Social Media", 
-            location: {x: 200, y: 500},
+            text_long: "Social Media", 
+            description: "",
+            location: {x: 300, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 11,
             text: "Celebrity Endorsements", 
-            location: {x: 600, y: 100},
+            text_long: "Celebrity Endorsements", 
+            description: "",
+            location: {x: 600, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 12,
             text: "Global Festivals", 
+            text_long: "Global Festivals", 
+            description: "",
             location: {x: 600, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         } ]
     },
     ecology: {
@@ -129,34 +177,50 @@ RESOURCES = {
         policyOptions: [ {
             id: 13,
             text: "Green Cities", 
-            location: {x: 200, y: 100},
+            text_long: "Green Cities", 
+            description: "",
+            location: {x: 300, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 14,
             text: "Fund Renewable Energy", 
-            location: {x: 200, y: 500},
+            text_long: "Fund Renewable Energy", 
+            description: "",
+            location: {x: 300, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 15,
             text: "Global Heritage Trust", 
-            location: {x: 600, y: 100},
+            text_long: "Global Heritage Trust", 
+            description: "",
+            location: {x: 600, y: 200},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         },
         {
             id: 16,
             text: "Public Transport", 
+            text_long: "Public Transport", 
+            description: "",
             location: {x: 600, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_ON.png",
-            cost: 3
+            cost_1: 3,
+            cost_2: 3,
+            cost_3: 3
         } ]
     }
 };

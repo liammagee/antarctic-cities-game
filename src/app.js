@@ -1327,15 +1327,72 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         var layer = this;
         var size = cc.winSize;
+        var resourceSelected = null;
+        var resourceSelectedButton = null;
 
-        var layBackground = new cc.LayerColor(COLOR_ICE, size.width, size.height);
+        var layBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
 
-        var heading = new ccui.Text("Build a Policy Platform", FONT_FACE, 38);
+        var heading = new ccui.Text("Build a policy platform", FONT_FACE, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
-        heading.setColor(COLOR_LICORICE);
+        heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
+
+        var btnExit = new ccui.Button();
+        //btnExit.setAnchorPoint(cc.p(0, 0));
+        btnExit.setPosition(cc.p(size.width * 0.9, size.height * 0.9));
+        btnExit.setColor(COLOR_ICE);
+        btnExit.setTitleFontSize(72);
+        btnExit.setTitleText("X");
+        btnExit.addClickEventListener(function(){
+            layer.removeFromParent();
+            world.setVisible(true);
+            gameParams.state = gameStates.STARTED;
+        });
+        layer.addChild(btnExit, 102);
+
+        var policyDetailsBackground = new cc.LayerColor(COLOR_BLACK, 400, 400);
+        policyDetailsBackground.setAnchorPoint(cc.p(0, 0));
+        policyDetailsBackground.setPosition(cc.p(800, 200));
+        layer.addChild(policyDetailsBackground, 110);
+
+        var policyLabel = new ccui.Text("", FONT_FACE, 30);
+        policyLabel.setColor(COLOR_ICE);
+        policyLabel.setAnchorPoint(cc.p(0, 0));
+        policyLabel.setPosition(cc.p(20, 340));
+        policyDetailsBackground.addChild(policyLabel);
+
+        var policyDescription = new ccui.Text("", FONT_FACE, 20);
+        policyDescription.setColor(COLOR_ICE);
+        policyDescription.setAnchorPoint(cc.p(0, 0));
+        policyDescription.setPosition(cc.p(20, 280));
+        policyDetailsBackground.addChild(policyDescription);
+
+        var policyCostLabel = new ccui.Text("", FONT_FACE, 30);
+        policyCostLabel.setColor(COLOR_ICE);
+        policyCostLabel.setAnchorPoint(cc.p(0, 0));
+        policyCostLabel.setPosition(cc.p(20, 160));
+        policyDetailsBackground.addChild(policyCostLabel);
+
+        var policyDetailsInvest = new ccui.Button("res/images/paddle.png");
+        policyDetailsInvest.setSize(cc.size(300, 60));
+        policyDetailsInvest.setScale9Enabled(true);
+        policyDetailsInvest.setPosition(cc.p(200, 50));
+        policyDetailsInvest.setTitleFontSize(24);
+        policyDetailsInvest.setTitleColor(COLOR_BLACK);
+        policyDetailsInvest.setTitleText("Invest in this policy");
+        policyDetailsInvest.addClickEventListener(function(){
+            if (gameParams.resources - resourceSelected.cost_1 >= 0 && 
+                gameParams.strategies.indexOf(resourceSelected) == -1) {
+                gameParams.resources -= resourceSelected.cost_1;  
+                gameParams.strategies.push(resourceSelected);
+                resourceSelectedButton.enabled = false;
+                layer.availableResourcesLabel.setString(gameParams.resources.toString());
+            }
+        });
+        policyDetailsBackground.addChild(policyDetailsInvest, 100);
+        policyDetailsBackground.setVisible(false);
 
         var resourceListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -1345,15 +1402,24 @@ var DesignPolicyLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {  
-                    if (gameParams.resources - target.cost > 0 && 
+                    policyDetailsBackground.setVisible(true);
+                    resourceSelected = target.option;
+                    policyLabel.setString(resourceSelected.text_long);
+                    policyDescription.setString(resourceSelected.description);
+                    policyCostLabel.setString("Cost: " + resourceSelected.cost_1.toString());
+                    resourceSelectedButton = target;
+
+                    /*
+                    if (gameParams.resources - target.cost_1 > 0 && 
                         gameParams.strategies.indexOf(target.strategy) == -1) {
                         
-                        gameParams.resources -= target.cost;  
+                        gameParams.resources -= target.cost_1;  
                         gameParams.strategies.push(target.strategy);
                         target.enabled = false;
                         layer.availableResourcesLabel.setString(gameParams.resources.toString());
-                        
+
                     }
+                    */
                     return true;
                 }
                 return false;
@@ -1388,10 +1454,10 @@ var DesignPolicyLayer = cc.Layer.extend({
                     break;
             }
             var label = new ccui.Text(resourceGrp.labelText, FONT_FACE, 30);
-            label.setColor(COLOR_UMBER);
+            label.setColor(COLOR_ICE);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
-            layout.addChild(label);
+            // layout.addChild(label);
 
             resourceGrp.policyOptions.forEach(function(opt) {
                 var btn = new ccui.Button();
@@ -1400,14 +1466,16 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.setScale9Enabled(true);
                 btn.loadTextures(opt.img_normal, "", opt.img_on);
                 btn.attr(opt.location);
-                btn.setContentSize(cc.size(60, 60));
+                btn.setContentSize(cc.size(104, 104));
                 btn.setTitleFontSize(20);
                 btn.setTitleFontName(FONT_FACE);
-                btn.setTitleColor(COLOR_LICORICE);
+                btn.setTitleColor(COLOR_ICE);
                 btn.setTitleText(opt.text);
-                btn.cost = opt.cost;
-                btn.strategy = opt.text;
-                if (gameParams.strategies.indexOf(opt.text) > -1)
+                btn.cost_1 = opt.cost_1;
+                btn.cost_2 = opt.cost_2;
+                btn.cost_3 = opt.cost_3;
+                btn.option = opt;
+                if (gameParams.strategies.indexOf(opt) > -1)
                     btn.enabled = false;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
@@ -1421,42 +1489,31 @@ var DesignPolicyLayer = cc.Layer.extend({
         var makeButton = function(text, point, index) {
             var btn = new ccui.Button();
             btn.setAnchorPoint(cc.p(0, 0));
-            btn.setColor(COLOR_UMBER);
+            btn.setColor(COLOR_ICE);
             btn.setPosition(point);
             btn.setTitleText(text);
+            btn.setTitleFontSize(36);
             btn.addClickEventListener(function(){
+                resourceSelected = null;
+                policyDetailsBackground.setVisible(false);
                 pageView.setCurrentPageIndex(index);
             });
             layer.addChild(btn, 100);
         };
-        makeButton("Economy", cc.p(200, 20), 0);
-        makeButton("Politics", cc.p(400, 20), 1);
-        makeButton("Culture", cc.p(600, 20), 2);
-        makeButton("Ecology", cc.p(800, 20), 3);
+        makeButton("Economy", cc.p(300, 80), 0);
+        makeButton("Politics", cc.p(500, 80), 1);
+        makeButton("Culture", cc.p(700, 80), 2);
+        makeButton("Ecology", cc.p(900, 80), 3);
 
-        var btn = new ccui.Button();
-        btn.setAnchorPoint(cc.p(0, 0));
-        btn.setPosition(cc.p(950, 20));
-        btn.setColor(COLOR_LICORICE);
-        btn.setTitleText("X");
-        btn.addClickEventListener(function(){
-            layer.removeFromParent();
-            world.setVisible(true);
-            gameParams.state = gameStates.STARTED;
-        });
-        layer.addChild(btn, 100);
+        var resourcesLabelBackground = new cc.LayerColor(COLOR_ICE, 80, 50);
+        resourcesLabelBackground.setAnchorPoint(cc.p(0, 0));
+        resourcesLabelBackground.setPosition(cc.p(60, 80));
+        layer.addChild(resourcesLabelBackground, 100);
 
-        this.resourcesLabel = new cc.LabelTTF("Resources:", FONT_FACE, 18);
-        this.resourcesLabel.setAnchorPoint(cc.p(0, 0));
-        this.resourcesLabel.setPosition(cc.p(20, 20));
-        this.resourcesLabel.setColor(COLOR_LICORICE);
-        layer.addChild(this.resourcesLabel, 100);
-
-        this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 18);
-        this.availableResourcesLabel.setAnchorPoint(cc.p(0, 0));
-        this.availableResourcesLabel.setPosition(cc.p(120, 20));
-        this.availableResourcesLabel.setColor(COLOR_LICORICE);
-        layer.addChild(this.availableResourcesLabel, 100);
+        this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 30);
+        this.availableResourcesLabel.setPosition(cc.p(40, 25));
+        this.availableResourcesLabel.setColor(COLOR_BLACK);
+        resourcesLabelBackground.addChild(this.availableResourcesLabel, 100);
     }
 });
 
