@@ -287,7 +287,7 @@ function writeProj(proj, file) {
 
     svg_text = path(tracts_sim.features[i]);
     if (svg_text == null)
-      return;
+      return gid;
 
     // MULTIPOLYGON VERSION
     zones = svg_text.split(/[Z]/);
@@ -347,14 +347,13 @@ function writeProj(proj, file) {
     country_files.push(country_file);
     frags.push(tmx_frag);
 
-    return true;
+    return gid + 1;
   };
-  // for (let i = 50; i < 60; i++) {
+
   var counter = 0;
-  for (var i = 0; i < tracts.features.length; i++) {
-      if (f(i, counter))
-        counter++;
-  }
+  tracts.features.forEach((feature, index) => { 
+    counter == f(index, counter);
+  } );
 
   obj_id = 1;
   xml = '<?xml version="1.0" encoding="UTF-8"?>\n'

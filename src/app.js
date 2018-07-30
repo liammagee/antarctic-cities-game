@@ -577,6 +577,10 @@ var WorldLayer = cc.Layer.extend({
                     equator_dist: obj.EQUATOR_DIST,
                     policy: 0,
                     loss: 0,
+                    neighbours: [],
+                    points_shared: 0,
+                    points_total: 0,
+                    shared_border_percentage: 0,
                     policyPoints: [],
                     policyDots: [],
                     destructionPoints: [],
@@ -587,34 +591,42 @@ var WorldLayer = cc.Layer.extend({
         }, {});
 
         // Add proportion of main land mass with shared borders
-        /*
         var countryKeys = Object.keys(world.countries);
-        for (var i = 0; i < countryKeys.length; i++) {
-            var c1 = world.countries[countryKeys[i]];
-            var counter = 0;
-            var matches = 0;
-            var neighbours = [];
-            for (var j = 0; j < countryKeys.length; j++) {
-                if (i == j)
-                    continue;
-                var c2 = world.countries[countryKeys[j]];
-                for (var k = 0; k < c1.points.length; k++) {
-                    for (var l = 0; l < c2.points.length; l++) {
-                        var p1 = c1.points[k];
-                        var p2 = c2.points[l];
-                        if (p1[0] == p2[0] && p1[1] == p2[1]) {
-                            matches++;
-                            if (neighbours.indexOf(countryKeys[j]) == -1) 
-                                neighbours.push(countryKeys[j]);
-                        }
-                        counter++;
-                    }
+        var allPoints = {};
+        countryKeys.forEach(k => {
+            var c = world.countries[k];
+            c.points.forEach(p => {
+                var pStr = p.x +"-"+p.y;
+                if (allPoints[pStr]) {
+                    allPoints[pStr].push(c.iso_a3);
                 }
-            }
-            c1.landmassProportion = matches / counter;
-            c1.neighbours = neighbours;
-        }
-        */
+                else {
+                    allPoints[pStr] = [c.iso_a3];
+                }
+            });
+        });
+        Object.keys(allPoints).forEach(k => {
+            var countries = allPoints[k];
+            countries.forEach(c1 => {
+                var country = world.countries[c1];
+                countries.forEach(c2 => {
+                    if (c1 != c2) {
+                        if (country.neighbours.indexOf(c2) == -1) {
+                            country.neighbours.push(c2);
+                        }
+                        country.points_shared += 1;
+                    }
+                });
+                country.points_total += 1;
+            });
+        });
+        Object.keys(world.countries).forEach(c => {
+            var country = world.countries[c];
+            country.shared_border_percentage = country.points_shared / country.points_total;
+            if (country.shared_border_percentage > 1.0)
+                country.shared_border_percentage = 1.0;
+        });
+        
 
         // Add population density
         Object.keys(world.countries).forEach(c => { 
