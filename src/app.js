@@ -65,34 +65,6 @@ var updateTimeVars = function(interval) {
 };
 
 /**
- * Add texture for country virus
- * @param {*} world 
- */
-var addGLLayer = function(world) {
-    var winSize = cc.director.getWinSize();
-    var rend = new cc.RenderTexture(winSize.width, winSize.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
-    rend.setPosition(winSize.width/2,winSize.height/2);
-    world.worldBackground.addChild(rend, 99);
-    return rend;
-};
-/**
- * Add texture for country virus
- * @param {*} world 
- */
-var addGLLayer_withShader = function(world) {
-    var winSize = cc.director.getWinSize();
-    var rend = new cc.RenderTexture(winSize.width, winSize.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
-    if( 'opengl' in cc.sys.capabilities ) {
-        //var glnode = new cc.GLNode();
-        var shaderNode = new ShaderNode("res/Shaders/example_ColorBars.vsh", "res/Shaders/example_ColorBars.fsh");
-        this.addChild(shaderNode,10);
-        shaderNode.x = winSize.width/2;
-        shaderNode.y = winSize.height/2;
-    }
-    return rend;
-};
-
-/**
  * Load external data sources
  * Reference: https://github.com/toddmotto/public-apis#transportation
  */
@@ -903,6 +875,16 @@ var WorldLayer = cc.Layer.extend({
 
                     // Evaluates loss
                     var evaluateLoss = function() {
+                        var loss = gameParams.previousLoss;
+                        loss *= (1 + gameParams.rateOfDecline);
+                        return loss;
+                    };
+
+                    // Infect
+                    var infect = function(country) {
+                        var neighbours = country.neighbours;
+                        var sharedBorder = country.shared_border_percentage;
+
                         var loss = gameParams.previousLoss;
                         loss *= (1 + gameParams.rateOfDecline);
                         return loss;

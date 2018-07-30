@@ -41,13 +41,11 @@
 	    	"starting_severity": 1,
 	    	"starting_lethality": 10
     	},
-
     	"transmission": {
 	    	"transmission_air": 1.0,
 	    	"transmission_sea": 1.0,
 	    	"transmission_land": 1.0    		
     	},
-
     	"environmental_effectivness": {
     		"wealthy_country": 0.0,
     		"poor_country": 1.0,
