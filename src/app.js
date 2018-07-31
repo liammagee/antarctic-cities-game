@@ -536,7 +536,12 @@ var WorldLayer = cc.Layer.extend({
                     extremes: generateCoords(obj.points),
                     area: areas(obj.points),
                     points: obj.points,
+                    
+                    is_affected: false,
                     pop_est: obj.POP_EST,
+                    pop_infected: 0,
+                    pop_convinced: 0,
+
                     gdp_est: obj.GDP_MD_EST,
                     gid: obj.GID,
                     iso_a2: obj.ISO_A2,
@@ -544,6 +549,7 @@ var WorldLayer = cc.Layer.extend({
                     subregion: obj.SUBREGION,
                     economy: obj.ECONOMY,
                     income_grp: obj.INCOME_GRP,
+                    income_grp_num: parseInt(obj.INCOME_GRP.charAt(0)),
                     equator_dist: obj.EQUATOR_DIST,
                     policy: 0,
                     loss: 0,
@@ -830,6 +836,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     var country = world.countries[currentCountry];
                     country.policy = 1.0;
+                    country.is_affected = true;
                     startGameParams();
                     printDate(world);
 
@@ -878,14 +885,204 @@ var WorldLayer = cc.Layer.extend({
                         return loss;
                     };
 
-                    // Infect
-                    var infect = function(country) {
+                    // Shuffle from https://gist.github.com/guilhermepontes/17ae0cc71fa2b13ea8c20c94c5c35dc4
+                    const shuffleArray = a => a.sort(() => Math.random() - 0.5);
+
+                    // Transmit
+                    var transmit = function(country) {
                         var neighbours = country.neighbours;
                         var sharedBorder = country.shared_border_percentage;
+                        var transmissionLand = world.scenarioData.threat_details.transmission.transmission_land;
+                        var transmissionSea = world.scenarioData.threat_details.transmission.transmission_sea;
+                        var transmissionAir = world.scenarioData.threat_details.transmission.transmission_air;
+                        var infectivityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.infectivity_increase_speed;
+                        var infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
 
-                        var loss = gameParams.previousLoss;
-                        loss *= (1 + gameParams.rateOfDecline);
-                        return loss;
+                        var likelihoodOfTransmission = 1.0; //infectivityIncreaseSpeed / 100.0;
+
+                        var popCountry = country.pop_est;
+                        var popWorld = 7500000000;
+                        var popFactor = Math.log(popCountry) / Math.log(popWorld);
+                        
+                        var income = country.income_grp;
+                        var incomeVal = parseFloat(income.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
+                        
+                        var landProb = sharedBorder * transmissionLand * likelihoodOfTransmission * popFactor * incomeVal;
+                        // Sea probability increases with (a) low shared border and (b) high income and (c) high population
+                        var seaProb = (1  - sharedBorder)  * transmissionSea * likelihoodOfTransmission * popFactor * (1 - incomeVal);
+                        // Air probability increases with (a) low shared border and (b) high income and (c) high population
+                        var airProb = sharedBorder * transmissionAir * likelihoodOfTransmission * popFactor * (1 - incomeVal);
+                        
+                        var candidateCountry = null;
+
+                        // Start with land
+                        if (Math.random() < landProb && neighbours.length > 0) {
+                            var neighbourIndex = Math.floor(Math.random() * neighbours.length);
+                            var neighbour = world.countries[neighbours[neighbourIndex]];
+                            if (neighbour.policy == 0) {
+                                candidateCountry = neighbour;
+                            }
+                        }
+                        else if (Math.random() < seaProb) {
+                            var countriesShuffled = shuffleArray(Object.keys(world.countries));
+                            var countryChance = Math.random();
+                            for (var i = 0; i < countriesShuffled.length; i++) {
+                                var countryCheck = world.countries[countriesShuffled[i]];
+                                if (countryChance < ( 1 - countryCheck.shared_border_percentage ) && countryCheck.policy == 0) {
+                                    candidateCountry = countryCheck;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (Math.random() < airProb) {
+                            var countriesShuffled = shuffleArray(Object.keys(world.countries));
+                            var countryChance = Math.random();
+                            for (var i = 0; i < countriesShuffled.length; i++) {
+                                var countryCheck = world.countries[countriesShuffled[i]];
+                                var incomeCheck = countryCheck.income_grp;
+                                var incomeValCheck = parseFloat(incomeCheck.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
+                                if (countryChance < ( 1 - incomeValCheck ) && countryCheck.policy == 0) {
+                                    candidateCountry = countryCheck;
+                                    break;
+                                }
+                            }
+                        }
+                        if (candidateCountry != null ) {
+                            candidateCountry.is_affected = true;
+                            candidateCountry.policy = 1.0;
+                            candidateCountry.pop_infected = candidateCountry.pop_est * infectivityMinimumIncrease;
+                        }
+                    };
+
+                    var infect = function(country) {
+                        if (!country.is_affected)
+                            return;
+                        var popCountry = country.pop_est;
+                        var popInfected = country.pop_infected;
+
+                        if (country.pop_infected >= country.pop_est)
+                            return;
+
+                        // Calculate infectivity
+                        var infectivityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.infectivity_increase_speed;
+                        var infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
+
+                        var infectivityRate = infectivityIncreaseSpeed;
+                        
+                        gameParams.strategies.forEach(strategy => {
+                            switch(strategy.id) {
+                                case 1:
+                                    // Increase infectivity when reducing inequality for low income countries
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 2:
+                                    // Increase infectivity with free trade countries for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 3:
+                                    // Increase infectivity with regulations for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 4:
+                                    // Increase infectivity with automation for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 5:
+                                    // Increase infectivity 
+                                    infectivityRate *= 1.1;
+                                    break;
+                                case 6:
+                                    // Increase infectivity 
+                                    infectivityRate *= 1.1;
+                                    break;
+                                case 7:
+                                    // Increase infectivity with boosted military for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 8:
+                                    // Increase infectivity when boosting democracy for low income countries
+                                    infectivityRate *= (Math.log(2 + country.income_grp_num));
+                                    break;
+                                case 9:
+                                    // Increase infectivity when boosting democracy for low income countries
+                                    infectivityRate *= (Math.log(2 + country.income_grp_num));
+                                    break;
+                                case 10:
+                                    // Increase infectivity with social media for high income countries
+                                    infectivityRate *= (Math.log((((5 + 2) - country.income_grp_num)) * 0.8));
+                                    break;
+                                case 11:
+                                    // Increase infectivity with celebrity endorsements for high income countries
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 12:
+                                    // Increase infectivity with festivals for high income countries
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 13:
+                                    // Increase infectivity with green cities for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 14:
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 15:
+                                infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 16:
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                            };
+                        });
+                        if ((infectivityRate - 1) < infectivityMinimumIncrease)
+                            infectivityRate = 1 + infectivityMinimumIncrease;
+                        country.pop_infected *= infectivityRate;
+                        if (country.pop_infected > country.pop_est)
+                            country.pop_infected = country.pop_est;
+                    };
+
+                    var registerSeverity = function(country) {
+                        if (!country.is_affected)
+                            return;
+                        var popInfected = country.pop_infected;
+                        var popConvinced = country.pop_convinced;
+
+                        // Calculate severity
+                        var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
+                        var severityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_severity_increase;
+
+                        var strategyCount = gameParams.strategies.length / 16;
+                        var domainMean = strategyCount / 4;
+                        var ecn = 0, pol = 0, cul = 0, eco = 0;
+                        gameParams.strategies.forEach(s => {
+                            switch (s.domain) {
+                                case 1:
+                                    ecn++;
+                                    break;
+                                case 2:
+                                    pol++;
+                                    break;
+                                case 3:
+                                    cul++;
+                                    break;
+                                case 4:
+                                    eco++;
+                                    break;
+                            }
+                        });
+                        var variances = 1 + Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
+
+                        var severityEffect = strategyCount / variances;
+                        severityEffect *= severityIncreaseSpeed;
+                        if (severityIncreaseSpeed < severityMinimumIncrease) 
+                            severityIncreaseSpeed = severityMinimumIncrease;
+                        if (popConvinced == 0) {
+                            popConvinced = popInfected * 0.01;
+                        }
+                        else {
+                            popConvinced *= (1 + severityEffect);
+                        }
+                        country.pop_convinced = popConvinced;
                     };
                     
                     // Updates the game state at regular intervals
@@ -912,6 +1109,11 @@ var WorldLayer = cc.Layer.extend({
                                         generatePointsForCountry(country, false, country.loss, loss);
                                         country.loss = loss;
                                     }
+                                    if (country.policy > 0) {
+                                        transmit(country);
+                                        infect(country);
+                                        registerSeverity(country);
+                                    }
                                     totalPolicy += country.policy;
                                     totalLoss += country.loss;
                                 }
@@ -925,8 +1127,9 @@ var WorldLayer = cc.Layer.extend({
                                 drawPoints();                                
                             }
                             
-                            if (gameParams.counter % gameParams.resourceInterval == 0)
+                            if (gameParams.counter % gameParams.resourceInterval == 0) {
                                 addResource();
+                            }
 
                             var newButtons = [];
                             for (var i = 0; i < buttons.length; i++){

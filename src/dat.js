@@ -23,6 +23,7 @@ RESOURCES = {
         labelText: "Design your Economic Policy",
         policyOptions: [ {
             id: 1,
+            domain: "ECN",
             text: "Reduce Inequality", 
             text_long: "Reduce Inequality", 
             description: "",
@@ -35,6 +36,7 @@ RESOURCES = {
         },
         {
             id: 2,
+            domain: "ECN",
             text: "Free Trade Agreements", 
             text_long: "Free Trade Agreements", 
             description: "",
@@ -47,6 +49,7 @@ RESOURCES = {
         },
         {
             id: 3,
+            domain: "ECN",
             text: "Remove Regulations", 
             text_long: "Remove Regulations", 
             description: "",
@@ -59,6 +62,7 @@ RESOURCES = {
         },
         {
             id: 4, 
+            domain: "ECN",
             text: "Automate Industry", 
             text_long: "Automate Industry", 
             description: "",
@@ -74,6 +78,7 @@ RESOURCES = {
         labelText: "Design your Political Policy",
         policyOptions: [ {
             id: 5,
+            domain: "ECN",
             text: "Global Treaties", 
             text_long: "Global Treaties", 
             description: "",
@@ -86,6 +91,7 @@ RESOURCES = {
         },
         {
             id: 6,
+            domain: "ECN",
             text: "Diplomacy", 
             text_long: "Diplomacy", 
             description: "",
@@ -98,6 +104,7 @@ RESOURCES = {
         },
         {
             id: 7,
+            domain: "ECN",
             text: "Boost Military", 
             text_long: "Boost Military", 
             description: "",
@@ -110,6 +117,7 @@ RESOURCES = {
         },
         {
             id: 8,
+            domain: "ECN",
             text: "Promote Democracy", 
             text_long: "Promote Democracy", 
             description: "",
@@ -125,6 +133,7 @@ RESOURCES = {
         labelText: "Design your Cultural Policy",
         policyOptions: [ {
             id: 9,
+            domain: "ECN",
             text: "Global Education", 
             text_long: "Global Education", 
             description: "",
@@ -137,6 +146,7 @@ RESOURCES = {
         },
         {
             id: 10,
+            domain: "ECN",
             text: "Social Media", 
             text_long: "Social Media", 
             description: "",
@@ -149,6 +159,7 @@ RESOURCES = {
         },
         {
             id: 11,
+            domain: "ECN",
             text: "Celebrity Endorsements", 
             text_long: "Celebrity Endorsements", 
             description: "",
@@ -161,6 +172,7 @@ RESOURCES = {
         },
         {
             id: 12,
+            domain: "ECN",
             text: "Global Festivals", 
             text_long: "Global Festivals", 
             description: "",
@@ -176,6 +188,7 @@ RESOURCES = {
         labelText: "Design your Ecological Policy",
         policyOptions: [ {
             id: 13,
+            domain: "ECN",
             text: "Green Cities", 
             text_long: "Green Cities", 
             description: "",
@@ -188,6 +201,7 @@ RESOURCES = {
         },
         {
             id: 14,
+            domain: "ECN",
             text: "Fund Renewable Energy", 
             text_long: "Fund Renewable Energy", 
             description: "",
@@ -200,6 +214,7 @@ RESOURCES = {
         },
         {
             id: 15,
+            domain: "ECN",
             text: "Global Heritage Trust", 
             text_long: "Global Heritage Trust", 
             description: "",
@@ -212,6 +227,7 @@ RESOURCES = {
         },
         {
             id: 16,
+            domain: "ECN",
             text: "Public Transport", 
             text_long: "Public Transport", 
             description: "",
