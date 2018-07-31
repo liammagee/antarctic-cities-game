@@ -1409,17 +1409,6 @@ var DesignPolicyLayer = cc.Layer.extend({
                     policyCostLabel.setString("Cost: " + resourceSelected.cost_1.toString());
                     resourceSelectedButton = target;
 
-                    /*
-                    if (gameParams.resources - target.cost_1 > 0 && 
-                        gameParams.strategies.indexOf(target.strategy) == -1) {
-                        
-                        gameParams.resources -= target.cost_1;  
-                        gameParams.strategies.push(target.strategy);
-                        target.enabled = false;
-                        layer.availableResourcesLabel.setString(gameParams.resources.toString());
-
-                    }
-                    */
                     return true;
                 }
                 return false;
