@@ -39,6 +39,11 @@ var initGameParams = function(scenarioData) {
     gameParams.lastResource = 0;
     gameParams.strategies = [];
     gameParams.policy = 0;
+    gameParams.countriedAffected = 0;
+    gameParams.populationInfected = 0;
+    gameParams.populationConvinced = 0;
+    gameParams.populationInfectedPercent = 0;
+    gameParams.populationConvincedPercent = 0;
     gameParams.resources = scenarioData.starting_resources;
     gameParams.destruction = scenarioData.threat_details.starting_conditions.starting_destruction;
     gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_degradation;
@@ -538,11 +543,11 @@ var WorldLayer = cc.Layer.extend({
                     points: obj.points,
                     
                     is_affected: false,
-                    pop_est: obj.POP_EST,
+                    pop_est: parseInt(obj.POP_EST),
                     pop_infected: 0,
                     pop_convinced: 0,
 
-                    gdp_est: obj.GDP_MD_EST,
+                    gdp_est: parseInt(obj.GDP_MD_EST),
                     gid: obj.GID,
                     iso_a2: obj.ISO_A2,
                     iso_a3: obj.ISO_A3,
@@ -629,6 +634,9 @@ var WorldLayer = cc.Layer.extend({
             var country = world.countries[c];
             country.numPoints = Math.ceil(country.area / world.areaMean);
         });
+
+        // Add world populations
+        gameParams.populationWorld = Object.keys(world.countries).map(c => { return world.countries[c].pop_est; }).reduce((a, c) => {return a + parseInt(c);}, 0);
 
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
@@ -901,7 +909,7 @@ var WorldLayer = cc.Layer.extend({
                         var likelihoodOfTransmission = 1.0; //infectivityIncreaseSpeed / 100.0;
 
                         var popCountry = country.pop_est;
-                        var popWorld = 7500000000;
+                        var popWorld = gameParams.populationWorld;
                         var popFactor = Math.log(popCountry) / Math.log(popWorld);
                         
                         var income = country.income_grp;
@@ -950,7 +958,7 @@ var WorldLayer = cc.Layer.extend({
                         if (candidateCountry != null ) {
                             candidateCountry.is_affected = true;
                             candidateCountry.policy = 1.0;
-                            candidateCountry.pop_infected = candidateCountry.pop_est * infectivityMinimumIncrease;
+                            candidateCountry.pop_infected = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
                         }
                     };
 
@@ -960,7 +968,7 @@ var WorldLayer = cc.Layer.extend({
                         var popCountry = country.pop_est;
                         var popInfected = country.pop_infected;
 
-                        if (country.pop_infected >= country.pop_est)
+                        if (country.pop_infected >= parseInt(country.pop_est))
                             return;
 
                         // Calculate infectivity
@@ -1096,23 +1104,33 @@ var WorldLayer = cc.Layer.extend({
 
                                 // Add policy robustness and loss
                                 var totalPolicy = 0, totalLoss = 0;
+                                var countriedAffected = 0, populationInfected = 0, populationConvinced = 0;
                                 var countryKeys = Object.keys(world.countries);
                                 for (var j = 0; j < countryKeys.length; j++) {
                                     var country = world.countries[countryKeys[j]];
                                     var policy = evaluatePolicy(country);
                                     var loss = evaluateLoss() / (1 + policy);
-                                    if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
-                                        country.policy += policy;
-                                        generatePointsForCountry(country, true, country.policy - policy, country.policy);
-                                    }
-                                    if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
-                                        generatePointsForCountry(country, false, country.loss, loss);
-                                        country.loss = loss;
-                                    }
-                                    if (country.policy > 0) {
+                                    if (country.is_affected) {
                                         transmit(country);
                                         infect(country);
                                         registerSeverity(country);
+                                        countriedAffected++;
+                                        populationInfected += country.pop_infected;
+                                        populationConvinced += country.pop_convinced;
+
+                                        country.infectedPercentage = country.pop_infected / country.pop_est;
+                                        var existingConvincedPercentage = country.convincedPercentage;
+                                        country.convincedPercentage = country.pop_convinced / country.pop_est;
+
+                                        generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.convincedPercentage));
+                                    }
+                                    // if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
+                                    //     country.policy += policy;
+                                    //     generatePointsForCountry(country, true, country.policy - policy, country.policy);
+                                    // }
+                                    if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
+                                        generatePointsForCountry(country, false, country.loss, loss);
+                                        country.loss = loss;
                                     }
                                     totalPolicy += country.policy;
                                     totalLoss += country.loss;
@@ -1123,6 +1141,12 @@ var WorldLayer = cc.Layer.extend({
                                 totalLoss /= countryKeys.length;
                                 gameParams.previousLoss = totalLoss;
                                 gameParams.destruction = totalLoss;
+
+                                gameParams.countriedAffected = countriedAffected;
+                                gameParams.populationInfected = populationInfected;
+                                gameParams.populationConvinced = populationConvinced;
+                                gameParams.populationInfectedPercent = 100 * gameParams.populationInfected / gameParams.populationWorld;
+                                gameParams.populationConvincedPercent = 100 * gameParams.populationConvinced / gameParams.populationWorld;
 
                                 drawPoints();                                
                             }

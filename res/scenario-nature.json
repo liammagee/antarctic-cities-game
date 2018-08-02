@@ -75,5 +75,34 @@
     		"enable_air_transmission": true,
     		"infected_points_pot": 0 
     	}
-    }
+	},
+	"messages": {
+		"negative": [
+			"Global temperatures are rising, and could be 3.5 degrees higher by 2070!",
+			"New ice-free areas are appearing on the Antarctic.",
+			"Warming of Southern Oceans pose risks to shells and other marine life.",
+			"Fishing, tourism and commercial shipping are expanding in the Southern Ocean.",
+			"Globally, sea level rises cost coastal cities $1 trillion USD each year.",
+			"Ships can now access new parts of the Antarctic continent",
+			"Warmer waters see a rise in baleen whales!",
+			"Southern Ocean fish and penguin populations are declining...",
+			"Invasive species of grasses and insects are settling permanently in Antarctica.",
+			"Calls to protect endangered species go ignored by Antarctic Treaty signatories.",
+			"Human population is on track to exceed 10 billion by 2070...",
+			"New technologies are enabling polar mining for oil and other resources.",
+			"Antarctice tourism reaches 1 million visitors per year!"
+		],
+		"positive": [
+			"The physical environment of Antarctica and the Southern Ocean is returning to 2020 levels.",
+			"Ozone levels in the Antarctic stratosphere are returning to the values of the 1960s. ",
+			"Ocean acification is no longer increasing dramatically.",
+			"Major ice shelves remain in tact... for now",
+			"Sea level rises are restricted to 6cm per annum!",
+			"Systematic conservation begins...",
+			"Invasive species are unable to settle permanently on the Antarctic.",
+			"Decisive steps are being taken to limit the impact of increased human engagement with Antarctica.",
+			"Truly global action on the Sustainable Development Goals is now underway!",
+			"Scientists discover new compounds from Antarctic biota, with major industrial and medical applications..."
+		]
+	}
 }
