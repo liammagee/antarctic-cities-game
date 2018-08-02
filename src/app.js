@@ -48,6 +48,9 @@ var initGameParams = function(scenarioData) {
     gameParams.destruction = scenarioData.threat_details.starting_conditions.starting_destruction;
     gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_degradation;
     gameParams.rateOfDecline = scenarioData.threat_details.advanced_stats.destruction_increase_speed;
+    gameParams.scenarioName = scenarioData.name;
+    gameParams.messagesNegative = scenarioData.messages.negative;
+    gameParams.messagesPositive = scenarioData.messages.positive;
     updateTimeVars(DAY_INTERVAL);
 };
 
@@ -57,6 +60,7 @@ var initGameParams = function(scenarioData) {
 var startGameParams = function() {
     gameParams.state = gameStates.STARTED;
 };
+
 
 /**
  * Update time variables.
@@ -140,6 +144,8 @@ var GameOver = function(parent, message, prompt) {
     gameParams.state = gameStates.GAME_OVER;
     gameParams.startCountry = null;
     gameParams.strategies = [];
+    world.tweetLabel.setString(gameParams.scenarioName);
+    world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
 
     var layBackground = new cc.LayerColor(COLOR_BACKGROUND, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2
@@ -288,15 +294,39 @@ var WorldLayer = cc.Layer.extend({
         btnFF.enabled = false;
 
         // Add tweet area
-        this.tweetBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 600, 36);
-        this.tweetBackground.setAnchorPoint(new cc.p(0,0));
-        this.tweetBackground.attr({ x: (size.width / 2) - 300, y: size.height - 48 });
-        this.addChild(this.tweetBackground, 100);
+        // this.tweetBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 600, 36);
+        this.tweetBackground2 = new ccui.ScrollView();
+        this.tweetBackground2.setDirection(ccui.ScrollView.DIR_VERTICAL);
+        //this.tweetBackground2.setTouchEnabled(true);
+        this.tweetBackground2.attr({ width: 600, height: 36, x: (size.width / 2) - 300, y: size.height - 96 });
+        this.tweetBackground2.setContentSize(cc.size(600, 36));
+        // this.tweetBackground2.setBackGroundColor(COLOR_BACKGROUND_TRANS);
+        this.tweetBackground2.setInnerContainerSize(cc.size(600, 36));
+        // this.tweetBackground2.setAnchorPoint(new cc.p(0,0));
+        // this.addChild(this.tweetBackground2, 110);
 
-        this.tweetLabel = new cc.LabelTTF(scenarioData.name, FONT_FACE, 18);
-        this.tweetLabel.attr({ x: 300, y: 18 });
-        this.tweetLabel.color = new cc.Color(255, 255, 255, 0);
-        this.tweetBackground.addChild(this.tweetLabel, 100);
+        this.tweetBackground = new cc.ClippingNode();
+        this.tweetBackground.setColor(COLOR_BACKGROUND_TRANS);
+        this.tweetBackground.attr({ width: 600, height: 36, x: (size.width / 2) - 300, y: size.height - 48 });
+        this.tweetBackground.setContentSize(cc.size(600, 36));
+        var stencil = new cc.DrawNode();
+        var rectangle = [cc.p(0, 0),cc.p(this.tweetBackground.width, 0),
+            cc.p(this.tweetBackground.width, this.tweetBackground.height),
+            cc.p(0, this.tweetBackground.height)];
+
+        var darkGrey = new cc.Color(42, 54, 68, 255);
+        stencil.drawPoly(rectangle, darkGrey, 1, darkGrey);
+        this.tweetBackground.stencil = stencil;
+        this.addChild(this.tweetBackground, 110);
+
+        this.tweetBackgroundLayer = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        this.tweetBackgroundLayer.attr({ width: this.tweetBackground.width, height: this.tweetBackground.height, x: 0, y: 0});
+        this.tweetBackground.addChild(this.tweetBackgroundLayer, 100);
+
+        this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE, 18);
+        this.tweetLabel.attr({ x: this.tweetBackground.width / 2, y: 18, width: this.tweetBackground.width });
+        this.tweetLabel.color = new cc.Color(255, 255, 255, 255);
+        this.tweetBackground.addChild(this.tweetLabel, 101);
 
         // Add dna
         this.dnaScoreBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 100, 36);
@@ -341,6 +371,8 @@ var WorldLayer = cc.Layer.extend({
         this.map.attr({ x: 0, y: 0 });
         this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
+
+        
 
         // GLOBAL VARIABLES FOR DEBUGGING
         world = this;
@@ -781,6 +813,18 @@ var WorldLayer = cc.Layer.extend({
             return 100.0;
         };
         var drawPoints = function() {
+
+            if (typeof(world.renderer) === "undefined") {
+                var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
+                rend.setPosition(size.width/2,size.height/2);
+                world.worldBackground.addChild(rend, 99);
+                world.renderer = rend;
+                world.renderer.setOpacity(genNormRand());
+                world.renderer.setClearColor(new cc.Color(255, 255, 255, 255));
+            }
+            world.renderer.clear(0, 0, 0, 0);
+
+            /*
             if (typeof(world.renderer) !== "undefined")
                 world.renderer.removeFromParent();
 
@@ -789,6 +833,7 @@ var WorldLayer = cc.Layer.extend({
             world.worldBackground.addChild(rend, 99);
             world.renderer = rend;
             world.renderer.setOpacity(genNormRand());
+            */
 
             var drawNode = new cc.DrawNode();
             drawNode.setOpacity(genNormRand());
@@ -802,6 +847,7 @@ var WorldLayer = cc.Layer.extend({
                     // With dynamic alpha
                     // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, genNormRand()));
                     // With static alpha
+                    // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, Math.random() * 255));
                     drawNode.drawDot(p, 3, COLOR_POLICY_POINTS);
                 }
                 for (var j = 0; j < country.destructionPoints.length; j++) {
@@ -809,6 +855,7 @@ var WorldLayer = cc.Layer.extend({
                     // With dynamic alpha
                     // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, genNormRand()));
                     // With static alpha
+                    // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, Math.random() * 255));
                     drawNode.drawDot(p, 3, COLOR_DESTRUCTION_POINTS);
                 }
                 // dots.push(drawNode);
@@ -1171,6 +1218,27 @@ var WorldLayer = cc.Layer.extend({
                             world.dnaScoreLabel.setString(gameParams.resources);
                             printDate(world);
 
+                            // Scroll text
+                            if (world.tweetLabel.x > -300) {
+                                world.tweetLabel.setPositionX(world.tweetLabel.x - 1);
+                            }
+                            else {
+                                // Change label
+                                if (gameParams.destruction > 0 || gameParams.populationConvincedPercent > 0) {
+                                    var weight = gameParams.destruction / (gameParams.destruction + gameParams.populationConvincedPercent);
+                                    var message = gameParams.scenarioName, messageIndex = -1;
+                                    if (Math.random() < weight) {
+                                        messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
+                                        message = gameParams.messagesNegative[messageIndex];
+                                    }
+                                    else {
+                                        messageIndex = Math.floor(Math.random() * gameParams.messagesPositive.length);
+                                        message = gameParams.messagesPositive[messageIndex];
+                                    }
+                                    world.tweetLabel.setString(message);
+                                }
+                                world.tweetLabel.setPositionX(world.tweetBackground.width * 1.5);
+                            }
 
                             // Game over                        
                             if (gameParams.destruction >= 100) {

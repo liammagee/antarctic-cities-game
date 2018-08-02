@@ -13,9 +13,9 @@ COLOR_BACKGROUND = COLOR_LICORICE;
 COLOR_FOREGROUND = COLOR_ICE; 
 COLOR_HIGHLIGHT = COLOR_OAK; 
 COLOR_RESOURCE = new cc.Color(0, 255, 0, 100); // Green, with transparency; COLOR_UMBER; 
-COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
-COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 160); // Black, with transparency
+COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 200); // Green, with transparency
+COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 200); // Red, with transparency
+COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
 
 // RESOURCES
 RESOURCES = {
@@ -23,7 +23,7 @@ RESOURCES = {
         labelText: "Design your Economic Policy",
         policyOptions: [ {
             id: 1,
-            domain: "ECN",
+            domain: 1,
             text: "Reduce Inequality", 
             text_long: "Reduce Inequality", 
             description: "",
@@ -36,7 +36,7 @@ RESOURCES = {
         },
         {
             id: 2,
-            domain: "ECN",
+            domain: 1,
             text: "Free Trade Agreements", 
             text_long: "Free Trade Agreements", 
             description: "",
@@ -49,7 +49,7 @@ RESOURCES = {
         },
         {
             id: 3,
-            domain: "ECN",
+            domain: 1,
             text: "Remove Regulations", 
             text_long: "Remove Regulations", 
             description: "",
@@ -62,7 +62,7 @@ RESOURCES = {
         },
         {
             id: 4, 
-            domain: "ECN",
+            domain: 1,
             text: "Automate Industry", 
             text_long: "Automate Industry", 
             description: "",
@@ -78,7 +78,7 @@ RESOURCES = {
         labelText: "Design your Political Policy",
         policyOptions: [ {
             id: 5,
-            domain: "ECN",
+            domain: 2,
             text: "Global Treaties", 
             text_long: "Global Treaties", 
             description: "",
@@ -91,7 +91,7 @@ RESOURCES = {
         },
         {
             id: 6,
-            domain: "ECN",
+            domain: 2,
             text: "Diplomacy", 
             text_long: "Diplomacy", 
             description: "",
@@ -104,7 +104,7 @@ RESOURCES = {
         },
         {
             id: 7,
-            domain: "ECN",
+            domain: 2,
             text: "Boost Military", 
             text_long: "Boost Military", 
             description: "",
@@ -117,7 +117,7 @@ RESOURCES = {
         },
         {
             id: 8,
-            domain: "ECN",
+            domain: 2,
             text: "Promote Democracy", 
             text_long: "Promote Democracy", 
             description: "",
@@ -133,7 +133,7 @@ RESOURCES = {
         labelText: "Design your Cultural Policy",
         policyOptions: [ {
             id: 9,
-            domain: "ECN",
+            domain: 3,
             text: "Global Education", 
             text_long: "Global Education", 
             description: "",
@@ -146,7 +146,7 @@ RESOURCES = {
         },
         {
             id: 10,
-            domain: "ECN",
+            domain: 3,
             text: "Social Media", 
             text_long: "Social Media", 
             description: "",
@@ -159,7 +159,7 @@ RESOURCES = {
         },
         {
             id: 11,
-            domain: "ECN",
+            domain: 3,
             text: "Celebrity Endorsements", 
             text_long: "Celebrity Endorsements", 
             description: "",
@@ -172,7 +172,7 @@ RESOURCES = {
         },
         {
             id: 12,
-            domain: "ECN",
+            domain: 3,
             text: "Global Festivals", 
             text_long: "Global Festivals", 
             description: "",
@@ -188,7 +188,7 @@ RESOURCES = {
         labelText: "Design your Ecological Policy",
         policyOptions: [ {
             id: 13,
-            domain: "ECN",
+            domain: 4,
             text: "Green Cities", 
             text_long: "Green Cities", 
             description: "",
@@ -201,7 +201,7 @@ RESOURCES = {
         },
         {
             id: 14,
-            domain: "ECN",
+            domain: 4,
             text: "Fund Renewable Energy", 
             text_long: "Fund Renewable Energy", 
             description: "",
@@ -214,7 +214,7 @@ RESOURCES = {
         },
         {
             id: 15,
-            domain: "ECN",
+            domain: 4,
             text: "Global Heritage Trust", 
             text_long: "Global Heritage Trust", 
             description: "",
@@ -227,7 +227,7 @@ RESOURCES = {
         },
         {
             id: 16,
-            domain: "ECN",
+            domain: 4,
             text: "Public Transport", 
             text_long: "Public Transport", 
             description: "",
