@@ -39,7 +39,7 @@ RESOURCES = {
             domain: 1,
             text: "Free Trade Agreements", 
             text_long: "Free Trade Agreements", 
-            description: "",
+            description: "Free Trade Agreements are wonderful for already wealthy countries. They may not benefit low income countries as much...",
             location: {x: 300, y: 500},
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_ON.png",

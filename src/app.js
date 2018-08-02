@@ -45,9 +45,10 @@ var initGameParams = function(scenarioData) {
     gameParams.populationInfectedPercent = 0;
     gameParams.populationConvincedPercent = 0;
     gameParams.resources = scenarioData.starting_resources;
-    gameParams.destruction = scenarioData.threat_details.starting_conditions.starting_destruction;
-    gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_degradation;
-    gameParams.rateOfDecline = scenarioData.threat_details.advanced_stats.destruction_increase_speed;
+    gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_loss;
+    gameParams.rateOfLoss = scenarioData.threat_details.advanced_stats.loss_increase_speed;
+    gameParams.minimumLoss = scenarioData.threat_details.advanced_stats.minimum_loss_increase;
+    gameParams.totalLoss = 0;
     gameParams.scenarioName = scenarioData.name;
     gameParams.messagesNegative = scenarioData.messages.negative;
     gameParams.messagesPositive = scenarioData.messages.positive;
@@ -574,7 +575,7 @@ var WorldLayer = cc.Layer.extend({
                     area: areas(obj.points),
                     points: obj.points,
                     
-                    is_affected: false,
+                    affected_chance: 0.0,
                     pop_est: parseInt(obj.POP_EST),
                     pop_infected: 0,
                     pop_convinced: 0,
@@ -813,27 +814,14 @@ var WorldLayer = cc.Layer.extend({
             return 100.0;
         };
         var drawPoints = function() {
-
             if (typeof(world.renderer) === "undefined") {
                 var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
                 rend.setPosition(size.width/2,size.height/2);
                 world.worldBackground.addChild(rend, 99);
                 world.renderer = rend;
-                world.renderer.setOpacity(genNormRand());
-                world.renderer.setClearColor(new cc.Color(255, 255, 255, 255));
+                world.renderer.setOpacity(100);
             }
             world.renderer.clear(0, 0, 0, 0);
-
-            /*
-            if (typeof(world.renderer) !== "undefined")
-                world.renderer.removeFromParent();
-
-            var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
-            rend.setPosition(size.width/2,size.height/2);
-            world.worldBackground.addChild(rend, 99);
-            world.renderer = rend;
-            world.renderer.setOpacity(genNormRand());
-            */
 
             var drawNode = new cc.DrawNode();
             drawNode.setOpacity(genNormRand());
@@ -891,7 +879,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     var country = world.countries[currentCountry];
                     country.policy = 1.0;
-                    country.is_affected = true;
+                    country.affected_chance = 1.0;
                     startGameParams();
                     printDate(world);
 
@@ -925,18 +913,15 @@ var WorldLayer = cc.Layer.extend({
                         }
                     };
 
-                    // Evaluates policy robustness
-                    var evaluatePolicy = function(country) {
-                        var strategies = gameParams.strategies;
-                        var policy = strategies.length * 0.01;
-                        policy *= country.policy;
-                        return policy;
-                    };
-
                     // Evaluates loss
                     var evaluateLoss = function() {
                         var loss = gameParams.previousLoss;
-                        loss *= (1 + gameParams.rateOfDecline);
+                        loss = (1 + loss) * (1 + gameParams.rateOfLoss);
+                        loss -= 1;
+                        // Weaken rate of loss by population convinced of good policy
+                        loss /= (1 + gameParams.populationConvincedPercent / 100.0);
+                        if (loss < gameParams.minimum_loss_increase)
+                            loss = gameParams.minimum_loss_increase;
                         return loss;
                     };
 
@@ -944,16 +929,15 @@ var WorldLayer = cc.Layer.extend({
                     const shuffleArray = a => a.sort(() => Math.random() - 0.5);
 
                     // Transmit
-                    var transmit = function(country) {
+                    var transmitFrom = function(country) {
                         var neighbours = country.neighbours;
                         var sharedBorder = country.shared_border_percentage;
                         var transmissionLand = world.scenarioData.threat_details.transmission.transmission_land;
                         var transmissionSea = world.scenarioData.threat_details.transmission.transmission_sea;
                         var transmissionAir = world.scenarioData.threat_details.transmission.transmission_air;
-                        var infectivityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.infectivity_increase_speed;
                         var infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
 
-                        var likelihoodOfTransmission = 1.0; //infectivityIncreaseSpeed / 100.0;
+                        var likelihoodOfTransmission = country.affected_chance; //infectivityIncreaseSpeed / 100.0;
 
                         var popCountry = country.pop_est;
                         var popWorld = gameParams.populationWorld;
@@ -1003,13 +987,15 @@ var WorldLayer = cc.Layer.extend({
                             }
                         }
                         if (candidateCountry != null ) {
-                            candidateCountry.is_affected = true;
+                            candidateCountry.affected_chance = 0.1;
+                            if (country.affected_chance < 1.0)
+                                country.affected_chance *= 0.1;
                             candidateCountry.policy = 1.0;
                             candidateCountry.pop_infected = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
                         }
                     };
 
-                    var infect = function(country) {
+                    var infectWithin = function(country) {
                         if (!country.is_affected)
                             return;
                         var popCountry = country.pop_est;
@@ -1096,8 +1082,8 @@ var WorldLayer = cc.Layer.extend({
                             country.pop_infected = country.pop_est;
                     };
 
-                    var registerSeverity = function(country) {
-                        if (!country.is_affected)
+                    var registerSeverityWithin = function(country) {
+                        if (country.affected_chance == 0)
                             return;
                         var popInfected = country.pop_infected;
                         var popConvinced = country.pop_convinced;
@@ -1152,15 +1138,13 @@ var WorldLayer = cc.Layer.extend({
                                 // Add policy robustness and loss
                                 var totalPolicy = 0, totalLoss = 0;
                                 var countriedAffected = 0, populationInfected = 0, populationConvinced = 0;
-                                var countryKeys = Object.keys(world.countries);
-                                for (var j = 0; j < countryKeys.length; j++) {
-                                    var country = world.countries[countryKeys[j]];
-                                    var policy = evaluatePolicy(country);
-                                    var loss = evaluateLoss() / (1 + policy);
-                                    if (country.is_affected) {
-                                        transmit(country);
-                                        infect(country);
-                                        registerSeverity(country);
+                                Object.keys(world.countries).forEach( key => {
+                                    var country = world.countries[key];
+                                    var loss = evaluateLoss();
+                                    if (country.affected_chance) {
+                                        transmitFrom(country);
+                                        infectWithin(country);
+                                        registerSeverityWithin(country);
                                         countriedAffected++;
                                         populationInfected += country.pop_infected;
                                         populationConvinced += country.pop_convinced;
@@ -1171,23 +1155,19 @@ var WorldLayer = cc.Layer.extend({
 
                                         generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.convincedPercentage));
                                     }
-                                    // if (policy != 0 && country.policy <= 100 && country.policy >= 0) {
-                                    //     country.policy += policy;
-                                    //     generatePointsForCountry(country, true, country.policy - policy, country.policy);
-                                    // }
                                     if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
                                         generatePointsForCountry(country, false, country.loss, loss);
                                         country.loss = loss;
                                     }
                                     totalPolicy += country.policy;
                                     totalLoss += country.loss;
-                                }
-                                totalPolicy /= countryKeys.length;
+                                });
+                                totalPolicy /= Object.keys(world.countries).length;
                                 gameParams.policy = totalPolicy;
 
                                 totalLoss /= countryKeys.length;
                                 gameParams.previousLoss = totalLoss;
-                                gameParams.destruction = totalLoss;
+                                gameParams.totalLoss = totalLoss;
 
                                 gameParams.countriedAffected = countriedAffected;
                                 gameParams.populationInfected = populationInfected;
@@ -1224,8 +1204,8 @@ var WorldLayer = cc.Layer.extend({
                             }
                             else {
                                 // Change label
-                                if (gameParams.destruction > 0 || gameParams.populationConvincedPercent > 0) {
-                                    var weight = gameParams.destruction / (gameParams.destruction + gameParams.populationConvincedPercent);
+                                if (gameParams.totalLoss > 0 || gameParams.populationConvincedPercent > 0) {
+                                    var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationConvincedPercent);
                                     var message = gameParams.scenarioName, messageIndex = -1;
                                     if (Math.random() < weight) {
                                         messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
@@ -1241,7 +1221,7 @@ var WorldLayer = cc.Layer.extend({
                             }
 
                             // Game over                        
-                            if (gameParams.destruction >= 100) {
+                            if (gameParams.totalLoss >= 100) {
                                 GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
                             }
                             // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
@@ -1838,7 +1818,7 @@ var StatsLayer = cc.Layer.extend({
         this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.7));
         layerBackground.addChild(this.destructionLabel, 100);
 
-        this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.destruction), FONT_FACE, 24);
+        this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.totalLoss), FONT_FACE, 24);
         this.destructionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.7));
         layerBackground.addChild(this.destructionIndicatorLabel, 100);

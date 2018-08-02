@@ -35,8 +35,7 @@
     "threat_details" : {
     	"threat_template": "",
     	"starting_conditions": {
-	    	"starting_destruction": 0.0,
-	    	"starting_degradation": 1.1,
+	    	"starting_loss": 0.1,
 	    	"starting_infectivity": 1,
 	    	"starting_severity": 1,
 	    	"starting_lethality": 10
@@ -61,8 +60,8 @@
     		"mutation_likelihood": 0.5
     	},
     	"advanced_stats": {
-    		"destruction_increase_speed": 0.001, 
-    		"minimum_destruction_increase": 0.001, 
+    		"loss_increase_speed": 0.01, 
+    		"minimum_loss_increase": 0.001, 
     		"infectivity_increase_speed": 0.1, 
     		"minimum_infectivity_increase": 0.1, 
     		"severity_increase_speed": 0.1, 
