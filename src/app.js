@@ -1655,7 +1655,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyCostLabel.setPosition(cc.p(20, 160));
         policyDetailsBackground.addChild(policyCostLabel);
 
-        var policyDetailsInvest = new ccui.Button("res/images/paddle.png");
+        var policyDetailsInvest = new ccui.Button("res/Images/paddle.png");
         policyDetailsInvest.setSize(cc.size(300, 60));
         policyDetailsInvest.setScale9Enabled(true);
         policyDetailsInvest.setPosition(cc.p(200, 50));
