@@ -62,9 +62,9 @@
     	"advanced_stats": {
     		"loss_increase_speed": 0.01, 
     		"minimum_loss_increase": 0.001, 
-    		"infectivity_increase_speed": 0.1, 
+    		"infectivity_increase_speed": 1.0, 
     		"minimum_infectivity_increase": 0.1, 
-    		"severity_increase_speed": 0.1, 
+    		"severity_increase_speed": 1.0, 
     		"minimum_severity_increase": 1.0, 
     		"lethality_increase_speed": 0.05, 
     		"minimum_lethality_increase_speed": 0.4, 

@@ -13,8 +13,8 @@ COLOR_BACKGROUND = COLOR_LICORICE;
 COLOR_FOREGROUND = COLOR_ICE; 
 COLOR_HIGHLIGHT = COLOR_OAK; 
 COLOR_RESOURCE = new cc.Color(0, 255, 0, 100); // Green, with transparency; COLOR_UMBER; 
-COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 200); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 200); // Red, with transparency
+COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
+COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
 COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
 
 // RESOURCES
