@@ -5,9 +5,10 @@ var X_OFFSET = 0, Y_OFFSET = 50;
 var TIME_INTERVAL = 50;
 var DAY_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
+// var FONT_FACE = "Josefin Sans";
 var FONT_FACE = "Trebuchet MS";
-var RESOURCE_SIZE = 60; 
-var RESOURCE_DURATION = 100;
+var RESOURCE_SIZE = 80; 
+var RESOURCE_DURATION = 300;
 var TAG_SPRITE_BATCH_NODE = 1;
 
 // Game variables
@@ -98,7 +99,7 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 1);
 
-    var lblMessage = new cc.LabelTTF(message, FONT_FACE, 14);
+    var lblMessage = new cc.LabelTTF(message, FONT_FACE, 18);
     lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
     layBackground.addChild(lblMessage, 2);
 
@@ -211,15 +212,15 @@ var WorldLayer = cc.Layer.extend({
 
         this.dayLabel = new cc.LabelTTF("", FONT_FACE, 18);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
-        this.dayLabel.attr({ x: 14, y: 54 });
+        this.dayLabel.attr({ x: 14, y: 48 });
         this.dayLabel.color = COLOR_FOREGROUND;
         this.monthLabel = new cc.LabelTTF("", FONT_FACE, 18);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
-        this.monthLabel.attr({ x: 34, y: 54 });
+        this.monthLabel.attr({ x: 30, y: 48 });
         this.monthLabel.color = COLOR_FOREGROUND;
         this.yearLabel = new cc.LabelTTF("", FONT_FACE, 18);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
-        this.yearLabel.attr({ x: 54, y: 54 });
+        this.yearLabel.attr({ x: 54, y: 48 });
         this.yearLabel.color = COLOR_FOREGROUND;
         // this.controlsBackground.addChild(this.dayLabel, 100);
         this.controlsBackground.addChild(this.monthLabel, 100);
@@ -771,6 +772,9 @@ var WorldLayer = cc.Layer.extend({
                 points = points.slice(0, max - 1);
             }
             else {
+                var sqrt = Math.sqrt(country.area);
+                if (points.length + ( max - min) * country.numPoints > sqrt)
+                    return;
                 for (var j = min; j < max; j++) {
                     var numPoints = country.numPoints;
                     for (var k  = 0; k < numPoints; k++) {
@@ -911,6 +915,13 @@ var WorldLayer = cc.Layer.extend({
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
                                 world.worldBackground.addChild(btnRes, 101);
                                 buttons.push(btnRes);
+                                if (gameParams.lastResource == 0) {
+                                    gameParams.state = gameStates.PAUSED;
+                                    ShowMessageBoxOK(world, "Click on the blue icons to add resources", "OK!", function(that) {
+                                        gameParams.state = gameStates.STARTED;
+                                        gameParams.resources++;
+                                    });
+                                }
                             }
                             gameParams.lastResource = gameParams.counter;
                         }
