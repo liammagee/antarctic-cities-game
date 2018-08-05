@@ -387,15 +387,28 @@ var WorldLayer = cc.Layer.extend({
             onMouseMove: function(event){
                 if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
                     var node = event.getCurrentTarget(); 
-                    node.x += event.getDeltaX();
-                    node.y += event.getDeltaY();
+                    var scale = node.getScale();
+                    var size = node.getContentSize();
+                    var scaledX = scale * size.width;
+                    var scaledY = scale * size.height;
+                    console.log(node.x, event.getDeltaX(), scaledX)
+                    // &&
+                    // node.x + event.getDeltaX() + scaledX < size.width &&
+                    // node.Y + event.getDeltaY() + scaledY < size.height
+                    // if (node.x + event.getDeltaX() > 0 && 
+                    //     node.y + event.getDeltaY() > 0 ) {
+                        node.x += event.getDeltaX();
+                        node.y += event.getDeltaY();
+                    // }
                 }
             },
             // Zoom handling
             onMouseScroll: function(event){
                 var node = event.getCurrentTarget(); 
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
-                node.setScale(node.getScale() * (1 + delta / 1000.0));
+                var newScale = node.getScale() * (1 + delta / 1000.0);
+                if (newScale <= 10.0 && newScale >= 1.0)
+                    node.setScale(newScale);
             }
         }, this.worldBackground);
 

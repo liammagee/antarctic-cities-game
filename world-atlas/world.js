@@ -28,10 +28,7 @@ if (typeof(args[1]) !== 'undefined') {
   
 
 
-var Image = Canvas.Image, 
-  canvas = new Canvas(width, height), 
-  context = canvas.getContext('2d');
-
+var Image = Canvas.Image, canvas = new Canvas(width, height), context = canvas.getContext('2d');
 
 
 //  Extract data from the topology file
@@ -41,27 +38,6 @@ var Image = Canvas.Image,
 // var data = JSON.parse(fs.readFileSync("./world/110m2-topo.json", 'utf8'));
 // var data = JSON.parse(fs.readFileSync("./world/50m.json", 'utf8'));
 var data = JSON.parse(fs.readFileSync("./world/" + jsonFile, 'utf8'));
-if (jsonOnly) {
-  var countryData = data.objects.tracts.map(function(f) { 
-    var properties = {};
-    // All properties: 
-    // scalerank,featurecla,LABELRANK,SOVEREIGNT,SOV_A3,ADM0_DIF,LEVEL,TYPE,ADMIN,ADM0_A3,GEOU_DIF,GEOUNIT,GU_A3,SU_DIF,SUBUNIT,SU_A3,BRK_DIFF,NAME,NAME_LONG,BRK_A3,BRK_NAME,BRK_GROUP,ABBREV,POSTAL,FORMAL_EN,FORMAL_FR,NAME_CIAWF,NOTE_ADM0,NOTE_BRK,NAME_SORT,NAME_ALT,MAPCOLOR7,MAPCOLOR8,MAPCOLOR9,MAPCOLOR13,POP_EST,POP_RANK,GDP_MD_EST,POP_YEAR,LASTCENSUS,GDP_YEAR,ECONOMY,INCOME_GRP,WIKIPEDIA,FIPS_10_,ISO_A2,ISO_A3,ISO_A3_EH,ISO_N3,UN_A3,WB_A2,WB_A3,WOE_ID,WOE_ID_EH,WOE_NOTE,ADM0_A3_IS,ADM0_A3_US,ADM0_A3_UN,ADM0_A3_WB,CONTINENT,REGION_UN,SUBREGION,REGION_WB,NAME_LEN,LONG_LEN,ABBREV_LEN,TINY,HOMEPART,MIN_ZOOM,MIN_LABEL,MAX_LABEL
-    properties["NAME"] = f.properties["NAME"];
-    properties["ECONOMY"] = f.properties["ECONOMY"];
-    properties["INCOME_GRP"] = f.properties["INCOME_GRP"];
-    properties["ISO_A2"] = f.properties["ISO_A2"];
-    properties["ISO_A3"] = f.properties["ISO_A3"];
-    if (f.properties["ISO_A3"] == "-99")
-      properties["ISO_A3"] = f.properties["ADM0_A3_IS"];
-    properties["POP_EST"] = f.properties["POP_EST"];
-    properties["SUBREGION"] = f.properties["SUBREGION"];
-    properties["GDP_MD_EST"] = f.properties["GDP_MD_EST"];
-    return properties; 
-  })
-  countryStrs = JSON.stringify(countryData);
-  fs.writeFileSync("./world/countryData.json", countryStrs);
-  return;
-}
 
 // Extract features
 var tracts = topojson.feature(data, data.objects.tracts);
@@ -169,6 +145,22 @@ function writeProj(proj, file) {
   // path(topojson.mesh(data));
   // context.stroke();
 
+  tracts.features.forEach((feature, index) => { 
+
+    var props = tracts.features[index].properties;
+    var col = (100 + parseInt(props.MAPCOLOR7) * 20);
+    if (col > 255)
+      col = 255;
+    context.fillStyle = '#' + col.toString(16)  + 'AA00';
+    console.log(props.MAPCOLOR7 +":"+ col +":"+context.fillStyle);
+    context.beginPath();
+    path(tracts.features[index]);
+    context.fill();
+    context.stroke();
+    context.closePath();
+  } );
+
+  /*
   context.beginPath();
   path(tracts);
   context.fill();
@@ -176,6 +168,7 @@ function writeProj(proj, file) {
   context.beginPath();
   path(tracts);
   context.stroke();
+  */
 
   // Graticule
   var graticule = d3.geoGraticule();
@@ -222,6 +215,10 @@ function writeProj(proj, file) {
     country.POP_EST = props.POP_EST;
     country.SUBREGION = props.SUBREGION;
     country.GDP_MD_EST = props.GDP_MD_EST;
+    country.MAPCOLOR7 = props.MAPCOLOR7;
+    country.MAPCOLOR8 = props.MAPCOLOR8;
+    country.MAPCOLOR9 = props.MAPCOLOR9;
+    country.MAPCOLOR13 = props.MAPCOLOR13;
 
     country_file = country.iso_a3 + '_' + file + '.png';
     if (iso_a3s.indexOf(country.iso_a3) !== -1)
