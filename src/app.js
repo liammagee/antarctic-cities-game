@@ -98,16 +98,21 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     parent.pause(); 
 
     var layBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
-    layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
+    layBackground.attr({ 
+        x: WINDOW_WIDTH / 2 - layBackground.width / 2, 
+        y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 1);
 
-    var lblMessage = new cc.LabelTTF(message, FONT_FACE, 18);
-    lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
-    layBackground.addChild(lblMessage, 2);
-
-    var menu = this._menu = cc.Menu.create();
-    menu.setPosition(cc.p(0, 0));
-    layBackground.addChild(this._menu, 3);
+    var text = new ccui.Text(message, FONT_FACE, 24);
+    text.ignoreContentAdaptWithSize(false);
+    text.setAnchorPoint(cc.p(0, 0));
+    // text.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
+    text.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height*0.75));
+    text.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.25));
+    text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    text.setColor(COLOR_WHITE);
+    layBackground.addChild(text, 2);
 
     var listener = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
@@ -127,10 +132,14 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
         }
     });
 
-    var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE, 24));
+    var btnOK = new ccui.Button();
+    btnOK.setTitleText(prompt);
+    btnOK.setTitleColor(COLOR_WHITE);
+    btnOK.setTitleFontSize(24);
+    btnOK.setTitleFontName(FONT_FACE);
     cc.eventManager.addListener(listener.clone(), btnOK);
-    btnOK.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) - lblMessage.getContentSize().height * 2 });
-    menu.addChild(btnOK);
+    btnOK.attr({ x: layBackground.width / 2, y: layBackground.height * 0.25 });
+    layBackground.addChild(btnOK);
 };
 
 /**
@@ -333,6 +342,7 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.addChild(this.tweetLabel, 101);
 
         // Add dna
+        /*
         this.dnaScoreBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 100, 36);
         this.dnaScoreBackground.setAnchorPoint(new cc.p(0,0));
         this.dnaScoreBackground.attr({ x: 10, y: 70 });
@@ -341,6 +351,17 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE, 18);
         this.dnaScoreLabel.attr({ x: 50, y: 18 });
         this.dnaScoreLabel.color = COLOR_FOREGROUND;
+        this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
+        */
+
+        this.dnaScoreBackground = new cc.LayerColor(COLOR_ICE, 80, 50);
+        this.dnaScoreBackground.setAnchorPoint(cc.p(0, 0));
+        this.dnaScoreBackground.setPosition(cc.p(60, 80));
+        this.addChild(this.dnaScoreBackground, 100);
+
+        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 30);
+        this.dnaScoreLabel.setPosition(cc.p(40, 25));
+        this.dnaScoreLabel.setColor(COLOR_BLACK);
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
 
         // add "World" background layer
@@ -1786,21 +1807,25 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsBackground.addChild(policyLabel);
 
         var policyDescription = new ccui.Text("", FONT_FACE, 20);
-        policyDescription.setColor(COLOR_ICE);
+        policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
-        policyDescription.setPosition(cc.p(20, 280));
-        policyDetailsBackground.addChild(policyDescription);
+        policyDescription.setContentSize(cc.size(360,200));
+        policyDescription.setPosition(cc.p(20, 120));
+        policyDescription.setColor(COLOR_ICE);
+        // policyDescription.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
+        // policyDescription.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_BOTTOM);
+        policyDetailsBackground.addChild(policyDescription, 2);
 
         var policyCostLabel = new ccui.Text("", FONT_FACE, 30);
         policyCostLabel.setColor(COLOR_ICE);
         policyCostLabel.setAnchorPoint(cc.p(0, 0));
-        policyCostLabel.setPosition(cc.p(20, 160));
+        policyCostLabel.setPosition(cc.p(20, 80));
         policyDetailsBackground.addChild(policyCostLabel);
 
         var policyDetailsInvest = new ccui.Button("res/Images/paddle.png");
         policyDetailsInvest.setSize(cc.size(300, 60));
         policyDetailsInvest.setScale9Enabled(true);
-        policyDetailsInvest.setPosition(cc.p(200, 50));
+        policyDetailsInvest.setPosition(cc.p(200, 30));
         policyDetailsInvest.setTitleFontSize(24);
         policyDetailsInvest.setTitleColor(COLOR_BLACK);
         policyDetailsInvest.setTitleText("Invest in this policy");
