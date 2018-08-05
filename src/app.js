@@ -391,16 +391,16 @@ var WorldLayer = cc.Layer.extend({
                     var size = node.getContentSize();
                     var scaledX = scale * size.width;
                     var scaledY = scale * size.height;
-                    node.x
-                    //console.log(node.x, event.getDeltaX(), scaledX)
-                    // &&
-                    // node.x + event.getDeltaX() + scaledX < size.width &&
-                    // node.Y + event.getDeltaY() + scaledY < size.height
-                    // if (node.x + event.getDeltaX() > 0 && 
-                    //     node.y + event.getDeltaY() > 0 ) {
+                    // Calculate margins adjusted for size
+                    var marginX = node.width / (2 / (1e-06 + scale - 1));
+                    var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
+                    if (node.x + event.getDeltaX() < marginX && 
+                        node.x + event.getDeltaX() > -marginX &&
+                        node.y + event.getDeltaY() < marginY && 
+                        node.y + event.getDeltaY() > -marginY ) {
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
-                    // }
+                    }
                 }
             },
             // Zoom handling
@@ -408,8 +408,14 @@ var WorldLayer = cc.Layer.extend({
                 var node = event.getCurrentTarget(); 
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
                 var newScale = node.getScale() * (1 + delta / 1000.0);
-                if (newScale <= 10.0 && newScale >= 1.0)
+                // Calculate margins adjusted for size
+                var marginX = node.width / (2 / (1e-06 + newScale - 1));
+                var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
+                if (newScale <= 10.0 && newScale >= 1.0 && 
+                    node.x < marginX && 
+                    node.x > -marginX) {
                     node.setScale(newScale);
+                }
             }
         }, this.worldBackground);
 
