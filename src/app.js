@@ -46,6 +46,8 @@ var initGameParams = function(scenarioData) {
     gameParams.populationInfectedPercent = 0;
     gameParams.populationConvincedPercent = 0;
     gameParams.resources = scenarioData.starting_resources;
+    gameParams.resourcesShown = false;
+    gameParams.resourcesAdded = false;
     gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_loss;
     gameParams.rateOfLoss = scenarioData.threat_details.advanced_stats.loss_increase_speed;
     gameParams.minimumLoss = scenarioData.threat_details.advanced_stats.minimum_loss_increase;
@@ -374,8 +376,6 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
-        
-
         // GLOBAL VARIABLES FOR DEBUGGING
         world = this;
         world.scenarioData = scenarioData;
@@ -430,16 +430,39 @@ var WorldLayer = cc.Layer.extend({
             }
         });
     
-        this.controlBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
-        this.controlBackground.setAnchorPoint(new cc.p(0,0));
-        this.controlBackground.attr({ x: 0, y: 0 });
-        this.addChild(this.controlBackground, 100);
+
+        var layout = new ccui.Layout();
+        layout.setContentSize(cc.size(size.width, Y_OFFSET));
+        layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
+        layout.setBackGroundColor(COLOR_BLACK);
+        var layoutSize = layout.getContentSize();
+        layout.setLayoutType(ccui.Layout.RELATIVE);
+        layout.attr({ x: 0, y: 0 });
+        this.addChild(layout, 100);
+
+        var lp1 = new ccui.RelativeLayoutParameter();
+        lp1.setAlign(ccui.RelativeLayoutParameter.PARENT_LEFT_CENTER_VERTICAL);
+        var lp2 = new ccui.RelativeLayoutParameter();
+        lp2.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
+        var lp3 = new ccui.RelativeLayoutParameter();
+        lp3.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_CENTER_VERTICAL);
+
+        // this.controlBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
+        // this.controlBackground.setAnchorPoint(new cc.p(0,0));
+        // this.controlBackground.attr({ x: 0, y: 0 });
+        // this.addChild(this.controlBackground, 100);
 
 
-        this.dnaSpend = cc.MenuItemLabel.create(cc.LabelTTF.create("POLICY", FONT_FACE, 24));
+        this.dnaSpend = new ccui.Button();
+        this.dnaSpend.setTitleText("POLICY");
+        this.dnaSpend.setTitleFontName(FONT_FACE);
+        this.dnaSpend.setTitleFontSize(24);
+        this.dnaSpend.setTitleColor(COLOR_ICE);
         this.dnaSpend.setAnchorPoint(new cc.p(0,0));
         this.dnaSpend.attr({ x: 10, y: 10 });
-        this.controlBackground.addChild(this.dnaSpend);
+        this.dnaSpend.setLayoutParameter(lp1);
+        layout.addChild(this.dnaSpend);
+        // this.controlBackground.addChild(this.dnaSpend);
     
         this.worldListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -459,10 +482,39 @@ var WorldLayer = cc.Layer.extend({
             }
         });
     
-        this.worldStats = cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
+        var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        countryDetailLayout.setAnchorPoint(new cc.p(0,0));
+        countryDetailLayout.attr({ x: 300, y: 00 });
+        countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
+        layout.addChild(countryDetailLayout);
+        this.countryInfected = new cc.LabelTTF("", FONT_FACE, 16);
+        this.countryInfected.setContentSize(cc.size(150, Y_OFFSET));
+        this.countryInfected.setPosition(cc.p(10, 10));
+        this.countryLabel = new cc.LabelTTF("", FONT_FACE, 16);
+        this.countryLabel.setContentSize(cc.size(600, Y_OFFSET));
+        this.countryLabel.setPosition(cc.p(160, 10));
+        this.countryConvinced = new cc.LabelTTF("", FONT_FACE, 16);
+        this.countryConvinced.setContentSize(cc.size(150, Y_OFFSET));
+        this.countryConvinced.setPosition(cc.p(760, 10));
+        this.countryInfected.setAnchorPoint(new cc.p(0,0));
+        this.countryLabel.setAnchorPoint(new cc.p(0,0));
+        this.countryConvinced.setAnchorPoint(new cc.p(0,0));
+        countryDetailLayout.addChild(this.countryInfected);
+        countryDetailLayout.addChild(this.countryLabel);
+        countryDetailLayout.addChild(this.countryConvinced);
+    
+        this.worldStats = new ccui.Button();
+        //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
+        this.worldStats.setTitleText("STATISTICS");
+        this.worldStats.setTitleFontName(FONT_FACE);
+        this.worldStats.setTitleFontSize(24);
+        this.worldStats.setTitleColor(COLOR_ICE);
+        this.worldStats.setContentSize(cc.size(240, 80));
         this.worldStats.setAnchorPoint(new cc.p(0,0));
-        this.worldStats.attr({ x: 300, y: 10 });
-        this.controlBackground.addChild(this.worldStats);
+        // this.worldStats.attr({ x: 1200, y: 10 });
+        this.worldStats.setLayoutParameter(lp3);
+        layout.addChild(this.worldStats);
+        // this.controlBackground.addChild(this.worldStats);
 
         var addEmitter = function () {
             world._emitter = new cc.ParticleRain();
@@ -712,6 +764,13 @@ var WorldLayer = cc.Layer.extend({
                     var res = Math.floor(1 + Math.random() * 3);
                     gameParams.resources += res;
                     target.removeFromParent();
+                    if (!gameParams.resourcesAdded) {
+                        gameParams.state = gameStates.PAUSED;
+                        gameParams.resourcesAdded = true;
+                        ShowMessageBoxOK(world, "Click on the 'POLICY' button to spend your resources.", "OK!", function() {
+                            gameParams.state = gameStates.STARTED;
+                        });
+                    }
                     return true;
                 }
                 return false;
@@ -871,17 +930,24 @@ var WorldLayer = cc.Layer.extend({
         drawPoints();
         world.drawPoints = drawPoints;
 
+        var printCountryStats = function(currentCountry){
+            var country = world.countries[currentCountry];
+            world.countryInfected.setString(country.pop_infected);
+            world.countryLabel.setString(country.name);
+            world.countryConvinced.setString(country.pop_convinced);
+        };
+
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.currentCountry = currentCountry;
+                    printCountryStats(currentCountry);
                 }
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
-                    var country = world.countries[currentCountry];
-                    console.log(country.name +": " + country.pop_est);
+                    printCountryStats(currentCountry);
                 }
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     var country = world.countries[currentCountry];
@@ -915,11 +981,11 @@ var WorldLayer = cc.Layer.extend({
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
                                 world.worldBackground.addChild(btnRes, 101);
                                 buttons.push(btnRes);
-                                if (gameParams.lastResource == 0) {
+                                if (!gameParams.resourcesShown) {
                                     gameParams.state = gameStates.PAUSED;
+                                    gameParams.resourcesShown = true;
                                     ShowMessageBoxOK(world, "Click on the blue icons to add resources", "OK!", function(that) {
                                         gameParams.state = gameStates.STARTED;
-                                        gameParams.resources++;
                                     });
                                 }
                             }
@@ -1340,24 +1406,61 @@ var LoadingScene = cc.Scene.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
-        layBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layBackground, 1);
         
-        var playLabel = new cc.LabelTTF("Play", FONT_FACE, 38);
-        playLabel.attr({x: size.width * 0.5, y: size.height * 0.6});
-        playLabel.setFontFillColor(COLOR_FOREGROUND);
-        layBackground.addChild(playLabel);
+        var layout = new ccui.Layout();
+        layout.setContentSize(cc.size(size.width, size.height));
+        layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
+        layout.setBackGroundColor(COLOR_BACKGROUND);
+        layout.setContentSize(cc.size(240, 240));
+        var layoutSize = layout.getContentSize();
+        layout.setLayoutType(ccui.Layout.RELATIVE);
+        layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
+        // layout.setLayoutType(ccui.Layout.LINEAR_VERTICAL);
+        layer.addChild(layout, 1);
+        
+        var lp1 = new ccui.RelativeLayoutParameter();
+        lp1.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
+        var playLabel = new ccui.Button();
+        playLabel.setContentSize(cc.size(240, 80));
+        playLabel.setTouchEnabled(true);
+        playLabel.setScale9Enabled(true);
+        playLabel.loadTextures("res/Images/paddle.png", "", "");
+        playLabel.setTitleText("Play");
+        playLabel.setTitleFontName(FONT_FACE);
+        playLabel.setTitleColor(COLOR_BLACK);
+        playLabel.setTitleFontSize(38);
+        playLabel.attr({x: size.width / 2, y: size.height / 2});
+        playLabel.setLayoutParameter(lp1);
+        layout.addChild(playLabel);
 
-        var howToPlayLabel = new cc.LabelTTF("How to Play", FONT_FACE, 38);
-        howToPlayLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
-        howToPlayLabel.setFontFillColor(COLOR_FOREGROUND);
-        layBackground.addChild(howToPlayLabel);
 
-        var progressLabel = new cc.LabelTTF("Progress", FONT_FACE, 38);
-        progressLabel.attr({x: size.width * 0.5, y: size.height * 0.4});
-        progressLabel.setFontFillColor(COLOR_FOREGROUND);
-        layBackground.addChild(progressLabel);
+        var lp2 = new ccui.RelativeLayoutParameter();
+        lp2.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
+        var howToPlayLabel = new ccui.Button();
+        howToPlayLabel.setContentSize(cc.size(240, 80));
+        howToPlayLabel.setTouchEnabled(true);
+        howToPlayLabel.setScale9Enabled(true);
+        howToPlayLabel.loadTextures("res/Images/paddle.png", "", "");
+        howToPlayLabel.setTitleText("How to Play");
+        howToPlayLabel.setTitleFontName(FONT_FACE);
+        howToPlayLabel.setTitleColor(COLOR_BLACK);
+        howToPlayLabel.setTitleFontSize(38);
+        howToPlayLabel.attr({x: size.width / 2, y: size.height / 2});
+        howToPlayLabel.setLayoutParameter(lp2);
+        layout.addChild(howToPlayLabel);
+
+        /*
+        // Test adding animation effects
+        howToPlayLabel.attr({x: size.width / 2, y: 0});
+        layer.addChild(howToPlayLabel, 2);
+
+        var move = cc.moveBy(2, cc.p(0, size.height - 80));
+        var move_ease_in = move.clone().easing(cc.easeElasticIn());
+        var seq1 = cc.sequence(move_ease_in);
+
+        var a2 = howToPlayLabel.runAction(seq1.repeatForever());
+        a2.tag = 1;
+        */
 
         var listenerPlay = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -1375,7 +1478,7 @@ var LoadingScene = cc.Scene.extend({
             }
         });
 
-        var listenerDoNothing = cc.EventListener.create({
+        var listenerHowToPlay = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 var target = event.getCurrentTarget();
@@ -1391,8 +1494,7 @@ var LoadingScene = cc.Scene.extend({
         });
 
         cc.eventManager.addListener(listenerPlay, playLabel);
-        cc.eventManager.addListener(listenerDoNothing.clone(), howToPlayLabel);
-        cc.eventManager.addListener(listenerDoNothing.clone(), progressLabel);
+        cc.eventManager.addListener(listenerHowToPlay.clone(), howToPlayLabel);
     }
 });
 
@@ -1808,6 +1910,7 @@ var StatsLayer = cc.Layer.extend({
 
         var layer = this;
         var size = cc.winSize;
+
 
         var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
