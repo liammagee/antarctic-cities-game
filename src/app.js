@@ -391,7 +391,7 @@ var WorldLayer = cc.Layer.extend({
                     var size = node.getContentSize();
                     var scaledX = scale * size.width;
                     var scaledY = scale * size.height;
-                    console.log(node.x, event.getDeltaX(), scaledX)
+                    //console.log(node.x, event.getDeltaX(), scaledX)
                     // &&
                     // node.x + event.getDeltaX() + scaledX < size.width &&
                     // node.Y + event.getDeltaY() + scaledY < size.height
@@ -500,15 +500,17 @@ var WorldLayer = cc.Layer.extend({
         countryDetailLayout.attr({ x: 300, y: 00 });
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
         layout.addChild(countryDetailLayout);
-        this.countryInfected = new cc.LabelTTF("", FONT_FACE, 16);
+        var fontSize = 24;
+        var labelOffsetY = Y_OFFSET / 2 - fontSize / 2;
+        this.countryInfected = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryInfected.setContentSize(cc.size(150, Y_OFFSET));
-        this.countryInfected.setPosition(cc.p(10, 10));
-        this.countryLabel = new cc.LabelTTF("", FONT_FACE, 16);
-        this.countryLabel.setContentSize(cc.size(600, Y_OFFSET));
-        this.countryLabel.setPosition(cc.p(160, 10));
-        this.countryConvinced = new cc.LabelTTF("", FONT_FACE, 16);
+        this.countryInfected.setPosition(cc.p(10, labelOffsetY));
+        this.countryLabel = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryLabel.setContentSize(cc.size(400, Y_OFFSET));
+        this.countryLabel.setPosition(cc.p(240, labelOffsetY));
+        this.countryConvinced = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryConvinced.setContentSize(cc.size(150, Y_OFFSET));
-        this.countryConvinced.setPosition(cc.p(760, 10));
+        this.countryConvinced.setPosition(cc.p(640, labelOffsetY));
         this.countryInfected.setAnchorPoint(new cc.p(0,0));
         this.countryLabel.setAnchorPoint(new cc.p(0,0));
         this.countryConvinced.setAnchorPoint(new cc.p(0,0));
@@ -518,7 +520,7 @@ var WorldLayer = cc.Layer.extend({
     
         this.worldStats = new ccui.Button();
         //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
-        this.worldStats.setTitleText("STATISTICS");
+        this.worldStats.setTitleText("WORLD");
         this.worldStats.setTitleFontName(FONT_FACE);
         this.worldStats.setTitleFontSize(24);
         this.worldStats.setTitleColor(COLOR_ICE);
@@ -943,11 +945,11 @@ var WorldLayer = cc.Layer.extend({
         drawPoints();
         world.drawPoints = drawPoints;
 
-        var printCountryStats = function(currentCountry){
-            var country = world.countries[currentCountry];
-            world.countryInfected.setString(country.pop_infected);
+        var printCountryStats = function(){
+            var country = world.countries[gameParams.currentCountry];
+            world.countryInfected.setString(Math.round(country.pop_infected) + " infected" );
             world.countryLabel.setString(country.name);
-            world.countryConvinced.setString(country.pop_convinced);
+            world.countryConvinced.setString(Math.round(country.pop_convinced) + " convinced");
         };
 
         cc.eventManager.addListener({
@@ -956,11 +958,11 @@ var WorldLayer = cc.Layer.extend({
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.currentCountry = currentCountry;
-                    printCountryStats(currentCountry);
+                    printCountryStats();
                 }
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
-                    printCountryStats(currentCountry);
+                    printCountryStats();
                 }
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     var country = world.countries[currentCountry];
@@ -1218,6 +1220,8 @@ var WorldLayer = cc.Layer.extend({
                             popConvinced *= (1 + severityEffect);
                         }
                         country.pop_convinced = popConvinced;
+                        if (country.pop_convinced > country.pop_infected)
+                            country.pop_convinced = country.pop_infected;
                     };
                     
                     // Updates the game state at regular intervals
@@ -1270,7 +1274,8 @@ var WorldLayer = cc.Layer.extend({
                                 gameParams.populationInfectedPercent = 100 * gameParams.populationInfected / gameParams.populationWorld;
                                 gameParams.populationConvincedPercent = 100 * gameParams.populationConvinced / gameParams.populationWorld;
 
-                                drawPoints();                                
+                                drawPoints();
+                                printCountryStats();
                             }
                             
                             if (gameParams.counter % gameParams.resourceInterval == 0) {
