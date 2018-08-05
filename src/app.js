@@ -391,6 +391,7 @@ var WorldLayer = cc.Layer.extend({
                     var size = node.getContentSize();
                     var scaledX = scale * size.width;
                     var scaledY = scale * size.height;
+                    node.x
                     //console.log(node.x, event.getDeltaX(), scaledX)
                     // &&
                     // node.x + event.getDeltaX() + scaledX < size.width &&
@@ -505,12 +506,16 @@ var WorldLayer = cc.Layer.extend({
         this.countryInfected = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryInfected.setContentSize(cc.size(150, Y_OFFSET));
         this.countryInfected.setPosition(cc.p(10, labelOffsetY));
+        
         this.countryLabel = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryLabel.setContentSize(cc.size(400, Y_OFFSET));
         this.countryLabel.setPosition(cc.p(240, labelOffsetY));
         this.countryConvinced = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryConvinced.setContentSize(cc.size(150, Y_OFFSET));
         this.countryConvinced.setPosition(cc.p(640, labelOffsetY));
+        this.countryInfected.setColor(COLOR_RESOURCE);
+        this.countryLabel.setColor(COLOR_ICE);
+        this.countryConvinced.setColor(COLOR_POLICY_POINTS);
         this.countryInfected.setAnchorPoint(new cc.p(0,0));
         this.countryLabel.setAnchorPoint(new cc.p(0,0));
         this.countryConvinced.setAnchorPoint(new cc.p(0,0));
