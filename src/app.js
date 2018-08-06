@@ -72,7 +72,7 @@ var startGameParams = function() {
 var updateTimeVars = function(interval) {
     console.log(interval);
     gameParams.timeInterval = interval;
-    gameParams.resourceInterval = (1000 / gameParams.timeInterval);
+    gameParams.resourceInterval = gameParams.timeInterval * 6; //(1000 / gameParams.timeInterval);
 };
 
 /**
@@ -471,13 +471,13 @@ var WorldLayer = cc.Layer.extend({
             }
         });
     
-
+        /*
         var layout = new ccui.Layout();
-        layout.setContentSize(cc.size(size.width, Y_OFFSET));
+        layout.setContentSize(cc.size(size.width , Y_OFFSET));
         layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
         layout.setBackGroundColor(COLOR_BLACK);
         var layoutSize = layout.getContentSize();
-        layout.setLayoutType(ccui.Layout.RELATIVE);
+        // layout.setLayoutType(ccui.Layout.RELATIVE);
         layout.attr({ x: 0, y: 0 });
         this.addChild(layout, 100);
 
@@ -487,23 +487,25 @@ var WorldLayer = cc.Layer.extend({
         lp2.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
         var lp3 = new ccui.RelativeLayoutParameter();
         lp3.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_CENTER_VERTICAL);
+        */
 
-        // this.controlBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
-        // this.controlBackground.setAnchorPoint(new cc.p(0,0));
-        // this.controlBackground.attr({ x: 0, y: 0 });
-        // this.addChild(this.controlBackground, 100);
+        layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
+        layout.setAnchorPoint(new cc.p(0,0));
+        layout.attr({ x: 0, y: 0 });
+        this.addChild(layout, 100);
 
 
-        this.dnaSpend = new ccui.Button();
-        this.dnaSpend.setTitleText("POLICY");
-        this.dnaSpend.setTitleFontName(FONT_FACE);
-        this.dnaSpend.setTitleFontSize(24);
-        this.dnaSpend.setTitleColor(COLOR_ICE);
-        this.dnaSpend.setAnchorPoint(new cc.p(0,0));
-        this.dnaSpend.attr({ x: 10, y: 10 });
-        this.dnaSpend.setLayoutParameter(lp1);
-        layout.addChild(this.dnaSpend);
-        // this.controlBackground.addChild(this.dnaSpend);
+        this.btnDevelopPolicy = new ccui.Button();
+        this.btnDevelopPolicy.setTitleText("POLICY");
+        this.btnDevelopPolicy.setTitleFontName(FONT_FACE);
+        this.btnDevelopPolicy.setTitleFontSize(24);
+        this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
+        this.btnDevelopPolicy.setAnchorPoint(new cc.p(0,0));
+        this.btnDevelopPolicy.setContentSize(cc.size(60, Y_OFFSET));
+        this.btnDevelopPolicy.attr({ x: 20, y: 10 });
+        // this.btnDevelopPolicy.setLayoutParameter(lp1);
+        layout.addChild(this.btnDevelopPolicy);
+        // this.controlBackground.addChild(this.btnDevelopPolicy);
     
         this.worldListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
@@ -525,8 +527,9 @@ var WorldLayer = cc.Layer.extend({
     
         var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
         countryDetailLayout.setAnchorPoint(new cc.p(0,0));
-        countryDetailLayout.attr({ x: 300, y: 00 });
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
+        countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });
+        // countryDetailLayout.setLayoutParameter(lp2);
         layout.addChild(countryDetailLayout);
         var fontSize = 24;
         var labelOffsetY = Y_OFFSET / 2 - fontSize / 2;
@@ -556,10 +559,10 @@ var WorldLayer = cc.Layer.extend({
         this.worldStats.setTitleFontName(FONT_FACE);
         this.worldStats.setTitleFontSize(24);
         this.worldStats.setTitleColor(COLOR_ICE);
-        this.worldStats.setContentSize(cc.size(240, 80));
+        this.worldStats.setContentSize(cc.size(120, 80));
         this.worldStats.setAnchorPoint(new cc.p(0,0));
-        // this.worldStats.attr({ x: 1200, y: 10 });
-        this.worldStats.setLayoutParameter(lp3);
+        this.worldStats.attr({ x: this.width - 120 - 20, y: 10 });
+        // this.worldStats.setLayoutParameter(lp3);
         layout.addChild(this.worldStats);
         // this.controlBackground.addChild(this.worldStats);
 
@@ -599,7 +602,7 @@ var WorldLayer = cc.Layer.extend({
 
         var size = cc.winSize;
 
-        cc.eventManager.addListener(this.dnaListener, this.dnaSpend);
+        cc.eventManager.addListener(this.dnaListener, this.btnDevelopPolicy);
         cc.eventManager.addListener(this.worldListener, this.worldStats);
 
         var collisionDetection = function(points,test) {
@@ -913,8 +916,10 @@ var WorldLayer = cc.Layer.extend({
         var generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
-                country.policyPoints = generatePointsForCountry(country, true, 0, country.policy);
-                country.destructionPoints = generatePointsForCountry(country, false, 0, country.destruction);
+                var existingConvincedPercentage = country.pop_convinced_percent;
+                country.pop_convinced_percent = 100 * country.pop_convinced / country.pop_est;
+                generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_convinced_percent));
+                generatePointsForCountry(country, false, 0, country.destruction);
             }
         };
         generatePoints();
@@ -1287,8 +1292,13 @@ var WorldLayer = cc.Layer.extend({
                                         country.pop_infected_percent = 100 * country.pop_infected / country.pop_est;
                                         var existingConvincedPercentage = country.pop_convinced_percent;
                                         country.pop_convinced_percent = 100 * country.pop_convinced / country.pop_est;
-
-                                        generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_convinced_percent));
+                                        var imin = 0;
+                                        if (existingConvincedPercentage > 0.5) 
+                                            imin = parseInt(existingConvincedPercentage);
+                                        var imax = 0;
+                                        if (country.pop_convinced_percent > 0.5) 
+                                            imax = parseInt(country.pop_convinced_percent);
+                                        generatePointsForCountry(country, true, imin, imax);
                                     }
                                     totalPolicy += country.policy;
                                     totalLoss += country.loss;
@@ -1421,7 +1431,16 @@ var WorldLayer = cc.Layer.extend({
                     currentLayer.setTileGID((gid),cc.p(0, 0));
                 }
                 oldLayers.forEach(layer => {
-                    if (currentLayer === null || layer != currentLayer)
+                    // var currentGid = -1;
+                    // if (typeof(gameParams.currentCountry) !== 'undefined')
+                    //     currentGid = parseInt(world.countries[gameParams.currentCountry].gid);
+                    // var testGid = layer.getTileGIDAt(cc.p(0,0));
+                    // console.log(testGid, currentGid);
+                    // if (testGid > 0 && testGid === currentGid) {
+                    //     // Do nothing
+                    // }
+                    // else 
+                    if ((currentLayer === null || layer != currentLayer))
                         layer.setTileGID((0),cc.p(0,0));
                 });
                 oldLayers = [];
