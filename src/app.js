@@ -5,6 +5,7 @@ var X_OFFSET = 0, Y_OFFSET = 50;
 var TIME_INTERVAL = 50;
 var DAY_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
+var CRISIS_CHANCE = 0.3;
 // var FONT_FACE = "Josefin Sans";
 var FONT_FACE = "Trebuchet MS";
 var RESOURCE_SIZE = 80; 
@@ -38,6 +39,7 @@ var initGameParams = function(scenarioData) {
     gameParams.currentDate = gameParams.startDate;
     gameParams.counter = 0;
     gameParams.lastResource = 0;
+    gameParams.lastCrisis = 0;
     gameParams.strategies = [];
     gameParams.policy = 0;
     gameParams.countriedAffected = 0;
@@ -73,6 +75,7 @@ var updateTimeVars = function(interval) {
     console.log(interval);
     gameParams.timeInterval = interval;
     gameParams.resourceInterval = gameParams.timeInterval * 6; //(1000 / gameParams.timeInterval);
+    gameParams.crisisInterval = gameParams.timeInterval * 30;
 };
 
 /**
@@ -1044,12 +1047,80 @@ var WorldLayer = cc.Layer.extend({
                             gameParams.lastResource = gameParams.counter;
                         }
                     };
+                                            
+                    // Add chance of new crisis
+                    var addCrisis = function() {
+                        var r = Math.random();
+                        if (gameParams.counter - gameParams.lastCrisis >= gameParams.crisisInterval) {
+                            if (r < CRISIS_CHANCE) {
+                                console.log("CRISIS!");
+                            }
+                            gameParams.lastCrisis = gameParams.counter;
+                        }
+                    };
 
                     // Evaluates loss
                     var evaluateLoss = function(country) {
                         var loss = country.previousLoss;
-                        loss = (1 + loss) * (1 + gameParams.rateOfLoss * (0.5 + Math.random()));
-                        loss -= 1;
+
+                        var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
+                        if (country.iso_a3 == "COD")
+                            console.log(country.name +":"+ rateOfLoss);
+                        // Calculate impact of strategies
+                        gameParams.strategies.forEach(strategy => {
+
+                            // Check population
+                            var pop = parseInt(country.pop_est);
+                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                            if (pop < 10000000) {
+                                rateOfLoss /= (1 + strategy.effect_on_pop_low);
+                            }
+                            else if (pop < 100000000) {
+                                rateOfLoss /= (1 + strategy.effect_on_pop_medium);
+                            }
+                            else {
+                                rateOfLoss /= (1 + strategy.effect_on_pop_high);
+                            }
+
+                            // Check income
+                            switch (country.income_grp_num ) {
+                                case 1:
+                                case 2:
+                                    rateOfLoss /= (1 + strategy.effect_on_income_high);
+                                    break;
+                                case 3:
+                                    rateOfLoss /= (1 + strategy.effect_on_income_medium_high);
+                                    break;
+                                case 4:
+                                    rateOfLoss /= (1 + strategy.effect_on_income_low_medium);
+                                    break;
+                                case 5:
+                                    rateOfLoss /= (1 + strategy.effect_on_income_low);
+                                    break;
+                            }
+
+                            // Check climate zone
+                            var latitude = parseFloat(country.equator_dist);
+                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                            if (latitude > -23.5 && latitude < 23.5) {
+                                rateOfLoss /= (1 + strategy.effect_on_geo_tropic);
+                            }
+                            else if (latitude > -40 && latitude < 40) {
+                                rateOfLoss /= (1 + strategy.effect_on_geo_subtropic);
+                            }
+                            else if (latitude > -60 && latitude < 60) {
+                                rateOfLoss /= (1 + strategy.effect_on_geo_temperate);
+                            }
+                            else {
+                                rateOfLoss /= (1 + strategy.effect_on_geo_polar);
+                            }
+                        });
+                        if (country.iso_a3 == "COD")
+                            console.log(country.name +":"+ rateOfLoss);
+
+                        // Calculate loss
+                        loss = (1 + loss) * (1 + rateOfLoss) - 1;
+
                         // Weaken rate of loss by population convinced of good policy
                         loss /= (1 + country.pop_convinced_percent / 100.0);
                         if (loss < gameParams.minimum_loss_increase) {
@@ -1322,6 +1393,9 @@ var WorldLayer = cc.Layer.extend({
                             
                             if (gameParams.counter % gameParams.resourceInterval == 0) {
                                 addResource();
+                            }
+                            if (gameParams.counter % gameParams.crisisInterval == 0) {
+                                addCrisis();
                             }
 
                             var newButtons = [];
@@ -1855,6 +1929,12 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.strategies.push(resourceSelected);
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
+
+                // Calculate resource-specific effects
+                gameParams.resourceInterval /= (1 + resourceSelected.effect_on_resources);
+                gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
+                gameParams.crisisInterval /= (1 + resourceSelected.effect_on_crises);
+                gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
             }
         });
         policyDetailsBackground.addChild(policyDetailsInvest, 100);
