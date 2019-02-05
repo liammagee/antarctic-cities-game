@@ -1064,59 +1064,6 @@ var WorldLayer = cc.Layer.extend({
                         var loss = country.previousLoss;
 
                         var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
-                        if (country.iso_a3 == "COD")
-                            console.log(country.name +":"+ rateOfLoss);
-                        // Calculate impact of strategies
-                        gameParams.strategies.forEach(strategy => {
-
-                            // Check population
-                            var pop = parseInt(country.pop_est);
-                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
-                            if (pop < 10000000) {
-                                rateOfLoss /= (1 + strategy.effect_on_pop_low);
-                            }
-                            else if (pop < 100000000) {
-                                rateOfLoss /= (1 + strategy.effect_on_pop_medium);
-                            }
-                            else {
-                                rateOfLoss /= (1 + strategy.effect_on_pop_high);
-                            }
-
-                            // Check income
-                            switch (country.income_grp_num ) {
-                                case 1:
-                                case 2:
-                                    rateOfLoss /= (1 + strategy.effect_on_income_high);
-                                    break;
-                                case 3:
-                                    rateOfLoss /= (1 + strategy.effect_on_income_medium_high);
-                                    break;
-                                case 4:
-                                    rateOfLoss /= (1 + strategy.effect_on_income_low_medium);
-                                    break;
-                                case 5:
-                                    rateOfLoss /= (1 + strategy.effect_on_income_low);
-                                    break;
-                            }
-
-                            // Check climate zone
-                            var latitude = parseFloat(country.equator_dist);
-                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
-                            if (latitude > -23.5 && latitude < 23.5) {
-                                rateOfLoss /= (1 + strategy.effect_on_geo_tropic);
-                            }
-                            else if (latitude > -40 && latitude < 40) {
-                                rateOfLoss /= (1 + strategy.effect_on_geo_subtropic);
-                            }
-                            else if (latitude > -60 && latitude < 60) {
-                                rateOfLoss /= (1 + strategy.effect_on_geo_temperate);
-                            }
-                            else {
-                                rateOfLoss /= (1 + strategy.effect_on_geo_polar);
-                            }
-                        });
-                        if (country.iso_a3 == "COD")
-                            console.log(country.name +":"+ rateOfLoss);
 
                         // Calculate loss
                         loss = (1 + loss) * (1 + rateOfLoss) - 1;
@@ -1214,6 +1161,61 @@ var WorldLayer = cc.Layer.extend({
 
                         var infectivityRate = infectivityIncreaseSpeed;
                         
+                        if (country.iso_a3 == "COD")
+                            console.log(country.name +":"+ infectivityRate);
+                        // Calculate impact of strategies
+                        gameParams.strategies.forEach(strategy => {
+
+                            // Check population
+                            var pop = parseInt(country.pop_est);
+                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                            if (pop < 10000000) {
+                                infectivityRate *= (1 + strategy.effect_on_pop_low);
+                            }
+                            else if (pop < 100000000) {
+                                infectivityRate *= (1 + strategy.effect_on_pop_medium);
+                            }
+                            else {
+                                infectivityRate *= (1 + strategy.effect_on_pop_high);
+                            }
+
+                            // Check income
+                            switch (country.income_grp_num ) {
+                                case 1:
+                                case 2:
+                                    infectivityRate *= (1 + strategy.effect_on_income_high);
+                                    break;
+                                case 3:
+                                    infectivityRate *= (1 + strategy.effect_on_income_medium_high);
+                                    break;
+                                case 4:
+                                    infectivityRate *= (1 + strategy.effect_on_income_low_medium);
+                                    break;
+                                case 5:
+                                    infectivityRate *= (1 + strategy.effect_on_income_low);
+                                    break;
+                            }
+
+                            // Check climate zone
+                            var latitude = parseFloat(country.equator_dist);
+                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                            if (latitude > -23.5 && latitude < 23.5) {
+                                infectivityRate *= (1 + strategy.effect_on_geo_tropic);
+                            }
+                            else if (latitude > -40 && latitude < 40) {
+                                infectivityRate *= (1 + strategy.effect_on_geo_subtropic);
+                            }
+                            else if (latitude > -60 && latitude < 60) {
+                                infectivityRate *= (1 + strategy.effect_on_geo_temperate);
+                            }
+                            else {
+                                infectivityRate *= (1 + strategy.effect_on_geo_polar);
+                            }
+                        });
+                        if (country.iso_a3 == "COD")
+                            console.log(country.name +":"+ infectivityRate);
+
+                        /*
                         gameParams.strategies.forEach(strategy => {
                             switch(strategy.id) {
                                 case 1:
@@ -1279,6 +1281,8 @@ var WorldLayer = cc.Layer.extend({
                                     break;
                             };
                         });
+                        */
+
                         if ((infectivityRate - 1) < infectivityMinimumIncrease)
                             infectivityRate = 1 + infectivityMinimumIncrease;
                         country.pop_infected = (1 + country.pop_infected) * infectivityRate;

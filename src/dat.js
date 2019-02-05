@@ -37,7 +37,7 @@ RESOURCES = {
             effect_on_pop_medium: 0,
             effect_on_pop_high: 0,
             effect_on_density: 0,
-            effect_on_income_low: 0.2,
+            effect_on_income_low: 0.8,
             effect_on_income_low_medium: 0.1,
             effect_on_income_medium_high: 0.025,
             effect_on_income_high: 0.01,
