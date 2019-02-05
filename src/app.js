@@ -1192,75 +1192,72 @@ var WorldLayer = cc.Layer.extend({
                         var infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
 
                         var infectivityRate = infectivityIncreaseSpeed;
-                        
-                        if (country.iso_a3 == "COD")
-                            console.log(country.name +":"+ infectivityRate);
-                        
-                        // Calculate impact of strategies
-                        for (var i = 0; i < gameParams.strategies.length; i++) {
-                            var strategy = gameParams.strategies[i];
 
-                            // Check population
-                            var pop = parseInt(country.pop_est);
-                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
-                            if (pop < 10000000) {
-                                infectivityRate *= (1 + strategy.effect_on_pop_low);
-                            }
-                            else if (pop < 100000000) {
-                                infectivityRate *= (1 + strategy.effect_on_pop_medium);
-                            }
-                            else {
-                                infectivityRate *= (1 + strategy.effect_on_pop_high);
-                            }
-
-                            // Check income
-                            switch (country.income_grp_num ) {
+                        gameParams.strategies.forEach(strategy => {
+                            switch(strategy.id) {
                                 case 1:
+                                    // Increase infectivity when reducing inequality for low income countries
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
                                 case 2:
-                                    infectivityRate *= (1 + strategy.effect_on_income_high);
+                                    // Increase infectivity with free trade countries for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
                                     break;
                                 case 3:
-                                    infectivityRate *= (1 + strategy.effect_on_income_medium_high);
+                                    // Increase infectivity with regulations for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
                                     break;
                                 case 4:
-                                    infectivityRate *= (1 + strategy.effect_on_income_low_medium);
+                                    // Increase infectivity with automation for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
                                     break;
                                 case 5:
-                                    infectivityRate *= (1 + strategy.effect_on_income_low);
+                                    // Increase infectivity 
+                                    infectivityRate *= 1.1;
                                     break;
-                            }
-
-                            // Check climate zone
-                            var latitude = parseFloat(country.equator_dist);
-                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
-                            if (latitude > -23.5 && latitude < 23.5) {
-                                infectivityRate *= (1 + strategy.effect_on_geo_tropic);
-                            }
-                            else if (latitude > -40 && latitude < 40) {
-                                infectivityRate *= (1 + strategy.effect_on_geo_subtropic);
-                            }
-                            else if (latitude > -60 && latitude < 60) {
-                                infectivityRate *= (1 + strategy.effect_on_geo_temperate);
-                            }
-                            else {
-                                infectivityRate *= (1 + strategy.effect_on_geo_polar);
-                            }
-
-                            // Calculate impact of other strategies
-                            for (var j = 0; j < gameParams.strategies.length; j++) {
-                                if (i == j)
-                                    continue;
-
-                                var otherStrategy = gameParams.strategies[j];
-                                var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
-                                if (typeof(relation) !== "undefined") {
-                                    infectivityRate *= relation;
-                                }
-                            }
-                        }
-
-                        if (country.iso_a3 == "COD")
-                            console.log(country.name +":"+ infectivityRate);
+                                case 6:
+                                    // Increase infectivity 
+                                    infectivityRate *= 1.1;
+                                    break;
+                                case 7:
+                                    // Increase infectivity with boosted military for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 8:
+                                    // Increase infectivity when boosting democracy for low income countries
+                                    infectivityRate *= (Math.log(2 + country.income_grp_num));
+                                    break;
+                                case 9:
+                                    // Increase infectivity when boosting democracy for low income countries
+                                    infectivityRate *= (Math.log(2 + country.income_grp_num));
+                                    break;
+                                case 10:
+                                    // Increase infectivity with social media for high income countries
+                                    infectivityRate *= (Math.log((((5 + 2) - country.income_grp_num)) * 0.8));
+                                    break;
+                                case 11:
+                                    // Increase infectivity with celebrity endorsements for high income countries
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 12:
+                                    // Increase infectivity with festivals for high income countries
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 13:
+                                    // Increase infectivity with green cities for high income countries
+                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 14:
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                                case 15:
+                                infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    break;
+                                case 16:
+                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    break;
+                            };
+                        });
 
                         if ((infectivityRate - 1) < infectivityMinimumIncrease)
                             infectivityRate = 1 + infectivityMinimumIncrease;
@@ -1299,8 +1296,82 @@ var WorldLayer = cc.Layer.extend({
                             }
                         });
                         var variances = 1 + Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
-
                         var severityEffect = strategyCount / variances;
+                        
+
+                        // NEW CALCULATION
+                        if (country.iso_a3 == "COD")
+                            console.log(country.name +":"+ severityEffect);
+
+                        //severityEffect = 1;
+                        
+                        // Calculate impact of strategies
+                        for (var i = 0; i < gameParams.strategies.length; i++) {
+                            var strategy = gameParams.strategies[i];
+
+                            // Check population
+                            var pop = parseInt(country.pop_est);
+                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                            if (pop < 10000000) {
+                                severityEffect *= (1 + strategy.effect_on_pop_low);
+                            }
+                            else if (pop < 100000000) {
+                                severityEffect *= (1 + strategy.effect_on_pop_medium);
+                            }
+                            else {
+                                severityEffect *= (1 + strategy.effect_on_pop_high);
+                            }
+
+                            // Check income
+                            switch (country.income_grp_num ) {
+                                case 1:
+                                case 2:
+                                    severityEffect *= (1 + strategy.effect_on_income_high);
+                                    break;
+                                case 3:
+                                    severityEffect *= (1 + strategy.effect_on_income_medium_high);
+                                    break;
+                                case 4:
+                                    severityEffect *= (1 + strategy.effect_on_income_low_medium);
+                                    break;
+                                case 5:
+                                    severityEffect *= (1 + strategy.effect_on_income_low);
+                                    break;
+                            }
+
+                            // Check climate zone
+                            var latitude = parseFloat(country.equator_dist);
+                            // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                            if (latitude > -23.5 && latitude < 23.5) {
+                                severityEffect *= (1 + strategy.effect_on_geo_tropic);
+                            }
+                            else if (latitude > -40 && latitude < 40) {
+                                severityEffect *= (1 + strategy.effect_on_geo_subtropic);
+                            }
+                            else if (latitude > -60 && latitude < 60) {
+                                severityEffect *= (1 + strategy.effect_on_geo_temperate);
+                            }
+                            else {
+                                severityEffect *= (1 + strategy.effect_on_geo_polar);
+                            }
+
+                            // Calculate impact of other strategies
+                            for (var j = 0; j < gameParams.strategies.length; j++) {
+                                if (i == j)
+                                    continue;
+
+                                var otherStrategy = gameParams.strategies[j];
+                                var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
+                                if (typeof(relation) !== "undefined") {
+                                    severityEffect *= relation;
+                                }
+                            }
+                        }
+
+                        if (country.iso_a3 == "COD")
+                            console.log(country.name +":"+ severityEffect);
+
+
                         severityEffect *= severityIncreaseSpeed;
                         if (severityIncreaseSpeed < severityMinimumIncrease) 
                             severityIncreaseSpeed = severityMinimumIncrease;
