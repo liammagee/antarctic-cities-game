@@ -85,11 +85,8 @@ var calculatePolicyConnections = function() {
             var val = RESOURCE_MATRIX[j][i];
             var rel = RESOURCE_RELATIONS[j][i];
             gameParams.policyRelations[source.id][target.id] = val;
-            console.log(j+":"+target.id);
             if (rel == 1) {
-                console.log(i+":"+j+":"+j);
                 gameParams.policyRelations[target.id][source.id] = val;
-
             }
         }
     }
@@ -1198,8 +1195,10 @@ var WorldLayer = cc.Layer.extend({
                         
                         if (country.iso_a3 == "COD")
                             console.log(country.name +":"+ infectivityRate);
+                        
                         // Calculate impact of strategies
-                        gameParams.strategies.forEach(strategy => {
+                        for (var i = 0; i < gameParams.strategies.length; i++) {
+                            var strategy = gameParams.strategies[i];
 
                             // Check population
                             var pop = parseInt(country.pop_est);
@@ -1246,7 +1245,20 @@ var WorldLayer = cc.Layer.extend({
                             else {
                                 infectivityRate *= (1 + strategy.effect_on_geo_polar);
                             }
-                        });
+
+                            // Calculate impact of other strategies
+                            for (var j = 0; j < gameParams.strategies.length; j++) {
+                                if (i == j)
+                                    continue;
+
+                                var otherStrategy = gameParams.strategies[j];
+                                var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
+                                if (typeof(relation) !== "undefined") {
+                                    infectivityRate *= relation;
+                                }
+                            }
+                        }
+
                         if (country.iso_a3 == "COD")
                             console.log(country.name +":"+ infectivityRate);
 
