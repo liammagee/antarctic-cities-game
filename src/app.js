@@ -58,6 +58,41 @@ var initGameParams = function(scenarioData) {
     gameParams.messagesNegative = scenarioData.messages.negative;
     gameParams.messagesPositive = scenarioData.messages.positive;
     updateTimeVars(DAY_INTERVAL);
+    calculatePolicyConnections();
+};
+
+/**
+ * Sets up game parameters at the start of play
+ */
+var calculatePolicyConnections = function() {
+    gameParams.policyOptions = {};
+    var policyLen = 0;
+    Object.keys(RESOURCES).forEach(key => {
+        RESOURCES[key].policyOptions.forEach(pol => {
+            gameParams.policyOptions[pol.id] = pol;
+            if (policyLen < pol.id - 1)
+                policyLen = pol.id - 1;
+        });
+    });
+    gameParams.policyRelations = {};
+    for (var i = 0; i < policyLen; i++){
+        var source = gameParams.policyOptions[i+1];
+        gameParams.policyRelations[source.id] = {};
+        for (var j = i + 1; j < policyLen; j++){
+            var target = gameParams.policyOptions[j+1];
+            if (typeof(gameParams.policyRelations[target.id]) === "undefined")
+                gameParams.policyRelations[target.id] = {};
+            var val = RESOURCE_MATRIX[j][i];
+            var rel = RESOURCE_RELATIONS[j][i];
+            gameParams.policyRelations[source.id][target.id] = val;
+            console.log(j+":"+target.id);
+            if (rel == 1) {
+                console.log(i+":"+j+":"+j);
+                gameParams.policyRelations[target.id][source.id] = val;
+
+            }
+        }
+    }
 };
 
 /**
