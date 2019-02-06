@@ -1024,18 +1024,29 @@ var WorldLayer = cc.Layer.extend({
             world.countryConvinced.setString(Math.round(country.pop_convinced) + " convinced");
         };
 
+        var printWorldStats = function(){
+            world.countryInfected.setString(Math.round(gameParams.populationInfected) + " infected" );
+            world.countryLabel.setString("World");
+            world.countryConvinced.setString(Math.round(gameParams.populationConvinced) + " convinced");
+        };
+
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.currentCountry = currentCountry;
-                    printCountryStats();
+                    // printCountryStats();
                 }
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
-                    printCountryStats();
+                    // printCountryStats();
                 }
+                else {
+                    gameParams.currentCountry = null;
+                    // printWorldStats();
+                }
+
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
                     var country = world.countries[currentCountry];
                     country.policy = 1.0;
@@ -1442,7 +1453,12 @@ var WorldLayer = cc.Layer.extend({
                                 gameParams.populationConvincedPercent = 100 * gameParams.populationConvinced / gameParams.populationWorld;
 
                                 drawPoints();
-                                printCountryStats();
+                                if (gameParams.currentCountry != null)
+                                    printCountryStats();
+                                else {
+                                    printWorldStats();
+                                }
+                
                             }
                             
                             if (gameParams.counter % gameParams.resourceInterval == 0) {
@@ -1558,6 +1574,7 @@ var WorldLayer = cc.Layer.extend({
                     currentLayer = target.getLayer("Tile Layer " + gid);
                     currentLayer.setTileGID((gid),cc.p(0, 0));
                 }
+
                 oldLayers.forEach(layer => {
                     // var currentGid = -1;
                     // if (typeof(gameParams.currentCountry) !== 'undefined')

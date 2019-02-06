@@ -6,6 +6,15 @@
     world_tilemap_tmx : "res/tmx-stereographic.tmx",
     world_tilemap_background : "res/background-stereographic.png",
     world_tilemap_foreground : "res/foreground-stereographic.png",
+
+};
+
+var g_resources = [];
+for (var i in res) {
+    g_resources.push(res[i]);
+}
+/*
+
   ZWE_png:"res/countries/ZWE_stereographic.png",
 ZMB_png:"res/countries/ZMB_stereographic.png",
 YEM_png:"res/countries/YEM_stereographic.png",
@@ -230,10 +239,4 @@ ALB_png:"res/countries/ALB_stereographic.png",
 AFG_png:"res/countries/AFG_stereographic.png",
 ATA_png:"res/countries/ATA_stereographic.png",
 SXM_png:"res/countries/SXM_stereographic.png",
-
-};
-
-var g_resources = [];
-for (var i in res) {
-    g_resources.push(res[i]);
-}
+*/
