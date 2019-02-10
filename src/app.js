@@ -1535,7 +1535,7 @@ var WorldLayer = cc.Layer.extend({
             },
 
             onMouseMove : function(event) {
-                if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED)
+                if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED)
                     return;
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
