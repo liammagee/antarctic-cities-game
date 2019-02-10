@@ -624,7 +624,11 @@ var WorldLayer = cc.Layer.extend({
         };
 
         ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
-            ShowMessageBoxOK(world, world.scenarioData.popup_2_description, world.scenarioData.popup_2_title, function(that) {
+            var keys = Object.keys(world.countries);
+            gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
+            gameParams.currentCountry = gameParams.startCountry;
+            var countryName = world.countries[gameParams.startCountry].name;
+            ShowMessageBoxOK(world, "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function(that) {
                 beginSim();
             });
         });
@@ -1047,8 +1051,10 @@ var WorldLayer = cc.Layer.extend({
                     // printWorldStats();
                 }
 
+                // if (gameParams.state === gameStates.PREPARED) {
                 if (gameParams.startCountry != null && gameParams.state === gameStates.PREPARED) {
-                    var country = world.countries[currentCountry];
+                    // var country = world.countries[currentCountry];
+                    var country = world.countries[gameParams.startCountry];
                     country.policy = 1.0;
                     country.affected_chance = 1.0;
                     startGameParams();
@@ -1568,7 +1574,6 @@ var WorldLayer = cc.Layer.extend({
 
                 // Pick the match with the closest centroid ID
                 var currentLayer = null;
-                console.log(selectedCountry);
                 if (selectedCountry != null) {
                     gameParams.currentCountry = selectedCountry;
                     currentCountry = selectedCountry;
