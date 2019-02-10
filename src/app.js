@@ -238,6 +238,47 @@ var GameOver = function(parent, message, prompt) {
 var WorldLayer = cc.Layer.extend({
     sprite:null,
 
+    initControls:function() {
+        var actionsListener = cc.EventListener.create({
+            event: cc.EventListener.MOUSE,
+            onMouseUp : function(event) {
+                if (gameParams.modal)
+                    return;
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+                if (cc.rectContainsPoint(rect, locationInNode)) {
+                    if (target == world.btnPause) {  // Pause
+                        gameParams.state = gameStates.PAUSED;
+                        world.btnPause.enabled = false;
+                        world.btnPlay.enabled = true;
+                        world.btnFF.enabled = true;
+                    }
+                    else if (target == world.btnPlay) {  // Play
+                        updateTimeVars(DAY_INTERVAL);
+                        gameParams.state = gameStates.STARTED;
+                        world.btnPause.enabled = true;
+                        world.btnPlay.enabled = false;
+                        world.btnFF.enabled = true;
+                    }
+                    else if (target == world.btnFF) {  // Fast Forward
+                        updateTimeVars(DAY_INTERVAL / 10);
+                        gameParams.state = gameStates.STARTED;
+                        world.btnPause.enabled = true;
+                        world.btnPlay.enabled = true;
+                        world.btnFF.enabled = false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });        
+        cc.eventManager.addListener(actionsListener.clone(), this.btnPause);
+        cc.eventManager.addListener(actionsListener.clone(), this.btnFF);
+        cc.eventManager.addListener(actionsListener.clone(), this.btnPlay);
+    },
+
     ctor:function (scenarioData) {
         this._super();
 
@@ -272,74 +313,40 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.addChild(this.monthLabel, 100);
         this.controlsBackground.addChild(this.yearLabel, 100);
 
-        btnPause = new ccui.Button();
-        var btnPlay = new ccui.Button();
-        var btnFF = new ccui.Button();
+        this.btnPause = new ccui.Button();
+        this.btnPlay = new ccui.Button();
+        this.btnFF = new ccui.Button();
 
-        var actionsListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    if (target == btnPause) {  // Pause
-                        gameParams.state = gameStates.PAUSED;
-                        btnPause.enabled = false;
-                        btnPlay.enabled = true;
-                        btnFF.enabled = true;
-                    }
-                    else if (target == btnPlay) {  // Play
-                        updateTimeVars(DAY_INTERVAL);
-                        gameParams.state = gameStates.STARTED;
-                        btnPause.enabled = true;
-                        btnPlay.enabled = false;
-                        btnFF.enabled = true;
-                    }
-                    else if (target == btnFF) {  // Fast Forward
-                        updateTimeVars(DAY_INTERVAL / 10);
-                        gameParams.state = gameStates.STARTED;
-                        btnPause.enabled = true;
-                        btnPlay.enabled = true;
-                        btnFF.enabled = false;
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });        
 
-        btnPause.setTouchEnabled(true);
-        btnPause.setScale9Enabled(true);
-        btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
-        btnPause.attr({ x: 21, y: 21 });
-        btnPause.setContentSize(cc.size(105, 105));
-        btnPause.setScale(0.4);
-        cc.eventManager.addListener(actionsListener.clone(), btnPause);
-        this.controlsBackground.addChild(btnPause, 100, "pause");
+        this.btnPause.setTouchEnabled(true);
+        this.btnPause.setScale9Enabled(true);
+        this.btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
+        this.btnPause.attr({ x: 21, y: 21 });
+        this.btnPause.setContentSize(cc.size(105, 105));
+        this.btnPause.setScale(0.4);
+        this.controlsBackground.addChild(this.btnPause, 100, "pause");
         
-        btnPlay.setTouchEnabled(true);
-        btnPlay.setScale9Enabled(true);
-        btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png");
-        btnPlay.attr({ x: 62, y: 21 });
-        btnPlay.setContentSize(cc.size(105, 105));
-        btnPlay.setScale(0.4);
-        cc.eventManager.addListener(actionsListener.clone(), btnPlay);
-        this.controlsBackground.addChild(btnPlay, 100, "play");
+        this.btnPlay.setTouchEnabled(true);
+        this.btnPlay.setScale9Enabled(true);
+        this.btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png");
+        this.btnPlay.attr({ x: 62, y: 21 });
+        this.btnPlay.setContentSize(cc.size(105, 105));
+        this.btnPlay.setScale(0.4);
+        this.controlsBackground.addChild(this.btnPlay, 100, "play");
         
-        btnFF.setTouchEnabled(true);
-        btnFF.setScale9Enabled(true);
-        btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png");
-        btnFF.attr({ x: 103, y: 21 });
-        btnFF.setContentSize(cc.size(105, 105));
-        btnFF.setScale(0.4);
-        cc.eventManager.addListener(actionsListener.clone(), btnFF);
-        this.controlsBackground.addChild(btnFF, 100, "fast");
+        this.btnFF.setTouchEnabled(true);
+        this.btnFF.setScale9Enabled(true);
+        this.btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png");
+        this.btnFF.attr({ x: 103, y: 21 });
+        this.btnFF.setContentSize(cc.size(105, 105));
+        this.btnFF.setScale(0.4);
+        this.controlsBackground.addChild(this.btnFF, 100, "fast");
 
-        btnPause.enabled = false;
-        btnPlay.enabled = false;
-        btnFF.enabled = false;
+        this.initControls();
+
+        this.btnPause.enabled = false;
+        this.btnPlay.enabled = false;
+        this.btnFF.enabled = false;
 
         // Add tweet area
         // this.tweetBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 600, 36);
@@ -488,7 +495,7 @@ var WorldLayer = cc.Layer.extend({
             l.setTileGID(0,cc.p(0,0))
         }
 
-        this.dnaListener = cc.EventListener.create({
+        this.policyCartListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 var target = event.getCurrentTarget();
@@ -497,38 +504,24 @@ var WorldLayer = cc.Layer.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
                     gameParams.state = gameStates.PAUSED;
+                    cc.eventManager.removeAllListeners();
                     layer = new DesignPolicyLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
+                    gameParams.modal = true;
+                    world.btnPause.setBright(false);
+                    world.btnPlay.setBright(false);
+                    world.btnFF.setBright(false);
                     return true;
                 }
                 return false;
             }
         });
-    
-        /*
-        var layout = new ccui.Layout();
-        layout.setContentSize(cc.size(size.width , Y_OFFSET));
-        layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        layout.setBackGroundColor(COLOR_BLACK);
-        var layoutSize = layout.getContentSize();
-        // layout.setLayoutType(ccui.Layout.RELATIVE);
-        layout.attr({ x: 0, y: 0 });
-        this.addChild(layout, 100);
-
-        var lp1 = new ccui.RelativeLayoutParameter();
-        lp1.setAlign(ccui.RelativeLayoutParameter.PARENT_LEFT_CENTER_VERTICAL);
-        var lp2 = new ccui.RelativeLayoutParameter();
-        lp2.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
-        var lp3 = new ccui.RelativeLayoutParameter();
-        lp3.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_CENTER_VERTICAL);
-        */
 
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
         layout.setAnchorPoint(new cc.p(0,0));
         layout.attr({ x: 0, y: 0 });
         this.addChild(layout, 100);
-
 
         this.btnDevelopPolicy = new ccui.Button();
         this.btnDevelopPolicy.setTitleText("POLICY");
@@ -542,7 +535,7 @@ var WorldLayer = cc.Layer.extend({
         layout.addChild(this.btnDevelopPolicy);
         // this.controlBackground.addChild(this.btnDevelopPolicy);
     
-        this.worldListener = cc.EventListener.create({
+        this.statsListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp : function(event) {
                 var target = event.getCurrentTarget();
@@ -551,9 +544,14 @@ var WorldLayer = cc.Layer.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
                     gameParams.state = gameStates.PAUSED;
+                    cc.eventManager.removeAllListeners();
                     layer = new StatsLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
+                    gameParams.modal = true;
+                    world.btnPause.setBright(false);
+                    world.btnPlay.setBright(false);
+                    world.btnFF.setBright(false);
                     return true;
                 }
                 return false;
@@ -568,16 +566,17 @@ var WorldLayer = cc.Layer.extend({
         layout.addChild(countryDetailLayout);
         var fontSize = 24;
         var labelOffsetY = Y_OFFSET / 2 - fontSize / 2;
-        this.countryInfected = new cc.LabelTTF("", FONT_FACE, fontSize);
-        this.countryInfected.setContentSize(cc.size(150, Y_OFFSET));
-        this.countryInfected.setPosition(cc.p(10, labelOffsetY));
-        
         this.countryLabel = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryLabel.setContentSize(cc.size(400, Y_OFFSET));
-        this.countryLabel.setPosition(cc.p(240, labelOffsetY));
+        this.countryLabel.setPosition(cc.p(20, labelOffsetY));
+
+        this.countryInfected = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryInfected.setContentSize(cc.size(150, Y_OFFSET));
+        this.countryInfected.setPosition(cc.p(340, labelOffsetY));
         this.countryConvinced = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryConvinced.setContentSize(cc.size(150, Y_OFFSET));
         this.countryConvinced.setPosition(cc.p(640, labelOffsetY));
+
         this.countryInfected.setColor(COLOR_RESOURCE);
         this.countryLabel.setColor(COLOR_ICE);
         this.countryConvinced.setColor(COLOR_POLICY_POINTS);
@@ -590,7 +589,7 @@ var WorldLayer = cc.Layer.extend({
     
         this.worldStats = new ccui.Button();
         //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
-        this.worldStats.setTitleText("WORLD");
+        this.worldStats.setTitleText("STATS");
         this.worldStats.setTitleFontName(FONT_FACE);
         this.worldStats.setTitleFontSize(24);
         this.worldStats.setTitleColor(COLOR_ICE);
@@ -641,8 +640,8 @@ var WorldLayer = cc.Layer.extend({
 
         var size = cc.winSize;
 
-        cc.eventManager.addListener(this.dnaListener, this.btnDevelopPolicy);
-        cc.eventManager.addListener(this.worldListener, this.worldStats);
+        cc.eventManager.addListener(this.policyCartListener, this.btnDevelopPolicy);
+        cc.eventManager.addListener(this.statsListener, this.worldStats);
 
         var collisionDetection = function(points,test) {
             var crossed = false;
@@ -1023,15 +1022,15 @@ var WorldLayer = cc.Layer.extend({
 
         var printCountryStats = function(){
             var country = world.countries[gameParams.currentCountry];
-            world.countryInfected.setString(Math.round(country.pop_infected) + " infected" );
+            world.countryInfected.setString(Math.round(country.pop_infected).toLocaleString() + " aware" );
             world.countryLabel.setString(country.name);
-            world.countryConvinced.setString(Math.round(country.pop_convinced) + " convinced");
+            world.countryConvinced.setString(Math.round(country.pop_convinced).toLocaleString() + " prepared");
         };
 
         var printWorldStats = function(){
-            world.countryInfected.setString(Math.round(gameParams.populationInfected) + " infected" );
+            world.countryInfected.setString(Math.round(gameParams.populationInfected).toLocaleString() + " aware" );
             world.countryLabel.setString("World");
-            world.countryConvinced.setString(Math.round(gameParams.populationConvinced) + " convinced");
+            world.countryConvinced.setString(Math.round(gameParams.populationConvinced).toLocaleString() + " prepared");
         };
 
         cc.eventManager.addListener({
@@ -1059,7 +1058,7 @@ var WorldLayer = cc.Layer.extend({
                     country.affected_chance = 1.0;
                     startGameParams();
                     printDate(world);
-
+                    
                     world.controlsBackground.getChildByName('pause').enabled = true;
                     world.controlsBackground.getChildByName('play').enabled = true;
                     world.controlsBackground.getChildByName('fast').enabled = true;
@@ -1964,11 +1963,41 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnExit.setColor(COLOR_ICE);
         btnExit.setTitleFontSize(72);
         btnExit.setTitleText("X");
-        btnExit.addClickEventListener(function(){
-            layer.removeFromParent();
-            world.setVisible(true);
-            gameParams.state = gameStates.STARTED;
-        });
+        var closeListener = cc.EventListener.create({
+            event: cc.EventListener.MOUSE,
+            onMouseUp : function(event) {
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+                if (cc.rectContainsPoint(rect, locationInNode)) {
+                    layer.removeFromParent();
+                    world.setVisible(true);
+                    gameParams.state = gameStates.STARTED;
+                    world.initControls();
+                    world.btnPause.enabled = true;
+                    world.btnPlay.enabled = false;
+                    world.btnFF.enabled = true;
+                    return true;
+                }
+                return false;
+            }
+        });        
+
+        cc.eventManager.addListener(closeListener.clone(), btnExit);
+
+        // btnExit.addClickEventListener(function(){
+        //     layer.removeFromParent();
+        //     world.setVisible(true);
+        //     gameParams.state = gameStates.STARTED;
+        //     world.btnPause.enabled = true;
+        //     world.btnPlay.enabled = false;
+        //     world.btnFF.enabled = true;
+        //     world.btnPause.setBright(true);
+        //     world.btnPause.setBright(false);
+        //     world.btnPause.setBright(true);
+        //     gameParams.modal = false;
+        // });
         layer.addChild(btnExit, 102);
 
         var policyDetailsBackground = new cc.LayerColor(COLOR_BLACK, 400, 400);
@@ -2240,6 +2269,10 @@ var StatsLayer = cc.Layer.extend({
             layer.removeFromParent();
             world.setVisible(true);
             gameParams.state = gameStates.STARTED;
+            world.initControls();
+            world.btnPause.enabled = true;
+            world.btnPlay.enabled = false;
+            world.btnFF.enabled = true;
         });
         layerBackground.addChild(btn, 100);
 
