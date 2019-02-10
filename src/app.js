@@ -1568,11 +1568,18 @@ var WorldLayer = cc.Layer.extend({
 
                 // Pick the match with the closest centroid ID
                 var currentLayer = null;
+                console.log(selectedCountry);
                 if (selectedCountry != null) {
+                    gameParams.currentCountry = selectedCountry;
                     currentCountry = selectedCountry;
                     var gid = world.countries[selectedCountry].gid;
                     currentLayer = target.getLayer("Tile Layer " + gid);
                     currentLayer.setTileGID((gid),cc.p(0, 0));
+                    printCountryStats();
+                }
+                else {
+                    gameParams.currentCountry = null;
+                    printWorldStats();
                 }
 
                 oldLayers.forEach(layer => {

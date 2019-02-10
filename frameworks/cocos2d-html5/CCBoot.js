@@ -270,6 +270,7 @@ cc.AsyncPool = function (srcObj, limit, iterator, onEnd, target) {
         var item = self._pool.shift();
         var value = item.value, index = item.index;
         self._workingSize++;
+
         self._iterator.call(self._iteratorTarget, value, index,
             function (err, result) {
                 if (self._finished) {
@@ -702,7 +703,7 @@ cc.loader = (function () {
             if (navigator.userAgent.indexOf("Trident/5") > -1) {
                 self._loadJs4Dependency(preDir, list, 0, callback);
             } else {
-                cc.async.map(list, function (item, index, cb1) {
+                var m = cc.async.map(list, function (item, index, cb1) {
                     var jsPath = cc.path.join(preDir, item);
                     if (_jsCache[jsPath]) return cb1(null);
                     self._createScript(jsPath, false, cb1);
@@ -722,6 +723,7 @@ cc.loader = (function () {
             this.loadJs(args[0], args[1], function (err) {
                 if (err) throw new Error(err);
                 jsLoadingImg.parentNode.removeChild(jsLoadingImg);//remove loading gif
+                console.log("got here 4",args[2]);
                 if (args[2]) args[2]();
             });
         },
@@ -771,7 +773,7 @@ cc.loader = (function () {
                 canvasNode.style.backgroundColor = "transparent";
                 canvasNode.parentNode.appendChild(jsLoadingImg);
 
-                var canvasStyle = getComputedStyle ? getComputedStyle(canvasNode) : canvasNode.currentStyle;
+                var canvasStyle = window.getComputedStyle ? window.getComputedStyle(canvasNode) : canvasNode.currentStyle;
                 if (!canvasStyle)
                     canvasStyle = {width: canvasNode.width, height: canvasNode.height};
                 jsLoadingImg.style.left = canvasNode.offsetLeft + (parseFloat(canvasStyle.width) - jsLoadingImg.width) / 2 + "px";
@@ -2202,6 +2204,7 @@ function _load(config) {
                 var arr = _getJsListOfModule(moduleMap, modules[i], engineDir);
                 if (arr) jsList = jsList.concat(arr);
             }
+            console.log(_engineLoadedCallback)
             cc.loader.loadJsWithImg(jsList, function (err) {
                 if (err) throw err;
                 _afterEngineLoaded(config);
@@ -2226,7 +2229,7 @@ cc.initEngine = function (config, cb) {
     }
 
     _engineLoadedCallback = cb;
-
+    
     // Config uninitialized and given, initialize with it
     if (!cc.game.config && config) {
         cc.game.config = config;
@@ -2505,6 +2508,7 @@ cc.game = /** @lends cc.game# */{
         }
 
         // Already prepared
+        console.log('got here', this._prepared);
         if (this._prepared) {
             if (cb) cb();
             return;
@@ -2514,6 +2518,7 @@ cc.game = /** @lends cc.game# */{
             return;
         }
         // Prepare never called and engine ready
+        console.log('got here2', cc._engineLoaded);
         if (cc._engineLoaded) {
             this._prepareCalled = true;
 
@@ -2897,3 +2902,4 @@ Function.prototype.bind = Function.prototype.bind || function (oThis) {
 
     return fBound;
 };
+window.cc = cc;
