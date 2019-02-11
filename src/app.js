@@ -565,20 +565,20 @@ var WorldLayer = cc.Layer.extend({
         this.countryLabel.setContentSize(cc.size(400, Y_OFFSET));
         this.countryLabel.setPosition(cc.p(20, labelOffsetY));
 
-        this.countryInfected = new cc.LabelTTF("", FONT_FACE, fontSize);
-        this.countryInfected.setContentSize(cc.size(150, Y_OFFSET));
-        this.countryInfected.setPosition(cc.p(340, labelOffsetY));
+        this.countryLoss = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryLoss.setContentSize(cc.size(150, Y_OFFSET));
+        this.countryLoss.setPosition(cc.p(340, labelOffsetY));
         this.countryConvinced = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryConvinced.setContentSize(cc.size(150, Y_OFFSET));
         this.countryConvinced.setPosition(cc.p(640, labelOffsetY));
 
-        this.countryInfected.setColor(COLOR_RESOURCE);
+        this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLabel.setColor(COLOR_ICE);
         this.countryConvinced.setColor(COLOR_POLICY_POINTS);
-        this.countryInfected.setAnchorPoint(new cc.p(0,0));
+        this.countryLoss.setAnchorPoint(new cc.p(0,0));
         this.countryLabel.setAnchorPoint(new cc.p(0,0));
         this.countryConvinced.setAnchorPoint(new cc.p(0,0));
-        countryDetailLayout.addChild(this.countryInfected);
+        countryDetailLayout.addChild(this.countryLoss);
         countryDetailLayout.addChild(this.countryLabel);
         countryDetailLayout.addChild(this.countryConvinced);
     
@@ -1018,13 +1018,13 @@ var WorldLayer = cc.Layer.extend({
 
         var printCountryStats = function(){
             var country = world.countries[gameParams.currentCountry];
-            world.countryInfected.setString(Math.round(country.pop_infected).toLocaleString() + " aware" );
+            world.countryLoss.setString((Math.round(world.countries["UGA"].loss * 100) / 100).toLocaleString() + "% lost" );
             world.countryLabel.setString(country.name);
             world.countryConvinced.setString(Math.round(country.pop_convinced).toLocaleString() + " prepared");
         };
 
         var printWorldStats = function(){
-            world.countryInfected.setString(Math.round(gameParams.populationInfected).toLocaleString() + " aware" );
+            world.countryLoss.setString((Math.round(gameParams.totalLoss * 100) / 100).toLocaleString() + "% lost" );
             world.countryLabel.setString("World");
             world.countryConvinced.setString(Math.round(gameParams.populationConvinced).toLocaleString() + " prepared");
         };
