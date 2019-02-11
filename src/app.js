@@ -43,10 +43,10 @@ var initGameParams = function(scenarioData) {
     gameParams.strategies = [];
     gameParams.policy = 0;
     gameParams.countriedAffected = 0;
-    gameParams.populationInfected = 0;
-    gameParams.populationConvinced = 0;
-    gameParams.populationInfectedPercent = 0;
-    gameParams.populationConvincedPercent = 0;
+    gameParams.populationAware = 0;
+    gameParams.populationPrepared = 0;
+    gameParams.populationAwarePercent = 0;
+    gameParams.populationPreparedPercent = 0;
     gameParams.resources = scenarioData.starting_resources;
     gameParams.resourcesShown = false;
     gameParams.resourcesAdded = false;
@@ -70,8 +70,8 @@ var calculatePolicyConnections = function() {
     Object.keys(RESOURCES).forEach(key => {
         RESOURCES[key].policyOptions.forEach(pol => {
             gameParams.policyOptions[pol.id] = pol;
-            if (policyLen < pol.id - 1)
-                policyLen = pol.id - 1;
+            if (policyLen < pol.id)
+                policyLen = pol.id;
         });
     });
     gameParams.policyRelations = {};
@@ -568,19 +568,20 @@ var WorldLayer = cc.Layer.extend({
         this.countryLoss = new cc.LabelTTF("", FONT_FACE, fontSize);
         this.countryLoss.setContentSize(cc.size(150, Y_OFFSET));
         this.countryLoss.setPosition(cc.p(340, labelOffsetY));
-        this.countryConvinced = new cc.LabelTTF("", FONT_FACE, fontSize);
-        this.countryConvinced.setContentSize(cc.size(150, Y_OFFSET));
-        this.countryConvinced.setPosition(cc.p(640, labelOffsetY));
+        this.countryAwarePrepared = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
+        this.countryAwarePrepared.setContentSize(cc.size(300, Y_OFFSET));
+        this.countryAwarePrepared.setPosition(cc.p(880, labelOffsetY));
 
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLabel.setColor(COLOR_ICE);
-        this.countryConvinced.setColor(COLOR_POLICY_POINTS);
+        this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryLoss.setAnchorPoint(new cc.p(0,0));
         this.countryLabel.setAnchorPoint(new cc.p(0,0));
-        this.countryConvinced.setAnchorPoint(new cc.p(0,0));
+        this.countryAwarePrepared.setAnchorPoint(new cc.p(1,0));
         countryDetailLayout.addChild(this.countryLoss);
         countryDetailLayout.addChild(this.countryLabel);
-        countryDetailLayout.addChild(this.countryConvinced);
+        countryDetailLayout.addChild(this.countryAwarePrepared);
     
         this.worldStats = new ccui.Button();
         //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
@@ -714,10 +715,10 @@ var WorldLayer = cc.Layer.extend({
                     
                     affected_chance: 0.0,
                     pop_est: parseInt(obj.POP_EST),
-                    pop_infected: 0,
-                    pop_infected_percent: 0,
-                    pop_convinced: 0,
-                    pop_convinced_percent: 0,
+                    pop_aware: 0,
+                    pop_aware_percent: 0,
+                    pop_prepared: 0,
+                    pop_prepared_percent: 0,
 
                     gdp_est: parseInt(obj.GDP_MD_EST),
                     gid: obj.GID,
@@ -950,9 +951,9 @@ var WorldLayer = cc.Layer.extend({
         var generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
-                var existingConvincedPercentage = country.pop_convinced_percent;
-                country.pop_convinced_percent = 100 * country.pop_convinced / country.pop_est;
-                generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_convinced_percent));
+                var existingConvincedPercentage = country.pop_prepared_percent;
+                country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
+                generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
                 generatePointsForCountry(country, false, 0, country.destruction);
             }
         };
@@ -1020,13 +1021,18 @@ var WorldLayer = cc.Layer.extend({
             var country = world.countries[gameParams.currentCountry];
             world.countryLoss.setString((Math.round(world.countries["UGA"].loss * 100) / 100).toLocaleString() + "% lost" );
             world.countryLabel.setString(country.name);
-            world.countryConvinced.setString(Math.round(country.pop_convinced).toLocaleString() + " prepared");
+            var aware = (Math.round(country.pop_aware / 10000) / 100).toLocaleString()
+            var prepared = (Math.round(country.pop_prepared / 10000) / 100).toLocaleString()
+            world.countryAwarePrepared.setString(aware + "M aware / " + prepared + "M prepared");
         };
 
         var printWorldStats = function(){
             world.countryLoss.setString((Math.round(gameParams.totalLoss * 100) / 100).toLocaleString() + "% lost" );
             world.countryLabel.setString("World");
-            world.countryConvinced.setString(Math.round(gameParams.populationConvinced).toLocaleString() + " prepared");
+            // world.countryAwarePrepared.setString(Math.round(gameParams.populationPrepared).toLocaleString() + "M prepared");
+            var aware = (Math.round(gameParams.populationAware / 10000) / 100).toLocaleString()
+            var prepared = (Math.round(gameParams.populationPrepared / 10000) / 100).toLocaleString()
+            world.countryAwarePrepared.setString(aware + "M aware / " + prepared + "M prepared");
         };
 
         cc.eventManager.addListener({
@@ -1113,7 +1119,7 @@ var WorldLayer = cc.Layer.extend({
                         loss = (1 + loss) * (1 + rateOfLoss) - 1;
 
                         // Weaken rate of loss by population convinced of good policy
-                        loss /= (1 + country.pop_convinced_percent / 100.0);
+                        loss /= (1 + country.pop_prepared_percent / 100.0);
                         if (loss < gameParams.minimum_loss_increase) {
                             loss = gameParams.minimum_loss_increase;
                         }
@@ -1186,7 +1192,7 @@ var WorldLayer = cc.Layer.extend({
                             if (country.affected_chance < 1.0)
                                 country.affected_chance *= 0.1;
                             candidateCountry.policy = 1.0;
-                            candidateCountry.pop_infected = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
+                            candidateCountry.pop_aware = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
                         }
                     };
 
@@ -1194,9 +1200,9 @@ var WorldLayer = cc.Layer.extend({
                         if (country.affected_chance == 0)
                             return;
                         var popCountry = country.pop_est;
-                        var popInfected = country.pop_infected;
+                        var popInfected = country.pop_aware;
 
-                        if (country.pop_infected >= parseInt(country.pop_est))
+                        if (country.pop_aware >= parseInt(country.pop_est))
                             return;
 
                         // Calculate infectivity
@@ -1273,16 +1279,16 @@ var WorldLayer = cc.Layer.extend({
 
                         if ((infectivityRate - 1) < infectivityMinimumIncrease)
                             infectivityRate = 1 + infectivityMinimumIncrease;
-                        country.pop_infected = (1 + country.pop_infected) * infectivityRate;
-                        if (country.pop_infected > country.pop_est)
-                            country.pop_infected = country.pop_est;
+                        country.pop_aware = (1 + country.pop_aware) * infectivityRate;
+                        if (country.pop_aware > country.pop_est)
+                            country.pop_aware = country.pop_est;
                     };
 
                     var registerSeverityWithin = function(country) {
                         if (country.affected_chance == 0)
                             return;
-                        var popInfected = country.pop_infected;
-                        var popConvinced = country.pop_convinced;
+                        var popInfected = country.pop_aware;
+                        var popConvinced = country.pop_prepared;
 
                         // Calculate severity
                         var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
@@ -1364,9 +1370,9 @@ var WorldLayer = cc.Layer.extend({
                             }
 
                             // Calculate impact of other strategies
-                            for (var j = 0; j < gameParams.strategies.length; j++) {
-                                if (i == j)
-                                    continue;
+                            for (var j = i; j < gameParams.strategies.length; j++) {
+                                // if (i == j)
+                                //     continue;
 
                                 var otherStrategy = gameParams.strategies[j];
                                 var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
@@ -1385,9 +1391,9 @@ var WorldLayer = cc.Layer.extend({
                         else {
                             popConvinced *= (1 + severityEffect);
                         }
-                        country.pop_convinced = popConvinced;
-                        if (country.pop_convinced > country.pop_infected)
-                            country.pop_convinced = country.pop_infected;
+                        country.pop_prepared = popConvinced;
+                        if (country.pop_prepared > country.pop_aware)
+                            country.pop_prepared = country.pop_aware;
                     };
                     
                     // Updates the game state at regular intervals
@@ -1401,7 +1407,7 @@ var WorldLayer = cc.Layer.extend({
 
                                 // Add policy robustness and loss
                                 var totalPolicy = 0, totalLoss = 0;
-                                var countriedAffected = 0, populationInfected = 0, populationConvinced = 0;
+                                var countriedAffected = 0, populationAware = 0, populationPrepared = 0;
                                 Object.keys(world.countries).forEach( key => {
                                     var country = world.countries[key];
                                     var loss = evaluateLoss(country);
@@ -1415,18 +1421,18 @@ var WorldLayer = cc.Layer.extend({
                                         infectWithin(country);
                                         registerSeverityWithin(country);
                                         countriedAffected++;
-                                        populationInfected += country.pop_infected;
-                                        populationConvinced += country.pop_convinced;
+                                        populationAware += country.pop_aware;
+                                        populationPrepared += country.pop_prepared;
 
-                                        country.pop_infected_percent = 100 * country.pop_infected / country.pop_est;
-                                        var existingConvincedPercentage = country.pop_convinced_percent;
-                                        country.pop_convinced_percent = 100 * country.pop_convinced / country.pop_est;
+                                        country.pop_aware_percent = 100 * country.pop_aware / country.pop_est;
+                                        var existingConvincedPercentage = country.pop_prepared_percent;
+                                        country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
                                         var imin = 0;
                                         if (existingConvincedPercentage > 0.5) 
                                             imin = parseInt(existingConvincedPercentage);
                                         var imax = 0;
-                                        if (country.pop_convinced_percent > 0.5) 
-                                            imax = parseInt(country.pop_convinced_percent);
+                                        if (country.pop_prepared_percent > 0.5) 
+                                            imax = parseInt(country.pop_prepared_percent);
                                         generatePointsForCountry(country, true, imin, imax);
                                     }
                                     totalPolicy += country.policy;
@@ -1440,10 +1446,10 @@ var WorldLayer = cc.Layer.extend({
                                 gameParams.totalLoss = totalLoss;
 
                                 gameParams.countriedAffected = countriedAffected;
-                                gameParams.populationInfected = populationInfected;
-                                gameParams.populationConvinced = populationConvinced;
-                                gameParams.populationInfectedPercent = 100 * gameParams.populationInfected / gameParams.populationWorld;
-                                gameParams.populationConvincedPercent = 100 * gameParams.populationConvinced / gameParams.populationWorld;
+                                gameParams.populationAware = populationAware;
+                                gameParams.populationPrepared = populationPrepared;
+                                gameParams.populationAwarePercent = 100 * gameParams.populationAware / gameParams.populationWorld;
+                                gameParams.populationPreparedPercent = 100 * gameParams.populationPrepared / gameParams.populationWorld;
 
                                 drawPoints();
                                 if (gameParams.currentCountry != null)
@@ -1483,8 +1489,8 @@ var WorldLayer = cc.Layer.extend({
                             }
                             else {
                                 // Change label
-                                if (gameParams.totalLoss > 0 || gameParams.populationConvincedPercent > 0) {
-                                    var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationConvincedPercent);
+                                if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
+                                    var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
                                     var message = gameParams.scenarioName, messageIndex = -1;
                                     if (Math.random() < weight) {
                                         messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
