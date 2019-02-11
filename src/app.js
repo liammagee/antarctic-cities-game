@@ -273,14 +273,20 @@ var WorldLayer = cc.Layer.extend({
                 }
                 return false;
             }
-        });        
-        cc.eventManager.addListener(actionsListener.clone(), this.btnPause);
-        cc.eventManager.addListener(actionsListener.clone(), this.btnFF);
-        cc.eventManager.addListener(actionsListener.clone(), this.btnPlay);
+        });  
+        var a1 = actionsListener.clone(), a2 = actionsListener.clone(), a3 = actionsListener.clone();
+        cc.eventManager.addListener(a1, world.btnPause);
+        cc.eventManager.addListener(a2, world.btnFF);
+        cc.eventManager.addListener(a3, world.btnPlay);
+        world.controlListeners = [ a1, a2, a3 ];
     },
 
     ctor:function (scenarioData) {
         this._super();
+
+        // Add to global variables to maintain state
+        world = this;
+        world.scenarioData = scenarioData;
 
         initGameParams(scenarioData);     
 
@@ -439,10 +445,6 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
-        // GLOBAL VARIABLES FOR DEBUGGING
-        world = this;
-        world.scenarioData = scenarioData;
-
         // Interaction handling
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
@@ -504,14 +506,12 @@ var WorldLayer = cc.Layer.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
                     gameParams.state = gameStates.PAUSED;
-                    cc.eventManager.removeAllListeners();
+                    // world.controlListeners.forEach(listener => {
+                    //     cc.eventManager.removeListener(listener);
+                    // })
                     layer = new DesignPolicyLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
-                    gameParams.modal = true;
-                    world.btnPause.setBright(false);
-                    world.btnPlay.setBright(false);
-                    world.btnFF.setBright(false);
                     return true;
                 }
                 return false;
@@ -544,14 +544,9 @@ var WorldLayer = cc.Layer.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
                     gameParams.state = gameStates.PAUSED;
-                    cc.eventManager.removeAllListeners();
                     layer = new StatsLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
-                    gameParams.modal = true;
-                    world.btnPause.setBright(false);
-                    world.btnPlay.setBright(false);
-                    world.btnFF.setBright(false);
                     return true;
                 }
                 return false;
@@ -624,7 +619,8 @@ var WorldLayer = cc.Layer.extend({
 
         ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
             var keys = Object.keys(world.countries);
-            gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
+            gameParams.startCountry = "UGA";
+            // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
             gameParams.currentCountry = gameParams.startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
             ShowMessageBoxOK(world, "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function(that) {
@@ -1316,10 +1312,6 @@ var WorldLayer = cc.Layer.extend({
                         
 
                         // NEW CALCULATION
-                        if (country.iso_a3 == "COD")
-                            console.log(country.name +":"+ severityEffect);
-
-                        //severityEffect = 1;
                         
                         // Calculate impact of strategies
                         for (var i = 0; i < gameParams.strategies.length; i++) {
@@ -1383,10 +1375,6 @@ var WorldLayer = cc.Layer.extend({
                                 }
                             }
                         }
-
-                        if (country.iso_a3 == "COD")
-                            console.log(country.name +":"+ severityEffect);
-
 
                         severityEffect *= severityIncreaseSpeed;
                         if (severityIncreaseSpeed < severityMinimumIncrease) 
@@ -1971,13 +1959,10 @@ var DesignPolicyLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    layer.removeFromParent();
                     world.setVisible(true);
+                    layer.removeFromParent();
                     gameParams.state = gameStates.STARTED;
-                    world.initControls();
-                    world.btnPause.enabled = true;
-                    world.btnPlay.enabled = false;
-                    world.btnFF.enabled = true;
+                    event.stopPropagation();
                     return true;
                 }
                 return false;
@@ -2266,13 +2251,10 @@ var StatsLayer = cc.Layer.extend({
         btn.setPosition(cc.p(950, 20));
         btn.setTitleText("X");
         btn.addClickEventListener(function(){
+            event.stopPropagation();
             layer.removeFromParent();
             world.setVisible(true);
             gameParams.state = gameStates.STARTED;
-            world.initControls();
-            world.btnPause.enabled = true;
-            world.btnPlay.enabled = false;
-            world.btnFF.enabled = true;
         });
         layerBackground.addChild(btn, 100);
 
