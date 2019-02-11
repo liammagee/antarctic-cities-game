@@ -528,30 +528,60 @@ CRISES = {
         name: "Water shortage",
         effect_on_climate: 0,
         effect_on_population: 0,
-        effect_on_global_gdp: 0
+        effect_on_global_gdp: 0,
+        effect_on_resources: -3.0,
+        effect_on_environmental_loss: 0.3,
+        influence_of_environmental_loss: 2.0,
+        influence_of_preparedness: -0.2 
     },
-    CHRONIC_UNEMPLOYMENT: {
-        name: "Chronic unemployment",
+    FINANCIAL_CRISIS: {
+        name: "Financial crisis",
         effect_on_climate: 0,
         effect_on_population: 0,
-        effect_on_global_gdp: 0
+        effect_on_global_gdp: 0,
+        effect_on_resources: -1.0,
+        effect_on_environmental_loss: 0.0,
+        influence_of_environmental_loss: 0.0,
+        influence_of_preparedness: 0.0 
     },
     EXTREME_WEATHER_EVENT: {
         name: "Extreme weather event",
         effect_on_climate: 0,
         effect_on_population: 0,
-        effect_on_global_gdp: 0
+        effect_on_global_gdp: 0,
+        effect_on_resources: -0.2,
+        effect_on_environmental_loss: 0.4,
+        influence_of_environmental_loss: 0.5,
+        influence_of_preparedness: -0.2 
     },
     FORCED_DISPLACEMENT: {
         name: "Forced displacement",
         effect_on_climate: 0,
         effect_on_population: 0,
-        effect_on_global_gdp: 0
+        effect_on_global_gdp: 0,
+        effect_on_resources: -0.5,
+        effect_on_environmental_loss: 0.2,
+        influence_of_environmental_loss: 0.4,
+        influence_of_preparedness: -0.5 
     },
     EPIDEMIC: {
         name: "Epidemic",
         effect_on_climate: 0,
         effect_on_population: 0,
-        effect_on_global_gdp: 0
+        effect_on_global_gdp: 0,
+        effect_on_resources: -0.7,
+        effect_on_environmental_loss: 0.0,
+        influence_of_environmental_loss: 0.2,
+        influence_of_preparedness: -0.2 
+    },
+    WAR: {
+        name: "War",
+        effect_on_climate: 0,
+        effect_on_population: 0,
+        effect_on_global_gdp: 0,
+        effect_on_resources: -0.8,
+        effect_on_environmental_loss: -0.1,
+        influence_of_environmental_loss: 0.3,
+        influence_of_preparedness: -0.2 
     }
 };
