@@ -51,7 +51,8 @@ var initGameParams = function(scenarioData) {
     gameParams.populationAwarePercent = 0;
     gameParams.populationPreparedPercent = 0;
     gameParams.resources = scenarioData.starting_resources;
-    gameParams.resourcesShown = false;
+    gameParams.alertResources = false;
+    gameParams.alertCrisis = false;
     gameParams.resourcesAdded = false;
     gameParams.previousLoss = scenarioData.threat_details.starting_conditions.starting_loss;
     gameParams.rateOfLoss = scenarioData.threat_details.advanced_stats.loss_increase_speed;
@@ -126,31 +127,43 @@ var loadDataSets = function() {
 /**
  * Message box
  * @param {*} parent 
+ * @param {*} title
  * @param {*} message 
  * @param {*} prompt 
  * @param {*} callback 
  */
-var ShowMessageBoxOK = function(parent, message, prompt, callback){
+var ShowMessageBoxOK = function(parent, title, message, prompt, callback){
     var WINDOW_WIDTH = cc.director.getWinSize().width;
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
 
-    var layBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
+    var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3);
     layBackground.attr({ 
         x: WINDOW_WIDTH / 2 - layBackground.width / 2, 
         y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 1);
 
-    var text = new ccui.Text(message, FONT_FACE_BODY, 24);
-    text.ignoreContentAdaptWithSize(false);
-    text.setAnchorPoint(cc.p(0, 0));
-    // text.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
-    text.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height*0.75));
-    text.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.25));
-    text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    text.setColor(COLOR_WHITE);
-    layBackground.addChild(text, 2);
+    var titleText = new ccui.Text(title, FONT_FACE_BODY, 24);
+    titleText.ignoreContentAdaptWithSize(false);
+    titleText.setAnchorPoint(cc.p(0, 0));
+    // titleText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
+    titleText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.15));
+    titleText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.8));
+    titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setColor(COLOR_WHITE);
+    layBackground.addChild(titleText, 2);
+
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, 20);
+    contentText.ignoreContentAdaptWithSize(false);
+    contentText.setAnchorPoint(cc.p(0, 0));
+    // contentText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
+    contentText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.6));
+    contentText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.2));
+    contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setColor(COLOR_WHITE);
+    layBackground.addChild(contentText, 2);
 
     var listener = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
@@ -174,9 +187,9 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     btnOK.setTitleText(prompt);
     btnOK.setTitleColor(COLOR_WHITE);
     btnOK.setTitleFontSize(24);
-    btnOK.setTitleFontName(FONT_FACE_TITLE);
+    btnOK.setTitleFontName(FONT_FACE_BODY);
     cc.eventManager.addListener(listener.clone(), btnOK);
-    btnOK.attr({ x: layBackground.width / 2, y: layBackground.height * 0.25 });
+    btnOK.attr({ x: layBackground.width / 2, y: layBackground.height * 0.1 });
     layBackground.addChild(btnOK);
 };
 
@@ -294,7 +307,9 @@ var WorldLayer = cc.Layer.extend({
         initGameParams(scenarioData);     
 
         var size = cc.winSize;
-
+        var WINDOW_WIDTH = cc.director.getWinSize().width;
+        var WINDOW_HEIGHT = cc.director.getWinSize().height;
+    
         var layerBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
@@ -362,17 +377,17 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground2 = new ccui.ScrollView();
         this.tweetBackground2.setDirection(ccui.ScrollView.DIR_VERTICAL);
         //this.tweetBackground2.setTouchEnabled(true);
-        this.tweetBackground2.attr({ width: 600, height: 36, x: (size.width / 2) - 300, y: size.height - 96 });
+        this.tweetBackground2.attr({ width: 600, height: 36, x: (size.width / 2) - (WINDOW_WIDTH / 2), y: size.height - 96 });
         this.tweetBackground2.setContentSize(cc.size(600, 36));
         // this.tweetBackground2.setBackGroundColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackground2.setInnerContainerSize(cc.size(600, 36));
+        this.tweetBackground2.setInnerContainerSize(cc.size(WINDOW_WIDTH / 2, 36));
         // this.tweetBackground2.setAnchorPoint(new cc.p(0,0));
         // this.addChild(this.tweetBackground2, 110);
 
         this.tweetBackground = new cc.ClippingNode();
         this.tweetBackground.setColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackground.attr({ width: 600, height: 36, x: (size.width / 2) - 300, y: size.height - 48 });
-        this.tweetBackground.setContentSize(cc.size(600, 36));
+        this.tweetBackground.attr({ width: WINDOW_WIDTH / 2, height: 36, x: (WINDOW_WIDTH / 4), y: size.height - 48 });
+        this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH / 2, 36));
         var stencil = new cc.DrawNode();
         var rectangle = [cc.p(0, 0),cc.p(this.tweetBackground.width, 0),
             cc.p(this.tweetBackground.width, this.tweetBackground.height),
@@ -621,13 +636,13 @@ var WorldLayer = cc.Layer.extend({
             //addEmitter();
         };
 
-        ShowMessageBoxOK(world, world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
+        ShowMessageBoxOK(world, "Starting game...", world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
             var keys = Object.keys(world.countries);
             gameParams.startCountry = "UGA";
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
             gameParams.currentCountry = gameParams.startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
-            ShowMessageBoxOK(world, "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function(that) {
+            ShowMessageBoxOK(world, "Policy Fight-back", "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function(that) {
                 beginSim();
             });
         });
@@ -855,7 +870,7 @@ var WorldLayer = cc.Layer.extend({
                     if (!gameParams.resourcesAdded) {
                         gameParams.state = gameStates.PAUSED;
                         gameParams.resourcesAdded = true;
-                        ShowMessageBoxOK(world, "Click on the 'POLICY' button to spend your resources.", "OK!", function() {
+                        ShowMessageBoxOK(world, "NOTICE", "Click on the 'POLICY' button to spend your resources.", "OK!", function() {
                             gameParams.state = gameStates.STARTED;
                         });
                     }
@@ -875,7 +890,7 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.crisisCountry = null;                    
                     target.removeFromParent();
                     gameParams.state = gameStates.PAUSED;
-                    ShowMessageBoxOK(world, crisis.name + " has been averted!", "OK!", function() {
+                    ShowMessageBoxOK(world, "Crisis alert!", crisis.name + " has been averted!", "OK!", function() {
                         gameParams.state = gameStates.STARTED;
                     });
                     return true;
@@ -1108,10 +1123,10 @@ var WorldLayer = cc.Layer.extend({
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
                                 world.worldBackground.addChild(btnRes, 101);
                                 buttons.push(btnRes);
-                                if (!gameParams.resourcesShown) {
+                                if (!gameParams.alertResources) {
                                     gameParams.state = gameStates.PAUSED;
-                                    gameParams.resourcesShown = true;
-                                    ShowMessageBoxOK(world, "Click on the blue icons to add resources", "OK!", function(that) {
+                                    gameParams.alertResources = true;
+                                    ShowMessageBoxOK(world, "Notice", "Click on the blue icons to add resources", "OK!", function(that) {
                                         gameParams.state = gameStates.STARTED;
                                     });
                                 }
@@ -1190,15 +1205,13 @@ var WorldLayer = cc.Layer.extend({
                                 btnCrisis.placedAt = gameParams.counter;
                                 cc.eventManager.addListener(resListener.clone(), btnCrisis);
                                 world.worldBackground.addChild(btnCrisis, 101);
-                                /*
-                                if (!gameParams.resourcesShown) {
+                                if (!gameParams.alertCrisis) {
                                     gameParams.state = gameStates.PAUSED;
-                                    gameParams.resourcesShown = true;
-                                    ShowMessageBoxOK(world, "Click on the blue icons to add resources", "OK!", function(that) {
+                                    gameParams.alertCrisis = true;
+                                    ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function(that) {
                                         gameParams.state = gameStates.STARTED;
                                     });
                                 }
-                                */
                                 
                             }
                             gameParams.lastCrisis = gameParams.counter;
