@@ -845,6 +845,7 @@ var WorldLayer = cc.Layer.extend({
         world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
         Object.keys(world.countries).forEach(function(c) {
             var country = world.countries[c];
+            // Change the power for more or less points
             country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
         });
 
@@ -1077,7 +1078,7 @@ var WorldLayer = cc.Layer.extend({
 
         var printCountryStats = function(){
             var country = world.countries[gameParams.currentCountry];
-            world.countryLoss.setString((Math.round(world.countries["UGA"].loss * 100) / 100).toLocaleString() + "% lost" );
+            world.countryLoss.setString((Math.round(country.loss * 100) / 100).toLocaleString() + "% loss" );
             world.countryLabel.setString(country.name);
             var aware = (Math.round(country.pop_aware / 10000) / 100).toLocaleString()
             var prepared = (Math.round(country.pop_prepared / 10000) / 100).toLocaleString()
@@ -1085,7 +1086,7 @@ var WorldLayer = cc.Layer.extend({
         };
 
         var printWorldStats = function(){
-            world.countryLoss.setString((Math.round(gameParams.totalLoss * 100) / 100).toLocaleString() + "% lost" );
+            world.countryLoss.setString((Math.round(gameParams.totalLoss * 100) / 100).toLocaleString() + "% loss" );
             world.countryLabel.setString("World");
             // world.countryAwarePrepared.setString(Math.round(gameParams.populationPrepared).toLocaleString() + "M prepared");
             var aware = (Math.round(gameParams.populationAware / 10000) / 100).toLocaleString()
@@ -1255,12 +1256,18 @@ var WorldLayer = cc.Layer.extend({
                             var crisis = CRISES[gameParams.crisisCountry.crisis];
                             var country = world.countries[gameParams.crisisCountry.country];
                             // Add effects of country / global loss ratio to crisis effect
-                            loss *= (1 + -crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
+                            loss *= (1 + crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
                         }
 
                         if (loss < gameParams.minimum_loss_increase) {
                             loss = gameParams.minimum_loss_increase;
                         }
+
+                        if (loss > 100)
+                            loss = 100;
+                        if (loss < 0)
+                            loss = 0;
+
                         return loss;
                     };
 
