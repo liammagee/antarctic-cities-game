@@ -845,7 +845,7 @@ var WorldLayer = cc.Layer.extend({
         world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
         Object.keys(world.countries).forEach(function(c) {
             var country = world.countries[c];
-            country.numPoints = Math.ceil(country.area / world.areaMean);
+            country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
         });
 
         // Add world populations
@@ -974,7 +974,7 @@ var WorldLayer = cc.Layer.extend({
                 points = points.slice(0, max - 1);
             }
             else {
-                var sqrt = Math.sqrt(country.area);
+                var sqrt = Math.pow(country.area, 0.5);
                 if (points.length + ( max - min) * country.numPoints > sqrt)
                     return;
                 for (var j = min; j < max; j++) {
@@ -1047,7 +1047,7 @@ var WorldLayer = cc.Layer.extend({
                     // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, genNormRand()));
                     // With static alpha
                     // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, Math.random() * 255));
-                    drawNode.drawDot(p, 5, COLOR_POLICY_POINTS);
+                    drawNode.drawDot(p, 2, COLOR_POLICY_POINTS);
                 }
                 for (var j = 0; j < country.destructionPoints.length; j++) {
                     var p = country.destructionPoints[j];
@@ -1055,7 +1055,7 @@ var WorldLayer = cc.Layer.extend({
                     // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, genNormRand()));
                     // With static alpha
                     // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, Math.random() * 255));
-                    drawNode.drawDot(p, 5, COLOR_DESTRUCTION_POINTS);
+                    drawNode.drawDot(p, 2, COLOR_DESTRUCTION_POINTS);
                 }
                 // dots.push(drawNode);
                 drawNode.visit();
