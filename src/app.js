@@ -6,8 +6,9 @@ var TIME_INTERVAL = 50;
 var DAY_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
 var CRISIS_CHANCE = 0.3;
-// var FONT_FACE = "Josefin Sans";
-var FONT_FACE = "Trebuchet MS";
+var FONT_FACE_TITLE = "ArvoFont";
+var FONT_FACE_BODY = "JosefinSansFont";
+// var FONT_FACE_BODY = "Trebuchet MS";
 var RESOURCE_SIZE = 80; 
 var RESOURCE_DURATION = 300;
 var TAG_SPRITE_BATCH_NODE = 1;
@@ -139,7 +140,7 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
         y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 1);
 
-    var text = new ccui.Text(message, FONT_FACE, 24);
+    var text = new ccui.Text(message, FONT_FACE_BODY, 24);
     text.ignoreContentAdaptWithSize(false);
     text.setAnchorPoint(cc.p(0, 0));
     // text.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
@@ -172,7 +173,7 @@ var ShowMessageBoxOK = function(parent, message, prompt, callback){
     btnOK.setTitleText(prompt);
     btnOK.setTitleColor(COLOR_WHITE);
     btnOK.setTitleFontSize(24);
-    btnOK.setTitleFontName(FONT_FACE);
+    btnOK.setTitleFontName(FONT_FACE_TITLE);
     cc.eventManager.addListener(listener.clone(), btnOK);
     btnOK.attr({ x: layBackground.width / 2, y: layBackground.height * 0.25 });
     layBackground.addChild(btnOK);
@@ -201,7 +202,7 @@ var GameOver = function(parent, message, prompt) {
     });
     parent.addChild(layBackground, 1);
 
-    var lblMessage = new cc.LabelTTF(message, FONT_FACE, 14);
+    var lblMessage = new cc.LabelTTF(message, FONT_FACE_BODY, 14);
     lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
     layBackground.addChild(lblMessage, 2);
 
@@ -224,7 +225,7 @@ var GameOver = function(parent, message, prompt) {
         }
     });
 
-    var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE, 24));
+    var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 24));
     cc.eventManager.addListener(listener.clone(), btnOK);
     btnOK.attr({
         x: layBackground.width / 2,
@@ -304,15 +305,15 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.y = size.height - 84;
         this.addChild(this.controlsBackground, 100);
 
-        this.dayLabel = new cc.LabelTTF("", FONT_FACE, 18);
+        this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
         this.dayLabel.attr({ x: 14, y: 48 });
         this.dayLabel.color = COLOR_FOREGROUND;
-        this.monthLabel = new cc.LabelTTF("", FONT_FACE, 18);
+        this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
         this.monthLabel.attr({ x: 30, y: 48 });
         this.monthLabel.color = COLOR_FOREGROUND;
-        this.yearLabel = new cc.LabelTTF("", FONT_FACE, 18);
+        this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.attr({ x: 54, y: 48 });
         this.yearLabel.color = COLOR_FOREGROUND;
@@ -385,7 +386,7 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackgroundLayer.attr({ width: this.tweetBackground.width, height: this.tweetBackground.height, x: 0, y: 0});
         this.tweetBackground.addChild(this.tweetBackgroundLayer, 100);
 
-        this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE, 18);
+        this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE_BODY, 18);
         this.tweetLabel.attr({ x: this.tweetBackground.width / 2, y: 18, width: this.tweetBackground.width });
         this.tweetLabel.color = new cc.Color(255, 255, 255, 255);
         this.tweetBackground.addChild(this.tweetLabel, 101);
@@ -397,7 +398,7 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreBackground.attr({ x: 10, y: 70 });
         this.addChild(this.dnaScoreBackground, 100);
 
-        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE, 18);
+        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE_BODY, 18);
         this.dnaScoreLabel.attr({ x: 50, y: 18 });
         this.dnaScoreLabel.color = COLOR_FOREGROUND;
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
@@ -408,7 +409,7 @@ var WorldLayer = cc.Layer.extend({
         this.dnaScoreBackground.setPosition(cc.p(60, 80));
         this.addChild(this.dnaScoreBackground, 100);
 
-        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 30);
+        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
         this.dnaScoreLabel.setPosition(cc.p(40, 25));
         this.dnaScoreLabel.setColor(COLOR_BLACK);
         this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
@@ -526,7 +527,7 @@ var WorldLayer = cc.Layer.extend({
 
         this.btnDevelopPolicy = new ccui.Button();
         this.btnDevelopPolicy.setTitleText("POLICY");
-        this.btnDevelopPolicy.setTitleFontName(FONT_FACE);
+        this.btnDevelopPolicy.setTitleFontName(FONT_FACE_BODY);
         this.btnDevelopPolicy.setTitleFontSize(24);
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
         this.btnDevelopPolicy.setAnchorPoint(new cc.p(0,0));
@@ -562,14 +563,14 @@ var WorldLayer = cc.Layer.extend({
         layout.addChild(countryDetailLayout);
         var fontSize = 24;
         var labelOffsetY = Y_OFFSET / 2 - fontSize / 2;
-        this.countryLabel = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryLabel = new cc.LabelTTF("", FONT_FACE_BODY, fontSize);
         this.countryLabel.setContentSize(cc.size(400, Y_OFFSET));
         this.countryLabel.setPosition(cc.p(20, labelOffsetY));
 
-        this.countryLoss = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryLoss = new cc.LabelTTF("", FONT_FACE_BODY, fontSize);
         this.countryLoss.setContentSize(cc.size(150, Y_OFFSET));
         this.countryLoss.setPosition(cc.p(340, labelOffsetY));
-        this.countryAwarePrepared = new cc.LabelTTF("", FONT_FACE, fontSize);
+        this.countryAwarePrepared = new cc.LabelTTF("", FONT_FACE_BODY, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(300, Y_OFFSET));
         this.countryAwarePrepared.setPosition(cc.p(880, labelOffsetY));
@@ -585,9 +586,9 @@ var WorldLayer = cc.Layer.extend({
         countryDetailLayout.addChild(this.countryAwarePrepared);
     
         this.worldStats = new ccui.Button();
-        //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE, 24));
+        //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE_BODY, 24));
         this.worldStats.setTitleText("STATS");
-        this.worldStats.setTitleFontName(FONT_FACE);
+        this.worldStats.setTitleFontName(FONT_FACE_BODY);
         this.worldStats.setTitleFontSize(24);
         this.worldStats.setTitleColor(COLOR_ICE);
         this.worldStats.setContentSize(cc.size(120, 80));
@@ -1135,8 +1136,6 @@ var WorldLayer = cc.Layer.extend({
                                 var totalInfluence = 1.0;
                                 totalInfluence += lossProp * crisis.influence_of_environmental_loss;
                                 totalInfluence += preparedProp * crisis.influence_of_preparedness;
-                                if (yk === "UGA")
-                                    console.log(totalInfluence, denom);
                                 if (isNaN(totalInfluence))
                                     totalInfluence = 1.0;
                                 denom += totalInfluence;
@@ -1754,7 +1753,7 @@ var LoadingScene = cc.Scene.extend({
         playLabel.setScale9Enabled(true);
         playLabel.loadTextures("res/Images/paddle.png", "", "");
         playLabel.setTitleText("Play");
-        playLabel.setTitleFontName(FONT_FACE);
+        playLabel.setTitleFontName(FONT_FACE_TITLE);
         playLabel.setTitleColor(COLOR_BLACK);
         playLabel.setTitleFontSize(38);
         playLabel.attr({x: size.width / 2, y: size.height / 2});
@@ -1770,7 +1769,7 @@ var LoadingScene = cc.Scene.extend({
         howToPlayLabel.setScale9Enabled(true);
         howToPlayLabel.loadTextures("res/Images/paddle.png", "", "");
         howToPlayLabel.setTitleText("How to Play");
-        howToPlayLabel.setTitleFontName(FONT_FACE);
+        howToPlayLabel.setTitleFontName(FONT_FACE_TITLE);
         howToPlayLabel.setTitleColor(COLOR_BLACK);
         howToPlayLabel.setTitleFontSize(38);
         howToPlayLabel.attr({x: size.width / 2, y: size.height / 2});
@@ -1838,11 +1837,11 @@ var NewGameScene = cc.Scene.extend({
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
 
-        var newLabel = new cc.LabelTTF("New Game", FONT_FACE, 38);
+        var newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-        var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE, 38);
+        var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE_BODY, 38);
         loadLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(loadLabel);
 
@@ -1889,11 +1888,11 @@ var SelectChallengeScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE, 38);
+        var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(newLabel);
 
-        var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE, 38);
+        var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE_BODY, 38);
         waterLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(waterLabel);
 
@@ -1929,19 +1928,19 @@ var SelectDifficultyScene = cc.Scene.extend({
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
 
-        var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE, 38);
+        var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-        var casualLabel = new cc.LabelTTF("Casual", FONT_FACE, 38);
+        var casualLabel = new cc.LabelTTF("Casual", FONT_FACE_BODY, 38);
         casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5})
         this.addChild(casualLabel);
 
-        var normalLabel = new cc.LabelTTF("Normal", FONT_FACE, 38);
+        var normalLabel = new cc.LabelTTF("Normal", FONT_FACE_BODY, 38);
         normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(normalLabel);
 
-        var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE, 38);
+        var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE_BODY, 38);
         brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5})
         this.addChild(brutalLabel);
 
@@ -1974,11 +1973,11 @@ var EnterNameScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE, 38);
+        var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8});
         this.addChild(newLabel);
 
-        var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE, 38);
+        var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
         enterNameLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
         this.addChild(enterNameLabel);
 
@@ -2009,11 +2008,11 @@ var ModifyCodeScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE, 38);
+        var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-        var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE, 38);
+        var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(modifyCodeLabel);
 
@@ -2055,7 +2054,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
 
-        var heading = new ccui.Text("Build a policy platform", FONT_FACE, 38);
+        var heading = new ccui.Text("Build a policy platform", FONT_FACE_BODY, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
@@ -2105,13 +2104,13 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsBackground.setPosition(cc.p(800, 200));
         layer.addChild(policyDetailsBackground, 110);
 
-        var policyLabel = new ccui.Text("", FONT_FACE, 30);
+        var policyLabel = new ccui.Text("", FONT_FACE_BODY, 30);
         policyLabel.setColor(COLOR_ICE);
         policyLabel.setAnchorPoint(cc.p(0, 0));
         policyLabel.setPosition(cc.p(20, 340));
         policyDetailsBackground.addChild(policyLabel);
 
-        var policyDescription = new ccui.Text("", FONT_FACE, 20);
+        var policyDescription = new ccui.Text("", FONT_FACE_BODY, 20);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
         policyDescription.setContentSize(cc.size(360,200));
@@ -2121,7 +2120,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         // policyDescription.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_BOTTOM);
         policyDetailsBackground.addChild(policyDescription, 2);
 
-        var policyCostLabel = new ccui.Text("", FONT_FACE, 30);
+        var policyCostLabel = new ccui.Text("", FONT_FACE_BODY, 30);
         policyCostLabel.setColor(COLOR_ICE);
         policyCostLabel.setAnchorPoint(cc.p(0, 0));
         policyCostLabel.setPosition(cc.p(20, 80));
@@ -2200,7 +2199,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                     resourceGrp = RESOURCES.ecology;
                     break;
             }
-            var label = new ccui.Text(resourceGrp.labelText, FONT_FACE, 30);
+            var label = new ccui.Text(resourceGrp.labelText, FONT_FACE_BODY, 30);
             label.setColor(COLOR_ICE);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
@@ -2215,7 +2214,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(104, 104));
                 btn.setTitleFontSize(20);
-                btn.setTitleFontName(FONT_FACE);
+                btn.setTitleFontName(FONT_FACE_TITLE);
                 btn.setTitleColor(COLOR_ICE);
                 btn.setTitleText(opt.text);
                 btn.cost_1 = opt.cost_1;
@@ -2257,7 +2256,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         resourcesLabelBackground.setPosition(cc.p(60, 80));
         layer.addChild(resourcesLabelBackground, 100);
 
-        this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE, 30);
+        this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
         this.availableResourcesLabel.setPosition(cc.p(40, 25));
         this.availableResourcesLabel.setColor(COLOR_BLACK);
         resourcesLabelBackground.addChild(this.availableResourcesLabel, 100);
@@ -2281,28 +2280,28 @@ var StatsLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 100);
 
-        var heading = new cc.LabelTTF("Statistics", FONT_FACE, 38);
+        var heading = new cc.LabelTTF("Statistics", FONT_FACE_BODY, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         layerBackground.addChild(heading, 101);
 
         var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
 
-        this.policyLabel = new cc.LabelTTF("Policy Effectiveness: ", FONT_FACE, 24);
+        this.policyLabel = new cc.LabelTTF("Policy Effectiveness: ", FONT_FACE_BODY, 24);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
         this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.8));
         layerBackground.addChild(this.policyLabel, 100);
 
-        this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.policy), FONT_FACE, 24);
+        this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.policy), FONT_FACE_BODY, 24);
         this.policyIndicatorLabel.setAnchorPoint(cc.p(0, 0));
         this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.8));
         layerBackground.addChild(this.policyIndicatorLabel, 100);
 
-        this.destructionLabel = new cc.LabelTTF("World Destruction:", FONT_FACE, 24);
+        this.destructionLabel = new cc.LabelTTF("World Destruction:", FONT_FACE_BODY, 24);
         this.destructionLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.7));
         layerBackground.addChild(this.destructionLabel, 100);
 
-        this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.totalLoss), FONT_FACE, 24);
+        this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.totalLoss), FONT_FACE_BODY, 24);
         this.destructionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.7));
         layerBackground.addChild(this.destructionIndicatorLabel, 100);
@@ -2310,52 +2309,52 @@ var StatsLayer = cc.Layer.extend({
         // Country details
         if (gameParams.currentCountry !== null) {
             var country = world.countries[gameParams.currentCountry];
-            this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE, 24);
+            this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE_BODY, 24);
             this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
             this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
             layerBackground.addChild(this.currentCountryLabel, 100);
     
-            this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE, 24);
+            this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE_BODY, 24);
             this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
             layerBackground.addChild(this.currentCountryIndicatorLabel, 100);
     
-            this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE, 24);
+            this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE_BODY, 24);
             this.populationLabel.setAnchorPoint(cc.p(0, 0));
             this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
             layerBackground.addChild(this.populationLabel, 100);
     
-            this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE, 24);
+            this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE_BODY, 24);
             this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
             layerBackground.addChild(this.populationIndicatorLabel, 100);
     
-            this.gdpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE, 24);
+            this.gdpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE_BODY, 24);
             this.gdpLabel.setAnchorPoint(cc.p(0, 0));
             this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
             layerBackground.addChild(this.gdpLabel, 100);
     
-            this.gdpIndicatorLabel = new cc.LabelTTF(country.gdp_est, FONT_FACE, 24);
+            this.gdpIndicatorLabel = new cc.LabelTTF(country.gdp_est, FONT_FACE_BODY, 24);
             this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
             layerBackground.addChild(this.gdpIndicatorLabel, 100);
     
-            this.incomeGrpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE, 24);
+            this.incomeGrpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE_BODY, 24);
             this.incomeGrpLabel.setAnchorPoint(cc.p(0, 0));
             this.incomeGrpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.3));
             layerBackground.addChild(this.incomeGrpLabel, 100);
     
-            this.incomeGrpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE, 24);
+            this.incomeGrpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE_BODY, 24);
             this.incomeGrpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.incomeGrpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.3));
             layerBackground.addChild(this.incomeGrpIndicatorLabel, 100);
     
-            this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE, 24);
+            this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE_BODY, 24);
             this.regionLabel.setAnchorPoint(cc.p(0, 0));
             this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.2));
             layerBackground.addChild(this.regionLabel, 100);
     
-            this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE, 24);
+            this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE_BODY, 24);
             this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.2));
             layerBackground.addChild(this.regionIndicatorLabel, 100);

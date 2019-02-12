@@ -1,18 +1,29 @@
 
-  var res = {
+var res = {
     world_png : "res/world-stereographic-perspective.png",
     dot_png : "res/Images/dot.png",
     grat_png : "res/graticule-stereographic-perspective.png",
     world_tilemap_tmx : "res/tmx-stereographic.tmx",
     world_tilemap_background : "res/background-stereographic.png",
     world_tilemap_foreground : "res/foreground-stereographic.png",
-
+    ArvoFont : {
+      type:"font",
+      name:"ArvoFont",
+      srcs:["res/fonts/Arvo-Regular.ttf", "res/fonts/Arvo-Regular.ttf"]
+    },
+    JosefinSansFont : {
+      type:"font",
+      name:"JosefinSansFont",
+      srcs:["res/fonts/JosefinSans-Regular.ttf", "res/fonts/JosefinSans-Regular.ttf"]
+    }
+   
 };
 
 var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);
 }
+
 /*
 
   ZWE_png:"res/countries/ZWE_stereographic.png",
