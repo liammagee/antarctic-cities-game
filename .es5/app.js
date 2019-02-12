@@ -1,7 +1,10 @@
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 // Global parameters
 var WINDOW_WIDTH = cc.director.getWinSize().width;
 var WINDOW_HEIGHT = cc.director.getWinSize().height;
-var X_OFFSET = 0, Y_OFFSET = 50;
+var X_OFFSET = 0,
+    Y_OFFSET = 50;
 var TIME_INTERVAL = 50;
 var DAY_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
@@ -9,8 +12,8 @@ var CRISIS_CHANCE = 0.3;
 var FONT_FACE_TITLE = "ArvoFont";
 var FONT_FACE_BODY = "JosefinSansFont";
 // var FONT_FACE_BODY = "Trebuchet MS";
-var RESOURCE_SIZE_W = 32; 
-var RESOURCE_SIZE_H = 54; 
+var RESOURCE_SIZE_W = 32;
+var RESOURCE_SIZE_H = 54;
 var RESOURCE_DURATION = 300;
 var TAG_SPRITE_BATCH_NODE = 1;
 
@@ -27,7 +30,7 @@ var gameStates = {
 /**
  * Initialises the game parameters.
  */
-var initGameParams = function(scenarioData) {
+var initGameParams = function initGameParams(scenarioData) {
     gameParams = {};
     gameParams.state = gameStates.INITIALISED;
     gameParams.startDate = new Date(Date.now());
@@ -68,24 +71,22 @@ var initGameParams = function(scenarioData) {
 /**
  * Sets up game parameters at the start of play
  */
-var calculatePolicyConnections = function() {
+var calculatePolicyConnections = function calculatePolicyConnections() {
     gameParams.policyOptions = {};
     var policyLen = 0;
-    Object.keys(RESOURCES).forEach(key => {
-        RESOURCES[key].policyOptions.forEach(pol => {
+    Object.keys(RESOURCES).forEach(function (key) {
+        RESOURCES[key].policyOptions.forEach(function (pol) {
             gameParams.policyOptions[pol.id] = pol;
-            if (policyLen < pol.id)
-                policyLen = pol.id;
+            if (policyLen < pol.id) policyLen = pol.id;
         });
     });
     gameParams.policyRelations = {};
-    for (var i = 0; i < policyLen; i++){
-        var source = gameParams.policyOptions[i+1];
+    for (var i = 0; i < policyLen; i++) {
+        var source = gameParams.policyOptions[i + 1];
         gameParams.policyRelations[source.id] = {};
-        for (var j = i + 1; j < policyLen; j++){
-            var target = gameParams.policyOptions[j+1];
-            if (typeof(gameParams.policyRelations[target.id]) === "undefined")
-                gameParams.policyRelations[target.id] = {};
+        for (var j = i + 1; j < policyLen; j++) {
+            var target = gameParams.policyOptions[j + 1];
+            if (typeof gameParams.policyRelations[target.id] === "undefined") gameParams.policyRelations[target.id] = {};
             var val = RESOURCE_MATRIX[j][i];
             var rel = RESOURCE_RELATIONS[j][i];
             gameParams.policyRelations[source.id][target.id] = val;
@@ -99,15 +100,14 @@ var calculatePolicyConnections = function() {
 /**
  * Sets up game parameters at the start of play
  */
-var startGameParams = function() {
+var startGameParams = function startGameParams() {
     gameParams.state = gameStates.STARTED;
 };
-
 
 /**
  * Update time variables.
  */
-var updateTimeVars = function(interval) {
+var updateTimeVars = function updateTimeVars(interval) {
     console.log(interval);
     gameParams.timeInterval = interval;
     gameParams.resourceInterval = gameParams.timeInterval * 6; //(1000 / gameParams.timeInterval);
@@ -118,10 +118,10 @@ var updateTimeVars = function(interval) {
  * Load external data sources
  * Reference: https://github.com/toddmotto/public-apis#transportation
  */
-var loadDataSets = function() {
-    cc.loader.loadJson("https://api.openaq.org/v1/cities",function(error, data){
+var loadDataSets = function loadDataSets() {
+    cc.loader.loadJson("https://api.openaq.org/v1/cities", function (error, data) {
         console.log(data);
-    });   
+    });
 };
 
 /**
@@ -132,15 +132,15 @@ var loadDataSets = function() {
  * @param {*} prompt 
  * @param {*} callback 
  */
-var ShowMessageBoxOK = function(parent, title, message, prompt, callback){
+var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt, callback) {
     var WINDOW_WIDTH = cc.director.getWinSize().width;
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
-    parent.pause(); 
+    parent.pause();
 
     var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3);
-    layBackground.attr({ 
-        x: WINDOW_WIDTH / 2 - layBackground.width / 2, 
-        y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
+    layBackground.attr({
+        x: WINDOW_WIDTH / 2 - layBackground.width / 2,
+        y: WINDOW_HEIGHT / 2 - layBackground.height / 2 });
     parent.addChild(layBackground, 1);
 
     var titleText = new ccui.Text(title, FONT_FACE_BODY, 24);
@@ -167,15 +167,15 @@ var ShowMessageBoxOK = function(parent, title, message, prompt, callback){
 
     var listener = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
-        onMouseUp : function(event) {
+        onMouseUp: function onMouseUp(event) {
             var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(event.getLocation());    
+            var locationInNode = target.convertToNodeSpace(event.getLocation());
             var s = target.getContentSize();
             var rect = cc.rect(0, 0, s.width, s.height);
-            if (cc.rectContainsPoint(rect, locationInNode)) {       
+            if (cc.rectContainsPoint(rect, locationInNode)) {
                 layBackground.removeAllChildren(true);
                 layBackground.removeFromParent(true);
-                parent.resume(); 
+                parent.resume();
                 callback();
                 return true;
             }
@@ -199,11 +199,11 @@ var ShowMessageBoxOK = function(parent, title, message, prompt, callback){
  * @param {*} message 
  * @param {*} prompt 
  */
-var GameOver = function(parent, message, prompt) {
+var GameOver = function GameOver(parent, message, prompt) {
     var WINDOW_WIDTH = cc.director.getWinSize().width;
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
-    parent.pause(); 
-    window.clearTimeout(gameParams.timeoutID );
+    parent.pause();
+    window.clearTimeout(gameParams.timeoutID);
     initGameParams(world.scenarioData);
     gameParams.state = gameStates.GAME_OVER;
     gameParams.startCountry = null;
@@ -217,7 +217,7 @@ var GameOver = function(parent, message, prompt) {
     parent.addChild(layBackground, 1);
 
     var lblMessage = new cc.LabelTTF(message, FONT_FACE_BODY, 14);
-    lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
+    lblMessage.attr({ x: layBackground.width / 2, y: layBackground.height / 2 });
     layBackground.addChild(lblMessage, 2);
 
     var menu = this._menu = cc.Menu.create();
@@ -226,9 +226,9 @@ var GameOver = function(parent, message, prompt) {
 
     var listener = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
-        onMouseUp : function(event) {
+        onMouseUp: function onMouseUp(event) {
             var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(event.getLocation());    
+            var locationInNode = target.convertToNodeSpace(event.getLocation());
             var s = target.getContentSize();
             var rect = cc.rect(0, 0, s.width, s.height);
             if (cc.rectContainsPoint(rect, locationInNode)) {
@@ -243,7 +243,7 @@ var GameOver = function(parent, message, prompt) {
     cc.eventManager.addListener(listener.clone(), btnOK);
     btnOK.attr({
         x: layBackground.width / 2,
-        y: (layBackground.height / 2) - lblMessage.getContentSize().height * 2
+        y: layBackground.height / 2 - lblMessage.getContentSize().height * 2
     });
     menu.addChild(btnOK);
 };
@@ -252,33 +252,33 @@ var GameOver = function(parent, message, prompt) {
  * Main screen - shows the world, and various controls for interaction.
  */
 var WorldLayer = cc.Layer.extend({
-    sprite:null,
+    sprite: null,
 
-    initControls:function() {
+    initControls: function initControls() {
         var actionsListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                if (gameParams.modal)
-                    return;
+            onMouseUp: function onMouseUp(event) {
+                if (gameParams.modal) return;
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    if (target == world.btnPause) {  // Pause
+                    if (target == world.btnPause) {
+                        // Pause
                         gameParams.state = gameStates.PAUSED;
                         world.btnPause.enabled = false;
                         world.btnPlay.enabled = true;
                         world.btnFF.enabled = true;
-                    }
-                    else if (target == world.btnPlay) {  // Play
+                    } else if (target == world.btnPlay) {
+                        // Play
                         updateTimeVars(DAY_INTERVAL);
                         gameParams.state = gameStates.STARTED;
                         world.btnPause.enabled = true;
                         world.btnPlay.enabled = false;
                         world.btnFF.enabled = true;
-                    }
-                    else if (target == world.btnFF) {  // Fast Forward
+                    } else if (target == world.btnFF) {
+                        // Fast Forward
                         updateTimeVars(DAY_INTERVAL / 10);
                         gameParams.state = gameStates.STARTED;
                         world.btnPause.enabled = true;
@@ -289,34 +289,36 @@ var WorldLayer = cc.Layer.extend({
                 }
                 return false;
             }
-        });  
-        var a1 = actionsListener.clone(), a2 = actionsListener.clone(), a3 = actionsListener.clone();
+        });
+        var a1 = actionsListener.clone(),
+            a2 = actionsListener.clone(),
+            a3 = actionsListener.clone();
         cc.eventManager.addListener(a1, world.btnPause);
         cc.eventManager.addListener(a2, world.btnFF);
         cc.eventManager.addListener(a3, world.btnPlay);
-        world.controlListeners = [ a1, a2, a3 ];
+        world.controlListeners = [a1, a2, a3];
     },
 
-    ctor:function (scenarioData) {
+    ctor: function ctor(scenarioData) {
         this._super();
 
         // Add to global variables to maintain state
         world = this;
         world.scenarioData = scenarioData;
 
-        initGameParams(scenarioData);     
+        initGameParams(scenarioData);
 
         var size = cc.winSize;
         var WINDOW_WIDTH = cc.director.getWinSize().width;
         var WINDOW_HEIGHT = cc.director.getWinSize().height;
-    
+
         var layerBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
-        this.controlsBackground.setAnchorPoint(cc.p(0,0));
+        this.controlsBackground.setAnchorPoint(cc.p(0, 0));
         this.controlsBackground.x = size.width - 138;
         this.controlsBackground.y = size.height - 84;
         this.addChild(this.controlsBackground, 100);
@@ -341,7 +343,6 @@ var WorldLayer = cc.Layer.extend({
         this.btnPlay = new ccui.Button();
         this.btnFF = new ccui.Button();
 
-
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setScale9Enabled(true);
         this.btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
@@ -349,7 +350,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPause.setContentSize(cc.size(105, 105));
         this.btnPause.setScale(0.4);
         this.controlsBackground.addChild(this.btnPause, 100, "pause");
-        
+
         this.btnPlay.setTouchEnabled(true);
         this.btnPlay.setScale9Enabled(true);
         this.btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png");
@@ -357,7 +358,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPlay.setContentSize(cc.size(105, 105));
         this.btnPlay.setScale(0.4);
         this.controlsBackground.addChild(this.btnPlay, 100, "play");
-        
+
         this.btnFF.setTouchEnabled(true);
         this.btnFF.setScale9Enabled(true);
         this.btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png");
@@ -377,7 +378,7 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground2 = new ccui.ScrollView();
         this.tweetBackground2.setDirection(ccui.ScrollView.DIR_VERTICAL);
         //this.tweetBackground2.setTouchEnabled(true);
-        this.tweetBackground2.attr({ width: 600, height: 36, x: (size.width / 2) - (WINDOW_WIDTH / 2), y: size.height - 96 });
+        this.tweetBackground2.attr({ width: 600, height: 36, x: size.width / 2 - WINDOW_WIDTH / 2, y: size.height - 96 });
         this.tweetBackground2.setContentSize(cc.size(600, 36));
         // this.tweetBackground2.setBackGroundColor(COLOR_BACKGROUND_TRANS);
         this.tweetBackground2.setInnerContainerSize(cc.size(WINDOW_WIDTH / 2, 36));
@@ -386,12 +387,10 @@ var WorldLayer = cc.Layer.extend({
 
         this.tweetBackground = new cc.ClippingNode();
         this.tweetBackground.setColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackground.attr({ width: WINDOW_WIDTH / 2, height: 36, x: (WINDOW_WIDTH / 4), y: size.height - 48 });
+        this.tweetBackground.attr({ width: WINDOW_WIDTH / 2, height: 36, x: WINDOW_WIDTH / 4, y: size.height - 48 });
         this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH / 2, 36));
         var stencil = new cc.DrawNode();
-        var rectangle = [cc.p(0, 0),cc.p(this.tweetBackground.width, 0),
-            cc.p(this.tweetBackground.width, this.tweetBackground.height),
-            cc.p(0, this.tweetBackground.height)];
+        var rectangle = [cc.p(0, 0), cc.p(this.tweetBackground.width, 0), cc.p(this.tweetBackground.width, this.tweetBackground.height), cc.p(0, this.tweetBackground.height)];
 
         var darkGrey = new cc.Color(42, 54, 68, 255);
         stencil.drawPoly(rectangle, darkGrey, 1, darkGrey);
@@ -399,7 +398,7 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.tweetBackground, 110);
 
         this.tweetBackgroundLayer = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackgroundLayer.attr({ width: this.tweetBackground.width, height: this.tweetBackground.height, x: 0, y: 0});
+        this.tweetBackgroundLayer.attr({ width: this.tweetBackground.width, height: this.tweetBackground.height, x: 0, y: 0 });
         this.tweetBackground.addChild(this.tweetBackgroundLayer, 100);
 
         this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE_BODY, 18);
@@ -413,8 +412,7 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreBackground.setAnchorPoint(new cc.p(0,0));
         this.resourceScoreBackground.attr({ x: 10, y: 70 });
         this.addChild(this.resourceScoreBackground, 100);
-
-        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE_BODY, 18);
+         this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE_BODY, 18);
         this.resourceScoreLabel.attr({ x: 50, y: 18 });
         this.resourceScoreLabel.color = COLOR_FOREGROUND;
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
@@ -436,7 +434,7 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.spriteBackground, 1);
 
         var dotSpriteBatch = new cc.SpriteBatchNode(res.dot_png, 1000);
-        dotSpriteBatch.setAnchorPoint(new cc.p(0,0));
+        dotSpriteBatch.setAnchorPoint(new cc.p(0, 0));
         dotSpriteBatch.attr({ x: 0, y: 0 });
         this.spriteBackground.addChild(dotSpriteBatch, 100, TAG_SPRITE_BATCH_NODE);
 
@@ -446,19 +444,19 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.worldBackground, 1);
 
         var worldSprite = new cc.Sprite(res.world_png);
-        worldSprite.setAnchorPoint(new cc.p(0,0));
+        worldSprite.setAnchorPoint(new cc.p(0, 0));
         worldSprite.attr({ x: 0, y: 0 });
         // this.worldBackground.addChild(worldSprite, 0);
 
         // Add graticule to background
         var graticuleSprite = new cc.Sprite(res.grat_png);
-        graticuleSprite.setAnchorPoint(new cc.p(0,0))
+        graticuleSprite.setAnchorPoint(new cc.p(0, 0));
         graticuleSprite.attr({ x: 0, y: 0 });
         // this.worldBackground.addChild(graticuleSprite, 1);
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
-        this.map.setAnchorPoint(new cc.p(0,0));
+        this.map.setAnchorPoint(new cc.p(0, 0));
         this.map.attr({ x: 0, y: 0 });
         this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
@@ -467,9 +465,9 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             // Pan handling
-            onMouseMove: function(event){
-                if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
-                    var node = event.getCurrentTarget(); 
+            onMouseMove: function onMouseMove(event) {
+                if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
+                    var node = event.getCurrentTarget();
                     var scale = node.getScale();
                     var size = node.getContentSize();
                     var scaledX = scale * size.width;
@@ -477,26 +475,21 @@ var WorldLayer = cc.Layer.extend({
                     // Calculate margins adjusted for size
                     var marginX = node.width / (2 / (1e-06 + scale - 1));
                     var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
-                    if (node.x + event.getDeltaX() < marginX && 
-                        node.x + event.getDeltaX() > -marginX &&
-                        node.y + event.getDeltaY() < marginY && 
-                        node.y + event.getDeltaY() > -marginY ) {
+                    if (node.x + event.getDeltaX() < marginX && node.x + event.getDeltaX() > -marginX && node.y + event.getDeltaY() < marginY && node.y + event.getDeltaY() > -marginY) {
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
                     }
                 }
             },
             // Zoom handling
-            onMouseScroll: function(event){
-                var node = event.getCurrentTarget(); 
+            onMouseScroll: function onMouseScroll(event) {
+                var node = event.getCurrentTarget();
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
                 var newScale = node.getScale() * (1 + delta / 1000.0);
                 // Calculate margins adjusted for size
                 var marginX = node.width / (2 / (1e-06 + newScale - 1));
                 var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
-                if (newScale <= 10.0 && newScale >= 1.0 && 
-                    node.x < marginX && 
-                    node.x > -marginX) {
+                if (newScale <= 10.0 && newScale >= 1.0 && node.x < marginX && node.x > -marginX) {
                     node.setScale(newScale);
                 }
             }
@@ -512,17 +505,17 @@ var WorldLayer = cc.Layer.extend({
         // 50m Stereographic projection - 0.0
         for (var i = 0; i < 225; i++) {
             var l = this.map.getLayer("Tile Layer " + (i + 3));
-            l.setTileGID(0,cc.p(0,0))
+            l.setTileGID(0, cc.p(0, 0));
         }
 
         this.policyCartListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     gameParams.state = gameStates.PAUSED;
                     // world.controlListeners.forEach(listener => {
                     //     cc.eventManager.removeListener(listener);
@@ -537,7 +530,7 @@ var WorldLayer = cc.Layer.extend({
         });
 
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
-        layout.setAnchorPoint(new cc.p(0,0));
+        layout.setAnchorPoint(new cc.p(0, 0));
         layout.attr({ x: 0, y: 0 });
         this.addChild(layout, 100);
 
@@ -546,21 +539,21 @@ var WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy.setTitleFontName(FONT_FACE_BODY);
         this.btnDevelopPolicy.setTitleFontSize(24);
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
-        this.btnDevelopPolicy.setAnchorPoint(new cc.p(0,0));
+        this.btnDevelopPolicy.setAnchorPoint(new cc.p(0, 0));
         this.btnDevelopPolicy.setContentSize(cc.size(60, Y_OFFSET));
         this.btnDevelopPolicy.attr({ x: 20, y: 10 });
         // this.btnDevelopPolicy.setLayoutParameter(lp1);
         layout.addChild(this.btnDevelopPolicy);
         // this.controlBackground.addChild(this.btnDevelopPolicy);
-    
+
         this.statsListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     gameParams.state = gameStates.PAUSED;
                     layer = new StatsLayer(world);
                     world.parent.addChild(layer);
@@ -570,9 +563,9 @@ var WorldLayer = cc.Layer.extend({
                 return false;
             }
         });
-    
+
         var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
-        countryDetailLayout.setAnchorPoint(new cc.p(0,0));
+        countryDetailLayout.setAnchorPoint(new cc.p(0, 0));
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
         countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });
         // countryDetailLayout.setLayoutParameter(lp2);
@@ -594,13 +587,13 @@ var WorldLayer = cc.Layer.extend({
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLabel.setColor(COLOR_ICE);
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
-        this.countryLoss.setAnchorPoint(new cc.p(0,0));
-        this.countryLabel.setAnchorPoint(new cc.p(0,0));
-        this.countryAwarePrepared.setAnchorPoint(new cc.p(1,0));
+        this.countryLoss.setAnchorPoint(new cc.p(0, 0));
+        this.countryLabel.setAnchorPoint(new cc.p(0, 0));
+        this.countryAwarePrepared.setAnchorPoint(new cc.p(1, 0));
         countryDetailLayout.addChild(this.countryLoss);
         countryDetailLayout.addChild(this.countryLabel);
         countryDetailLayout.addChild(this.countryAwarePrepared);
-    
+
         this.worldStats = new ccui.Button();
         //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE_BODY, 24));
         this.worldStats.setTitleText("STATS");
@@ -608,41 +601,40 @@ var WorldLayer = cc.Layer.extend({
         this.worldStats.setTitleFontSize(24);
         this.worldStats.setTitleColor(COLOR_ICE);
         this.worldStats.setContentSize(cc.size(120, 80));
-        this.worldStats.setAnchorPoint(new cc.p(0,0));
+        this.worldStats.setAnchorPoint(new cc.p(0, 0));
         this.worldStats.attr({ x: this.width - 120 - 20, y: 10 });
         // this.worldStats.setLayoutParameter(lp3);
         layout.addChild(this.worldStats);
         // this.controlBackground.addChild(this.worldStats);
 
-        var addEmitter = function () {
+        var addEmitter = function addEmitter() {
             world._emitter = new cc.ParticleRain();
             world.worldBackground.addChild(world._emitter, 110);
-    
+
             world._emitter.life = 4;
-    
+
             world._emitter.texture = cc.textureCache.addImage("res/Images/fire.png");
             world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
 
             var sourcePos = world._emitter.getSourcePosition();
-            if (sourcePos.x === 0 && sourcePos.y === 0)
-                world._emitter.x = cc.director.getWinSize().width / 2;
-                world._emitter.y = cc.director.getWinSize().height / 2 - 50;
+            if (sourcePos.x === 0 && sourcePos.y === 0) world._emitter.x = cc.director.getWinSize().width / 2;
+            world._emitter.y = cc.director.getWinSize().height / 2 - 50;
         };
 
-        var beginSim = function() {
+        var beginSim = function beginSim() {
             gameParams.state = gameStates.PREPARED;
 
             // Add particle emitter
             //addEmitter();
         };
 
-        ShowMessageBoxOK(world, "Starting game...", world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function(that) {
+        ShowMessageBoxOK(world, "Starting game...", world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function (that) {
             var keys = Object.keys(world.countries);
             gameParams.startCountry = "UGA";
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
             gameParams.currentCountry = gameParams.startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
-            ShowMessageBoxOK(world, "Policy Fight-back", "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function(that) {
+            ShowMessageBoxOK(world, "Policy Fight-back", "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
             });
         });
@@ -650,7 +642,7 @@ var WorldLayer = cc.Layer.extend({
         return true;
     },
 
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var size = cc.winSize;
@@ -658,16 +650,21 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener(this.policyCartListener, this.btnDevelopPolicy);
         cc.eventManager.addListener(this.statsListener, this.worldStats);
 
-        var collisionDetection = function(points,test) {
+        var collisionDetection = function collisionDetection(points, test) {
             var crossed = false;
             var times = 0;
             // Double check the detection is within the widest bounds
-            var maxx = Math.max(...points.map(p => parseInt(p.x)));
+            var maxx = Math.max.apply(Math, _toConsumableArray(points.map(function (p) {
+                return parseInt(p.x);
+            })));
             for (var i = 0; i < points.length; i++) {
                 var p1 = points[i];
-                var p2 = (i == points.length - 1) ? points[0] : points[i+1];
-                var x1 = parseFloat(p1.x), y1 = parseFloat(p1.y), x2 = parseFloat(p2.x), y2 = parseFloat(p2.y);
-                if ((y1 < test.y && y2 >= test.y) || (y1 > test.y && y2 <= test.y)) {
+                var p2 = i == points.length - 1 ? points[0] : points[i + 1];
+                var x1 = parseFloat(p1.x),
+                    y1 = parseFloat(p1.y),
+                    x2 = parseFloat(p2.x),
+                    y2 = parseFloat(p2.y);
+                if (y1 < test.y && y2 >= test.y || y1 > test.y && y2 <= test.y) {
                     if ((x1 + x2) / 2.0 < test.x && test.x < maxx) {
                         times++;
                         crossed = !crossed;
@@ -676,53 +673,52 @@ var WorldLayer = cc.Layer.extend({
             }
             return crossed;
         };
-    
+
         var mappedTiles = {};
 
         // Sorts objects by their relative screen position, to avoid overlapping tiles
-        var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { 
-            return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x);  
+        var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function (a, b) {
+            return a.points[0].y * size.height + a.points[0].x > b.points[0].y * size.height + b.points[0].x;
         });
 
-
         // Generates min, max coordinates
-        var generateCoords = function(points) {
-            var minx = 0, miny = 0, maxx = 0, maxy = 0;
+        var generateCoords = function generateCoords(points) {
+            var minx = 0,
+                miny = 0,
+                maxx = 0,
+                maxy = 0;
             for (var i = 0; i < points.length; i++) {
                 var point = points[i];
-                if (minx == 0 || minx > parseInt(point.x)) 
-                    minx = parseInt(point.x);
-                if (miny == 0 || miny > parseInt(point.y)) 
-                    miny = parseInt(point.y);
-                if (maxx < parseInt(point.x)) 
-                    maxx = parseInt(point.x);
-                if (maxy < parseInt(point.y)) 
-                    maxy = parseInt(point.y);
+                if (minx == 0 || minx > parseInt(point.x)) minx = parseInt(point.x);
+                if (miny == 0 || miny > parseInt(point.y)) miny = parseInt(point.y);
+                if (maxx < parseInt(point.x)) maxx = parseInt(point.x);
+                if (maxy < parseInt(point.y)) maxy = parseInt(point.y);
             };
             return { minx: minx, miny: miny, maxx: maxx, maxy: maxy };
         };
         // Create country centroids
-        var centroids = function(points) { 
-            var totalX = 0, totalY = 0;
-            points.forEach(function(pt) {
+        var centroids = function centroids(points) {
+            var totalX = 0,
+                totalY = 0;
+            points.forEach(function (pt) {
                 totalX += parseFloat(pt.x);
                 totalY += parseFloat(pt.y);
             });
-            return { x: totalX / points.length, y: totalY / points.length }
+            return { x: totalX / points.length, y: totalY / points.length };
         };
         // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
-        var areas = function(points) { 
+        var areas = function areas(points) {
             var area = 0;
             for (var i = 0; i < points.length - 1; i++) {
                 var pt1 = points[i];
-                var pt2 = points[i+1];
+                var pt2 = points[i + 1];
                 var xy1 = pt1.x * pt2.y;
                 var xy2 = pt1.y * pt2.x;
                 area += Math.abs(xy1 - xy2);
             }
             return area / 2;
         };
-        world.countries = world.map.objectGroups[0].getObjects().reduce(function(map, obj) {  
+        world.countries = world.map.objectGroups[0].getObjects().reduce(function (map, obj) {
             if (!map[obj.name]) {
                 map[obj.name] = {
                     name: obj.NAME,
@@ -730,7 +726,7 @@ var WorldLayer = cc.Layer.extend({
                     extremes: generateCoords(obj.points),
                     area: areas(obj.points),
                     points: obj.points,
-                    
+
                     affected_chance: 0.0,
                     pop_est: parseInt(obj.POP_EST),
                     pop_aware: 0,
@@ -757,32 +753,31 @@ var WorldLayer = cc.Layer.extend({
                     policyPoints: [],
                     policyDots: [],
                     destructionPoints: [],
-                    destructionDots: []    
+                    destructionDots: []
                 };
-            } 
-            return map; 
+            }
+            return map;
         }, {});
 
         // Add proportion of main land mass with shared borders
         var countryKeys = Object.keys(world.countries);
         var allPoints = {};
-        countryKeys.forEach(k => {
+        countryKeys.forEach(function (k) {
             var c = world.countries[k];
-            c.points.forEach(p => {
-                var pStr = p.x +"-"+p.y;
+            c.points.forEach(function (p) {
+                var pStr = p.x + "-" + p.y;
                 if (allPoints[pStr]) {
                     allPoints[pStr].push(c.iso_a3);
-                }
-                else {
+                } else {
                     allPoints[pStr] = [c.iso_a3];
                 }
             });
         });
-        Object.keys(allPoints).forEach(k => {
+        Object.keys(allPoints).forEach(function (k) {
             var countries = allPoints[k];
-            countries.forEach(c1 => {
+            countries.forEach(function (c1) {
                 var country = world.countries[c1];
-                countries.forEach(c2 => {
+                countries.forEach(function (c2) {
                     if (c1 != c2) {
                         if (country.neighbours.indexOf(c2) == -1) {
                             country.neighbours.push(c2);
@@ -793,22 +788,20 @@ var WorldLayer = cc.Layer.extend({
                 country.points_total += 1;
             });
         });
-        Object.keys(world.countries).forEach(c => {
+        Object.keys(world.countries).forEach(function (c) {
             var country = world.countries[c];
             country.shared_border_percentage = country.points_shared / country.points_total;
-            if (country.shared_border_percentage > 1.0)
-                country.shared_border_percentage = 1.0;
+            if (country.shared_border_percentage > 1.0) country.shared_border_percentage = 1.0;
         });
-        
 
         // Add population density
-        Object.keys(world.countries).forEach(c => { 
+        Object.keys(world.countries).forEach(function (c) {
             var country = world.countries[c];
             country.density = country.pop_est / country.area;
-        } );
+        });
         world.areaMin = 0, world.areaMax = 0, world.areaMean = 0;
         world.areaMinCountry = "", world.areaMaxCountry = "";
-        Object.keys(world.countries).forEach(function(c) {
+        Object.keys(world.countries).forEach(function (c) {
             var country = world.countries[c];
             if (world.areaMin == 0 || world.areaMin > country.area) {
                 world.areaMin = country.area;
@@ -816,33 +809,41 @@ var WorldLayer = cc.Layer.extend({
             }
             if (world.areaMax < country.area) {
                 world.areaMax = country.area;
-                world.areaMaxCountry = c; 
+                world.areaMaxCountry = c;
             }
             world.areaMean += country.area;
         });
         world.areaMean /= Object.keys(world.countries).length;
         world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
-        Object.keys(world.countries).forEach(function(c) {
+        Object.keys(world.countries).forEach(function (c) {
             var country = world.countries[c];
             country.numPoints = Math.ceil(country.area / world.areaMean);
         });
 
         // Add world populations
-        gameParams.populationWorld = Object.keys(world.countries).map(c => { return world.countries[c].pop_est; }).reduce((a, c) => {return a + parseInt(c);}, 0);
+        gameParams.populationWorld = Object.keys(world.countries).map(function (c) {
+            return world.countries[c].pop_est;
+        }).reduce(function (a, c) {
+            return a + parseInt(c);
+        }, 0);
 
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
-            var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
-            var cs = tilelayer.getContentSize(), cw = cs.width, ch = cs.height;
-            for (var k = 0; k < tilelayer.layerWidth; k++){
-                for (var l = 0; l < tilelayer.layerHeight; l++){
+            var mts = tilelayer.getMapTileSize(),
+                mw = mts.width,
+                mh = mts.height;
+            var cs = tilelayer.getContentSize(),
+                cw = cs.width,
+                ch = cs.height;
+            for (var k = 0; k < tilelayer.layerWidth; k++) {
+                for (var l = 0; l < tilelayer.layerHeight; l++) {
                     var tx = k * mw + mw / 2 - poly.x;
-                    var ty = (l * mh + mh / 2) - (ch - poly.y);
+                    var ty = l * mh + mh / 2 - (ch - poly.y);
                     var tp = new cc.p(tx, ty);
 
                     var cd = collisionDetection(poly.points, tp);
-                    if (cd) { 
-                        if (typeof(mappedTiles[poly]) === "undefined") {
+                    if (cd) {
+                        if (typeof mappedTiles[poly] === "undefined") {
                             mappedTiles[poly] = [];
                         }
                         var p = new cc.p(k, l);
@@ -853,14 +854,15 @@ var WorldLayer = cc.Layer.extend({
         }
 
         var oldLayers = [];
-        var currentCountry = null, currentCountryData = null;
+        var currentCountry = null,
+            currentCountryData = null;
         var lastLayerID = -1;
 
         var resListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
@@ -870,7 +872,7 @@ var WorldLayer = cc.Layer.extend({
                     if (!gameParams.resourcesAdded) {
                         gameParams.state = gameStates.PAUSED;
                         gameParams.resourcesAdded = true;
-                        ShowMessageBoxOK(world, "NOTICE", "Click on the 'POLICY' button to spend your resources.", "OK!", function() {
+                        ShowMessageBoxOK(world, "NOTICE", "Click on the 'POLICY' button to spend your resources.", "OK!", function () {
                             gameParams.state = gameStates.STARTED;
                         });
                     }
@@ -878,51 +880,57 @@ var WorldLayer = cc.Layer.extend({
                 }
                 return false;
             }
-        });  
+        });
         var crisisListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    gameParams.crisisCountry = null;                    
+                    gameParams.crisisCountry = null;
                     target.removeFromParent();
                     gameParams.state = gameStates.PAUSED;
-                    ShowMessageBoxOK(world, "Crisis alert!", crisis.name + " has been averted!", "OK!", function() {
+                    ShowMessageBoxOK(world, "Crisis alert!", crisis.name + " has been averted!", "OK!", function () {
                         gameParams.state = gameStates.STARTED;
                     });
                     return true;
                 }
                 return false;
             }
-        });  
-        
-        var printDate = function(world) {
+        });
+
+        var printDate = function printDate(world) {
             // world.dayLabel.setString(gameParams.currentDate.getDate());
             world.monthLabel.setString((gameParams.currentDate.getMonth() + 1).toString());
-            world.yearLabel.setString((gameParams.currentDate.getFullYear()).toString());
+            world.yearLabel.setString(gameParams.currentDate.getFullYear().toString());
         };
 
-        var generatePoint = function(points, coords) {
-            var minx = coords.minx, miny = coords.miny, maxx = coords.maxx, maxy = coords.maxy;
-            var testx = -1, testy = -1, k = 0, maxTries = 3;
+        var generatePoint = function generatePoint(points, coords) {
+            var minx = coords.minx,
+                miny = coords.miny,
+                maxx = coords.maxx,
+                maxy = coords.maxy;
+            var testx = -1,
+                testy = -1,
+                k = 0,
+                maxTries = 3;
             var cd = false;
-            var p  = null;
+            var p = null;
             do {
                 testx = minx + Math.floor(Math.random() * (maxx - minx));
                 testy = miny + Math.floor(Math.random() * (maxy - miny));
                 cd = collisionDetection(points, cc.p(testx, testy));
-            } while (! cd && (k++) < maxTries);
+            } while (!cd && k++ < maxTries);
             if (cd) {
-                testy = (size.height - Y_OFFSET) - testy;
-                p = cc.p(testx, testy); 
+                testy = size.height - Y_OFFSET - testy;
+                p = cc.p(testx, testy);
             }
             return p;
         };
 
-        var generatePointsForCountry = function(country, policy, min, max) {
+        var generatePointsForCountry = function generatePointsForCountry(country, policy, min, max) {
             var batchNode = world.spriteBackground.getChildByTag(TAG_SPRITE_BATCH_NODE);
             var coords = country.points;
             var points = []; //country.policyPoints;
@@ -930,8 +938,7 @@ var WorldLayer = cc.Layer.extend({
             if (policy) {
                 points = country.policyPoints;
                 dots = country.policyDots;
-            }
-            else {
+            } else {
                 points = country.destructionPoints;
                 dots = country.destructionDots;
             }
@@ -939,8 +946,7 @@ var WorldLayer = cc.Layer.extend({
 
             min = Math.round(min);
             max = Math.round(max);
-            if (min < 0 || max < 0)
-                return;
+            if (min < 0 || max < 0) return;
             if (min > max) {
                 // Sprite-based dots
                 /*
@@ -951,14 +957,12 @@ var WorldLayer = cc.Layer.extend({
                 }
                 */
                 points = points.slice(0, max - 1);
-            }
-            else {
+            } else {
                 var sqrt = Math.sqrt(country.area);
-                if (points.length + ( max - min) * country.numPoints > sqrt)
-                    return;
+                if (points.length + (max - min) * country.numPoints > sqrt) return;
                 for (var j = min; j < max; j++) {
                     var numPoints = country.numPoints;
-                    for (var k  = 0; k < numPoints; k++) {
+                    for (var k = 0; k < numPoints; k++) {
                         var p = generatePoint(coords, extremes);
                         if (p != null && points.indexOf(p) === -1) {
                             /*
@@ -974,8 +978,7 @@ var WorldLayer = cc.Layer.extend({
                             // sprite.attr({x: p.x, y: p.y});
                             sprite.setAnchorPoint(cc.p(0, 0));
                             sprite.setPosition(p);
-
-                            batchNode.addChild(sprite, 1);
+                             batchNode.addChild(sprite, 1);
                             dots.push(sprite);
                             */
                             points.push(p);
@@ -985,7 +988,7 @@ var WorldLayer = cc.Layer.extend({
             }
             return points;
         };
-        var generatePoints = function() {
+        var generatePoints = function generatePoints() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
                 var existingConvincedPercentage = country.pop_prepared_percent;
@@ -996,17 +999,17 @@ var WorldLayer = cc.Layer.extend({
         };
         generatePoints();
 
-        var genNormRand = function() {
+        var genNormRand = function genNormRand() {
             // Produce a random value from a normal distribution with a mean of 120.
             // var r = (Math.random() - 0.5) * 2.0;
             // var rr2 = (r * r) / 2.0;
             // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
             return 100.0;
         };
-        var drawPoints = function() {
-            if (typeof(world.renderer) === "undefined") {
+        var drawPoints = function drawPoints() {
+            if (typeof world.renderer === "undefined") {
                 var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
-                rend.setPosition(size.width/2,size.height/2);
+                rend.setPosition(size.width / 2, size.height / 2);
                 world.worldBackground.addChild(rend, 99);
                 world.renderer = rend;
                 world.renderer.setOpacity(100);
@@ -1054,27 +1057,27 @@ var WorldLayer = cc.Layer.extend({
         drawPoints();
         world.drawPoints = drawPoints;
 
-        var printCountryStats = function(){
+        var printCountryStats = function printCountryStats() {
             var country = world.countries[gameParams.currentCountry];
-            world.countryLoss.setString((Math.round(world.countries["UGA"].loss * 100) / 100).toLocaleString() + "% lost" );
+            world.countryLoss.setString((Math.round(world.countries["UGA"].loss * 100) / 100).toLocaleString() + "% lost");
             world.countryLabel.setString(country.name);
-            var aware = (Math.round(country.pop_aware / 10000) / 100).toLocaleString()
-            var prepared = (Math.round(country.pop_prepared / 10000) / 100).toLocaleString()
+            var aware = (Math.round(country.pop_aware / 10000) / 100).toLocaleString();
+            var prepared = (Math.round(country.pop_prepared / 10000) / 100).toLocaleString();
             world.countryAwarePrepared.setString(aware + "M aware / " + prepared + "M prepared");
         };
 
-        var printWorldStats = function(){
-            world.countryLoss.setString((Math.round(gameParams.totalLoss * 100) / 100).toLocaleString() + "% lost" );
+        var printWorldStats = function printWorldStats() {
+            world.countryLoss.setString((Math.round(gameParams.totalLoss * 100) / 100).toLocaleString() + "% lost");
             world.countryLabel.setString("World");
             // world.countryAwarePrepared.setString(Math.round(gameParams.populationPrepared).toLocaleString() + "M prepared");
-            var aware = (Math.round(gameParams.populationAware / 10000) / 100).toLocaleString()
-            var prepared = (Math.round(gameParams.populationPrepared / 10000) / 100).toLocaleString()
+            var aware = (Math.round(gameParams.populationAware / 10000) / 100).toLocaleString();
+            var prepared = (Math.round(gameParams.populationPrepared / 10000) / 100).toLocaleString();
             world.countryAwarePrepared.setString(aware + "M aware / " + prepared + "M prepared");
         };
 
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 if (currentCountry != null && gameParams.startCountry == null && gameParams.state === gameStates.PREPARED) {
                     gameParams.startCountry = currentCountry;
                     gameParams.currentCountry = currentCountry;
@@ -1083,8 +1086,7 @@ var WorldLayer = cc.Layer.extend({
                 if (currentCountry != null && gameParams.state === gameStates.STARTED) {
                     gameParams.currentCountry = currentCountry;
                     // printCountryStats();
-                }
-                else {
+                } else {
                     gameParams.currentCountry = null;
                     // printWorldStats();
                 }
@@ -1097,15 +1099,15 @@ var WorldLayer = cc.Layer.extend({
                     country.affected_chance = 1.0;
                     startGameParams();
                     printDate(world);
-                    
+
                     world.controlsBackground.getChildByName('pause').enabled = true;
                     world.controlsBackground.getChildByName('play').enabled = true;
                     world.controlsBackground.getChildByName('fast').enabled = true;
 
                     var buttons = [];
-                                            
+
                     // Add chance of new resource
-                    var addResource = function() {
+                    var addResource = function addResource() {
                         var r = Math.random();
                         if (gameParams.counter - gameParams.lastResource >= gameParams.resourceInterval) {
                             if (r < RESOURCE_CHANCE) {
@@ -1116,7 +1118,7 @@ var WorldLayer = cc.Layer.extend({
                                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                                 var pt = countryRand.centroid;
-                                btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y });
+                                btnRes.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y });
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                                 // btnRes.setColor(COLOR_RESOURCE);
                                 btnRes.placedAt = gameParams.counter;
@@ -1126,7 +1128,7 @@ var WorldLayer = cc.Layer.extend({
                                 if (!gameParams.alertResources) {
                                     gameParams.state = gameStates.PAUSED;
                                     gameParams.alertResources = true;
-                                    ShowMessageBoxOK(world, "Notice", "Click on the blue icons to add resources", "OK!", function(that) {
+                                    ShowMessageBoxOK(world, "Notice", "Click on the blue icons to add resources", "OK!", function (that) {
                                         gameParams.state = gameStates.STARTED;
                                     });
                                 }
@@ -1134,26 +1136,25 @@ var WorldLayer = cc.Layer.extend({
                             gameParams.lastResource = gameParams.counter;
                         }
                     };
-                                            
+
                     /**
                      * Calculate the probability distribution of crisis & country
-                     */ 
-                    var crisisProbDistribution = function() {
+                     */
+                    var crisisProbDistribution = function crisisProbDistribution() {
                         var probs = [];
                         var crisisKeys = Object.keys(CRISES);
                         var countryKeys = Object.keys(world.countries);
                         var denom = 0;
-                        crisisKeys.forEach(ck => {
+                        crisisKeys.forEach(function (ck) {
                             var crisis = CRISES[ck];
-                            countryKeys.forEach(yk => {
+                            countryKeys.forEach(function (yk) {
                                 var country = world.countries[yk];
                                 var lossProp = country.loss / gameParams.totalLoss;
                                 var preparedProp = country.pop_prepared_percent / gameParams.populationPreparedPercent;
                                 var totalInfluence = 1.0;
                                 totalInfluence += lossProp * crisis.influence_of_environmental_loss;
                                 totalInfluence += preparedProp * crisis.influence_of_preparedness;
-                                if (isNaN(totalInfluence))
-                                    totalInfluence = 1.0;
+                                if (isNaN(totalInfluence)) totalInfluence = 1.0;
                                 denom += totalInfluence;
                                 probs.push(totalInfluence);
                             });
@@ -1164,7 +1165,7 @@ var WorldLayer = cc.Layer.extend({
                         return probs;
                     };
 
-                    var crisisProbLocation = function(r) {
+                    var crisisProbLocation = function crisisProbLocation(r) {
                         var probs = crisisProbDistribution();
                         var crisisKeys = Object.keys(CRISES);
                         var countryKeys = Object.keys(world.countries);
@@ -1183,7 +1184,7 @@ var WorldLayer = cc.Layer.extend({
                         return crisisCountry;
                     };
 
-                    var addCrisis = function() {
+                    var addCrisis = function addCrisis() {
                         var r = Math.random();
                         if (gameParams.counter - gameParams.lastCrisis >= gameParams.crisisInterval) {
                             if (r < CRISIS_CHANCE) {
@@ -1199,7 +1200,7 @@ var WorldLayer = cc.Layer.extend({
                                 // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
                                 btnCrisis.loadTextures(crisis.image, "", "");
                                 var pt = country.centroid;
-                                btnCrisis.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y });
+                                btnCrisis.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y });
                                 btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                                 // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                                 btnCrisis.placedAt = gameParams.counter;
@@ -1208,18 +1209,17 @@ var WorldLayer = cc.Layer.extend({
                                 if (!gameParams.alertCrisis) {
                                     gameParams.state = gameStates.PAUSED;
                                     gameParams.alertCrisis = true;
-                                    ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function(that) {
+                                    ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
                                         gameParams.state = gameStates.STARTED;
                                     });
                                 }
-                                
                             }
                             gameParams.lastCrisis = gameParams.counter;
                         }
                     };
 
                     // Evaluates loss
-                    var evaluateLoss = function(country) {
+                    var evaluateLoss = function evaluateLoss(country) {
                         var loss = country.previousLoss;
 
                         var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
@@ -1228,7 +1228,7 @@ var WorldLayer = cc.Layer.extend({
                         loss = (1 + loss) * (1 + rateOfLoss) - 1;
 
                         // Weaken rate of loss by population convinced of good policy
-                        loss /= (1 + country.pop_prepared_percent / 100.0);
+                        loss /= 1 + country.pop_prepared_percent / 100.0;
 
                         if (gameParams.crisisCountry != null) {
                             var crisis = CRISES[gameParams.crisisCountry.crisis];
@@ -1244,10 +1244,14 @@ var WorldLayer = cc.Layer.extend({
                     };
 
                     // Shuffle from https://gist.github.com/guilhermepontes/17ae0cc71fa2b13ea8c20c94c5c35dc4
-                    const shuffleArray = a => a.sort(() => Math.random() - 0.5);
+                    var shuffleArray = function shuffleArray(a) {
+                        return a.sort(function () {
+                            return Math.random() - 0.5;
+                        });
+                    };
 
                     // Transmit
-                    var transmitFrom = function(country) {
+                    var transmitFrom = function transmitFrom(country) {
                         var neighbours = country.neighbours;
                         var sharedBorder = country.shared_border_percentage;
                         var transmissionLand = world.scenarioData.threat_details.transmission.transmission_land;
@@ -1260,16 +1264,16 @@ var WorldLayer = cc.Layer.extend({
                         var popCountry = country.pop_est;
                         var popWorld = gameParams.populationWorld;
                         var popFactor = Math.log(popCountry) / Math.log(popWorld);
-                        
+
                         var income = country.income_grp;
                         var incomeVal = parseFloat(income.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
-                        
+
                         var landProb = sharedBorder * transmissionLand * likelihoodOfTransmission * popFactor * incomeVal;
                         // Sea probability increases with (a) low shared border and (b) high income and (c) high population
-                        var seaProb = (1  - sharedBorder)  * transmissionSea * likelihoodOfTransmission * popFactor * (1 - incomeVal);
+                        var seaProb = (1 - sharedBorder) * transmissionSea * likelihoodOfTransmission * popFactor * (1 - incomeVal);
                         // Air probability increases with (a) low shared border and (b) high income and (c) high population
                         var airProb = sharedBorder * transmissionAir * likelihoodOfTransmission * popFactor * (1 - incomeVal);
-                        
+
                         var candidateCountry = null;
 
                         // Start with land
@@ -1279,48 +1283,43 @@ var WorldLayer = cc.Layer.extend({
                             if (neighbour.policy == 0) {
                                 candidateCountry = neighbour;
                             }
-                        }
-                        else if (Math.random() < seaProb) {
+                        } else if (Math.random() < seaProb) {
                             var countriesShuffled = shuffleArray(Object.keys(world.countries));
                             var countryChance = Math.random();
                             for (var i = 0; i < countriesShuffled.length; i++) {
                                 var countryCheck = world.countries[countriesShuffled[i]];
-                                if (countryChance < ( 1 - countryCheck.shared_border_percentage ) && countryCheck.policy == 0) {
+                                if (countryChance < 1 - countryCheck.shared_border_percentage && countryCheck.policy == 0) {
                                     candidateCountry = countryCheck;
                                     break;
                                 }
                             }
-                        }
-                        else if (Math.random() < airProb) {
+                        } else if (Math.random() < airProb) {
                             var countriesShuffled = shuffleArray(Object.keys(world.countries));
                             var countryChance = Math.random();
                             for (var i = 0; i < countriesShuffled.length; i++) {
                                 var countryCheck = world.countries[countriesShuffled[i]];
                                 var incomeCheck = countryCheck.income_grp;
                                 var incomeValCheck = parseFloat(incomeCheck.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
-                                if (countryChance < ( 1 - incomeValCheck ) && countryCheck.policy == 0) {
+                                if (countryChance < 1 - incomeValCheck && countryCheck.policy == 0) {
                                     candidateCountry = countryCheck;
                                     break;
                                 }
                             }
                         }
-                        if (candidateCountry != null ) {
+                        if (candidateCountry != null) {
                             candidateCountry.affected_chance = 0.1;
-                            if (country.affected_chance < 1.0)
-                                country.affected_chance *= 0.1;
+                            if (country.affected_chance < 1.0) country.affected_chance *= 0.1;
                             candidateCountry.policy = 1.0;
                             candidateCountry.pop_aware = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
                         }
                     };
 
-                    var infectWithin = function(country) {
-                        if (country.affected_chance == 0)
-                            return;
+                    var infectWithin = function infectWithin(country) {
+                        if (country.affected_chance == 0) return;
                         var popCountry = country.pop_est;
                         var popInfected = country.pop_aware;
 
-                        if (country.pop_aware >= parseInt(country.pop_est))
-                            return;
+                        if (country.pop_aware >= parseInt(country.pop_est)) return;
 
                         // Calculate infectivity
                         var infectivityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.infectivity_increase_speed;
@@ -1328,23 +1327,23 @@ var WorldLayer = cc.Layer.extend({
 
                         var infectivityRate = infectivityIncreaseSpeed;
 
-                        gameParams.strategies.forEach(strategy => {
-                            switch(strategy.id) {
+                        gameParams.strategies.forEach(function (strategy) {
+                            switch (strategy.id) {
                                 case 1:
                                     // Increase infectivity when reducing inequality for low income countries
-                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    infectivityRate *= Math.log(1 + country.income_grp_num);
                                     break;
                                 case 2:
                                     // Increase infectivity with free trade countries for high income countries
-                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    infectivityRate *= Math.log((5 + 1 - country.income_grp_num) * 1.1);
                                     break;
                                 case 3:
                                     // Increase infectivity with regulations for high income countries
-                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    infectivityRate *= Math.log((5 + 1 - country.income_grp_num) * 1.1);
                                     break;
                                 case 4:
                                     // Increase infectivity with automation for high income countries
-                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    infectivityRate *= Math.log((5 + 1 - country.income_grp_num) * 1.1);
                                     break;
                                 case 5:
                                     // Increase infectivity 
@@ -1356,54 +1355,51 @@ var WorldLayer = cc.Layer.extend({
                                     break;
                                 case 7:
                                     // Increase infectivity with boosted military for high income countries
-                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    infectivityRate *= Math.log((5 + 1 - country.income_grp_num) * 1.1);
                                     break;
                                 case 8:
                                     // Increase infectivity when boosting democracy for low income countries
-                                    infectivityRate *= (Math.log(2 + country.income_grp_num));
+                                    infectivityRate *= Math.log(2 + country.income_grp_num);
                                     break;
                                 case 9:
                                     // Increase infectivity when boosting democracy for low income countries
-                                    infectivityRate *= (Math.log(2 + country.income_grp_num));
+                                    infectivityRate *= Math.log(2 + country.income_grp_num);
                                     break;
                                 case 10:
                                     // Increase infectivity with social media for high income countries
-                                    infectivityRate *= (Math.log((((5 + 2) - country.income_grp_num)) * 0.8));
+                                    infectivityRate *= Math.log((5 + 2 - country.income_grp_num) * 0.8);
                                     break;
                                 case 11:
                                     // Increase infectivity with celebrity endorsements for high income countries
-                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    infectivityRate *= Math.log(1 + country.income_grp_num);
                                     break;
                                 case 12:
                                     // Increase infectivity with festivals for high income countries
-                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    infectivityRate *= Math.log(1 + country.income_grp_num);
                                     break;
                                 case 13:
                                     // Increase infectivity with green cities for high income countries
-                                    infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    infectivityRate *= Math.log((5 + 1 - country.income_grp_num) * 1.1);
                                     break;
                                 case 14:
-                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    infectivityRate *= Math.log(1 + country.income_grp_num);
                                     break;
                                 case 15:
-                                infectivityRate *= (Math.log((((5 + 1) - country.income_grp_num)) * 1.1));
+                                    infectivityRate *= Math.log((5 + 1 - country.income_grp_num) * 1.1);
                                     break;
                                 case 16:
-                                    infectivityRate *= (Math.log(1 + country.income_grp_num));
+                                    infectivityRate *= Math.log(1 + country.income_grp_num);
                                     break;
                             };
                         });
 
-                        if ((infectivityRate - 1) < infectivityMinimumIncrease)
-                            infectivityRate = 1 + infectivityMinimumIncrease;
+                        if (infectivityRate - 1 < infectivityMinimumIncrease) infectivityRate = 1 + infectivityMinimumIncrease;
                         country.pop_aware = (1 + country.pop_aware) * infectivityRate;
-                        if (country.pop_aware > country.pop_est)
-                            country.pop_aware = country.pop_est;
+                        if (country.pop_aware > country.pop_est) country.pop_aware = country.pop_est;
                     };
 
-                    var registerSeverityWithin = function(country) {
-                        if (country.affected_chance == 0)
-                            return;
+                    var registerSeverityWithin = function registerSeverityWithin(country) {
+                        if (country.affected_chance == 0) return;
                         var popInfected = country.pop_aware;
                         var popConvinced = country.pop_prepared;
 
@@ -1413,8 +1409,11 @@ var WorldLayer = cc.Layer.extend({
 
                         var strategyCount = gameParams.strategies.length / 16;
                         var domainMean = strategyCount / 4;
-                        var ecn = 0, pol = 0, cul = 0, eco = 0;
-                        gameParams.strategies.forEach(s => {
+                        var ecn = 0,
+                            pol = 0,
+                            cul = 0,
+                            eco = 0;
+                        gameParams.strategies.forEach(function (s) {
                             switch (s.domain) {
                                 case 1:
                                     ecn++;
@@ -1432,10 +1431,9 @@ var WorldLayer = cc.Layer.extend({
                         });
                         var variances = 1 + Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
                         var severityEffect = strategyCount / variances;
-                        
 
                         // NEW CALCULATION
-                        
+
                         // Calculate impact of strategies
                         for (var i = 0; i < gameParams.strategies.length; i++) {
                             var strategy = gameParams.strategies[i];
@@ -1444,29 +1442,27 @@ var WorldLayer = cc.Layer.extend({
                             var pop = parseInt(country.pop_est);
                             // https://content.meteoblue.com/en/meteoscool/general-climate-zones
                             if (pop < 10000000) {
-                                severityEffect *= (1 + strategy.effect_on_pop_low);
-                            }
-                            else if (pop < 100000000) {
-                                severityEffect *= (1 + strategy.effect_on_pop_medium);
-                            }
-                            else {
-                                severityEffect *= (1 + strategy.effect_on_pop_high);
+                                severityEffect *= 1 + strategy.effect_on_pop_low;
+                            } else if (pop < 100000000) {
+                                severityEffect *= 1 + strategy.effect_on_pop_medium;
+                            } else {
+                                severityEffect *= 1 + strategy.effect_on_pop_high;
                             }
 
                             // Check income
-                            switch (country.income_grp_num ) {
+                            switch (country.income_grp_num) {
                                 case 1:
                                 case 2:
-                                    severityEffect *= (1 + strategy.effect_on_income_high);
+                                    severityEffect *= 1 + strategy.effect_on_income_high;
                                     break;
                                 case 3:
-                                    severityEffect *= (1 + strategy.effect_on_income_medium_high);
+                                    severityEffect *= 1 + strategy.effect_on_income_medium_high;
                                     break;
                                 case 4:
-                                    severityEffect *= (1 + strategy.effect_on_income_low_medium);
+                                    severityEffect *= 1 + strategy.effect_on_income_low_medium;
                                     break;
                                 case 5:
-                                    severityEffect *= (1 + strategy.effect_on_income_low);
+                                    severityEffect *= 1 + strategy.effect_on_income_low;
                                     break;
                             }
 
@@ -1474,16 +1470,13 @@ var WorldLayer = cc.Layer.extend({
                             var latitude = parseFloat(country.equator_dist);
                             // https://content.meteoblue.com/en/meteoscool/general-climate-zones
                             if (latitude > -23.5 && latitude < 23.5) {
-                                severityEffect *= (1 + strategy.effect_on_geo_tropic);
-                            }
-                            else if (latitude > -40 && latitude < 40) {
-                                severityEffect *= (1 + strategy.effect_on_geo_subtropic);
-                            }
-                            else if (latitude > -60 && latitude < 60) {
-                                severityEffect *= (1 + strategy.effect_on_geo_temperate);
-                            }
-                            else {
-                                severityEffect *= (1 + strategy.effect_on_geo_polar);
+                                severityEffect *= 1 + strategy.effect_on_geo_tropic;
+                            } else if (latitude > -40 && latitude < 40) {
+                                severityEffect *= 1 + strategy.effect_on_geo_subtropic;
+                            } else if (latitude > -60 && latitude < 60) {
+                                severityEffect *= 1 + strategy.effect_on_geo_temperate;
+                            } else {
+                                severityEffect *= 1 + strategy.effect_on_geo_polar;
                             }
 
                             // Calculate impact of other strategies
@@ -1493,28 +1486,25 @@ var WorldLayer = cc.Layer.extend({
 
                                 var otherStrategy = gameParams.strategies[j];
                                 var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
-                                if (typeof(relation) !== "undefined") {
+                                if (typeof relation !== "undefined") {
                                     severityEffect *= relation;
                                 }
                             }
                         }
 
                         severityEffect *= severityIncreaseSpeed;
-                        if (severityIncreaseSpeed < severityMinimumIncrease) 
-                            severityIncreaseSpeed = severityMinimumIncrease;
+                        if (severityIncreaseSpeed < severityMinimumIncrease) severityIncreaseSpeed = severityMinimumIncrease;
                         if (popConvinced == 0) {
                             popConvinced = popInfected * 0.01;
-                        }
-                        else {
-                            popConvinced *= (1 + severityEffect);
+                        } else {
+                            popConvinced *= 1 + severityEffect;
                         }
                         country.pop_prepared = popConvinced;
-                        if (country.pop_prepared > country.pop_aware)
-                            country.pop_prepared = country.pop_aware;
+                        if (country.pop_prepared > country.pop_aware) country.pop_prepared = country.pop_aware;
                     };
-                    
+
                     // Updates the game state at regular intervals
-                    var updateTime = function() {
+                    var updateTime = function updateTime() {
                         if (gameParams.state == gameStates.STARTED) {
                             var d = gameParams.currentDate;
                             gameParams.counter++;
@@ -1523,9 +1513,12 @@ var WorldLayer = cc.Layer.extend({
                                 gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
 
                                 // Add policy robustness and loss
-                                var totalPolicy = 0, totalLoss = 0;
-                                var countriedAffected = 0, populationAware = 0, populationPrepared = 0;
-                                Object.keys(world.countries).forEach( key => {
+                                var totalPolicy = 0,
+                                    totalLoss = 0;
+                                var countriedAffected = 0,
+                                    populationAware = 0,
+                                    populationPrepared = 0;
+                                Object.keys(world.countries).forEach(function (key) {
                                     var country = world.countries[key];
                                     var loss = evaluateLoss(country);
                                     if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
@@ -1545,11 +1538,9 @@ var WorldLayer = cc.Layer.extend({
                                         var existingConvincedPercentage = country.pop_prepared_percent;
                                         country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
                                         var imin = 0;
-                                        if (existingConvincedPercentage > 0.5) 
-                                            imin = parseInt(existingConvincedPercentage);
+                                        if (existingConvincedPercentage > 0.5) imin = parseInt(existingConvincedPercentage);
                                         var imax = 0;
-                                        if (country.pop_prepared_percent > 0.5) 
-                                            imax = parseInt(country.pop_prepared_percent);
+                                        if (country.pop_prepared_percent > 0.5) imax = parseInt(country.pop_prepared_percent);
                                         generatePointsForCountry(country, true, imin, imax);
                                     }
                                     totalPolicy += country.policy;
@@ -1569,14 +1560,11 @@ var WorldLayer = cc.Layer.extend({
                                 gameParams.populationPreparedPercent = 100 * gameParams.populationPrepared / gameParams.populationWorld;
 
                                 drawPoints();
-                                if (gameParams.currentCountry != null)
-                                    printCountryStats();
-                                else {
+                                if (gameParams.currentCountry != null) printCountryStats();else {
                                     printWorldStats();
                                 }
-                
                             }
-                            
+
                             var ri = gameParams.resourceInterval;
                             if (gameParams.crisisCountry != null) {
                                 var crisis = CRISES[gameParams.crisisCountry.crisis];
@@ -1591,17 +1579,16 @@ var WorldLayer = cc.Layer.extend({
                             }
 
                             var newButtons = [];
-                            for (var i = 0; i < buttons.length; i++){
+                            for (var i = 0; i < buttons.length; i++) {
                                 var button = buttons[i];
                                 if (gameParams.counter > button.placedAt + RESOURCE_DURATION) {
                                     button.removeFromParent();
-                                }
-                                else {
+                                } else {
                                     newButtons.push(button);
                                 }
                             }
                             buttons = newButtons;
-                            
+
                             // Update labels
                             world.resourceScoreLabel.setString(gameParams.resources);
                             printDate(world);
@@ -1609,17 +1596,16 @@ var WorldLayer = cc.Layer.extend({
                             // Scroll text
                             if (world.tweetLabel.x > -300) {
                                 world.tweetLabel.setPositionX(world.tweetLabel.x - 1);
-                            }
-                            else {
+                            } else {
                                 // Change label
                                 if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
                                     var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
-                                    var message = gameParams.scenarioName, messageIndex = -1;
+                                    var message = gameParams.scenarioName,
+                                        messageIndex = -1;
                                     if (Math.random() < weight) {
                                         messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
                                         message = gameParams.messagesNegative[messageIndex];
-                                    }
-                                    else {
+                                    } else {
                                         messageIndex = Math.floor(Math.random() * gameParams.messagesPositive.length);
                                         message = gameParams.messagesPositive[messageIndex];
                                     }
@@ -1634,45 +1620,44 @@ var WorldLayer = cc.Layer.extend({
                             }
                             // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
                             else if (gameParams.currentDate >= gameParams.targetDate) {
-                                GameOver(world, "Game Over! You have sustained the world until " + gameParams.targetDate.getFullYear() + "!", "OK");
-                            }
+                                    GameOver(world, "Game Over! You have sustained the world until " + gameParams.targetDate.getFullYear() + "!", "OK");
+                                }
                         }
 
                         // Refresh the timeout
                         gameParams.timeoutID = setTimeout(updateTime, gameParams.timeInterval);
-                    } 
+                    };
 
                     // Run the updates in the background, so interaction is not blocked.
-                    cc.async.parallel([
-                        function() {
-                            updateTime();
-                        }
-                    ]);
+                    cc.async.parallel([function () {
+                        updateTime();
+                    }]);
                 }
             },
 
-            onMouseMove : function(event) {
-                if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED)
-                    return;
+            onMouseMove: function onMouseMove(event) {
+                if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED) return;
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var x = 0, y = 0;
+                var x = 0,
+                    y = 0;
 
                 var layer = target.getLayer("Tile Layer 1");
                 gid = layer.getTileGIDAt(x, y);
-                if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
-                    return;
+                if (typeof layer._texGrids !== "undefined" && typeof layer._texGrids[gid] === "undefined") return;
 
-                var start = 0, end = sortedObjs.length;
+                var start = 0,
+                    end = sortedObjs.length;
                 if (lastLayerID > -1) {
-                    start = (start < 0) ? 0 : start;
-                    end = (end > sortedObjs.length) ? sortedObjs.length : end;
+                    start = start < 0 ? 0 : start;
+                    end = end > sortedObjs.length ? sortedObjs.length : end;
                 };
 
-                var ed = function(pt1, pt2) {
+                var ed = function ed(pt1, pt2) {
                     return Math.sqrt(Math.pow(pt1.x - pt2.x, 2) + Math.pow(pt1.y - pt2.y, 2));
                 };
-                var minED = -1, selectedCountry = null;
+                var minED = -1,
+                    selectedCountry = null;
                 for (var j = start; j < end; j++) {
                     var poly = sortedObjs[j];
                     var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
@@ -1695,15 +1680,14 @@ var WorldLayer = cc.Layer.extend({
                     currentCountry = selectedCountry;
                     var gid = world.countries[selectedCountry].gid;
                     currentLayer = target.getLayer("Tile Layer " + gid);
-                    currentLayer.setTileGID((gid),cc.p(0, 0));
+                    currentLayer.setTileGID(gid, cc.p(0, 0));
                     printCountryStats();
-                }
-                else {
+                } else {
                     gameParams.currentCountry = null;
                     printWorldStats();
                 }
 
-                oldLayers.forEach(layer => {
+                oldLayers.forEach(function (layer) {
                     // var currentGid = -1;
                     // if (typeof(gameParams.currentCountry) !== 'undefined')
                     //     currentGid = parseInt(world.countries[gameParams.currentCountry].gid);
@@ -1713,12 +1697,10 @@ var WorldLayer = cc.Layer.extend({
                     //     // Do nothing
                     // }
                     // else 
-                    if ((currentLayer === null || layer != currentLayer))
-                        layer.setTileGID((0),cc.p(0,0));
+                    if (currentLayer === null || layer != currentLayer) layer.setTileGID(0, cc.p(0, 0));
                 });
                 oldLayers = [];
-                if (currentLayer != null)
-                    oldLayers.push(currentLayer);
+                if (currentLayer != null) oldLayers.push(currentLayer);
 
                 return true;
             }
@@ -1727,28 +1709,26 @@ var WorldLayer = cc.Layer.extend({
 });
 
 var WorldScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var scene = this;
 
         // Add country data 
-        cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
+        cc.loader.loadJson("res/scenario-nature.json", function (error, scenarioData) {
             var layer = new WorldLayer(scenarioData);
             scene.addChild(layer);
         });
     }
 });
 
-
 var LoadingScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var layer = this;
         var size = cc.winSize;
 
-        
         var layout = new ccui.Layout();
         layout.setContentSize(cc.size(size.width, size.height));
         layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
@@ -1759,7 +1739,7 @@ var LoadingScene = cc.Scene.extend({
         layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
         // layout.setLayoutType(ccui.Layout.LINEAR_VERTICAL);
         layer.addChild(layout, 1);
-        
+
         var lp1 = new ccui.RelativeLayoutParameter();
         lp1.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
         var playLabel = new ccui.Button();
@@ -1771,10 +1751,9 @@ var LoadingScene = cc.Scene.extend({
         playLabel.setTitleFontName(FONT_FACE_TITLE);
         playLabel.setTitleColor(COLOR_BLACK);
         playLabel.setTitleFontSize(38);
-        playLabel.attr({x: size.width / 2, y: size.height / 2});
+        playLabel.attr({ x: size.width / 2, y: size.height / 2 });
         playLabel.setLayoutParameter(lp1);
         layout.addChild(playLabel);
-
 
         var lp2 = new ccui.RelativeLayoutParameter();
         lp2.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
@@ -1787,7 +1766,7 @@ var LoadingScene = cc.Scene.extend({
         howToPlayLabel.setTitleFontName(FONT_FACE_TITLE);
         howToPlayLabel.setTitleColor(COLOR_BLACK);
         howToPlayLabel.setTitleFontSize(38);
-        howToPlayLabel.attr({x: size.width / 2, y: size.height / 2});
+        howToPlayLabel.attr({ x: size.width / 2, y: size.height / 2 });
         howToPlayLabel.setLayoutParameter(lp2);
         layout.addChild(howToPlayLabel);
 
@@ -1795,23 +1774,21 @@ var LoadingScene = cc.Scene.extend({
         // Test adding animation effects
         howToPlayLabel.attr({x: size.width / 2, y: 0});
         layer.addChild(howToPlayLabel, 2);
-
-        var move = cc.moveBy(2, cc.p(0, size.height - 80));
+         var move = cc.moveBy(2, cc.p(0, size.height - 80));
         var move_ease_in = move.clone().easing(cc.easeElasticIn());
         var seq1 = cc.sequence(move_ease_in);
-
-        var a2 = howToPlayLabel.runAction(seq1.repeatForever());
+         var a2 = howToPlayLabel.runAction(seq1.repeatForever());
         a2.tag = 1;
         */
 
         var listenerPlay = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {  
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     cc.director.runScene(new WorldScene());
                     // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
                     return true;
@@ -1822,12 +1799,12 @@ var LoadingScene = cc.Scene.extend({
 
         var listenerHowToPlay = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     alert("Not yet implemented.");
                     return true;
                 }
@@ -1840,9 +1817,8 @@ var LoadingScene = cc.Scene.extend({
     }
 });
 
-
 var NewGameScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var layer = this;
@@ -1853,22 +1829,21 @@ var NewGameScene = cc.Scene.extend({
         layer.addChild(layBackground, 1);
 
         var newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
+        newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
         var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE_BODY, 38);
-        loadLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
+        loadLabel.attr({ x: size.width * 0.5, y: size.height * 0.4 });
         this.addChild(loadLabel);
-
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     cc.director.runScene(new cc.TransitionMoveInR(1, new SelectChallengeScene()));
                     return true;
                 }
@@ -1878,12 +1853,12 @@ var NewGameScene = cc.Scene.extend({
 
         var listener2 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     alert("Not yet implemented.");
                     return true;
                 }
@@ -1896,30 +1871,29 @@ var NewGameScene = cc.Scene.extend({
     }
 });
 
-
 var SelectChallengeScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
+        newLabel.attr({ x: size.width * 0.5, y: size.height * 0.4 });
         this.addChild(newLabel);
 
         var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE_BODY, 38);
-        waterLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
+        waterLabel.attr({ x: size.width * 0.5, y: size.height * 0.4 });
         this.addChild(waterLabel);
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {     
-                    cc.log(target)  
+                if (cc.rectContainsPoint(rect, locationInNode)) {
+                    cc.log(target);
                     cc.director.runScene(new cc.TransitionMoveInR(1, new SelectDifficultyScene()));
                     return true;
                 }
@@ -1931,9 +1905,8 @@ var SelectChallengeScene = cc.Scene.extend({
     }
 });
 
-
 var SelectDifficultyScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var layer = this;
@@ -1944,29 +1917,29 @@ var SelectDifficultyScene = cc.Scene.extend({
         layer.addChild(layBackground, 1);
 
         var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
+        newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
         var casualLabel = new cc.LabelTTF("Casual", FONT_FACE_BODY, 38);
-        casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5})
+        casualLabel.attr({ x: size.width * 0.25, y: size.height * 0.5 });
         this.addChild(casualLabel);
 
         var normalLabel = new cc.LabelTTF("Normal", FONT_FACE_BODY, 38);
-        normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
+        normalLabel.attr({ x: size.width * 0.5, y: size.height * 0.5 });
         this.addChild(normalLabel);
 
         var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE_BODY, 38);
-        brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5})
+        brutalLabel.attr({ x: size.width * 0.75, y: size.height * 0.5 });
         this.addChild(brutalLabel);
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     gameParams.level = target.getString();
                     cc.director.runScene(new cc.TransitionMoveInR(1, new EnterNameScene()));
                     return true;
@@ -1981,29 +1954,28 @@ var SelectDifficultyScene = cc.Scene.extend({
     }
 });
 
-
 var EnterNameScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8});
+        newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
         var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
-        enterNameLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
+        enterNameLabel.attr({ x: size.width * 0.5, y: size.height * 0.5 });
         this.addChild(enterNameLabel);
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     gameParams.name = target.getString();
                     cc.director.runScene(new cc.TransitionMoveInR(1, new ModifyCodeScene()));
                     return true;
@@ -2016,29 +1988,28 @@ var EnterNameScene = cc.Scene.extend({
     }
 });
 
-
 var ModifyCodeScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var size = cc.winSize;
 
         var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
+        newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
         var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
+        newLabel.attr({ x: size.width * 0.5, y: size.height * 0.5 });
         this.addChild(modifyCodeLabel);
 
         var listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     gameParams.code = target.getString();
                     cc.director.runScene(new WorldScene());
                     return true;
@@ -2051,13 +2022,12 @@ var ModifyCodeScene = cc.Scene.extend({
     }
 });
 
-
 var DesignPolicyLayer = cc.Layer.extend({
-    ctor:function (world) {
+    ctor: function ctor(world) {
         this._super();
         this.world = world;
     },
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var layer = this;
@@ -2070,7 +2040,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         layer.addChild(layBackground, 1);
 
         var heading = new ccui.Text("Build a policy platform", FONT_FACE_BODY, 38);
-        heading.attr({x: size.width * 0.5, y: size.height * 0.9});
+        heading.attr({ x: size.width * 0.5, y: size.height * 0.9 });
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
 
@@ -2082,9 +2052,9 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnExit.setTitleText("X");
         var closeListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
@@ -2096,7 +2066,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 }
                 return false;
             }
-        });        
+        });
 
         cc.eventManager.addListener(closeListener.clone(), btnExit);
 
@@ -2128,7 +2098,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         var policyDescription = new ccui.Text("", FONT_FACE_BODY, 20);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
-        policyDescription.setContentSize(cc.size(360,200));
+        policyDescription.setContentSize(cc.size(360, 200));
         policyDescription.setPosition(cc.p(20, 120));
         policyDescription.setColor(COLOR_ICE);
         // policyDescription.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
@@ -2148,18 +2118,17 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsInvest.setTitleFontSize(24);
         policyDetailsInvest.setTitleColor(COLOR_BLACK);
         policyDetailsInvest.setTitleText("Invest in this policy");
-        policyDetailsInvest.addClickEventListener(function(){
-            if (gameParams.resources - resourceSelected.cost_1 >= 0 && 
-                gameParams.strategies.indexOf(resourceSelected) == -1) {
-                gameParams.resources -= resourceSelected.cost_1;  
+        policyDetailsInvest.addClickEventListener(function () {
+            if (gameParams.resources - resourceSelected.cost_1 >= 0 && gameParams.strategies.indexOf(resourceSelected) == -1) {
+                gameParams.resources -= resourceSelected.cost_1;
                 gameParams.strategies.push(resourceSelected);
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
 
                 // Calculate resource-specific effects
-                gameParams.resourceInterval /= (1 + resourceSelected.effect_on_resources);
+                gameParams.resourceInterval /= 1 + resourceSelected.effect_on_resources;
                 gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
-                gameParams.crisisInterval /= (1 + resourceSelected.effect_on_crises);
+                gameParams.crisisInterval /= 1 + resourceSelected.effect_on_crises;
                 gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
             }
         });
@@ -2168,12 +2137,12 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         var resourceListener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
+            onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {  
+                if (cc.rectContainsPoint(rect, locationInNode)) {
                     policyDetailsBackground.setVisible(true);
                     resourceSelected = target.option;
                     policyLabel.setString(resourceSelected.text_long);
@@ -2192,7 +2161,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(X_OFFSET, Y_OFFSET));
         var pageCount = 4;
-       
+
         for (var i = 0; i < pageCount; ++i) {
             var layout = new ccui.Layout();
             layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
@@ -2200,17 +2169,17 @@ var DesignPolicyLayer = cc.Layer.extend({
             var resourceGrp = {};
             var labelText = "Economy";
             var policyOptions = [];
-            switch(i) {
-                case 0: 
+            switch (i) {
+                case 0:
                     resourceGrp = RESOURCES.economic;
                     break;
-                case 1: 
+                case 1:
                     resourceGrp = RESOURCES.politics;
                     break;
-                case 2: 
+                case 2:
                     resourceGrp = RESOURCES.cultural;
                     break;
-                case 3: 
+                case 3:
                     resourceGrp = RESOURCES.ecology;
                     break;
             }
@@ -2220,7 +2189,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
             // layout.addChild(label);
 
-            resourceGrp.policyOptions.forEach(function(opt) {
+            resourceGrp.policyOptions.forEach(function (opt) {
                 var btn = new ccui.Button();
                 btn.setTouchEnabled(true);
                 btn.setAnchorPoint(cc.p(0, 0));
@@ -2236,8 +2205,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.cost_2 = opt.cost_2;
                 btn.cost_3 = opt.cost_3;
                 btn.option = opt;
-                if (gameParams.strategies.indexOf(opt) > -1)
-                    btn.enabled = false;
+                if (gameParams.strategies.indexOf(opt) > -1) btn.enabled = false;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
             });
@@ -2247,14 +2215,14 @@ var DesignPolicyLayer = cc.Layer.extend({
         pageView.setCurrentPageIndex(0);
 
         //add buttons to jump to specific page
-        var makeButton = function(text, point, index) {
+        var makeButton = function makeButton(text, point, index) {
             var btn = new ccui.Button();
             btn.setAnchorPoint(cc.p(0, 0));
             btn.setColor(COLOR_ICE);
             btn.setPosition(point);
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
-            btn.addClickEventListener(function(){
+            btn.addClickEventListener(function () {
                 resourceSelected = null;
                 policyDetailsBackground.setVisible(false);
                 pageView.setCurrentPageIndex(index);
@@ -2278,28 +2246,28 @@ var DesignPolicyLayer = cc.Layer.extend({
     }
 });
 
-
 var StatsLayer = cc.Layer.extend({
-    ctor:function (world) {
+    ctor: function ctor(world) {
         this._super();
         this.world = world;
     },
-    onEnter:function () {
+    onEnter: function onEnter() {
         this._super();
 
         var layer = this;
         var size = cc.winSize;
-
 
         var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 100);
 
         var heading = new cc.LabelTTF("Statistics", FONT_FACE_BODY, 38);
-        heading.attr({x: size.width * 0.5, y: size.height * 0.9});
+        heading.attr({ x: size.width * 0.5, y: size.height * 0.9 });
         layerBackground.addChild(heading, 101);
 
-        var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
+        var makeString = function makeString(num) {
+            return (Math.round(num * 10) / 10).toString() + '%';
+        };
 
         this.policyLabel = new cc.LabelTTF("Policy Effectiveness: ", FONT_FACE_BODY, 24);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
@@ -2328,47 +2296,47 @@ var StatsLayer = cc.Layer.extend({
             this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
             this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
             layerBackground.addChild(this.currentCountryLabel, 100);
-    
+
             this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE_BODY, 24);
             this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
             layerBackground.addChild(this.currentCountryIndicatorLabel, 100);
-    
+
             this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE_BODY, 24);
             this.populationLabel.setAnchorPoint(cc.p(0, 0));
             this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
             layerBackground.addChild(this.populationLabel, 100);
-    
+
             this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE_BODY, 24);
             this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
             layerBackground.addChild(this.populationIndicatorLabel, 100);
-    
+
             this.gdpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE_BODY, 24);
             this.gdpLabel.setAnchorPoint(cc.p(0, 0));
             this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
             layerBackground.addChild(this.gdpLabel, 100);
-    
+
             this.gdpIndicatorLabel = new cc.LabelTTF(country.gdp_est, FONT_FACE_BODY, 24);
             this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
             layerBackground.addChild(this.gdpIndicatorLabel, 100);
-    
+
             this.incomeGrpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE_BODY, 24);
             this.incomeGrpLabel.setAnchorPoint(cc.p(0, 0));
             this.incomeGrpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.3));
             layerBackground.addChild(this.incomeGrpLabel, 100);
-    
+
             this.incomeGrpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE_BODY, 24);
             this.incomeGrpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.incomeGrpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.3));
             layerBackground.addChild(this.incomeGrpIndicatorLabel, 100);
-    
+
             this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE_BODY, 24);
             this.regionLabel.setAnchorPoint(cc.p(0, 0));
             this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.2));
             layerBackground.addChild(this.regionLabel, 100);
-    
+
             this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE_BODY, 24);
             this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
             this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.2));
@@ -2379,14 +2347,12 @@ var StatsLayer = cc.Layer.extend({
         btn.setAnchorPoint(cc.p(0, 0));
         btn.setPosition(cc.p(950, 20));
         btn.setTitleText("X");
-        btn.addClickEventListener(function(){
+        btn.addClickEventListener(function () {
             event.stopPropagation();
             layer.removeFromParent();
             world.setVisible(true);
             gameParams.state = gameStates.STARTED;
         });
         layerBackground.addChild(btn, 100);
-
     }
 });
-

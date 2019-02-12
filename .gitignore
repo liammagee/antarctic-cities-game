@@ -20,6 +20,6 @@ ne_*
 
 docs/*
 
-.es5/
+# .es5/
 .babelrc
 package-lock.json

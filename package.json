@@ -3,18 +3,18 @@
   "version": "0.0.1",
   "description": "Polarised Cities game",
   "scripts": {
-    "compile": "./node_modules/.bin/babel --presets es2015,stage-0 -d .es5/ src/ && node devutils/project.js",
+    "compile": "./node_modules/.bin/babel --presets es2015-without-strict,stage-0 -d .es5/ src/ && node devutils/project.js",
     "server": "http-server -o -p 8000 .",
     "watch": "onchange 'src/**/*.js' 'main.js' -- npm run compile",
-    "serve": "concurrently --kill-others \"npm run server\" \"npm run watch\"",
-    "serve-prod": "forever start \"npm run server\""
+    "serve-dev": "concurrently --kill-others \"npm run server\" \"npm run watch\"",
+    "serve": "forever start \"$(which npm)\" run server"
   },
   "author": "Liam Magee",
   "license": "MIT",
   "dependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2015-without-strict": "0.0.4",
     "babel-preset-stage-0": "^6.24.1",
     "concurrently": "^3.4.0",
     "forever": "^0.15.3",
