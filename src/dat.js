@@ -526,7 +526,7 @@ RESOURCE_RELATIONS = [
 CRISES = {
     WATER_SHORTAGE: {
         name: "Water shortage",
-        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WATER.png",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WATER_SHORTAGE.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
