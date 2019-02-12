@@ -407,28 +407,28 @@ var WorldLayer = cc.Layer.extend({
         this.tweetLabel.color = new cc.Color(255, 255, 255, 255);
         this.tweetBackground.addChild(this.tweetLabel, 101);
 
-        // Add dna
+        // Add resource
         /*
-        this.dnaScoreBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 100, 36);
-        this.dnaScoreBackground.setAnchorPoint(new cc.p(0,0));
-        this.dnaScoreBackground.attr({ x: 10, y: 70 });
-        this.addChild(this.dnaScoreBackground, 100);
+        this.resourceScoreBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 100, 36);
+        this.resourceScoreBackground.setAnchorPoint(new cc.p(0,0));
+        this.resourceScoreBackground.attr({ x: 10, y: 70 });
+        this.addChild(this.resourceScoreBackground, 100);
 
-        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE_BODY, 18);
-        this.dnaScoreLabel.attr({ x: 50, y: 18 });
-        this.dnaScoreLabel.color = COLOR_FOREGROUND;
-        this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
+        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE_BODY, 18);
+        this.resourceScoreLabel.attr({ x: 50, y: 18 });
+        this.resourceScoreLabel.color = COLOR_FOREGROUND;
+        this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
         */
 
-        this.dnaScoreBackground = new cc.LayerColor(COLOR_ICE, 80, 50);
-        this.dnaScoreBackground.setAnchorPoint(cc.p(0, 0));
-        this.dnaScoreBackground.setPosition(cc.p(60, 80));
-        this.addChild(this.dnaScoreBackground, 100);
+        this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 80, 50);
+        this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
+        this.resourceScoreBackground.setPosition(cc.p(60, 80));
+        this.addChild(this.resourceScoreBackground, 100);
 
-        this.dnaScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
-        this.dnaScoreLabel.setPosition(cc.p(40, 25));
-        this.dnaScoreLabel.setColor(COLOR_BLACK);
-        this.dnaScoreBackground.addChild(this.dnaScoreLabel, 100);
+        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 24);
+        this.resourceScoreLabel.setPosition(cc.p(40, 25));
+        this.resourceScoreLabel.setColor(COLOR_LICORICE);
+        this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
         // add "World" background layer
         this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
@@ -1603,7 +1603,7 @@ var WorldLayer = cc.Layer.extend({
                             buttons = newButtons;
                             
                             // Update labels
-                            world.dnaScoreLabel.setString(gameParams.resources);
+                            world.resourceScoreLabel.setString(gameParams.resources);
                             printDate(world);
 
                             // Scroll text
@@ -2389,4 +2389,5 @@ var StatsLayer = cc.Layer.extend({
 
     }
 });
+
 

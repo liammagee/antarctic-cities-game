@@ -10,11 +10,16 @@ publish/*
 .DS_Store
 
 
+
 *.sublime-workspace
 build/
 node_modules
 npm-debug.log
-# world/
+world-atlas/
 ne_*
 
 docs/*
+
+.es5/
+.babelrc
+package-lock.json
