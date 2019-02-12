@@ -1138,7 +1138,7 @@ var WorldLayer = cc.Layer.extend({
                                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                                 var pt = countryRand.centroid;
-                                btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y });
+                                btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y + RESOURCE_SIZE_H / 2 });
                                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                                 // btnRes.setColor(COLOR_RESOURCE);
                                 btnRes.placedAt = gameParams.counter;
@@ -1221,7 +1221,7 @@ var WorldLayer = cc.Layer.extend({
                                 // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
                                 btnCrisis.loadTextures(crisis.image, "", "");
                                 var pt = country.centroid;
-                                btnCrisis.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y });
+                                btnCrisis.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y + RESOURCE_SIZE_H / 2 });
                                 btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                                 // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                                 btnCrisis.placedAt = gameParams.counter;
