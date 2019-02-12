@@ -194,12 +194,33 @@ var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt,
 };
 
 /**
+ * Post data to server
+ * @param {*} parent 
+ * @param {*} message 
+ * @param {*} prompt 
+ */
+var postResultsToServer = function postResultsToServer() {
+    // Test posting data
+    var xhr = cc.loader.getXMLHttpRequest();
+    // this.streamXHREventsToLabel(xhr, statusPostLabel, responseLabel, "POST", "sendPostPlainText");
+
+    xhr.open("POST", "http://localhost:8000/game_data");
+
+    //set Content-type "text/plain;charset=UTF-8" to post plain text
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    console.log(JSON.stringify(gameParams));
+    xhr.send(JSON.stringify(gameParams));
+};
+/**
  * Game over dialog
  * @param {*} parent 
  * @param {*} message 
  * @param {*} prompt 
  */
 var GameOver = function GameOver(parent, message, prompt) {
+
+    postResultsToServer();
+
     var WINDOW_WIDTH = cc.director.getWinSize().width;
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause();

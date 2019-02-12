@@ -194,12 +194,33 @@ var ShowMessageBoxOK = function(parent, title, message, prompt, callback){
 };
 
 /**
+ * Post data to server
+ * @param {*} parent 
+ * @param {*} message 
+ * @param {*} prompt 
+ */
+var postResultsToServer = function() {
+    // Test posting data
+    var xhr = cc.loader.getXMLHttpRequest();
+    // this.streamXHREventsToLabel(xhr, statusPostLabel, responseLabel, "POST", "sendPostPlainText");
+
+    xhr.open("POST", "http://localhost:8000/game_data");
+
+    //set Content-type "text/plain;charset=UTF-8" to post plain text
+    xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+    console.log(JSON.stringify(gameParams))
+    xhr.send(JSON.stringify(gameParams));
+}
+/**
  * Game over dialog
  * @param {*} parent 
  * @param {*} message 
  * @param {*} prompt 
  */
 var GameOver = function(parent, message, prompt) {
+    
+    postResultsToServer();
+
     var WINDOW_WIDTH = cc.director.getWinSize().width;
     var WINDOW_HEIGHT = cc.director.getWinSize().height;
     parent.pause(); 
@@ -1736,6 +1757,7 @@ var WorldScene = cc.Scene.extend({
         cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
             var layer = new WorldLayer(scenarioData);
             scene.addChild(layer);
+    
         });
     }
 });
