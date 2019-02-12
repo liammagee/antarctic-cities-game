@@ -526,6 +526,7 @@ RESOURCE_RELATIONS = [
 CRISES = {
     WATER_SHORTAGE: {
         name: "Water shortage",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WATER.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
@@ -536,6 +537,7 @@ CRISES = {
     },
     FINANCIAL_CRISIS: {
         name: "Financial crisis",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_CRASH.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
@@ -546,6 +548,7 @@ CRISES = {
     },
     EXTREME_WEATHER_EVENT: {
         name: "Extreme weather event",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WEATHER.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
@@ -556,6 +559,7 @@ CRISES = {
     },
     FORCED_DISPLACEMENT: {
         name: "Forced displacement",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_DISPLACEMENT.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
@@ -566,6 +570,7 @@ CRISES = {
     },
     EPIDEMIC: {
         name: "Epidemic",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_EPIDEMIC.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
@@ -576,6 +581,7 @@ CRISES = {
     },
     WAR: {
         name: "War",
+        image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WAR.png",
         effect_on_climate: 0,
         effect_on_population: 0,
         effect_on_global_gdp: 0,
