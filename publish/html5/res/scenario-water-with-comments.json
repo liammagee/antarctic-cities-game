@@ -1,0 +1,85 @@
+// Taken from Plague Inc.
+{
+    "version":"1.0",
+    "name": "Water Scenario",
+    "description": "",
+    "icon": "",
+    "feedback_email": "",
+    // Start country
+    "threat_type": "",
+    "threat_type_locked": "",
+    "threat_name": "",
+    // Popups
+    "popup_1_title": "",
+    "popup_1_description": "",
+    "popup_2_title": "",
+    "popup_2_description": "",
+    // Start country
+    "start_country": "",
+    "start_country_locked": "",
+    "start_country_percentage_affected": "",
+    "start_country_percentage_dead": "",
+    "start_country_percentage_zombie": "",
+    
+    // Victory condition
+    // Advanced
+    "scenario_score_adjusted": "",
+    "event_restriction": "",
+    "lock_difficulty": "",
+    "gene_selection": "",
+    "allow_cheats": "",
+    // Custom start
+    "start_specified": 1,
+    "start_day": 1,
+    "start_month": 1,
+    "start_year": 2018,
+
+    // Threat Lab
+    "threat_details" : {
+    	"threat_template": "",
+    	"starting_conditions": {
+	    	"starting_infectivity": 1,
+	    	"starting_severity": 1,
+	    	"starting_lethality": 10,
+
+    	},
+    	// All floating values, between 0.1-2
+    	"transmission": {
+	    	"transmission_air": 1.0,
+	    	"transmission_sea": 1.0,
+	    	"transmission_land": 1.0,    		
+    	},
+    	// All floating values, between 0-2
+    	"environmental_effectivness": {
+    		"wealthy_country": 0.0,
+    		"poor_country": 1.0,
+    		"urban_country": 1.0,
+    		"rural_country": 1.0,
+    		"hot_country": 0.1,
+    		"cold_country": 0.1,
+    		"humid_country": 1.0,
+    		"arid_country": 1.0
+    	},
+    	"other_stats": {
+    		"cure_requirement": 0.0, // -0.5 - 0.5
+    		"mutation_likelihood": 0.5, // 0.0 - 2.0
+    	},
+    	"other_stats": {
+    		"cure_requirement": 0.0, // -0.5 - 0.5
+    		"mutation_likelihood": 0.5, // 0.0 - 2.0
+    	},
+    	"advanced_stats": {
+    		"infectivity_increase_speed": 0.1, // 0.01 - .02
+    		"minimum_infectivity_increase": 0.1, // 0.1 - 2.0
+    		"severity_increase_speed": 0.1, // 0.01 - .02
+    		"minimum_severity_increase": 1.0, // 0.1 - 2.0
+    		"lethality_increase_speed": 0.05, // 0.01 - 1.0
+    		"minimum_lethality_increase_speed": 0.4, // 0.1 - 1.0
+    		"enable_corpse_transmission": false,
+    		"enable_land_transmission": true,
+    		"enable_sea_transmission": true,
+    		"enable_air_transmission": true,
+    		"infected_points_pot": 0 // 0 - 10
+    	}
+    }
+}

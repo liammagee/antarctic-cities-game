@@ -1,0 +1,7 @@
+COLOR_LIQUORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
+COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
+COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
+COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
+COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
+COLOR_BLACK = new cc.Color(0, 0, 0, 0); // Black
+COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
