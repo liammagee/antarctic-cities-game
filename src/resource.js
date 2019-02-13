@@ -6,6 +6,8 @@ var res = {
     world_tilemap_tmx : "res/tmx-stereographic.tmx",
     world_tilemap_background : "res/background-stereographic.png",
     world_tilemap_foreground : "res/foreground-stereographic.png",
+    policy_dot_off_png : "res/andrea_png/BUTTONS/DOT_OFF.png",
+    policy_dot_on_png : "res/andrea_png/BUTTONS/DOT_ON.png",
     ArvoFont : {
       type:"font",
       name:"ArvoFont",

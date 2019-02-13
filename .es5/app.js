@@ -1529,7 +1529,7 @@ var WorldLayer = cc.Layer.extend({
                             }
 
                             // Calculate impact of other strategies
-                            for (var j = i; j < Object.keys(gameParams).strategies.length; j++) {
+                            for (var j = i; j < Object.keys(gameParams.strategies).length; j++) {
                                 // if (i == j)
                                 //     continue;
 
@@ -2085,6 +2085,9 @@ var DesignPolicyLayer = cc.Layer.extend({
         var resourceSelected = null;
         var resourceSelectedButton = null;
 
+        var btnLevelOn = new cc.Sprite(res.policy_dot_on_png);
+        var btnLevelOff = new cc.Sprite(res.policy_dot_off_png);
+
         var layBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
@@ -2176,6 +2179,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.strategies[resourceSelected] = 1;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
 
                 // Calculate resource-specific effects
                 gameParams.resourceInterval /= 1 + resourceSelected.effect_on_resources;
@@ -2188,12 +2192,14 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.strategies[resourceSelected] = 2;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
             } else if (gameParams.resources - resourceSelected.cost_3 >= 0 && gameParams.strategies[resourceSelected] == 2) {
 
                 gameParams.resources -= resourceSelected.cost_3;
                 gameParams.strategies[resourceSelected] = 3;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
             }
         });
         policyDetailsBackground.addChild(policyDetailsInvest, 100);
@@ -2207,6 +2213,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
+
                     policyDetailsBackground.setVisible(true);
                     resourceSelected = target.option;
                     policyLabel.setString(resourceSelected.text_long);
@@ -2225,6 +2232,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(X_OFFSET, Y_OFFSET));
         var pageCount = 4;
+        var levelButtons = {};
 
         for (var i = 0; i < pageCount; ++i) {
             var layout = new ccui.Layout();
@@ -2261,17 +2269,54 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.loadTextures(opt.img_normal, "", opt.img_on);
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(104, 104));
-                btn.setTitleFontSize(20);
-                btn.setTitleFontName(FONT_FACE_TITLE);
-                btn.setTitleColor(COLOR_ICE);
-                btn.setTitleText(opt.text);
+                // btn.setTitleFontSize(20);
+                // btn.setTitleFontName(FONT_FACE_TITLE);
+                // btn.setTitleColor(COLOR_ICE);
+                // btn.setTitleText(opt.text);
                 btn.cost_1 = opt.cost_1;
                 btn.cost_2 = opt.cost_2;
                 btn.cost_3 = opt.cost_3;
                 btn.option = opt;
-                if (Object.keys(gameParams.strategies).indexOf(opt) > -1) btn.enabled = false;
+                if (typeof gameParams.strategies[opt] !== "undefined") btn.enabled = false;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
+
+                var btnLabel = new cc.LabelTTF(opt.text, FONT_FACE_TITLE, 20);
+                btnLabel.attr({ x: opt.location.x + 26, y: opt.location.y - 52 });
+                btnLabel.setAnchorPoint(cc.p(0.5, 0.0));
+                layout.addChild(btnLabel, 101);
+
+                var btnLvl1, btnLvl2, btnLvl3;
+                if (typeof gameParams.strategies[opt] === "undefined") {
+                    btnLvl1 = new cc.Sprite(res.policy_dot_off_png);
+                    btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
+                    btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
+                } else if (gameParams.strategies[opt] === 1) {
+                    btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
+                    btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
+                    btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
+                } else if (gameParams.strategies[opt] === 2) {
+                    btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
+                    btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
+                    btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
+                } else if (gameParams.strategies[opt] === 3) {
+                    btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
+                    btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
+                    btnLvl3 = new cc.Sprite(res.policy_dot_on_png);
+                }
+                btnLvl1.attr({ x: opt.location.x - 52, y: opt.location.y });
+                btnLvl1.setAnchorPoint(cc.p(0.0, 0.0));
+                btnLvl2.attr({ x: opt.location.x - 52, y: opt.location.y + 35 });
+                btnLvl2.setAnchorPoint(cc.p(0.0, 0.0));
+                btnLvl3.attr({ x: opt.location.x - 52, y: opt.location.y + 70 });
+                btnLvl3.setAnchorPoint(cc.p(0.0, 0.0));
+                layout.addChild(btnLvl1, 101);
+                layout.addChild(btnLvl2, 101);
+                layout.addChild(btnLvl3, 101);
+
+                levelButtons[opt.id * 100 + 1] = btnLvl1;
+                levelButtons[opt.id * 100 + 2] = btnLvl2;
+                levelButtons[opt.id * 100 + 3] = btnLvl3;
             });
             pageView.insertPage(layout, i);
         }
