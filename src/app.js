@@ -43,7 +43,7 @@ var initGameParams = function(scenarioData) {
     gameParams.lastResource = 0;
     gameParams.lastCrisis = 0;
     gameParams.crisisCountry = null;
-    gameParams.strategies = [];
+    gameParams.strategies = {};
     gameParams.policy = 0;
     gameParams.countriedAffected = 0;
     gameParams.populationAware = 0;
@@ -228,18 +228,38 @@ var GameOver = function(parent, message, prompt) {
     initGameParams(world.scenarioData);
     gameParams.state = gameStates.GAME_OVER;
     gameParams.startCountry = null;
-    gameParams.strategies = [];
+    gameParams.strategies = {};
     world.tweetLabel.setString(gameParams.scenarioName);
     world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
 
-    var layBackground = new cc.LayerColor(COLOR_BACKGROUND, WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4);
-    layBackground.attr({ x: WINDOW_WIDTH / 2 - layBackground.width / 2, y: WINDOW_HEIGHT / 2 - layBackground.height / 2
+    var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    layBackground.attr({ 
+        x: WINDOW_WIDTH / 2 - layBackground.width / 2, 
+        y: WINDOW_HEIGHT / 2 - layBackground.height / 2
     });
     parent.addChild(layBackground, 1);
 
-    var lblMessage = new cc.LabelTTF(message, FONT_FACE_BODY, 14);
-    lblMessage.attr({ x: layBackground.width / 2, y: (layBackground.height / 2) });
-    layBackground.addChild(lblMessage, 2);
+    var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, 24);
+    titleText.ignoreContentAdaptWithSize(false);
+    titleText.setAnchorPoint(cc.p(0, 0));
+    // titleText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
+    titleText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.15));
+    titleText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.8));
+    titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setColor(COLOR_WHITE);
+    layBackground.addChild(titleText, 2);
+
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, 20);
+    contentText.ignoreContentAdaptWithSize(false);
+    contentText.setAnchorPoint(cc.p(0, 0));
+    // contentText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
+    contentText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.6));
+    contentText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.2));
+    contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setColor(COLOR_WHITE);
+    layBackground.addChild(contentText, 2);
 
     var menu = this._menu = cc.Menu.create();
     menu.setPosition(cc.p(0, 0));
@@ -264,7 +284,7 @@ var GameOver = function(parent, message, prompt) {
     cc.eventManager.addListener(listener.clone(), btnOK);
     btnOK.attr({
         x: layBackground.width / 2,
-        y: (layBackground.height / 2) - lblMessage.getContentSize().height * 2
+        y: (layBackground.height * 0.1) 
     });
     menu.addChild(btnOK);
 };
@@ -1356,7 +1376,8 @@ var WorldLayer = cc.Layer.extend({
 
                         var infectivityRate = infectivityIncreaseSpeed;
 
-                        gameParams.strategies.forEach(strategy => {
+                        Object.keys(gameParams.strategies).forEach(strategy => {
+                            var level = gameParams.strategies[strategy];
                             switch(strategy.id) {
                                 case 1:
                                     // Increase infectivity when reducing inequality for low income countries
@@ -1439,10 +1460,11 @@ var WorldLayer = cc.Layer.extend({
                         var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
                         var severityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_severity_increase;
 
-                        var strategyCount = gameParams.strategies.length / 16;
+                        var strategyCount = Object.keys(gameParams.strategies).length / 16;
                         var domainMean = strategyCount / 4;
                         var ecn = 0, pol = 0, cul = 0, eco = 0;
-                        gameParams.strategies.forEach(s => {
+                        Object.keys(gameParams.strategies).forEach(s => {
+                            var level = gameParams.strategies[s];
                             switch (s.domain) {
                                 case 1:
                                     ecn++;
@@ -1465,8 +1487,9 @@ var WorldLayer = cc.Layer.extend({
                         // NEW CALCULATION
                         
                         // Calculate impact of strategies
-                        for (var i = 0; i < gameParams.strategies.length; i++) {
-                            var strategy = gameParams.strategies[i];
+                        for (var i = 0; i < Object.keys(gameParams.strategies).length; i++) {
+                            var strategy = Object.keys(gameParams.strategies)[i];
+                            var level = gameParams.strategies[strategy];
 
                             // Check population
                             var pop = parseInt(country.pop_est);
@@ -1515,11 +1538,12 @@ var WorldLayer = cc.Layer.extend({
                             }
 
                             // Calculate impact of other strategies
-                            for (var j = i; j < gameParams.strategies.length; j++) {
+                            for (var j = i; j < Object.keys(gameParams).strategies.length; j++) {
                                 // if (i == j)
                                 //     continue;
 
-                                var otherStrategy = gameParams.strategies[j];
+                                var otherStrategy = Object.keys(gameParams.strategies)[j];
+                                var otherLevel = gameParams.strategies[otherStrategy];
                                 var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
                                 if (typeof(relation) !== "undefined") {
                                     severityEffect *= relation;
@@ -2178,10 +2202,12 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsInvest.setTitleColor(COLOR_BLACK);
         policyDetailsInvest.setTitleText("Invest in this policy");
         policyDetailsInvest.addClickEventListener(function(){
+            //Object.keys(gameParams.strategies).indexOf(resourceSelected) == -1)
             if (gameParams.resources - resourceSelected.cost_1 >= 0 && 
-                gameParams.strategies.indexOf(resourceSelected) == -1) {
+                typeof(gameParams.strategies[resourceSelected]) === "undefined") {
+
                 gameParams.resources -= resourceSelected.cost_1;  
-                gameParams.strategies.push(resourceSelected);
+                gameParams.strategies[resourceSelected] = 1;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
 
@@ -2190,6 +2216,24 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
                 gameParams.crisisInterval /= (1 + resourceSelected.effect_on_crises);
                 gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
+            }
+            else if (gameParams.resources - resourceSelected.cost_2 >= 0 && 
+                gameParams.strategies[resourceSelected] === 1) {
+
+                gameParams.resources -= resourceSelected.cost_2;  
+                gameParams.strategies[resourceSelected] = 2;
+                resourceSelectedButton.enabled = false;
+                layer.availableResourcesLabel.setString(gameParams.resources.toString());
+
+            }
+            else if (gameParams.resources - resourceSelected.cost_3 >= 0 && 
+                gameParams.strategies[resourceSelected] == 2) {
+
+                gameParams.resources -= resourceSelected.cost_3;  
+                gameParams.strategies[resourceSelected] = 3;
+                resourceSelectedButton.enabled = false;
+                layer.availableResourcesLabel.setString(gameParams.resources.toString());
+    
             }
         });
         policyDetailsBackground.addChild(policyDetailsInvest, 100);
@@ -2265,7 +2309,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.cost_2 = opt.cost_2;
                 btn.cost_3 = opt.cost_3;
                 btn.option = opt;
-                if (gameParams.strategies.indexOf(opt) > -1)
+                if (Object.keys(gameParams.strategies).indexOf(opt) > -1)
                     btn.enabled = false;
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
