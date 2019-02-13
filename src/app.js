@@ -1,6 +1,4 @@
 // Global parameters
-var WINDOW_WIDTH = cc.director.getWinSize().width;
-var WINDOW_HEIGHT = cc.director.getWinSize().height;
 var X_OFFSET = 0, Y_OFFSET = 50;
 var TIME_INTERVAL = 50;
 var DAY_INTERVAL = 20;
