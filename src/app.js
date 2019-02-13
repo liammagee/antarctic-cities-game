@@ -2323,7 +2323,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 layout.addChild(btn, 101);
 
                 var btnLabel = new cc.LabelTTF(opt.text, FONT_FACE_TITLE, 20);
-                btnLabel.attr({ x: opt.location.x + 26, y: opt.location.y - 52 });
+                btnLabel.attr({ x: opt.location.x + 26  , y: opt.location.y - 52 });
                 btnLabel.setAnchorPoint(cc.p(0.5, 0.0));
                 layout.addChild(btnLabel, 101);
 
