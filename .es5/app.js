@@ -1598,34 +1598,37 @@ var WorldLayer = cc.Layer.extend({
 
                         // Calculate impact of strategies
                         for (var i = 0; i < Object.keys(gameParams.strategies).length; i++) {
-                            var strategy = Object.keys(gameParams.strategies)[i];
-                            var level = gameParams.strategies[strategy];
+                            var strategyID = parseInt(Object.keys(gameParams.strategies)[i]);
+                            var strategy = gameParams.policyOptions[strategyID];
+                            var level = gameParams.strategies[strategyID];
+                            // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
+                            var levelMultiplier = Math.log(level + 1.718);
 
                             // Check population
                             var pop = parseInt(country.pop_est);
                             // https://content.meteoblue.com/en/meteoscool/general-climate-zones
                             if (pop < 10000000) {
-                                severityEffect *= 1 + strategy.effect_on_pop_low;
+                                severityEffect *= 1 + strategy.effect_on_pop_low * levelMultiplier;
                             } else if (pop < 100000000) {
-                                severityEffect *= 1 + strategy.effect_on_pop_medium;
+                                severityEffect *= 1 + strategy.effect_on_pop_medium * levelMultiplier;
                             } else {
-                                severityEffect *= 1 + strategy.effect_on_pop_high;
+                                severityEffect *= 1 + strategy.effect_on_pop_high * levelMultiplier;
                             }
 
                             // Check income
                             switch (country.income_grp_num) {
                                 case 1:
                                 case 2:
-                                    severityEffect *= 1 + strategy.effect_on_income_high;
+                                    severityEffect *= 1 + strategy.effect_on_income_high * levelMultiplier;
                                     break;
                                 case 3:
-                                    severityEffect *= 1 + strategy.effect_on_income_medium_high;
+                                    severityEffect *= 1 + strategy.effect_on_income_medium_high * levelMultiplier;
                                     break;
                                 case 4:
-                                    severityEffect *= 1 + strategy.effect_on_income_low_medium;
+                                    severityEffect *= 1 + strategy.effect_on_income_low_medium * levelMultiplier;
                                     break;
                                 case 5:
-                                    severityEffect *= 1 + strategy.effect_on_income_low;
+                                    severityEffect *= 1 + strategy.effect_on_income_low * levelMultiplier;
                                     break;
                             }
 
@@ -1633,13 +1636,13 @@ var WorldLayer = cc.Layer.extend({
                             var latitude = parseFloat(country.equator_dist);
                             // https://content.meteoblue.com/en/meteoscool/general-climate-zones
                             if (latitude > -23.5 && latitude < 23.5) {
-                                severityEffect *= 1 + strategy.effect_on_geo_tropic;
+                                severityEffect *= 1 + strategy.effect_on_geo_tropic * levelMultiplier;
                             } else if (latitude > -40 && latitude < 40) {
-                                severityEffect *= 1 + strategy.effect_on_geo_subtropic;
+                                severityEffect *= 1 + strategy.effect_on_geo_subtropic * levelMultiplier;
                             } else if (latitude > -60 && latitude < 60) {
-                                severityEffect *= 1 + strategy.effect_on_geo_temperate;
+                                severityEffect *= 1 + strategy.effect_on_geo_temperate * levelMultiplier;
                             } else {
-                                severityEffect *= 1 + strategy.effect_on_geo_polar;
+                                severityEffect *= 1 + strategy.effect_on_geo_polar * levelMultiplier;
                             }
 
                             // Calculate impact of other strategies
@@ -1647,11 +1650,14 @@ var WorldLayer = cc.Layer.extend({
                                 // if (i == j)
                                 //     continue;
 
-                                var otherStrategy = Object.keys(gameParams.strategies)[j];
-                                var otherLevel = gameParams.strategies[otherStrategy];
-                                var relation = gameParams.policyRelations[strategy.id][otherStrategy.id];
+                                var otherStrategyID = parseInt(Object.keys(gameParams.strategies)[j]);
+                                var otherLevel = gameParams.strategies[otherStrategyID];
+                                // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
+                                var otherLevelMultiplier = Math.log(otherLevel + 1.718);
+
+                                var relation = gameParams.policyRelations[strategyID][otherStrategyID];
                                 if (typeof relation !== "undefined") {
-                                    severityEffect *= relation;
+                                    severityEffect *= relation * otherLevelMultiplier;
                                 }
                             }
                         }
@@ -2224,9 +2230,6 @@ var DesignPolicyLayer = cc.Layer.extend({
         var resourceSelected = null;
         var resourceSelectedButton = null;
 
-        var btnLevelOn = new cc.Sprite(res.policy_dot_on_png);
-        var btnLevelOff = new cc.Sprite(res.policy_dot_off_png);
-
         var layBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
         layBackground.attr({ x: 0, y: 0 });
         layer.addChild(layBackground, 1);
@@ -2311,11 +2314,11 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsInvest.setTitleColor(COLOR_BLACK);
         policyDetailsInvest.setTitleText("Invest in this policy");
         policyDetailsInvest.addClickEventListener(function () {
-            //Object.keys(gameParams.strategies).indexOf(resourceSelected) == -1)
-            if (gameParams.resources - resourceSelected.cost_1 >= 0 && typeof gameParams.strategies[resourceSelected] === "undefined") {
+
+            if (gameParams.resources - resourceSelected.cost_1 >= 0 && typeof gameParams.strategies[resourceSelected.id] === "undefined") {
 
                 gameParams.resources -= resourceSelected.cost_1;
-                gameParams.strategies[resourceSelected] = 1;
+                gameParams.strategies[resourceSelected.id] = 1;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
@@ -2325,17 +2328,17 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
                 gameParams.crisisInterval /= 1 + resourceSelected.effect_on_crises;
                 gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
-            } else if (gameParams.resources - resourceSelected.cost_2 >= 0 && gameParams.strategies[resourceSelected] === 1) {
+            } else if (gameParams.resources - resourceSelected.cost_2 >= 0 && gameParams.strategies[resourceSelected.id] === 1) {
 
                 gameParams.resources -= resourceSelected.cost_2;
-                gameParams.strategies[resourceSelected] = 2;
+                gameParams.strategies[resourceSelected.id] = 2;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
-            } else if (gameParams.resources - resourceSelected.cost_3 >= 0 && gameParams.strategies[resourceSelected] == 2) {
+            } else if (gameParams.resources - resourceSelected.cost_3 >= 0 && gameParams.strategies[resourceSelected.id] == 2) {
 
                 gameParams.resources -= resourceSelected.cost_3;
-                gameParams.strategies[resourceSelected] = 3;
+                gameParams.strategies[resourceSelected.id] = 3;
                 resourceSelectedButton.enabled = false;
                 layer.availableResourcesLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
@@ -2401,6 +2404,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             // layout.addChild(label);
 
             resourceGrp.policyOptions.forEach(function (opt) {
+
                 var btn = new ccui.Button();
                 btn.setTouchEnabled(true);
                 btn.setAnchorPoint(cc.p(0, 0));
@@ -2416,7 +2420,9 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.cost_2 = opt.cost_2;
                 btn.cost_3 = opt.cost_3;
                 btn.option = opt;
-                if (typeof gameParams.strategies[opt] !== "undefined") btn.enabled = false;
+
+                if (typeof gameParams.strategies[opt.id] !== "undefined") btn.enabled = false;
+
                 cc.eventManager.addListener(resourceListener.clone(), btn);
                 layout.addChild(btn, 101);
 
@@ -2426,19 +2432,19 @@ var DesignPolicyLayer = cc.Layer.extend({
                 layout.addChild(btnLabel, 101);
 
                 var btnLvl1, btnLvl2, btnLvl3;
-                if (typeof gameParams.strategies[opt] === "undefined") {
+                if (typeof gameParams.strategies[opt.id] === "undefined") {
                     btnLvl1 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
-                } else if (gameParams.strategies[opt] === 1) {
+                } else if (gameParams.strategies[opt.id] === 1) {
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
-                } else if (gameParams.strategies[opt] === 2) {
+                } else if (gameParams.strategies[opt.id] === 2) {
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
-                } else if (gameParams.strategies[opt] === 3) {
+                } else if (gameParams.strategies[opt.id] === 3) {
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_on_png);
