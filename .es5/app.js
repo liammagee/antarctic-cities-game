@@ -1159,7 +1159,7 @@ var WorldLayer = cc.Layer.extend({
                                 var btnRes = new ccui.Button();
                                 btnRes.setTouchEnabled(true);
                                 btnRes.setScale9Enabled(true);
-                                btnRes.loadTextures("res/andrea_png/NEW_ICONS/ICON_RESOURCE_TEST.png", "", "");
+                                btnRes.loadTextures("res/andrea_png/NEW_ICONS/ICON_RESOURCE.png", "", "");
                                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                                 var pt = countryRand.centroid;
@@ -1796,44 +1796,64 @@ var LoadingScene = cc.Scene.extend({
         // layout.setLayoutType(ccui.Layout.LINEAR_VERTICAL);
         layer.addChild(layout, 1);
 
+        var antarcticaSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_LARGE.png");
+        antarcticaSprite.setAnchorPoint(new cc.p(0.5, 0.5));
+        antarcticaSprite.setContentSize(cc.size(100, 101));
+        // antarcticaSprite.attr({x: size.width / 2, y: size.height / 2});
+        antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
+        layer.addChild(antarcticaSprite, 101);
+
+        var margin = new ccui.Margin(0, 20, 0, 20);
+        var lp0 = new ccui.RelativeLayoutParameter();
+        lp0.setMargin(margin);
+        lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
+        var lblWelcome = new ccui.Text("Welcome to the Antarctica Futures game", FONT_FACE_BODY, 24);
+        // lblWelcome.attr({x: size.width / 2, y: 6 * size.height / 8});
+        lblWelcome.color = COLOR_FOREGROUND;
+        // antarcticaSprite.setPosition(cc.p(size.width / 2, size.height / 2));
+        lblWelcome.setLayoutParameter(lp0);
+        layout.addChild(lblWelcome);
+
         var lp1 = new ccui.RelativeLayoutParameter();
-        lp1.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
+        lp1.setMargin(margin);
+        lp1.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
         var playLabel = new ccui.Button();
-        playLabel.setContentSize(cc.size(240, 80));
+        playLabel.setContentSize(cc.size(320, 80));
         playLabel.setTouchEnabled(true);
         playLabel.setScale9Enabled(true);
-        playLabel.loadTextures("res/Images/paddle.png", "", "");
-        playLabel.setTitleText("Play");
-        playLabel.setTitleFontName(FONT_FACE_TITLE);
+        playLabel.loadTextures("res/andrea_png/BUTTONS/BUTTON_WHITE.png", "", "");
+        playLabel.setTitleText("PLAY");
+        playLabel.setTitleFontName(FONT_FACE_BODY);
         playLabel.setTitleColor(COLOR_BLACK);
         playLabel.setTitleFontSize(38);
-        playLabel.attr({ x: size.width / 2, y: size.height / 2 });
+        // playLabel.attr({x: size.width / 2, y: size.height / 2});
         playLabel.setLayoutParameter(lp1);
         layout.addChild(playLabel);
 
         var lp2 = new ccui.RelativeLayoutParameter();
+        lp2.setMargin(margin);
         lp2.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-        var howToPlayLabel = new ccui.Button();
-        howToPlayLabel.setContentSize(cc.size(240, 80));
-        howToPlayLabel.setTouchEnabled(true);
-        howToPlayLabel.setScale9Enabled(true);
-        howToPlayLabel.loadTextures("res/Images/paddle.png", "", "");
-        howToPlayLabel.setTitleText("How to Play");
-        howToPlayLabel.setTitleFontName(FONT_FACE_TITLE);
-        howToPlayLabel.setTitleColor(COLOR_BLACK);
-        howToPlayLabel.setTitleFontSize(38);
-        howToPlayLabel.attr({ x: size.width / 2, y: size.height / 2 });
-        howToPlayLabel.setLayoutParameter(lp2);
-        layout.addChild(howToPlayLabel);
+        var lblLearnMore = new ccui.Button();
+        lblLearnMore.setContentSize(cc.size(320, 80));
+        lblLearnMore.setTouchEnabled(true);
+        lblLearnMore.setScale9Enabled(true);
+        lblLearnMore.loadTextures("res/andrea_png/BUTTONS/BUTTON_GREY.png", "", "");
+        lblLearnMore.setTitleText("LEARN MORE");
+        lblLearnMore.setTitleFontName(FONT_FACE_BODY);
+        lblLearnMore.setTitleColor(COLOR_BLACK);
+        lblLearnMore.setTitleFontSize(38);
+        // lblLearnMore.attr({x: size.width / 2, y: size.height / 2});
+        lblLearnMore.setLayoutParameter(lp2);
+        layout.addChild(lblLearnMore);
 
         /*
         // Test adding animation effects
-        howToPlayLabel.attr({x: size.width / 2, y: 0});
-        layer.addChild(howToPlayLabel, 2);
+        lblLearnMore.attr({x: size.width / 2, y: 0});
+        layer.addChild(lblLearnMore, 2);
          var move = cc.moveBy(2, cc.p(0, size.height - 80));
         var move_ease_in = move.clone().easing(cc.easeElasticIn());
         var seq1 = cc.sequence(move_ease_in);
-         var a2 = howToPlayLabel.runAction(seq1.repeatForever());
+         var a2 = lblLearnMore.runAction(seq1.repeatForever());
         a2.tag = 1;
         */
 
@@ -1853,7 +1873,7 @@ var LoadingScene = cc.Scene.extend({
             }
         });
 
-        var listenerHowToPlay = cc.EventListener.create({
+        var listenerLearnMore = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
@@ -1861,6 +1881,7 @@ var LoadingScene = cc.Scene.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
+                    cc.sys.openURL("https://antarctic-cities.org/the-game/");
                     alert("Not yet implemented.");
                     return true;
                 }
@@ -1869,7 +1890,7 @@ var LoadingScene = cc.Scene.extend({
         });
 
         cc.eventManager.addListener(listenerPlay, playLabel);
-        cc.eventManager.addListener(listenerHowToPlay.clone(), howToPlayLabel);
+        cc.eventManager.addListener(listenerLearnMore.clone(), lblLearnMore);
     }
 });
 
@@ -2170,7 +2191,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyCostLabel.setPosition(cc.p(20, 80));
         policyDetailsBackground.addChild(policyCostLabel);
 
-        var policyDetailsInvest = new ccui.Button("res/Images/paddle.png");
+        var policyDetailsInvest = new ccui.Button("res/andrea_png/BUTTONS/BUTTON_WHITE.png");
         policyDetailsInvest.setSize(cc.size(300, 60));
         policyDetailsInvest.setScale9Enabled(true);
         policyDetailsInvest.setPosition(cc.p(200, 30));
