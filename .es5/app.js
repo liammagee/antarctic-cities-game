@@ -131,9 +131,9 @@ var loadDataSets = function loadDataSets() {
  * @param {*} prompt 
  * @param {*} callback 
  */
-var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt, callback) {
-    var WINDOW_WIDTH = cc.director.getWinSize().width;
-    var WINDOW_HEIGHT = cc.director.getWinSize().height;
+var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt1, callback1, prompt2, callback2) {
+    var WINDOW_WIDTH = cc.winSize.width;
+    var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause();
 
     var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3);
@@ -164,7 +164,7 @@ var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt,
     contentText.setColor(COLOR_WHITE);
     layBackground.addChild(contentText, 2);
 
-    var listener = cc.EventListener.create({
+    var listener1 = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
         onMouseUp: function onMouseUp(event) {
             var target = event.getCurrentTarget();
@@ -175,21 +175,51 @@ var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt,
                 layBackground.removeAllChildren(true);
                 layBackground.removeFromParent(true);
                 parent.resume();
-                callback();
+                callback1();
                 return true;
             }
             return false;
         }
     });
 
-    var btnOK = new ccui.Button();
-    btnOK.setTitleText(prompt);
-    btnOK.setTitleColor(COLOR_WHITE);
-    btnOK.setTitleFontSize(24);
-    btnOK.setTitleFontName(FONT_FACE_BODY);
-    cc.eventManager.addListener(listener.clone(), btnOK);
-    btnOK.attr({ x: layBackground.width / 2, y: layBackground.height * 0.1 });
-    layBackground.addChild(btnOK);
+    var btn1 = new ccui.Button();
+    btn1.setTitleText(prompt1);
+    btn1.setTitleColor(COLOR_WHITE);
+    btn1.setTitleFontSize(24);
+    btn1.setTitleFontName(FONT_FACE_BODY);
+    cc.eventManager.addListener(listener1.clone(), btn1);
+    btn1.attr({ x: layBackground.width / 2, y: layBackground.height * 0.2 });
+    layBackground.addChild(btn1);
+
+    if (typeof prompt2 !== "undefined") {
+
+        var listener2 = cc.EventListener.create({
+            event: cc.EventListener.MOUSE,
+            onMouseUp: function onMouseUp(event) {
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+                if (cc.rectContainsPoint(rect, locationInNode)) {
+                    layBackground.removeAllChildren(true);
+                    layBackground.removeFromParent(true);
+                    parent.resume();
+                    callback2();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        var btn2 = new ccui.Button();
+        btn2.setTitleText(prompt2);
+        btn2.setTitleColor(COLOR_WHITE);
+        btn2.setTitleFontSize(24);
+        btn2.setTitleFontName(FONT_FACE_BODY);
+        cc.eventManager.addListener(listener2.clone(), btn2);
+        btn2.attr({ x: layBackground.width / 2, y: layBackground.height * 0.1 });
+        layBackground.addChild(btn2);
+    }
 };
 
 /**
@@ -220,8 +250,8 @@ var GameOver = function GameOver(parent, message, prompt) {
 
     postResultsToServer();
 
-    var WINDOW_WIDTH = cc.director.getWinSize().width;
-    var WINDOW_HEIGHT = cc.director.getWinSize().height;
+    var WINDOW_WIDTH = cc.winSize.width;
+    var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause();
     window.clearTimeout(gameParams.timeoutID);
     initGameParams(world.scenarioData);
@@ -349,8 +379,8 @@ var WorldLayer = cc.Layer.extend({
         initGameParams(scenarioData);
 
         var size = cc.winSize;
-        var WINDOW_WIDTH = cc.director.getWinSize().width;
-        var WINDOW_HEIGHT = cc.director.getWinSize().height;
+        var WINDOW_WIDTH = cc.winSize.width;
+        var WINDOW_HEIGHT = cc.winSize.height;
 
         var layerBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
@@ -657,8 +687,8 @@ var WorldLayer = cc.Layer.extend({
             world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
 
             var sourcePos = world._emitter.getSourcePosition();
-            if (sourcePos.x === 0 && sourcePos.y === 0) world._emitter.x = cc.director.getWinSize().width / 2;
-            world._emitter.y = cc.director.getWinSize().height / 2 - 50;
+            if (sourcePos.x === 0 && sourcePos.y === 0) world._emitter.x = cc.winSize.width / 2;
+            world._emitter.y = cc.winSize.height / 2 - 50;
         };
 
         var beginSim = function beginSim() {
@@ -668,7 +698,18 @@ var WorldLayer = cc.Layer.extend({
             //addEmitter();
         };
 
-        ShowMessageBoxOK(world, "Starting game...", world.scenarioData.popup_1_description, world.scenarioData.popup_1_title, function (that) {
+        ShowMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, "Start Tutorial", function (that) {
+            gameParams.tutorialMode = true;
+            var keys = Object.keys(world.countries);
+            gameParams.startCountry = "UGA";
+            // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
+            gameParams.currentCountry = gameParams.startCountry;
+            var countryName = world.countries[gameParams.startCountry].name;
+            ShowMessageBoxOK(world, "Policy Fight-back", "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function (that) {
+                beginSim();
+            });
+        }, "Skip Tutorial", function (that) {
+            gameParams.tutorialMode = false;
             var keys = Object.keys(world.countries);
             gameParams.startCountry = "UGA";
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
@@ -1882,7 +1923,6 @@ var LoadingScene = cc.Scene.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
                     cc.sys.openURL("https://antarctic-cities.org/the-game/");
-                    alert("Not yet implemented.");
                     return true;
                 }
                 return false;
