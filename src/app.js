@@ -135,17 +135,34 @@ var loadDataSets = function() {
  * @param {*} callback 
  */
 var ShowMessageBoxOK = function(parent, title, message, prompt1, callback1, prompt2, callback2){
-    var WINDOW_WIDTH = cc.winSize.width;
-    var WINDOW_HEIGHT = cc.winSize.height;
+
     parent.pause(); 
 
-    var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    var winWidth = cc.winSize.width, winHeight = cc.winSize.height;
+    var btn1Offset = 0.1, btn2Offset = 0.0;
+    if (message === null || typeof(message) === "undefined" || message === "") {
+        if (typeof(prompt2) !== "undefined") {
+            btn1Offset = 0.5;
+            btn2Offset = 0.3;
+        }
+        else {
+            btn1Offset = 0.4;
+        }
+    }
+    else {
+        if (typeof(prompt2) !== "undefined") {
+            btn1Offset = 0.2;
+            btn2Offset = 0.1;
+        }
+    }
+
+    var layBackground = new cc.LayerColor(COLOR_LICORICE, winWidth / 2, winHeight / 2);
     layBackground.attr({ 
-        x: WINDOW_WIDTH / 2 - layBackground.width / 2, 
-        y: WINDOW_HEIGHT / 2 - layBackground.height / 2});
+        x: winWidth / 2 - layBackground.width / 2, 
+        y: winHeight / 2 - layBackground.height / 2});
     parent.addChild(layBackground, 1);
 
-    var titleText = new ccui.Text(title, FONT_FACE_TITLE, 24);
+    var titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
     // titleText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
@@ -191,7 +208,7 @@ var ShowMessageBoxOK = function(parent, title, message, prompt1, callback1, prom
     btn1.setTitleFontSize(24);
     btn1.setTitleFontName(FONT_FACE_BODY);
     cc.eventManager.addListener(listener1.clone(), btn1);
-    btn1.attr({ x: layBackground.width / 2, y: layBackground.height * 0.2 });
+    btn1.attr({ x: layBackground.width / 2, y: layBackground.height * btn1Offset });
     layBackground.addChild(btn1);
 
     if (typeof(prompt2) !== "undefined") {
@@ -216,11 +233,11 @@ var ShowMessageBoxOK = function(parent, title, message, prompt1, callback1, prom
 
         var btn2 = new ccui.Button();
         btn2.setTitleText(prompt2);
-        btn2.setTitleColor(COLOR_WHITE);
+        btn2.setTitleColor(COLOR_ICE);
         btn2.setTitleFontSize(24);
         btn2.setTitleFontName(FONT_FACE_BODY);
         cc.eventManager.addListener(listener2.clone(), btn2);
-        btn2.attr({ x: layBackground.width / 2, y: layBackground.height * 0.1 });
+        btn2.attr({ x: layBackground.width / 2, y: layBackground.height * btn2Offset });
         layBackground.addChild(btn2);        
 
     }
@@ -339,7 +356,21 @@ var WorldLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    if (target == world.btnPause) {  // Pause
+                    if (target == world.btnQuit) {  // Pause
+                        gameParams.state = gameStates.PAUSED;
+                        ShowMessageBoxOK(world, "Options", "", 
+                        "QUIT GAME", function() {
+                            
+                            postResultsToServer();
+
+                            cc.director.runScene(new LoadingScene());
+
+                        }, 
+                        "RETURN TO GAME", function() {
+                            gameParams.state = gameStates.STARTED;
+                        });
+                    }
+                    else if (target == world.btnPause) {  // Pause
                         gameParams.state = gameStates.PAUSED;
                         world.btnPause.enabled = false;
                         world.btnPlay.enabled = true;
@@ -364,7 +395,8 @@ var WorldLayer = cc.Layer.extend({
                 return false;
             }
         });  
-        var a1 = actionsListener.clone(), a2 = actionsListener.clone(), a3 = actionsListener.clone();
+        var a0 = actionsListener.clone(), a1 = actionsListener.clone(), a2 = actionsListener.clone(), a3 = actionsListener.clone();
+        cc.eventManager.addListener(a0, world.btnQuit);
         cc.eventManager.addListener(a1, world.btnPause);
         cc.eventManager.addListener(a2, world.btnFF);
         cc.eventManager.addListener(a3, world.btnPlay);
@@ -411,11 +443,20 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.addChild(this.monthLabel, 100);
         this.controlsBackground.addChild(this.yearLabel, 100);
 
+        this.btnQuit = new ccui.Button();
         this.btnPause = new ccui.Button();
         this.btnPlay = new ccui.Button();
         this.btnFF = new ccui.Button();
 
-
+        this.btnQuit.setAnchorPoint(cc.p(0,0));
+        this.btnQuit.setTouchEnabled(true);
+        this.btnQuit.setScale9Enabled(true);
+        this.btnQuit.loadTextures("res/andrea_png/BUTTONS/BUTTON_QUIT.png", "", "res/andrea_png/BUTTONS/BUTTON_QUIT_ON.png");
+        this.btnQuit.attr({ x: 21, y: size.height - 63 });
+        this.btnQuit.setContentSize(cc.size(105, 105));
+        this.btnQuit.setScale(0.4);
+        this.addChild(this.btnQuit, 100);
+        
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setScale9Enabled(true);
         this.btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
@@ -718,7 +759,7 @@ var WorldLayer = cc.Layer.extend({
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
-                ShowMessageBoxOK(world, "Prepare the World!", 
+                ShowMessageBoxOK(world, "Prepare the world...", 
                     "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
                     function(that) {
                     beginSim();
@@ -731,7 +772,9 @@ var WorldLayer = cc.Layer.extend({
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
-                ShowMessageBoxOK(world, "Policy Fight-back", "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function(that) {
+                ShowMessageBoxOK(world, "Prepare the world...", 
+                    "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
+                    function(that) {
                     beginSim();
                 });
             },
