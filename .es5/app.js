@@ -138,7 +138,7 @@ var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt1
     var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause();
 
-    var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3);
+    var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     layBackground.attr({
         x: WINDOW_WIDTH / 2 - layBackground.width / 2,
         y: WINDOW_HEIGHT / 2 - layBackground.height / 2 });
@@ -1863,31 +1863,27 @@ var LoadingScene = cc.Scene.extend({
         var size = cc.winSize;
 
         var layout = new ccui.Layout();
-        layout.setContentSize(cc.size(size.width, size.height));
         layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
         layout.setBackGroundColor(COLOR_BACKGROUND);
-        layout.setContentSize(cc.size(240, 240));
+        layout.setContentSize(cc.size(size.width, size.height / 2));
         var layoutSize = layout.getContentSize();
         layout.setLayoutType(ccui.Layout.RELATIVE);
         layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
-        // layout.setLayoutType(ccui.Layout.LINEAR_VERTICAL);
         layer.addChild(layout, 1);
 
         var antarcticaSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_LARGE.png");
         antarcticaSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSprite.setContentSize(cc.size(100, 101));
-        // antarcticaSprite.attr({x: size.width / 2, y: size.height / 2});
+        antarcticaSprite.setScale(1.5);
         antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
         layer.addChild(antarcticaSprite, 101);
 
-        var margin = new ccui.Margin(0, 20, 0, 20);
+        var margin = new ccui.Margin(0, 0, 0, 0);
         var lp0 = new ccui.RelativeLayoutParameter();
         lp0.setMargin(margin);
         lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-        var lblWelcome = new ccui.Text("Welcome to the Antarctica Futures game", FONT_FACE_BODY, 24);
-        // lblWelcome.attr({x: size.width / 2, y: 6 * size.height / 8});
+        var lblWelcome = new ccui.Text("Welcome to the Antarctica Futures game!", FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
-        // antarcticaSprite.setPosition(cc.p(size.width / 2, size.height / 2));
         lblWelcome.setLayoutParameter(lp0);
         layout.addChild(lblWelcome);
 
