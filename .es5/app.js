@@ -62,6 +62,7 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.scenarioName = scenarioData.name;
     gameParams.messagesNegative = scenarioData.messages.negative;
     gameParams.messagesPositive = scenarioData.messages.positive;
+    gameParams.tutorialMode = false;
     updateTimeVars(DAY_INTERVAL);
     calculatePolicyConnections();
 };
@@ -912,9 +913,13 @@ var WorldLayer = cc.Layer.extend({
                     if (!gameParams.resourcesAdded) {
                         gameParams.state = gameStates.PAUSED;
                         gameParams.resourcesAdded = true;
-                        ShowMessageBoxOK(world, "NOTICE", "Click on the 'POLICY' button to spend your resources.", "OK!", function () {
+                        if (gameParams.tutorialMode) {
+                            ShowMessageBoxOK(world, "NOTICE", "Click on the 'POLICY' button to spend your resources.", "OK!", function () {
+                                gameParams.state = gameStates.STARTED;
+                            });
+                        } else {
                             gameParams.state = gameStates.STARTED;
-                        });
+                        }
                     }
                     return true;
                 }
@@ -1164,13 +1169,16 @@ var WorldLayer = cc.Layer.extend({
                                 btnRes.placedAt = gameParams.counter;
                                 cc.eventManager.addListener(resListener.clone(), btnRes);
                                 world.worldBackground.addChild(btnRes, 101);
+
                                 buttons.push(btnRes);
                                 if (!gameParams.alertResources) {
-                                    gameParams.state = gameStates.PAUSED;
-                                    gameParams.alertResources = true;
-                                    ShowMessageBoxOK(world, "Notice", "Click on the blue icons to add resources", "OK!", function (that) {
-                                        gameParams.state = gameStates.STARTED;
-                                    });
+                                    if (gameParams.tutorialMode) {
+                                        gameParams.state = gameStates.PAUSED;
+                                        gameParams.alertResources = true;
+                                        ShowMessageBoxOK(world, "Notice", "Click on the blue icons to add resources", "OK!", function (that) {
+                                            gameParams.state = gameStates.STARTED;
+                                        });
+                                    }
                                 }
                             }
                             gameParams.lastResource = gameParams.counter;
