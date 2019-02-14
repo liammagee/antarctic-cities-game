@@ -63,6 +63,7 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.messagesNegative = scenarioData.messages.negative;
     gameParams.messagesPositive = scenarioData.messages.positive;
     gameParams.tutorialMode = false;
+    gameParams.tutorialHints = [];
     updateTimeVars(DAY_INTERVAL);
     calculatePolicyConnections();
 };
@@ -109,7 +110,8 @@ var startGameParams = function startGameParams() {
 var updateTimeVars = function updateTimeVars(interval) {
     console.log(interval);
     gameParams.timeInterval = interval;
-    gameParams.resourceInterval = gameParams.timeInterval * 6; //(1000 / gameParams.timeInterval);
+    gameParams.tutorialInterval = gameParams.timeInterval * 6;
+    gameParams.resourceInterval = gameParams.timeInterval * 6;
     gameParams.crisisInterval = gameParams.timeInterval * 30;
 };
 
@@ -142,7 +144,7 @@ var ShowMessageBoxOK = function ShowMessageBoxOK(parent, title, message, prompt1
         y: WINDOW_HEIGHT / 2 - layBackground.height / 2 });
     parent.addChild(layBackground, 1);
 
-    var titleText = new ccui.Text(title, FONT_FACE_BODY, 24);
+    var titleText = new ccui.Text(title, FONT_FACE_TITLE, 24);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
     // titleText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
@@ -705,7 +707,7 @@ var WorldLayer = cc.Layer.extend({
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
             gameParams.currentCountry = gameParams.startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
-            ShowMessageBoxOK(world, "Policy Fight-back", "The response to climate change begins in " + countryName + "!", world.scenarioData.popup_2_title, function (that) {
+            ShowMessageBoxOK(world, "Prepare the World!", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
             });
         }, "Skip Tutorial", function (that) {
@@ -955,7 +957,8 @@ var WorldLayer = cc.Layer.extend({
                         gameParams.state = gameStates.PAUSED;
                         gameParams.resourcesAdded = true;
                         if (gameParams.tutorialMode) {
-                            ShowMessageBoxOK(world, "NOTICE", "Click on the 'POLICY' button to spend your resources.", "OK!", function () {
+                            ShowMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function () {
+                                gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
                                 gameParams.state = gameStates.STARTED;
                             });
                         } else {
@@ -1216,7 +1219,8 @@ var WorldLayer = cc.Layer.extend({
                                     if (gameParams.tutorialMode) {
                                         gameParams.state = gameStates.PAUSED;
                                         gameParams.alertResources = true;
-                                        ShowMessageBoxOK(world, "Notice", "Click on the blue icons to add resources", "OK!", function (that) {
+                                        ShowMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function (that) {
+                                            gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
                                             gameParams.state = gameStates.STARTED;
                                         });
                                     }
@@ -1273,38 +1277,61 @@ var WorldLayer = cc.Layer.extend({
                         return crisisCountry;
                     };
 
-                    var addCrisis = function addCrisis() {
-                        var r = Math.random();
-                        if (gameParams.counter - gameParams.lastCrisis >= gameParams.crisisInterval) {
-                            if (r < CRISIS_CHANCE) {
-                                var r2 = Math.random();
-                                gameParams.crisisCountry = crisisProbLocation(r2);
-                                var crisis = CRISES[gameParams.crisisCountry.crisis];
-                                var country = world.countries[gameParams.crisisCountry.country];
-                                console.log("CRISIS! " + crisis.name + " in " + country.name + "!");
+                    var addTutorial = function addTutorial() {
+                        if (gameParams.tutorialHints.length == 6) return;
 
-                                var btnCrisis = new ccui.Button();
-                                btnCrisis.setTouchEnabled(true);
-                                btnCrisis.setScale9Enabled(true);
-                                // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
-                                btnCrisis.loadTextures(crisis.image, "", "");
-                                var pt = country.centroid;
-                                btnCrisis.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
-                                btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
-                                // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
-                                btnCrisis.placedAt = gameParams.counter;
-                                cc.eventManager.addListener(resListener.clone(), btnCrisis);
-                                world.worldBackground.addChild(btnCrisis, 101);
-                                if (!gameParams.alertCrisis) {
-                                    gameParams.state = gameStates.PAUSED;
-                                    gameParams.alertCrisis = true;
-                                    ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
-                                        gameParams.state = gameStates.STARTED;
-                                    });
-                                }
-                            }
-                            gameParams.lastCrisis = gameParams.counter;
+                        gameParams.state = gameStates.PAUSED;
+                        var message;
+                        switch (gameParams.tutorialHints.length) {
+                            case 2:
+                            default:
+                                message = TUTORIAL_MESSAGES.RANDOM_1.message;
+                            case 3:
+                                message = TUTORIAL_MESSAGES.RANDOM_2.message;
+                            case 4:
+                                message = TUTORIAL_MESSAGES.RANDOM_3.message;
+                            case 5:
+                                message = TUTORIAL_MESSAGES.RANDOM_4.message;
                         }
+
+                        ShowMessageBoxOK(world, "HINT:", message, "OK", function () {
+                            gameParams.tutorialHints.push(message);
+                            gameParams.state = gameStates.STARTED;
+                        });
+                    };
+
+                    var addCrisis = function addCrisis() {
+                        if (gameParams.counter - gameParams.lastCrisis < gameParams.crisisInterval) return;
+
+                        var r = Math.random();
+                        if (r < CRISIS_CHANCE) {
+                            var r2 = Math.random();
+                            gameParams.crisisCountry = crisisProbLocation(r2);
+                            var crisis = CRISES[gameParams.crisisCountry.crisis];
+                            var country = world.countries[gameParams.crisisCountry.country];
+                            console.log("CRISIS! " + crisis.name + " in " + country.name + "!");
+
+                            var btnCrisis = new ccui.Button();
+                            btnCrisis.setTouchEnabled(true);
+                            btnCrisis.setScale9Enabled(true);
+                            // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
+                            btnCrisis.loadTextures(crisis.image, "", "");
+                            var pt = country.centroid;
+                            btnCrisis.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
+                            btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
+                            // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
+                            btnCrisis.placedAt = gameParams.counter;
+                            cc.eventManager.addListener(resListener.clone(), btnCrisis);
+                            world.worldBackground.addChild(btnCrisis, 101);
+                            if (!gameParams.alertCrisis) {
+                                gameParams.state = gameStates.PAUSED;
+                                gameParams.alertCrisis = true;
+                                ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
+                                    gameParams.state = gameStates.STARTED;
+                                });
+                            }
+                        }
+                        gameParams.lastCrisis = gameParams.counter;
                     };
 
                     // Evaluates loss
@@ -1602,124 +1629,133 @@ var WorldLayer = cc.Layer.extend({
 
                     // Updates the game state at regular intervals
                     var updateTime = function updateTime() {
-                        if (gameParams.state == gameStates.STARTED) {
-                            var d = gameParams.currentDate;
-                            gameParams.counter++;
-                            if (gameParams.counter % gameParams.timeInterval == 0) {
-                                gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
-                                gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
 
-                                // Add policy robustness and loss
-                                var totalPolicy = 0,
-                                    totalLoss = 0;
-                                var countriedAffected = 0,
-                                    populationAware = 0,
-                                    populationPrepared = 0;
-                                Object.keys(world.countries).forEach(function (key) {
-                                    var country = world.countries[key];
-                                    var loss = evaluateLoss(country);
-                                    if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
-                                        country.loss = loss;
-                                        generatePointsForCountry(country, false, country.previousLoss, country.loss);
-                                        country.previousLoss = loss;
-                                    }
-                                    if (country.affected_chance) {
-                                        transmitFrom(country);
-                                        infectWithin(country);
-                                        registerSeverityWithin(country);
-                                        countriedAffected++;
-                                        populationAware += country.pop_aware;
-                                        populationPrepared += country.pop_prepared;
+                        if (gameParams.state !== gameStates.STARTED) {
 
-                                        country.pop_aware_percent = 100 * country.pop_aware / country.pop_est;
-                                        var existingConvincedPercentage = country.pop_prepared_percent;
-                                        country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
-                                        var imin = 0;
-                                        if (existingConvincedPercentage > 0.5) imin = parseInt(existingConvincedPercentage);
-                                        var imax = 0;
-                                        if (country.pop_prepared_percent > 0.5) imax = parseInt(country.pop_prepared_percent);
-                                        generatePointsForCountry(country, true, imin, imax);
-                                    }
-                                    totalPolicy += country.policy;
-                                    totalLoss += country.loss;
-                                });
-                                totalPolicy /= Object.keys(world.countries).length;
-                                gameParams.policy = totalPolicy;
-
-                                totalLoss /= countryKeys.length;
-                                gameParams.previousLoss = totalLoss;
-                                gameParams.totalLoss = totalLoss;
-
-                                gameParams.countriedAffected = countriedAffected;
-                                gameParams.populationAware = populationAware;
-                                gameParams.populationPrepared = populationPrepared;
-                                gameParams.populationAwarePercent = 100 * gameParams.populationAware / gameParams.populationWorld;
-                                gameParams.populationPreparedPercent = 100 * gameParams.populationPrepared / gameParams.populationWorld;
-
-                                drawPoints();
-                                if (gameParams.currentCountry != null) printCountryStats();else {
-                                    printWorldStats();
-                                }
-                            }
-
-                            var ri = gameParams.resourceInterval;
-                            if (gameParams.crisisCountry != null) {
-                                var crisis = CRISES[gameParams.crisisCountry.crisis];
-                                var country = world.countries[gameParams.crisisCountry.country];
-                                ri *= 1 + -crisis.effect_on_resources;
-                            }
-                            if (gameParams.counter % ri == 0) {
-                                addResource();
-                            }
-                            if (gameParams.counter % gameParams.crisisInterval == 0) {
-                                addCrisis();
-                            }
-
-                            var newButtons = [];
-                            for (var i = 0; i < buttons.length; i++) {
-                                var button = buttons[i];
-                                if (gameParams.counter > button.placedAt + RESOURCE_DURATION) {
-                                    button.removeFromParent();
-                                } else {
-                                    newButtons.push(button);
-                                }
-                            }
-                            buttons = newButtons;
-
-                            // Update labels
-                            world.resourceScoreLabel.setString(gameParams.resources);
-                            printDate(world);
-
-                            // Scroll text
-                            if (world.tweetLabel.x > -300) {
-                                world.tweetLabel.setPositionX(world.tweetLabel.x - 1);
-                            } else {
-                                // Change label
-                                if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
-                                    var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
-                                    var message = gameParams.scenarioName,
-                                        messageIndex = -1;
-                                    if (Math.random() < weight) {
-                                        messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
-                                        message = gameParams.messagesNegative[messageIndex];
-                                    } else {
-                                        messageIndex = Math.floor(Math.random() * gameParams.messagesPositive.length);
-                                        message = gameParams.messagesPositive[messageIndex];
-                                    }
-                                    world.tweetLabel.setString(message);
-                                }
-                                world.tweetLabel.setPositionX(world.tweetBackground.width * 1.5);
-                            }
-
-                            // Game over                        
-                            if (gameParams.totalLoss >= 100) {
-                                GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
-                            }
-                            // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
-                            else if (gameParams.currentDate >= gameParams.targetDate) {
-                                    GameOver(world, "Game Over! You have sustained the world until " + gameParams.targetDate.getFullYear() + "!", "OK");
-                                }
+                            // Refresh the timeout
+                            gameParams.timeoutID = setTimeout(updateTime, gameParams.timeInterval);
+                            return;
                         }
+
+                        var d = gameParams.currentDate;
+                        gameParams.counter++;
+                        if (gameParams.counter % gameParams.timeInterval == 0) {
+                            gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
+                            gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
+
+                            // Add policy robustness and loss
+                            var totalPolicy = 0,
+                                totalLoss = 0;
+                            var countriedAffected = 0,
+                                populationAware = 0,
+                                populationPrepared = 0;
+                            Object.keys(world.countries).forEach(function (key) {
+                                var country = world.countries[key];
+                                var loss = evaluateLoss(country);
+                                if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
+                                    country.loss = loss;
+                                    generatePointsForCountry(country, false, country.previousLoss, country.loss);
+                                    country.previousLoss = loss;
+                                }
+                                if (country.affected_chance) {
+                                    transmitFrom(country);
+                                    infectWithin(country);
+                                    registerSeverityWithin(country);
+                                    countriedAffected++;
+                                    populationAware += country.pop_aware;
+                                    populationPrepared += country.pop_prepared;
+
+                                    country.pop_aware_percent = 100 * country.pop_aware / country.pop_est;
+                                    var existingConvincedPercentage = country.pop_prepared_percent;
+                                    country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
+                                    var imin = 0;
+                                    if (existingConvincedPercentage > 0.5) imin = parseInt(existingConvincedPercentage);
+                                    var imax = 0;
+                                    if (country.pop_prepared_percent > 0.5) imax = parseInt(country.pop_prepared_percent);
+                                    generatePointsForCountry(country, true, imin, imax);
+                                }
+                                totalPolicy += country.policy;
+                                totalLoss += country.loss;
+                            });
+                            totalPolicy /= Object.keys(world.countries).length;
+                            gameParams.policy = totalPolicy;
+
+                            totalLoss /= countryKeys.length;
+                            gameParams.previousLoss = totalLoss;
+                            gameParams.totalLoss = totalLoss;
+
+                            gameParams.countriedAffected = countriedAffected;
+                            gameParams.populationAware = populationAware;
+                            gameParams.populationPrepared = populationPrepared;
+                            gameParams.populationAwarePercent = 100 * gameParams.populationAware / gameParams.populationWorld;
+                            gameParams.populationPreparedPercent = 100 * gameParams.populationPrepared / gameParams.populationWorld;
+
+                            drawPoints();
+                            if (gameParams.currentCountry != null) printCountryStats();else {
+                                printWorldStats();
+                            }
+                        }
+
+                        var ri = gameParams.resourceInterval;
+                        if (gameParams.crisisCountry != null) {
+                            var crisis = CRISES[gameParams.crisisCountry.crisis];
+                            var country = world.countries[gameParams.crisisCountry.country];
+                            ri *= 1 + -crisis.effect_on_resources;
+                        }
+
+                        // Various events
+                        if (gameParams.tutorialMode && gameParams.counter % gameParams.tutorialInterval == 0) {
+                            addTutorial();
+                        } else if (gameParams.counter % gameParams.crisisInterval == 0) {
+                            addCrisis();
+                        } else if (gameParams.counter % ri == 0) {
+                            addResource();
+                        }
+
+                        var newButtons = [];
+                        for (var i = 0; i < buttons.length; i++) {
+                            var button = buttons[i];
+                            if (gameParams.counter > button.placedAt + RESOURCE_DURATION) {
+                                button.removeFromParent();
+                            } else {
+                                newButtons.push(button);
+                            }
+                        }
+                        buttons = newButtons;
+
+                        // Update labels
+                        world.resourceScoreLabel.setString(gameParams.resources);
+                        printDate(world);
+
+                        // Scroll text
+                        if (world.tweetLabel.x > -300) {
+                            world.tweetLabel.setPositionX(world.tweetLabel.x - 1);
+                        } else {
+                            // Change label
+                            if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
+                                var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
+                                var message = gameParams.scenarioName,
+                                    messageIndex = -1;
+                                if (Math.random() < weight) {
+                                    messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
+                                    message = gameParams.messagesNegative[messageIndex];
+                                } else {
+                                    messageIndex = Math.floor(Math.random() * gameParams.messagesPositive.length);
+                                    message = gameParams.messagesPositive[messageIndex];
+                                }
+                                world.tweetLabel.setString(message);
+                            }
+                            world.tweetLabel.setPositionX(world.tweetBackground.width * 1.5);
+                        }
+
+                        // Game over                        
+                        if (gameParams.totalLoss >= 100) {
+                            GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
+                        }
+                        // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
+                        else if (gameParams.currentDate >= gameParams.targetDate) {
+                                GameOver(world, "Game Over! You have sustained the world until " + gameParams.targetDate.getFullYear() + "!", "OK");
+                            }
 
                         // Refresh the timeout
                         gameParams.timeoutID = setTimeout(updateTime, gameParams.timeInterval);

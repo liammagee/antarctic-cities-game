@@ -595,3 +595,24 @@ CRISES = {
         influence_of_preparedness: -0.2 
     }
 };
+
+TUTORIAL_MESSAGES = {
+    FIRST_RESOURCE_SHOWN: {
+        message: "Click on the blue icons when they appear. It will add resources to your wallet."
+    },
+    FIRST_RESOURCE_CLICKED: {
+        message: "Click on the \"POLICY\" button to invest your resources and build your strategy. Remember that not all policies are equally effective in each country and that some policies are only effective if combined with other ones."
+    },
+    RANDOM_1: {
+        message: "Click on one country to check the progress of environmental loss and the effectiveness of your policy on the preparedness of that country."
+    },
+    RANDOM_2: {
+        message: "Click on \"STATS\" to check the progress of the game and the global effectiveness of your policy platform."
+    },
+    RANDOM_3: {
+        message: "You can pause or control the speed of the game by clicking on the top-right buttons."
+    },
+    RANDOM_4: {
+        message: "Keep an eye on the message bar at the top to be aware of unexpected events and adapt your strategy."
+    },
+};
