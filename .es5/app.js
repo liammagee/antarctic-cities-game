@@ -39,6 +39,7 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.targetDate.setDate(1);
     gameParams.targetDate.setMonth(scenarioData.target_month);
     gameParams.targetDate.setYear(scenarioData.target_year);
+    gameParams.previousDate = gameParams.startDate;
     gameParams.currentDate = gameParams.startDate;
     gameParams.counter = 0;
     gameParams.lastResource = 0;
@@ -72,6 +73,7 @@ var initGameParams = function initGameParams(scenarioData) {
  * Sets up game parameters at the start of play
  */
 var calculatePolicyConnections = function calculatePolicyConnections() {
+
     gameParams.policyOptions = {};
     var policyLen = 0;
     Object.keys(RESOURCES).forEach(function (key) {
@@ -80,6 +82,7 @@ var calculatePolicyConnections = function calculatePolicyConnections() {
             if (policyLen < pol.id) policyLen = pol.id;
         });
     });
+
     gameParams.policyRelations = {};
     for (var i = 0; i < policyLen; i++) {
         var source = gameParams.policyOptions[i + 1];
@@ -101,6 +104,7 @@ var calculatePolicyConnections = function calculatePolicyConnections() {
  * Sets up game parameters at the start of play
  */
 var startGameParams = function startGameParams() {
+
     gameParams.state = gameStates.STARTED;
 };
 
@@ -1030,7 +1034,12 @@ var WorldLayer = cc.Layer.extend({
             }
         });
 
-        var printDate = function printDate(world) {
+        /**
+         * Update month / year in the interface
+         * @param {*} world 
+         */
+        var refreshDate = function refreshDate(world) {
+
             // world.dayLabel.setString(gameParams.currentDate.getDate());
             world.monthLabel.setString((gameParams.currentDate.getMonth() + 1).toString());
             world.yearLabel.setString(gameParams.currentDate.getFullYear().toString());
@@ -1227,7 +1236,7 @@ var WorldLayer = cc.Layer.extend({
                     country.policy = 1.0;
                     country.affected_chance = 1.0;
                     startGameParams();
-                    printDate(world);
+                    refreshDate(world);
 
                     world.controlsBackground.getChildByName('pause').enabled = true;
                     world.controlsBackground.getChildByName('play').enabled = true;
@@ -1686,8 +1695,48 @@ var WorldLayer = cc.Layer.extend({
                         var d = gameParams.currentDate;
                         gameParams.counter++;
                         if (gameParams.counter % gameParams.timeInterval == 0) {
+
                             gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
                             gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
+
+                            // Show message box for each new decade
+                            var currentYear = gameParams.currentDate.getFullYear();
+                            if (currentYear > gameParams.previousDate.getFullYear() && gameParams.currentDate.getFullYear() % 10 == 0) {
+
+                                var message = "";
+                                var showDialog = false;
+
+                                // Sort narratives by loss for comparison
+                                var narratives = Object.values(NARATIVES.n2040).sort(function (o1, o2) {
+                                    return o2.loss - o1.loss;
+                                });
+
+                                switch (currentYear) {
+                                    case 2040:
+                                        showDialog = true;
+                                        for (var i = 0; i < narratives.length; i++) {
+                                            var n = narratives[i];
+                                            if (gameParams.totalLoss > n.loss) {
+                                                var index = Math.floor(Math.random() * n.messages.length);
+                                                message = n.messages[index];
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                if (showDialog) {
+
+                                    gameParams.state = gameStates.PAUSED;
+                                    ShowMessageBoxOK(world, "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), message, "OK", function () {
+                                        gameParams.state = gameStates.STARTED;
+                                    });
+                                }
+                            }
+
+                            gameParams.previousDate = gameParams.currentDate;
 
                             // Add policy robustness and loss
                             var totalPolicy = 0,
@@ -1771,7 +1820,7 @@ var WorldLayer = cc.Layer.extend({
 
                         // Update labels
                         world.resourceScoreLabel.setString(gameParams.resources);
-                        printDate(world);
+                        refreshDate(world);
 
                         // Scroll text
                         if (world.tweetLabel.x > -300) {
@@ -1796,11 +1845,31 @@ var WorldLayer = cc.Layer.extend({
 
                         // Game over                        
                         if (gameParams.totalLoss >= 100) {
-                            GameOver(world, "Game Over! The world lasted until " + gameParams.currentDate.getFullYear(), "OK");
+
+                            // Sort narratives by loss for comparison
+                            var narratives = Object.values(NARATIVES.n2070).sort(function (o1, o2) {
+                                return o2.loss - o1.loss;
+                            });
+                            var message = narratives[0];
+                            GameOver(world, message, "OK");
                         }
                         // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
                         else if (gameParams.currentDate >= gameParams.targetDate) {
-                                GameOver(world, "Game Over! You have sustained the world until " + gameParams.targetDate.getFullYear() + "!", "OK");
+
+                                var message = "";
+                                // Sort narratives by loss for comparison
+                                var narratives = Object.values(NARATIVES.n2070).sort(function (o1, o2) {
+                                    return o2.loss - o1.loss;
+                                });
+                                for (var i = 0; i < narratives.length; i++) {
+                                    var n = narratives[i];
+                                    if (gameParams.totalLoss > n.loss) {
+                                        var index = Math.floor(Math.random() * n.messages.length);
+                                        message = n.messages[index];
+                                        break;
+                                    }
+                                }
+                                GameOver(world, message, "OK");
                             }
 
                         // Refresh the timeout

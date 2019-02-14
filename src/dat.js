@@ -616,3 +616,60 @@ TUTORIAL_MESSAGES = {
         message: "Keep an eye on the message bar at the top to be aware of unexpected events and adapt your strategy."
     },
 };
+
+NARATIVES = {
+    n2040: {
+        BAD: {
+            loss: 20,
+            messages: [
+                "Because of the high level of environmental damage globally, surface waters have become corrosive to aragonite shells of pteropods, forever altering the Antarctic sea ecosystem. Act fast to avoid worse consequences to the Antarctic continent."
+            ]
+        },
+        VERY_BAD: {
+            loss: 40,
+            messages: [
+                "Sea levels are rising because of the contribution of Antarctic water. The retreat of glaciers has exposed new ice-free areas, particularly on the Antarctic Peninsula, the northernmost part of the continent, where new inavise species have arrived. Act fast to avoid worse consequences to the Antarctic continent."
+            ]
+        },
+        VERY_VERY_BAD: {
+            loss: 60,
+            messages: [
+                "In response to new phenomena such as transport of soil particles to the ocean by increased run-off of ice melt from the continent, interactions between key species (especially krill, penguins, seals and whales) are unexpectedly changing. Catastrophic declines in some communities prelude to the exctinction of many of these species. Act fast to avoid worse consequences to the Antarctic continent."
+            ]
+        },
+        VERY_VERY_VERY_BAD: {
+            loss: 80,
+            messages: [
+                "Owing to tremendous pressure for resources to support the world's population, including a now overweight or obese majority, Antarctica is becoming more and more widely exploited. Many marine species are harvested in the Southern Ocean. Several nations are attempting to rescind Article 7 of the Protocol on Environmental Protection to the Antarctic Treaty, which prohibits mineral resource exploitation. The destruction of Antarctica as we know it seems inevitable."
+            ]
+        },
+        GOOD: {
+            loss: 0,
+            messages: [
+                "While some ice shelves in the Antarctic Peninsula and Amundsen Sea have been forever lost, the thinning rates observed in the large ice shelves for the period 1994–2012 remained fairly steady through to 2040. The marine ice cliff instability has mostly been limited to a few outlet glaciers in the Amundsen Sea sector of West Antarctica and has not reached East Antarctica. Keep improving your global policy strategy to save Antarctica.",
+                "Although ocean acidification is continuing, the impact is stabilizing as atmospheric CO2 levels are descreasing. Some Antarctic population declines have been recorded in sensitive species, but others adapted, resulting in less change than was initially forecast. Seal and seabird populations will probably be able to adapt to the new ecosystemic conditions if extreme events due to climate change become less frequent.",
+                "Thanks to the strong action in mitigation greenhouse emissions, changes in the temperature and salinity of the Southern Ocean are reversing. The Antarctic Circumpolar Current is reshifting towards the Equator, therefore contributing to cooling  the Southern Ocean.  Changes in wind-driven ocean currents are reducing the exposure of the floating ice shelves to basal melt by warm ocean waters. However, the reduction in ocean heat transport to the ice shelf cavities is coming too late to save some West Antarctic ice shelves and ice tongues. Keep acting on your global policy strategy to save Antarctica.",
+            ]
+        }
+    },
+    n2070: {
+        BAD: {
+            loss: 80,
+            messages: [
+                "You lost! Your policy platform did not achieve its aim and an unprecedented environmental catastrophe is wiping out humanity. A nuclear war over the use of Antarctic water and underground resources has sparked in 2069 and has since decimated the population globally. Large human migrations have become more and more common since 2040, when low-rise coastal cities needed to be abandoned. Carbon footprint is finally decreasing, because of population loss, and climate change will probably reverse, but half of the species on the planet have gone extinct. Underground cities for wealthy people are under construction, whilst the majority of the world’s population will not survive the combination of climate wars and extreme climate events."
+            ]
+        },
+        MID: {
+            loss: 20,
+            messages: [
+                "You lost! In spite of your efforts, which have curbed climate change and reduced global carbon footprint, your policy platform was not strong enough to avoid environmental catastrophe. Whilst some Antarctic species have adapted to the new habitat conditions, the loss in ice shelves, the change in salinity, temperature and acidity of the Southern Ocean have completely transformed the Antarctic Continent. With the retreat of ice shelves, high-end hotels have been built on the Peninsula, and mining explorations are taking place in the eastern side of the continent, after a fail in the renegotiation of the Antarctic Treaty. Elsewhere in the world, several cities have become inhospitable and climate migrants are causing several political struggles globally. The future of humanity is at risk."
+            ]
+        },
+        GOOD: {
+            messages: [
+                "You won! Your global policy platform has arrested climate change and reverted its negative effects on Antarctica. Most polar species have adapted to the new environmental conditions and your policy efforts have allowed a renegotiation of the Antarctic Treaty, which imposes much stricter limitations on human presence and on the exploitation of resources on the continent. Sea level rise has remained contained within 6cm, whilst less than 10% of Antarctic Ice Shelf has been lost. Congratulations for avoiding an environmental catastrophe."
+            ]
+        }
+    }
+};
+
