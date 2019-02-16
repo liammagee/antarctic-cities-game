@@ -1931,7 +1931,6 @@ var WorldLayer = cc.Layer.extend({
                             var narratives = Object.values(NARATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
                             for (var i = 0; i < narratives.length; i++) {
                                 var n = narratives[i];
-                                console.log(gameParams.totalLoss);
                                 if (gameParams.totalLoss > n.loss) {
 
                                     var index = Math.floor(Math.random() * n.messages.length);

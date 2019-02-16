@@ -1898,7 +1898,6 @@ var WorldLayer = cc.Layer.extend({
                                 });
                                 for (var i = 0; i < narratives.length; i++) {
                                     var n = narratives[i];
-                                    console.log(gameParams.totalLoss);
                                     if (gameParams.totalLoss > n.loss) {
 
                                         var index = Math.floor(Math.random() * n.messages.length);

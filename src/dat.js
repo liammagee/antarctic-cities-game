@@ -666,6 +666,7 @@ NARATIVES = {
             ]
         },
         GOOD: {
+            loss: 0,
             messages: [
                 "You won! Your global policy platform has arrested climate change and reverted its negative effects on Antarctica. Most polar species have adapted to the new environmental conditions and your policy efforts have allowed a renegotiation of the Antarctic Treaty, which imposes much stricter limitations on human presence and on the exploitation of resources on the continent. Sea level rise has remained contained within 6cm, whilst less than 10% of Antarctic Ice Shelf has been lost. Congratulations for avoiding an environmental catastrophe."
             ]

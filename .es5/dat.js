@@ -599,6 +599,7 @@ NARATIVES = {
             messages: ["You lost! In spite of your efforts, which have curbed climate change and reduced global carbon footprint, your policy platform was not strong enough to avoid environmental catastrophe. Whilst some Antarctic species have adapted to the new habitat conditions, the loss in ice shelves, the change in salinity, temperature and acidity of the Southern Ocean have completely transformed the Antarctic Continent. With the retreat of ice shelves, high-end hotels have been built on the Peninsula, and mining explorations are taking place in the eastern side of the continent, after a fail in the renegotiation of the Antarctic Treaty. Elsewhere in the world, several cities have become inhospitable and climate migrants are causing several political struggles globally. The future of humanity is at risk."]
         },
         GOOD: {
+            loss: 0,
             messages: ["You won! Your global policy platform has arrested climate change and reverted its negative effects on Antarctica. Most polar species have adapted to the new environmental conditions and your policy efforts have allowed a renegotiation of the Antarctic Treaty, which imposes much stricter limitations on human presence and on the exploitation of resources on the continent. Sea level rise has remained contained within 6cm, whilst less than 10% of Antarctic Ice Shelf has been lost. Congratulations for avoiding an environmental catastrophe."]
         }
     }
