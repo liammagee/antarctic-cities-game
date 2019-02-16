@@ -116,10 +116,12 @@ var startGameParams = function() {
  * Update time variables.
  */
 var updateTimeVars = function(interval) {
+
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * 6;
     gameParams.resourceInterval = gameParams.timeInterval * 6; 
     gameParams.crisisInterval = gameParams.timeInterval * 30;
+
 };
 
 /**
@@ -140,7 +142,7 @@ var loadDataSets = function() {
  * @param {*} prompt 
  * @param {*} callback 
  */
-var ShowMessageBoxOK = function(parent, title, message, prompt1, callback1, prompt2, callback2){
+var showMessageBoxOK = function(parent, title, message, prompt1, callback1, prompt2, callback2){
 
     parent.pause(); 
 
@@ -364,7 +366,7 @@ var WorldLayer = cc.Layer.extend({
                 if (cc.rectContainsPoint(rect, locationInNode)) {
                     if (target == world.btnQuit) {  // Pause
                         gameParams.state = gameStates.PAUSED;
-                        ShowMessageBoxOK(world, "Options", "", 
+                        showMessageBoxOK(world, "Options", "", 
                         "QUIT GAME", function() {
                             
                             postResultsToServer();
@@ -757,7 +759,7 @@ var WorldLayer = cc.Layer.extend({
             //addEmitter();
         };
 
-        ShowMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, 
+        showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, 
             "Start Tutorial", function(that) {
                 gameParams.tutorialMode = true;
                 var keys = Object.keys(world.countries);
@@ -765,7 +767,7 @@ var WorldLayer = cc.Layer.extend({
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
-                ShowMessageBoxOK(world, "Prepare the world...", 
+                showMessageBoxOK(world, "Prepare the world...", 
                     "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
                     function(that) {
                     beginSim();
@@ -778,7 +780,7 @@ var WorldLayer = cc.Layer.extend({
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
-                ShowMessageBoxOK(world, "Prepare the world...", 
+                showMessageBoxOK(world, "Prepare the world...", 
                     "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
                     function(that) {
                     beginSim();
@@ -1011,7 +1013,7 @@ var WorldLayer = cc.Layer.extend({
                         gameParams.state = gameStates.PAUSED;
                         gameParams.resourcesAdded = true;
                         if (gameParams.tutorialMode) {
-                            ShowMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function() {
+                            showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function() {
                                 gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
                                 gameParams.state = gameStates.STARTED;
                             });
@@ -1047,7 +1049,7 @@ var WorldLayer = cc.Layer.extend({
                     if (!gameParams.alertCrisis && gameParams.tutorialMode) {
                         gameParams.state = gameStates.PAUSED;
                         gameParams.alertCrisis = true;
-                        ShowMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function() {
+                        showMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function() {
                             gameParams.state = gameStates.STARTED;
                         });
                     }
@@ -1288,7 +1290,7 @@ var WorldLayer = cc.Layer.extend({
                                     if (gameParams.tutorialMode) {
                                         gameParams.state = gameStates.PAUSED;
                                         gameParams.alertResources = true;
-                                        ShowMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function(that) {
+                                        showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function(that) {
                                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
                                             gameParams.state = gameStates.STARTED;
                                         });
@@ -1370,7 +1372,7 @@ var WorldLayer = cc.Layer.extend({
                                 break;
                         }
 
-                        ShowMessageBoxOK(world, "HINT:", message, "OK", function() {
+                        showMessageBoxOK(world, "HINT:", message, "OK", function() {
                             gameParams.tutorialHints.push(message);
                             gameParams.state = gameStates.STARTED;
                         });
@@ -1403,7 +1405,7 @@ var WorldLayer = cc.Layer.extend({
                             cc.eventManager.addListener(crisisListener.clone(), btnCrisis);
                             world.worldBackground.addChild(btnCrisis, 101);
                             gameParams.state = gameStates.PAUSED;
-                            ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function(that) {
+                            showMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function(that) {
                                 gameParams.state = gameStates.STARTED;
                             });
                             
@@ -1778,7 +1780,7 @@ var WorldLayer = cc.Layer.extend({
                                 if (showDialog) {
 
                                     gameParams.state = gameStates.PAUSED;
-                                    ShowMessageBoxOK(world, 
+                                    showMessageBoxOK(world, 
                                         "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), 
                                         message, "OK", function() {
                                             gameParams.state = gameStates.STARTED;
