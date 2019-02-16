@@ -64,7 +64,7 @@ cc.game.onStart = function(){
     if (sys.isMobile && 
         sys.browserType !== sys.BROWSER_TYPE_BAIDU &&
         sys.browserType !== sys.BROWSER_TYPE_WECHAT) {
-        cc.view.enableAutoFullScreen(true);
+        //cc.view.enableAutoFullScreen(true);
     }
 
     // Adjust viewport meta

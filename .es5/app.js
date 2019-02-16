@@ -1986,6 +1986,11 @@ var LoadingScene = cc.Scene.extend({
         layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
         layer.addChild(layout, 1);
 
+        // layer.setTouchEnabled(true);
+        // layer.setSwallowTouches(false);
+        layout.setTouchEnabled(true);
+        layout.setSwallowTouches(true);
+
         var antarcticaSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_LARGE.png");
         antarcticaSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSprite.setContentSize(cc.size(100, 101));
@@ -2005,18 +2010,20 @@ var LoadingScene = cc.Scene.extend({
         var lp1 = new ccui.RelativeLayoutParameter();
         lp1.setMargin(margin);
         lp1.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
-        var playLabel = new ccui.Button();
-        playLabel.setContentSize(cc.size(320, 80));
-        playLabel.setTouchEnabled(true);
-        playLabel.setScale9Enabled(true);
-        playLabel.loadTextures("res/andrea_png/BUTTONS/BUTTON_WHITE.png", "", "");
-        playLabel.setTitleText("PLAY");
-        playLabel.setTitleFontName(FONT_FACE_BODY);
-        playLabel.setTitleColor(COLOR_BLACK);
-        playLabel.setTitleFontSize(38);
-        // playLabel.attr({x: size.width / 2, y: size.height / 2});
-        playLabel.setLayoutParameter(lp1);
-        layout.addChild(playLabel);
+        var lblPlay = new ccui.Button();
+        lblPlay.setContentSize(cc.size(320, 80));
+        lblPlay.setTouchEnabled(true);
+        lblPlay.setSwallowTouches(false);
+        lblPlay.setPressedActionEnabled(true);
+        lblPlay.setScale9Enabled(true);
+        lblPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png");
+        lblPlay.setTitleText("PLAY");
+        lblPlay.setTitleFontName(FONT_FACE_BODY);
+        lblPlay.setTitleColor(COLOR_BLACK);
+        lblPlay.setTitleFontSize(38);
+        // lblPlay.attr({x: size.width / 2, y: size.height / 2});
+        lblPlay.setLayoutParameter(lp1);
+        layout.addChild(lblPlay, 100);
 
         var lp2 = new ccui.RelativeLayoutParameter();
         lp2.setMargin(margin);
@@ -2024,15 +2031,17 @@ var LoadingScene = cc.Scene.extend({
         var lblLearnMore = new ccui.Button();
         lblLearnMore.setContentSize(cc.size(320, 80));
         lblLearnMore.setTouchEnabled(true);
+        lblLearnMore.setSwallowTouches(false);
+        lblLearnMore.setPressedActionEnabled(true);
         lblLearnMore.setScale9Enabled(true);
-        lblLearnMore.loadTextures("res/andrea_png/BUTTONS/BUTTON_GREY.png", "", "");
+        lblLearnMore.loadTextures("res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png");
         lblLearnMore.setTitleText("LEARN MORE");
         lblLearnMore.setTitleFontName(FONT_FACE_BODY);
         lblLearnMore.setTitleColor(COLOR_BLACK);
         lblLearnMore.setTitleFontSize(38);
         // lblLearnMore.attr({x: size.width / 2, y: size.height / 2});
         lblLearnMore.setLayoutParameter(lp2);
-        layout.addChild(lblLearnMore);
+        layout.addChild(lblLearnMore, 100);
 
         /*
         // Test adding animation effects
@@ -2045,7 +2054,12 @@ var LoadingScene = cc.Scene.extend({
         a2.tag = 1;
         */
 
-        var listenerPlay = cc.EventListener.create({
+        var playHandler = function playHandler() {
+            cc.director.runScene(new WorldScene());
+            // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
+        };
+
+        var listenerPlayMouse = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
@@ -2053,15 +2067,43 @@ var LoadingScene = cc.Scene.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    cc.director.runScene(new WorldScene());
-                    // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
+                    playHandler();
                     return true;
                 }
                 return false;
             }
         });
+        var listenerPlayTouch = cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: function onTouchBegan(touch, event) {
+                console.log("got hre 1");
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(touch.getLocation());
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+                console.log("got hre 2", rect, target, locationInNode, touch.getLocation());
+                if (cc.rectContainsPoint(rect, locationInNode)) {
+                    target.TOUCHED = true;
+                    return true;
+                }
+                return false;
+            },
+            onTouchEnded: function onTouchEnded(touch, event) {
+                console.log("got hre 3");
+                var target = event.getCurrentTarget();
+                if (target.TOUCHED) {
+                    target.TOUCHED = false;
+                    playHandler();
+                }
+                return true;
+            }
+        });
 
-        var listenerLearnMore = cc.EventListener.create({
+        var learnMoreHandler = function learnMoreHandler() {
+            cc.sys.openURL("https://antarctic-cities.org/the-game/");
+        };
+        var listenerLearnMoreMouse = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
             onMouseUp: function onMouseUp(event) {
                 var target = event.getCurrentTarget();
@@ -2069,15 +2111,40 @@ var LoadingScene = cc.Scene.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    cc.sys.openURL("https://antarctic-cities.org/the-game/");
+                    learnMoreHandler();
                     return true;
                 }
                 return false;
             }
         });
+        var listenerLearnMoreTouch = cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: false,
+            onTouchBegan: function onTouchBegan(touch, event) {
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(touch.getLocation());
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+                if (cc.rectContainsPoint(rect, locationInNode)) {
+                    target.TOUCHED = true;
+                    return true;
+                }
+                return false;
+            },
+            onTouchEnded: function onTouchEnded(touch, event) {
+                var target = event.getCurrentTarget();
+                if (target.TOUCHED) {
+                    target.TOUCHED = false;
+                    learnMoreHandler();
+                }
+                return true;
+            }
+        });
 
-        cc.eventManager.addListener(listenerPlay, playLabel);
-        cc.eventManager.addListener(listenerLearnMore.clone(), lblLearnMore);
+        cc.eventManager.addListener(listenerPlayMouse, lblPlay);
+        cc.eventManager.addListener(listenerPlayTouch, lblPlay);
+        cc.eventManager.addListener(listenerLearnMoreMouse, lblLearnMore);
+        cc.eventManager.addListener(listenerLearnMoreTouch, lblLearnMore);
     }
 });
 
