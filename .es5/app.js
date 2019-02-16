@@ -160,33 +160,33 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
         }
     }
 
-    var layBackground = new cc.LayerColor(COLOR_LICORICE, winWidth / 2, winHeight / 2);
-    layBackground.attr({
-        x: winWidth / 2 - layBackground.width / 2,
-        y: winHeight / 2 - layBackground.height / 2 });
-    parent.addChild(layBackground, 1);
+    var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth / 2, winHeight / 2);
+    layerBackground.attr({
+        x: winWidth / 2 - layerBackground.width / 2,
+        y: winHeight / 2 - layerBackground.height / 2 });
+    parent.addChild(layerBackground, 1);
 
     var titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
-    // titleText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
-    titleText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.15));
-    titleText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.8));
+    // titleText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
+    titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
+    titleText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.8));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
-    layBackground.addChild(titleText, 2);
+    layerBackground.addChild(titleText, 2);
 
     var contentText = new ccui.Text(message, FONT_FACE_BODY, 20);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
-    // contentText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
-    contentText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.6));
-    contentText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.2));
+    // contentText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
+    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
+    contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
-    layBackground.addChild(contentText, 2);
+    layerBackground.addChild(contentText, 2);
 
     var listener1 = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
@@ -196,8 +196,8 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
             var s = target.getContentSize();
             var rect = cc.rect(0, 0, s.width, s.height);
             if (cc.rectContainsPoint(rect, locationInNode)) {
-                layBackground.removeAllChildren(true);
-                layBackground.removeFromParent(true);
+                layerBackground.removeAllChildren(true);
+                layerBackground.removeFromParent(true);
                 parent.resume();
                 callback1();
                 return true;
@@ -206,14 +206,25 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
         }
     });
 
+    var processBtn1 = function processBtn1() {
+        layerBackground.removeAllChildren(true);
+        layerBackground.removeFromParent(true);
+        parent.resume();
+        callback1();
+    };
+
     var btn1 = new ccui.Button();
+    btn1.setTouchEnabled(true);
+    btn1.setSwallowTouches(false);
     btn1.setTitleText(prompt1);
     btn1.setTitleColor(COLOR_WHITE);
     btn1.setTitleFontSize(24);
     btn1.setTitleFontName(FONT_FACE_BODY);
-    cc.eventManager.addListener(listener1.clone(), btn1);
-    btn1.attr({ x: layBackground.width / 2, y: layBackground.height * btn1Offset });
-    layBackground.addChild(btn1);
+    btn1.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn1Offset });
+    layerBackground.addChild(btn1);
+
+    //cc.eventManager.addListener(listener1.clone(), btn1);
+    handleMouseTouchEvent(btn1, processBtn1);
 
     if (typeof prompt2 !== "undefined") {
 
@@ -225,8 +236,8 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
-                    layBackground.removeAllChildren(true);
-                    layBackground.removeFromParent(true);
+                    layerBackground.removeAllChildren(true);
+                    layerBackground.removeFromParent(true);
                     parent.resume();
                     callback2();
                     return true;
@@ -234,15 +245,25 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
                 return false;
             }
         });
+        var processBtn2 = function processBtn2() {
+            layerBackground.removeAllChildren(true);
+            layerBackground.removeFromParent(true);
+            parent.resume();
+            callback2();
+        };
 
         var btn2 = new ccui.Button();
+        btn2.setTouchEnabled(true);
+        btn2.setSwallowTouches(false);
         btn2.setTitleText(prompt2);
         btn2.setTitleColor(COLOR_ICE);
         btn2.setTitleFontSize(24);
         btn2.setTitleFontName(FONT_FACE_BODY);
-        cc.eventManager.addListener(listener2.clone(), btn2);
-        btn2.attr({ x: layBackground.width / 2, y: layBackground.height * btn2Offset });
-        layBackground.addChild(btn2);
+        btn2.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn2Offset });
+        layerBackground.addChild(btn2);
+
+        //cc.eventManager.addListener(listener2.clone(), btn2);
+        handleMouseTouchEvent(btn2, processBtn2);
     }
 };
 
@@ -286,38 +307,38 @@ var gameOver = function gameOver(parent, message, prompt) {
     world.tweetLabel.setString(gameParams.scenarioName);
     world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
 
-    var layBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    layBackground.attr({
-        x: WINDOW_WIDTH / 2 - layBackground.width / 2,
-        y: WINDOW_HEIGHT / 2 - layBackground.height / 2
+    var layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    layerBackground.attr({
+        x: WINDOW_WIDTH / 2 - layerBackground.width / 2,
+        y: WINDOW_HEIGHT / 2 - layerBackground.height / 2
     });
-    parent.addChild(layBackground, 1);
+    parent.addChild(layerBackground, 1);
 
     var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, 24);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
-    // titleText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
-    titleText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.15));
-    titleText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.8));
+    // titleText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
+    titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
+    titleText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.8));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
-    layBackground.addChild(titleText, 2);
+    layerBackground.addChild(titleText, 2);
 
     var contentText = new ccui.Text(message, FONT_FACE_BODY, 20);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
-    // contentText.setAnchorPoint(cc.p(layBackground.width / 2, layBackground.height / 2));
-    contentText.setContentSize(cc.size(layBackground.width * 0.9, layBackground.height * 0.6));
-    contentText.setPosition(cc.p(layBackground.width * 0.05, layBackground.height * 0.2));
+    // contentText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
+    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
+    contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
-    layBackground.addChild(contentText, 2);
+    layerBackground.addChild(contentText, 2);
 
     var menu = this._menu = cc.Menu.create();
     menu.setPosition(cc.p(0, 0));
-    layBackground.addChild(this._menu, 3);
+    layerBackground.addChild(this._menu, 3);
 
     var listener = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
@@ -337,8 +358,8 @@ var gameOver = function gameOver(parent, message, prompt) {
     var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 24));
     cc.eventManager.addListener(listener.clone(), btnOK);
     btnOK.attr({
-        x: layBackground.width / 2,
-        y: layBackground.height * 0.1
+        x: layerBackground.width / 2,
+        y: layerBackground.height * 0.1
     });
     menu.addChild(btnOK);
 };
@@ -2157,9 +2178,9 @@ var NewGameScene = cc.Scene.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
-        layBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layBackground, 1);
+        var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        layerBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layerBackground, 1);
 
         var newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, 38);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
@@ -2245,9 +2266,9 @@ var SelectDifficultyScene = cc.Scene.extend({
         var layer = this;
         var size = cc.winSize;
 
-        var layBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
-        layBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layBackground, 1);
+        var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        layerBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layerBackground, 1);
 
         var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE_BODY, 38);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
@@ -2368,9 +2389,9 @@ var DesignPolicyLayer = cc.Layer.extend({
         var resourceSelected = null;
         var resourceSelectedButton = null;
 
-        var layBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
-        layBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layBackground, 1);
+        var layerBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
+        layerBackground.attr({ x: 0, y: 0 });
+        layer.addChild(layerBackground, 1);
 
         var heading = new ccui.Text("Build a policy platform", FONT_FACE_BODY, 38);
         heading.attr({ x: size.width * 0.5, y: size.height * 0.9 });
