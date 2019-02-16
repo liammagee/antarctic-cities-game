@@ -44,6 +44,7 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.counter = 0;
     gameParams.lastResource = 0;
     gameParams.lastCrisis = 0;
+    gameParams.crises = [];
     gameParams.crisisCountry = null;
     gameParams.strategies = {};
     gameParams.policy = 0;
@@ -1020,11 +1021,23 @@ var WorldLayer = cc.Layer.extend({
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {
                     gameParams.crisisCountry = null;
+                    var crisis = null;
+                    for (var i = 0; i < gameParams.crises.length; i++) {
+                        if (gameParams.crises[i].id == target.crisisId) {
+                            var crisisInCountry = gameParams.crises[i];
+                            crisis = CRISES[crisisInCountry.crisis];
+                            gameParams.crises.splice(i, 1);
+                            break;
+                        }
+                    }
                     target.removeFromParent();
-                    gameParams.state = gameStates.PAUSED;
-                    ShowMessageBoxOK(world, "Crisis alert!", crisis.name + " has been averted!", "OK!", function () {
-                        gameParams.state = gameStates.STARTED;
-                    });
+                    if (!gameParams.alertCrisis && gameParams.tutorialMode) {
+                        gameParams.state = gameStates.PAUSED;
+                        gameParams.alertCrisis = true;
+                        ShowMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function () {
+                            gameParams.state = gameStates.STARTED;
+                        });
+                    }
                     return true;
                 }
                 return false;
@@ -1317,6 +1330,7 @@ var WorldLayer = cc.Layer.extend({
                                 var countryID = i % countryKeys.length;
                                 crisisCountry.crisis = crisisKeys[crisisID];
                                 crisisCountry.country = countryKeys[countryID];
+                                crisisCountry.id = i;
                                 break;
                             }
                         }
@@ -1356,9 +1370,11 @@ var WorldLayer = cc.Layer.extend({
                         var r = Math.random();
                         if (r < CRISIS_CHANCE) {
                             var r2 = Math.random();
-                            gameParams.crisisCountry = crisisProbLocation(r2);
-                            var crisis = CRISES[gameParams.crisisCountry.crisis];
-                            var country = world.countries[gameParams.crisisCountry.country];
+                            var crisisInCountry = crisisProbLocation(r2);
+                            gameParams.crisisCountry = crisisInCountry;
+                            gameParams.crises.push(crisisInCountry);
+                            var crisis = CRISES[crisisInCountry.crisis];
+                            var country = world.countries[crisisInCountry.country];
                             cc.log("CRISIS! " + crisis.name + " in " + country.name + "!");
 
                             var btnCrisis = new ccui.Button();
@@ -1371,15 +1387,13 @@ var WorldLayer = cc.Layer.extend({
                             btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                             // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                             btnCrisis.placedAt = gameParams.counter;
-                            cc.eventManager.addListener(resListener.clone(), btnCrisis);
+                            btnCrisis.crisisId = crisisInCountry.id;
+                            cc.eventManager.addListener(crisisListener.clone(), btnCrisis);
                             world.worldBackground.addChild(btnCrisis, 101);
-                            if (!gameParams.alertCrisis) {
-                                gameParams.state = gameStates.PAUSED;
-                                gameParams.alertCrisis = true;
-                                ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
-                                    gameParams.state = gameStates.STARTED;
-                                });
-                            }
+                            gameParams.state = gameStates.PAUSED;
+                            ShowMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
+                                gameParams.state = gameStates.STARTED;
+                            });
                         }
                         gameParams.lastCrisis = gameParams.counter;
                     };
@@ -1396,12 +1410,20 @@ var WorldLayer = cc.Layer.extend({
                         // Weaken rate of loss by population convinced of good policy
                         loss /= 1 + country.pop_prepared_percent / 100.0;
 
+                        gameParams.crises.forEach(function (crisisInCountry) {
+                            var crisis = CRISES[crisisInCountry.crisis];
+                            var country = world.countries[crisisInCountry.country];
+                            // Add effects of country / global loss ratio to crisis effect
+                            loss *= (1 + crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
+                        });
+                        /*
                         if (gameParams.crisisCountry != null) {
                             var crisis = CRISES[gameParams.crisisCountry.crisis];
                             var country = world.countries[gameParams.crisisCountry.country];
                             // Add effects of country / global loss ratio to crisis effect
                             loss *= (1 + crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
                         }
+                        */
 
                         if (loss < gameParams.minimum_loss_increase) {
                             loss = gameParams.minimum_loss_increase;
@@ -1793,11 +1815,19 @@ var WorldLayer = cc.Layer.extend({
                         }
 
                         var ri = gameParams.resourceInterval;
+                        gameParams.crises.forEach(function (crisisInCountry) {
+                            var crisis = CRISES[crisisInCountry.crisis];
+                            var country = world.countries[crisisInCountry.country];
+                            // Slow down resource production
+                            ri *= 1 + -crisis.effect_on_resources;
+                        });
+                        /*
                         if (gameParams.crisisCountry != null) {
                             var crisis = CRISES[gameParams.crisisCountry.crisis];
                             var country = world.countries[gameParams.crisisCountry.country];
                             ri *= 1 + -crisis.effect_on_resources;
                         }
+                        */
 
                         // Various events
                         if (gameParams.counter % gameParams.crisisInterval == 0) {
@@ -1868,11 +1898,11 @@ var WorldLayer = cc.Layer.extend({
                                 });
                                 for (var i = 0; i < narratives.length; i++) {
                                     var n = narratives[i];
+                                    console.log(gameParams.totalLoss);
                                     if (gameParams.totalLoss > n.loss) {
 
                                         var index = Math.floor(Math.random() * n.messages.length);
                                         message = n.messages[index];
-                                        break;
                                     }
                                 }
 
