@@ -112,7 +112,7 @@ var startGameParams = function startGameParams() {
  * Update time variables.
  */
 var updateTimeVars = function updateTimeVars(interval) {
-    console.log(interval);
+    cc.log(interval);
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * 6;
     gameParams.resourceInterval = gameParams.timeInterval * 6;
@@ -125,7 +125,7 @@ var updateTimeVars = function updateTimeVars(interval) {
  */
 var loadDataSets = function loadDataSets() {
     cc.loader.loadJson("https://api.openaq.org/v1/cities", function (error, data) {
-        console.log(data);
+        cc.log(data);
     });
 };
 
@@ -260,7 +260,7 @@ var postResultsToServer = function postResultsToServer() {
 
     //set Content-type "text/plain;charset=UTF-8" to post plain text
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(JSON.stringify(gameParams));
+    cc.log(JSON.stringify(gameParams));
     xhr.send(JSON.stringify(gameParams));
 };
 /**
@@ -1327,20 +1327,24 @@ var WorldLayer = cc.Layer.extend({
                     };
 
                     var addTutorial = function addTutorial() {
-                        if (gameParams.tutorialHints.length == 6) return;
+                        if (gameParams.tutorialHints.length < 2 || gameParams.tutorialHints.length >= 6) return;
 
                         gameParams.state = gameStates.PAUSED;
-                        var message;
+                        var message = null;
                         switch (gameParams.tutorialHints.length) {
                             case 2:
                             default:
                                 message = TUTORIAL_MESSAGES.RANDOM_1.message;
+                                break;
                             case 3:
                                 message = TUTORIAL_MESSAGES.RANDOM_2.message;
+                                break;
                             case 4:
                                 message = TUTORIAL_MESSAGES.RANDOM_3.message;
+                                break;
                             case 5:
                                 message = TUTORIAL_MESSAGES.RANDOM_4.message;
+                                break;
                         }
 
                         ShowMessageBoxOK(world, "HINT:", message, "OK", function () {
@@ -1358,7 +1362,7 @@ var WorldLayer = cc.Layer.extend({
                             gameParams.crisisCountry = crisisProbLocation(r2);
                             var crisis = CRISES[gameParams.crisisCountry.crisis];
                             var country = world.countries[gameParams.crisisCountry.country];
-                            console.log("CRISIS! " + crisis.name + " in " + country.name + "!");
+                            cc.log("CRISIS! " + crisis.name + " in " + country.name + "!");
 
                             var btnCrisis = new ccui.Button();
                             btnCrisis.setTouchEnabled(true);
@@ -1799,12 +1803,14 @@ var WorldLayer = cc.Layer.extend({
                         }
 
                         // Various events
+                        if (gameParams.counter % gameParams.crisisInterval == 0) {
+                            addCrisis();
+                        }
+                        if (gameParams.counter % ri == 0) {
+                            addResource();
+                        }
                         if (gameParams.tutorialMode && gameParams.counter % gameParams.tutorialInterval == 0) {
                             addTutorial();
-                        } else if (gameParams.counter % gameParams.crisisInterval == 0) {
-                            addCrisis();
-                        } else if (gameParams.counter % ri == 0) {
-                            addResource();
                         }
 
                         var newButtons = [];
@@ -1940,7 +1946,7 @@ var WorldLayer = cc.Layer.extend({
                     // if (typeof(gameParams.currentCountry) !== 'undefined')
                     //     currentGid = parseInt(world.countries[gameParams.currentCountry].gid);
                     // var testGid = layer.getTileGIDAt(cc.p(0,0));
-                    // console.log(testGid, currentGid);
+                    // cc.log(testGid, currentGid);
                     // if (testGid > 0 && testGid === currentGid) {
                     //     // Do nothing
                     // }
@@ -2077,12 +2083,12 @@ var LoadingScene = cc.Scene.extend({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: function onTouchBegan(touch, event) {
-                console.log("got hre 1");
+                cc.log("got hre 1");
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(touch.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                console.log("got hre 2", rect, target, locationInNode, touch.getLocation());
+                cc.log("got hre 2", rect, target, locationInNode, touch.getLocation());
                 if (cc.rectContainsPoint(rect, locationInNode)) {
                     target.TOUCHED = true;
                     return true;
@@ -2090,7 +2096,7 @@ var LoadingScene = cc.Scene.extend({
                 return false;
             },
             onTouchEnded: function onTouchEnded(touch, event) {
-                console.log("got hre 3");
+                cc.log("got hre 3");
                 var target = event.getCurrentTarget();
                 if (target.TOUCHED) {
                     target.TOUCHED = false;
