@@ -529,29 +529,25 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.addChild(this.tweetLabel, 101);
 
         // Add resource
-        /*
-        this.resourceScoreBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 100, 36);
-        this.resourceScoreBackground.setAnchorPoint(new cc.p(0,0));
-        this.resourceScoreBackground.attr({ x: 10, y: 70 });
-        this.addChild(this.resourceScoreBackground, 100);
-
-        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources, FONT_FACE_BODY, 18);
-        this.resourceScoreLabel.attr({ x: 50, y: 18 });
-        this.resourceScoreLabel.color = COLOR_FOREGROUND;
-        this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
-        */
-
-        this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 80, 50);
+        this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
         this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
-        this.resourceScoreBackground.setPosition(cc.p(60, 80));
+        this.resourceScoreBackground.setPosition(cc.p(0, 80));
         this.addChild(this.resourceScoreBackground, 100);
 
-        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 24);
-        this.resourceScoreLabel.setPosition(cc.p(40, 25));
+        var antarcticaSmallSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_SMALL.png");
+        antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
+        antarcticaSmallSprite.setContentSize(cc.size(50, 51));
+        antarcticaSmallSprite.setScale(0.8);
+        antarcticaSmallSprite.setPosition(cc.p(40, 25));
+        this.resourceScoreBackground.addChild(antarcticaSmallSprite, 100);
+
+        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
+        this.resourceScoreLabel.setAnchorPoint(cc.p(0.5, 0.5));
+        this.resourceScoreLabel.setPosition(cc.p(80, 25));
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
-        // add "World" background layer
+        // Add "World" background layer
         this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
         this.spriteBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.spriteBackground, 1);
@@ -1905,11 +1901,14 @@ var WorldLayer = cc.Layer.extend({
                             for (var i = 0; i < narratives.length; i++) {
                                 var n = narratives[i];
                                 if (gameParams.totalLoss > n.loss) {
+
                                     var index = Math.floor(Math.random() * n.messages.length);
                                     message = n.messages[index];
                                     break;
+
                                 }
                             }
+
                             GameOver(world, message, "OK");
 
                         }
@@ -1929,9 +1928,11 @@ var WorldLayer = cc.Layer.extend({
             },
 
             onMouseMove : function(event) {
+
                 if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED)
                     return;
-                var target = event.getCurrentTarget();
+                
+                    var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
                 var x = 0, y = 0;
 
@@ -2515,7 +2516,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.resources -= resourceSelected.cost_1;  
                 gameParams.strategies[resourceSelected.id] = 1;
                 resourceSelectedButton.enabled = false;
-                layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
 
                 // Calculate resource-specific effects
@@ -2531,7 +2532,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.resources -= resourceSelected.cost_2;  
                 gameParams.strategies[resourceSelected.id] = 2;
                 resourceSelectedButton.enabled = false;
-                layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
 
             }
@@ -2541,7 +2542,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 gameParams.resources -= resourceSelected.cost_3;  
                 gameParams.strategies[resourceSelected.id] = 3;
                 resourceSelectedButton.enabled = false;
-                layer.availableResourcesLabel.setString(gameParams.resources.toString());
+                layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
     
             }
@@ -2695,6 +2696,26 @@ var DesignPolicyLayer = cc.Layer.extend({
         makeButton("Culture", cc.p(700, 80), 2);
         makeButton("Ecology", cc.p(900, 80), 3);
 
+        // Add resource
+        this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
+        this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
+        this.resourceScoreBackground.setPosition(cc.p(0, 80));
+        layer.addChild(this.resourceScoreBackground, 100);
+
+        var antarcticaSmallSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_SMALL.png");
+        antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
+        antarcticaSmallSprite.setContentSize(cc.size(50, 51));
+        antarcticaSmallSprite.setScale(0.8);
+        antarcticaSmallSprite.setPosition(cc.p(40, 25));
+        this.resourceScoreBackground.addChild(antarcticaSmallSprite, 100);
+
+        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
+        this.resourceScoreLabel.setAnchorPoint(cc.p(0.5, 0.5));
+        this.resourceScoreLabel.setPosition(cc.p(80, 25));
+        this.resourceScoreLabel.setColor(COLOR_LICORICE);
+        this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
+        
+        /*
         var resourcesLabelBackground = new cc.LayerColor(COLOR_ICE, 80, 50);
         resourcesLabelBackground.setAnchorPoint(cc.p(0, 0));
         resourcesLabelBackground.setPosition(cc.p(60, 80));
@@ -2704,6 +2725,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.availableResourcesLabel.setPosition(cc.p(40, 25));
         this.availableResourcesLabel.setColor(COLOR_BLACK);
         resourcesLabelBackground.addChild(this.availableResourcesLabel, 100);
+        */
     }
 });
 
