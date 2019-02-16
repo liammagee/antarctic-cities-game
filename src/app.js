@@ -116,7 +116,6 @@ var startGameParams = function() {
  * Update time variables.
  */
 var updateTimeVars = function(interval) {
-    cc.log(interval);
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * 6;
     gameParams.resourceInterval = gameParams.timeInterval * 6; 
@@ -1389,7 +1388,6 @@ var WorldLayer = cc.Layer.extend({
                             gameParams.crises.push(crisisInCountry);
                             var crisis = CRISES[crisisInCountry.crisis];
                             var country = world.countries[crisisInCountry.country];
-                            cc.log("CRISIS! " + crisis.name + " in " + country.name + "!");
 
                             var btnCrisis = new ccui.Button();
                             btnCrisis.setTouchEnabled(true);
@@ -2159,12 +2157,10 @@ var LoadingScene = cc.Scene.extend({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan : function(touch, event) {
-                cc.log("got hre 1");
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(touch.getLocation());
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
-                cc.log("got hre 2", rect, target, locationInNode, touch.getLocation());
                 if (cc.rectContainsPoint(rect, locationInNode)) {  
                     target.TOUCHED = true;
                     return true;
@@ -2172,7 +2168,6 @@ var LoadingScene = cc.Scene.extend({
                 return false;
             },
             onTouchEnded : function(touch, event) {
-                cc.log("got hre 3");
                 var target = event.getCurrentTarget();
                 if (target.TOUCHED) {
                     target.TOUCHED = false;
