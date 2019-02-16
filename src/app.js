@@ -750,6 +750,10 @@ var WorldLayer = cc.Layer.extend({
         var beginSim = function() {
             gameParams.state = gameStates.PREPARED;
 
+            world.btnPause.setBright(true);
+            world.btnPlay.setBright(false);
+            world.btnFF.setBright(true);
+
             // Add particle emitter
             //addEmitter();
         };
@@ -1259,10 +1263,6 @@ var WorldLayer = cc.Layer.extend({
                     startGameParams();
                     refreshDate(world);
                     
-                    world.controlsBackground.getChildByName('pause').enabled = true;
-                    world.controlsBackground.getChildByName('play').enabled = true;
-                    world.controlsBackground.getChildByName('fast').enabled = true;
-
                     var buttons = [];
                                             
                     // Add chance of new resource
@@ -2491,18 +2491,6 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         cc.eventManager.addListener(closeListener.clone(), btnExit);
 
-        // btnExit.addClickEventListener(function(){
-        //     layer.removeFromParent();
-        //     world.setVisible(true);
-        //     gameParams.state = gameStates.STARTED;
-        //     world.btnPause.enabled = true;
-        //     world.btnPlay.enabled = false;
-        //     world.btnFF.enabled = true;
-        //     world.btnPause.setBright(true);
-        //     world.btnPause.setBright(false);
-        //     world.btnPause.setBright(true);
-        //     gameParams.modal = false;
-        // });
         layer.addChild(btnExit, 102);
 
         var policyDetailsBackground = new cc.LayerColor(COLOR_BLACK, 400, 400);
