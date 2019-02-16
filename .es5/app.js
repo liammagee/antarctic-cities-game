@@ -1856,7 +1856,9 @@ var WorldLayer = cc.Layer.extend({
                             var narratives = Object.values(NARATIVES.n2070).sort(function (o1, o2) {
                                 return o2.loss - o1.loss;
                             });
-                            var message = narratives[0];
+                            var n = narratives[0];
+                            var index = Math.floor(Math.random() * n.messages.length);
+                            var message = n.messages[index];
                             GameOver(world, message, "OK");
                         }
                         // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
