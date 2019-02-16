@@ -264,13 +264,14 @@ var postResultsToServer = function postResultsToServer() {
     cc.log(JSON.stringify(gameParams));
     xhr.send(JSON.stringify(gameParams));
 };
+
 /**
  * Game over dialog
  * @param {*} parent 
  * @param {*} message 
  * @param {*} prompt 
  */
-var GameOver = function GameOver(parent, message, prompt) {
+var gameOver = function gameOver(parent, message, prompt) {
 
     postResultsToServer();
 
@@ -340,6 +341,51 @@ var GameOver = function GameOver(parent, message, prompt) {
         y: layBackground.height * 0.1
     });
     menu.addChild(btnOK);
+};
+
+/**
+ * A common function for adding mouse/touch events.
+ */
+var handleMouseTouchEvent = function handleMouseTouchEvent(target, callback) {
+    var listenerMouse = cc.EventListener.create({
+        event: cc.EventListener.MOUSE,
+        onMouseUp: function onMouseUp(event) {
+            var target = event.getCurrentTarget();
+            var locationInNode = target.convertToNodeSpace(event.getLocation());
+            var s = target.getContentSize();
+            var rect = cc.rect(0, 0, s.width, s.height);
+            if (cc.rectContainsPoint(rect, locationInNode)) {
+                callback();
+                return true;
+            }
+            return false;
+        }
+    });
+    var listenerTouch = cc.EventListener.create({
+        event: cc.EventListener.TOUCH_ONE_BY_ONE,
+        swallowTouches: true,
+        onTouchBegan: function onTouchBegan(touch, event) {
+            var target = event.getCurrentTarget();
+            var locationInNode = target.convertToNodeSpace(touch.getLocation());
+            var s = target.getContentSize();
+            var rect = cc.rect(0, 0, s.width, s.height);
+            if (cc.rectContainsPoint(rect, locationInNode)) {
+                target.TOUCHED = true;
+                return true;
+            }
+            return false;
+        },
+        onTouchEnded: function onTouchEnded(touch, event) {
+            var target = event.getCurrentTarget();
+            if (target.TOUCHED) {
+                target.TOUCHED = false;
+                callback();
+            }
+            return true;
+        }
+    });
+    cc.eventManager.addListener(listenerMouse, target);
+    cc.eventManager.addListener(listenerTouch, target);
 };
 
 /**
@@ -1885,7 +1931,7 @@ var WorldLayer = cc.Layer.extend({
                             var n = narratives[0];
                             var index = Math.floor(Math.random() * n.messages.length);
                             var message = n.messages[index];
-                            GameOver(world, message, "OK");
+                            gameOver(world, message, "OK");
                         }
                         // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
                         else if (gameParams.currentDate >= gameParams.targetDate) {
@@ -1904,7 +1950,7 @@ var WorldLayer = cc.Layer.extend({
                                     }
                                 }
 
-                                GameOver(world, message, "OK");
+                                gameOver(world, message, "OK");
                             }
 
                         // Refresh the timeout
@@ -2047,47 +2093,47 @@ var LoadingScene = cc.Scene.extend({
         var lp1 = new ccui.RelativeLayoutParameter();
         lp1.setMargin(margin);
         lp1.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
-        var lblPlay = new ccui.Button();
-        lblPlay.setContentSize(cc.size(320, 80));
-        lblPlay.setTouchEnabled(true);
-        lblPlay.setSwallowTouches(false);
-        lblPlay.setPressedActionEnabled(true);
-        lblPlay.setScale9Enabled(true);
-        lblPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png");
-        lblPlay.setTitleText("PLAY");
-        lblPlay.setTitleFontName(FONT_FACE_BODY);
-        lblPlay.setTitleColor(COLOR_BLACK);
-        lblPlay.setTitleFontSize(38);
-        // lblPlay.attr({x: size.width / 2, y: size.height / 2});
-        lblPlay.setLayoutParameter(lp1);
-        layout.addChild(lblPlay, 100);
+        var btnPlay = new ccui.Button();
+        btnPlay.setContentSize(cc.size(320, 80));
+        btnPlay.setTouchEnabled(true);
+        btnPlay.setSwallowTouches(false);
+        btnPlay.setPressedActionEnabled(true);
+        btnPlay.setScale9Enabled(true);
+        btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png");
+        btnPlay.setTitleText("PLAY");
+        btnPlay.setTitleFontName(FONT_FACE_BODY);
+        btnPlay.setTitleColor(COLOR_BLACK);
+        btnPlay.setTitleFontSize(38);
+        // btnPlay.attr({x: size.width / 2, y: size.height / 2});
+        btnPlay.setLayoutParameter(lp1);
+        layout.addChild(btnPlay, 100);
 
         var lp2 = new ccui.RelativeLayoutParameter();
         lp2.setMargin(margin);
         lp2.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-        var lblLearnMore = new ccui.Button();
-        lblLearnMore.setContentSize(cc.size(320, 80));
-        lblLearnMore.setTouchEnabled(true);
-        lblLearnMore.setSwallowTouches(false);
-        lblLearnMore.setPressedActionEnabled(true);
-        lblLearnMore.setScale9Enabled(true);
-        lblLearnMore.loadTextures("res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png");
-        lblLearnMore.setTitleText("LEARN MORE");
-        lblLearnMore.setTitleFontName(FONT_FACE_BODY);
-        lblLearnMore.setTitleColor(COLOR_BLACK);
-        lblLearnMore.setTitleFontSize(38);
-        // lblLearnMore.attr({x: size.width / 2, y: size.height / 2});
-        lblLearnMore.setLayoutParameter(lp2);
-        layout.addChild(lblLearnMore, 100);
+        var btnLearnMore = new ccui.Button();
+        btnLearnMore.setContentSize(cc.size(320, 80));
+        btnLearnMore.setTouchEnabled(true);
+        btnLearnMore.setSwallowTouches(false);
+        btnLearnMore.setPressedActionEnabled(true);
+        btnLearnMore.setScale9Enabled(true);
+        btnLearnMore.loadTextures("res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png");
+        btnLearnMore.setTitleText("LEARN MORE");
+        btnLearnMore.setTitleFontName(FONT_FACE_BODY);
+        btnLearnMore.setTitleColor(COLOR_BLACK);
+        btnLearnMore.setTitleFontSize(38);
+        // btnLearnMore.attr({x: size.width / 2, y: size.height / 2});
+        btnLearnMore.setLayoutParameter(lp2);
+        layout.addChild(btnLearnMore, 100);
 
         /*
         // Test adding animation effects
-        lblLearnMore.attr({x: size.width / 2, y: 0});
-        layer.addChild(lblLearnMore, 2);
+        btnLearnMore.attr({x: size.width / 2, y: 0});
+        layer.addChild(btnLearnMore, 2);
          var move = cc.moveBy(2, cc.p(0, size.height - 80));
         var move_ease_in = move.clone().easing(cc.easeElasticIn());
         var seq1 = cc.sequence(move_ease_in);
-         var a2 = lblLearnMore.runAction(seq1.repeatForever());
+         var a2 = btnLearnMore.runAction(seq1.repeatForever());
         a2.tag = 1;
         */
 
@@ -2095,90 +2141,12 @@ var LoadingScene = cc.Scene.extend({
             cc.director.runScene(new WorldScene());
             // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
         };
-
-        var listenerPlayMouse = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    playHandler();
-                    return true;
-                }
-                return false;
-            }
-        });
-        var listenerPlayTouch = cc.EventListener.create({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            swallowTouches: true,
-            onTouchBegan: function onTouchBegan(touch, event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(touch.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    target.TOUCHED = true;
-                    return true;
-                }
-                return false;
-            },
-            onTouchEnded: function onTouchEnded(touch, event) {
-                var target = event.getCurrentTarget();
-                if (target.TOUCHED) {
-                    target.TOUCHED = false;
-                    playHandler();
-                }
-                return true;
-            }
-        });
-
         var learnMoreHandler = function learnMoreHandler() {
             cc.sys.openURL("https://antarctic-cities.org/the-game/");
         };
-        var listenerLearnMoreMouse = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    learnMoreHandler();
-                    return true;
-                }
-                return false;
-            }
-        });
-        var listenerLearnMoreTouch = cc.EventListener.create({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            swallowTouches: false,
-            onTouchBegan: function onTouchBegan(touch, event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(touch.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    target.TOUCHED = true;
-                    return true;
-                }
-                return false;
-            },
-            onTouchEnded: function onTouchEnded(touch, event) {
-                var target = event.getCurrentTarget();
-                if (target.TOUCHED) {
-                    target.TOUCHED = false;
-                    learnMoreHandler();
-                }
-                return true;
-            }
-        });
 
-        cc.eventManager.addListener(listenerPlayMouse, lblPlay);
-        cc.eventManager.addListener(listenerPlayTouch, lblPlay);
-        cc.eventManager.addListener(listenerLearnMoreMouse, lblLearnMore);
-        cc.eventManager.addListener(listenerLearnMoreTouch, lblLearnMore);
+        handleMouseTouchEvent(btnPlay, playHandler);
+        handleMouseTouchEvent(btnLearnMore, learnMoreHandler);
     }
 });
 
