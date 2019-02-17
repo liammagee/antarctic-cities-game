@@ -5,6 +5,7 @@ frameworks/cocos2d-x/runtime-src/*
 frameworks/runtime-src/
 simulator/*
 publish/mac/*
+*.pxm
 
 # Mac
 .DS_Store
