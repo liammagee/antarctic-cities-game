@@ -1975,86 +1975,124 @@ var WorldLayer = cc.Layer.extend({
 
         };
 
+        var selectCountry = function(event, location) {
+
+            if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED)
+                return;
+            
+            var target = event.getCurrentTarget();
+            var locationInNode = target.convertToNodeSpace(location);
+            var x = 0, y = 0;
+
+            var layer = target.getLayer("Tile Layer 1");
+            gid = layer.getTileGIDAt(x, y);
+            if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
+                return;
+
+            var start = 0, end = sortedObjs.length;
+            if (lastLayerID > -1) {
+                start = (start < 0) ? 0 : start;
+                end = (end > sortedObjs.length) ? sortedObjs.length : end;
+            };
+
+            var ed = function(pt1, pt2) {
+                return Math.sqrt(Math.pow(pt1.x - pt2.x, 2) + Math.pow(pt1.y - pt2.y, 2));
+            };
+            var minED = -1, selectedCountry = null;
+            for (var j = start; j < end; j++) {
+                var poly = sortedObjs[j];
+                var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
+                var cd = collisionDetection(poly.points, mousePoint);
+                if (cd) {
+                    lastLayerID = j;
+                    var countryObj = world.countries[poly.name];
+                    var ced = ed(countryObj.centroid, mousePoint);
+                    if (minED === -1 || ced < minED) {
+                        minED = ced;
+                        selectedCountry = poly.name;
+                    }
+                }
+            }
+
+            // Pick the match with the closest centroid ID
+            var currentLayer = null;
+            if (selectedCountry != null) {
+                gameParams.currentCountry = selectedCountry;
+                currentCountry = selectedCountry;
+                var gid = world.countries[selectedCountry].gid;
+                currentLayer = target.getLayer("Tile Layer " + gid);
+                currentLayer.setTileGID((gid),cc.p(0, 0));
+                printCountryStats();
+            }
+            else {
+                gameParams.currentCountry = null;
+                printWorldStats();
+            }
+
+            oldLayers.forEach(layer => {
+                // var currentGid = -1;
+                // if (typeof(gameParams.currentCountry) !== 'undefined')
+                //     currentGid = parseInt(world.countries[gameParams.currentCountry].gid);
+                // var testGid = layer.getTileGIDAt(cc.p(0,0));
+                // cc.log(testGid, currentGid);
+                // if (testGid > 0 && testGid === currentGid) {
+                //     // Do nothing
+                // }
+                // else 
+                if ((currentLayer === null || layer != currentLayer))
+                    layer.setTileGID((0),cc.p(0,0));
+            });
+            oldLayers = [];
+            if (currentLayer != null)
+                oldLayers.push(currentLayer);
+
+            return true;
+        };
+
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
 
             onMouseMove : function(event) {
+             
+                selectCountry(event, event.getLocation());
 
-                if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED)
-                    return;
-                
-                    var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var x = 0, y = 0;
+            }
 
-                var layer = target.getLayer("Tile Layer 1");
-                gid = layer.getTileGIDAt(x, y);
-                if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
-                    return;
+        }, this.map);
 
-                var start = 0, end = sortedObjs.length;
-                if (lastLayerID > -1) {
-                    start = (start < 0) ? 0 : start;
-                    end = (end > sortedObjs.length) ? sortedObjs.length : end;
-                };
+        cc.eventManager.addListener({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan : function(touch, event) {
 
-                var ed = function(pt1, pt2) {
-                    return Math.sqrt(Math.pow(pt1.x - pt2.x, 2) + Math.pow(pt1.y - pt2.y, 2));
-                };
-                var minED = -1, selectedCountry = null;
-                for (var j = start; j < end; j++) {
-                    var poly = sortedObjs[j];
-                    var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
-                    var cd = collisionDetection(poly.points, mousePoint);
-                    if (cd) {
-                        lastLayerID = j;
-                        var countryObj = world.countries[poly.name];
-                        var ced = ed(countryObj.centroid, mousePoint);
-                        if (minED === -1 || ced < minED) {
-                            minED = ced;
-                            selectedCountry = poly.name;
-                        }
-                    }
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(touch.getLocation());
+                var s = target.getContentSize();
+                var rect = cc.rect(0, 0, s.width, s.height);
+                if (cc.rectContainsPoint(rect, locationInNode)) {  
+                    target.TOUCHED = true;
+                    return true;
                 }
+                return false;
 
-                // Pick the match with the closest centroid ID
-                var currentLayer = null;
-                if (selectedCountry != null) {
-                    gameParams.currentCountry = selectedCountry;
-                    currentCountry = selectedCountry;
-                    var gid = world.countries[selectedCountry].gid;
-                    currentLayer = target.getLayer("Tile Layer " + gid);
-                    currentLayer.setTileGID((gid),cc.p(0, 0));
-                    printCountryStats();
+            },
+            onTouchEnded : function(touch, event) {
+
+                var target = event.getCurrentTarget();
+                if (target.TOUCHED) {
+
+                    target.TOUCHED = false;
+                    selectCountry(event, touch.getLocation());
+
                 }
-                else {
-                    gameParams.currentCountry = null;
-                    printWorldStats();
-                }
-
-                oldLayers.forEach(layer => {
-                    // var currentGid = -1;
-                    // if (typeof(gameParams.currentCountry) !== 'undefined')
-                    //     currentGid = parseInt(world.countries[gameParams.currentCountry].gid);
-                    // var testGid = layer.getTileGIDAt(cc.p(0,0));
-                    // cc.log(testGid, currentGid);
-                    // if (testGid > 0 && testGid === currentGid) {
-                    //     // Do nothing
-                    // }
-                    // else 
-                    if ((currentLayer === null || layer != currentLayer))
-                        layer.setTileGID((0),cc.p(0,0));
-                });
-                oldLayers = [];
-                if (currentLayer != null)
-                    oldLayers.push(currentLayer);
-
                 return true;
+
             }
         }, this.map);
 
 
         var beginSim = function() {
+
             gameParams.state = gameStates.PREPARED;
 
             world.btnPause.setBright(true);
@@ -2064,6 +2102,7 @@ var WorldLayer = cc.Layer.extend({
             doSim();
             // Add particle emitter
             //addEmitter();
+
         };
 
         showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, 
