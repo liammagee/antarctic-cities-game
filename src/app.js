@@ -430,61 +430,48 @@ var WorldLayer = cc.Layer.extend({
     sprite:null,
 
     initControls:function() {
-        var actionsListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                if (gameParams.modal)
-                    return;
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    if (target == world.btnQuit) {  // Pause
-                        gameParams.state = gameStates.PAUSED;
-                        showMessageBoxOK(world, "Options", "", 
-                        "QUIT GAME", function() {
-                            
-                            postResultsToServer();
 
-                            cc.director.runScene(new LoadingScene());
+        var controlHandler = function(target) {
+            if (target == world.btnQuit) {  // Pause
+                gameParams.state = gameStates.PAUSED;
+                showMessageBoxOK(world, "Options", "", 
+                "QUIT GAME", function() {
+                    
+                    postResultsToServer();
 
-                        }, 
-                        "RETURN TO GAME", function() {
-                            gameParams.state = gameStates.STARTED;
-                        });
-                    }
-                    else if (target == world.btnPause) {  // Pause
-                        gameParams.state = gameStates.PAUSED;
-                        world.btnPause.enabled = false;
-                        world.btnPlay.enabled = true;
-                        world.btnFF.enabled = true;
-                    }
-                    else if (target == world.btnPlay) {  // Play
-                        updateTimeVars(DAY_INTERVAL);
-                        gameParams.state = gameStates.STARTED;
-                        world.btnPause.enabled = true;
-                        world.btnPlay.enabled = false;
-                        world.btnFF.enabled = true;
-                    }
-                    else if (target == world.btnFF) {  // Fast Forward
-                        updateTimeVars(DAY_INTERVAL / 10);
-                        gameParams.state = gameStates.STARTED;
-                        world.btnPause.enabled = true;
-                        world.btnPlay.enabled = true;
-                        world.btnFF.enabled = false;
-                    }
-                    return true;
-                }
-                return false;
+                    cc.director.runScene(new LoadingScene());
+
+                }, 
+                "RETURN TO GAME", function() {
+                    gameParams.state = gameStates.STARTED;
+                });
             }
-        });  
-        var a0 = actionsListener.clone(), a1 = actionsListener.clone(), a2 = actionsListener.clone(), a3 = actionsListener.clone();
-        cc.eventManager.addListener(a0, world.btnQuit);
-        cc.eventManager.addListener(a1, world.btnPause);
-        cc.eventManager.addListener(a2, world.btnFF);
-        cc.eventManager.addListener(a3, world.btnPlay);
-        world.controlListeners = [ a1, a2, a3 ];
+            else if (target == world.btnPause) {  // Pause
+                gameParams.state = gameStates.PAUSED;
+                world.btnPause.enabled = false;
+                world.btnPlay.enabled = true;
+                world.btnFF.enabled = true;
+            }
+            else if (target == world.btnPlay) {  // Play
+                updateTimeVars(DAY_INTERVAL);
+                gameParams.state = gameStates.STARTED;
+                world.btnPause.enabled = true;
+                world.btnPlay.enabled = false;
+                world.btnFF.enabled = true;
+            }
+            else if (target == world.btnFF) {  // Fast Forward
+                updateTimeVars(DAY_INTERVAL / 10);
+                gameParams.state = gameStates.STARTED;
+                world.btnPause.enabled = true;
+                world.btnPlay.enabled = true;
+                world.btnFF.enabled = false;
+            }
+        };
+
+        handleMouseTouchEvent(world.btnQuit, controlHandler);
+        handleMouseTouchEvent(world.btnPause, controlHandler);
+        handleMouseTouchEvent(world.btnPlay, controlHandler);
+        handleMouseTouchEvent(world.btnFF, controlHandler);
     },
 
     ctor:function (scenarioData) {
@@ -534,6 +521,7 @@ var WorldLayer = cc.Layer.extend({
 
         this.btnQuit.setAnchorPoint(cc.p(0,0));
         this.btnQuit.setTouchEnabled(true);
+        this.btnQuit.setSwallowTouches(false);
         this.btnQuit.setScale9Enabled(true);
         this.btnQuit.loadTextures("res/andrea_png/BUTTONS/BUTTON_QUIT.png", "", "res/andrea_png/BUTTONS/BUTTON_QUIT_ON.png");
         this.btnQuit.attr({ x: 21, y: size.height - 63 });
@@ -542,6 +530,7 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.btnQuit, 100);
         
         this.btnPause.setTouchEnabled(true);
+        this.btnPause.setSwallowTouches(false);
         this.btnPause.setScale9Enabled(true);
         this.btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
         this.btnPause.attr({ x: 21, y: 21 });
@@ -550,6 +539,7 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.addChild(this.btnPause, 100, "pause");
         
         this.btnPlay.setTouchEnabled(true);
+        this.btnPlay.setSwallowTouches(false);
         this.btnPlay.setScale9Enabled(true);
         this.btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png");
         this.btnPlay.attr({ x: 62, y: 21 });
@@ -558,6 +548,7 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.addChild(this.btnPlay, 100, "play");
         
         this.btnFF.setTouchEnabled(true);
+        this.btnFF.setSwallowTouches(false);
         this.btnFF.setScale9Enabled(true);
         this.btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png");
         this.btnFF.attr({ x: 103, y: 21 });
@@ -718,13 +709,12 @@ var WorldLayer = cc.Layer.extend({
                 var s = target.getContentSize();
                 var rect = cc.rect(0, 0, s.width, s.height);
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
+
                     gameParams.state = gameStates.PAUSED;
-                    // world.controlListeners.forEach(listener => {
-                    //     cc.eventManager.removeListener(listener);
-                    // })
                     layer = new DesignPolicyLayer(world);
                     world.parent.addChild(layer);
                     world.setVisible(false);
+
                     return true;
                 }
                 return false;
