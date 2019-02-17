@@ -160,7 +160,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
         }
     }
 
-    var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth / 2, winHeight / 2);
+    var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.66, winHeight * 0.66);
     layerBackground.attr({
         x: winWidth / 2 - layerBackground.width / 2,
         y: winHeight / 2 - layerBackground.height / 2 });
@@ -168,102 +168,59 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
 
     var titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
     titleText.ignoreContentAdaptWithSize(false);
-    titleText.setAnchorPoint(cc.p(0, 0));
-    // titleText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
+    titleText.setAnchorPoint(cc.p(0.5, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
-    titleText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.8));
+    titleText.setPosition(cc.p(layerBackground.width * 0.5, layerBackground.height * 0.8));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, 20);
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
-    // contentText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
     contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
-    contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
     layerBackground.addChild(contentText, 2);
-
-    var listener1 = cc.EventListener.create({
-        event: cc.EventListener.MOUSE,
-        onMouseUp: function onMouseUp(event) {
-            var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(event.getLocation());
-            var s = target.getContentSize();
-            var rect = cc.rect(0, 0, s.width, s.height);
-            if (cc.rectContainsPoint(rect, locationInNode)) {
-                layerBackground.removeAllChildren(true);
-                layerBackground.removeFromParent(true);
-                parent.resume();
-                callback1();
-                return true;
-            }
-            return false;
-        }
-    });
-
-    var processBtn1 = function processBtn1() {
-        layerBackground.removeAllChildren(true);
-        layerBackground.removeFromParent(true);
-        parent.resume();
-        callback1();
-    };
 
     var btn1 = new ccui.Button();
     btn1.setTouchEnabled(true);
     btn1.setSwallowTouches(false);
     btn1.setTitleText(prompt1);
     btn1.setTitleColor(COLOR_WHITE);
-    btn1.setTitleFontSize(24);
+    btn1.setTitleFontSize(36);
     btn1.setTitleFontName(FONT_FACE_BODY);
     btn1.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn1Offset });
     layerBackground.addChild(btn1);
 
-    //cc.eventManager.addListener(listener1.clone(), btn1);
-    handleMouseTouchEvent(btn1, processBtn1);
+    handleMouseTouchEvent(btn1, function () {
+        layerBackground.removeAllChildren(true);
+        layerBackground.removeFromParent(true);
+        parent.resume();
+        callback1();
+    });
 
     if (typeof prompt2 !== "undefined") {
-
-        var listener2 = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    layerBackground.removeAllChildren(true);
-                    layerBackground.removeFromParent(true);
-                    parent.resume();
-                    callback2();
-                    return true;
-                }
-                return false;
-            }
-        });
-        var processBtn2 = function processBtn2() {
-            layerBackground.removeAllChildren(true);
-            layerBackground.removeFromParent(true);
-            parent.resume();
-            callback2();
-        };
 
         var btn2 = new ccui.Button();
         btn2.setTouchEnabled(true);
         btn2.setSwallowTouches(false);
         btn2.setTitleText(prompt2);
         btn2.setTitleColor(COLOR_ICE);
-        btn2.setTitleFontSize(24);
+        btn2.setTitleFontSize(36);
         btn2.setTitleFontName(FONT_FACE_BODY);
         btn2.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn2Offset });
         layerBackground.addChild(btn2);
 
-        //cc.eventManager.addListener(listener2.clone(), btn2);
-        handleMouseTouchEvent(btn2, processBtn2);
+        handleMouseTouchEvent(btn2, function () {
+            layerBackground.removeAllChildren(true);
+            layerBackground.removeFromParent(true);
+            parent.resume();
+            callback2();
+        });
     }
 };
 
@@ -314,10 +271,9 @@ var gameOver = function gameOver(parent, message, prompt) {
     });
     parent.addChild(layerBackground, 1);
 
-    var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, 24);
+    var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, 36);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
-    // titleText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
     titleText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.8));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
@@ -325,10 +281,9 @@ var gameOver = function gameOver(parent, message, prompt) {
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, 20);
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
-    // contentText.setAnchorPoint(cc.p(layerBackground.width / 2, layerBackground.height / 2));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
     contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
@@ -340,26 +295,13 @@ var gameOver = function gameOver(parent, message, prompt) {
     menu.setPosition(cc.p(0, 0));
     layerBackground.addChild(this._menu, 3);
 
-    var listener = cc.EventListener.create({
-        event: cc.EventListener.MOUSE,
-        onMouseUp: function onMouseUp(event) {
-            var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(event.getLocation());
-            var s = target.getContentSize();
-            var rect = cc.rect(0, 0, s.width, s.height);
-            if (cc.rectContainsPoint(rect, locationInNode)) {
-                cc.director.runScene(new LoadingScene());
-                return true;
-            }
-            return false;
-        }
-    });
-
-    var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 24));
-    cc.eventManager.addListener(listener.clone(), btnOK);
+    var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 36));
     btnOK.attr({
         x: layerBackground.width / 2,
         y: layerBackground.height * 0.1
+    });
+    handleMouseTouchEvent(btnOK, function () {
+        cc.director.runScene(new LoadingScene());
     });
     menu.addChild(btnOK);
 };
@@ -378,6 +320,7 @@ var handleMouseTouchEvent = function handleMouseTouchEvent(target, callback) {
             var rect = cc.rect(0, 0, s.width, s.height);
             if (cc.rectContainsPoint(rect, locationInNode)) {
                 callback(target);
+                event.stopPropagation();
                 return true;
             }
             return false;
@@ -683,32 +626,14 @@ var WorldLayer = cc.Layer.extend({
             l.setTileGID(0, cc.p(0, 0));
         }
 
-        this.policyCartListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-
-                    gameParams.state = gameStates.PAUSED;
-                    layer = new DesignPolicyLayer(world);
-                    world.parent.addChild(layer);
-                    world.setVisible(false);
-
-                    return true;
-                }
-                return false;
-            }
-        });
-
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
         layout.setAnchorPoint(new cc.p(0, 0));
         layout.attr({ x: 0, y: 0 });
         this.addChild(layout, 100);
 
         this.btnDevelopPolicy = new ccui.Button();
+        this.btnDevelopPolicy.setTouchEnabled(true);
+        this.btnDevelopPolicy.setSwallowTouches(false);
         this.btnDevelopPolicy.setTitleText("POLICY");
         this.btnDevelopPolicy.setTitleFontName(FONT_FACE_BODY);
         this.btnDevelopPolicy.setTitleFontSize(24);
@@ -716,34 +641,12 @@ var WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy.setAnchorPoint(new cc.p(0, 0));
         this.btnDevelopPolicy.setContentSize(cc.size(60, Y_OFFSET));
         this.btnDevelopPolicy.attr({ x: 20, y: 10 });
-        // this.btnDevelopPolicy.setLayoutParameter(lp1);
         layout.addChild(this.btnDevelopPolicy);
-        // this.controlBackground.addChild(this.btnDevelopPolicy);
-
-        this.statsListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    gameParams.state = gameStates.PAUSED;
-                    layer = new StatsLayer(world);
-                    world.parent.addChild(layer);
-                    world.setVisible(false);
-                    return true;
-                }
-                return false;
-            }
-        });
 
         var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
         countryDetailLayout.setAnchorPoint(new cc.p(0, 0));
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
-        countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });
-        // countryDetailLayout.setLayoutParameter(lp2);
-        layout.addChild(countryDetailLayout);
+        countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });layout.addChild(countryDetailLayout);
         var fontSize = 24;
         var labelOffsetY = Y_OFFSET / 2 - fontSize / 2;
         this.countryLabel = new cc.LabelTTF("", FONT_FACE_BODY, fontSize);
@@ -768,18 +671,30 @@ var WorldLayer = cc.Layer.extend({
         countryDetailLayout.addChild(this.countryLabel);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
-        this.worldStats = new ccui.Button();
-        //cc.MenuItemLabel.create(cc.LabelTTF.create("Statistics", FONT_FACE_BODY, 24));
-        this.worldStats.setTitleText("STATS");
-        this.worldStats.setTitleFontName(FONT_FACE_BODY);
-        this.worldStats.setTitleFontSize(24);
-        this.worldStats.setTitleColor(COLOR_ICE);
-        this.worldStats.setContentSize(cc.size(120, 80));
-        this.worldStats.setAnchorPoint(new cc.p(0, 0));
-        this.worldStats.attr({ x: this.width - 120 - 20, y: 10 });
-        // this.worldStats.setLayoutParameter(lp3);
-        layout.addChild(this.worldStats);
-        // this.controlBackground.addChild(this.worldStats);
+        this.btnStats = new ccui.Button();
+        this.btnStats.setTouchEnabled(true);
+        this.btnStats.setSwallowTouches(false);
+        this.btnStats.setTitleText("STATS");
+        this.btnStats.setTitleFontName(FONT_FACE_BODY);
+        this.btnStats.setTitleFontSize(24);
+        this.btnStats.setTitleColor(COLOR_ICE);
+        this.btnStats.setContentSize(cc.size(120, 80));
+        this.btnStats.setAnchorPoint(new cc.p(0, 0));
+        this.btnStats.attr({ x: this.width - 120 - 20, y: 10 });
+        layout.addChild(this.btnStats);
+
+        handleMouseTouchEvent(this.btnDevelopPolicy, function () {
+            gameParams.state = gameStates.PAUSED;
+            layer = new DesignPolicyLayer(world);
+            world.parent.addChild(layer);
+            world.setVisible(false);
+        });
+        handleMouseTouchEvent(this.btnStats, function () {
+            gameParams.state = gameStates.PAUSED;
+            layer = new StatsLayer(world);
+            world.parent.addChild(layer);
+            world.setVisible(false);
+        });
 
         var addEmitter = function addEmitter() {
             world._emitter = new cc.ParticleRain();
@@ -1012,9 +927,6 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }
-
-        cc.eventManager.addListener(this.policyCartListener, this.btnDevelopPolicy);
-        cc.eventManager.addListener(this.statsListener, this.worldStats);
 
         var processResourceSelection = function processResourceSelection(target) {
 
@@ -2402,30 +2314,17 @@ var DesignPolicyLayer = cc.Layer.extend({
         layer.addChild(heading, 101);
 
         var btnExit = new ccui.Button();
-        //btnExit.setAnchorPoint(cc.p(0, 0));
+        btnExit.setTouchEnabled(true);
+        btnExit.setSwallowTouches(false);
         btnExit.setPosition(cc.p(size.width * 0.9, size.height * 0.9));
         btnExit.setColor(COLOR_ICE);
         btnExit.setTitleFontSize(72);
         btnExit.setTitleText("X");
-        var closeListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    world.setVisible(true);
-                    layer.removeFromParent();
-                    gameParams.state = gameStates.STARTED;
-                    event.stopPropagation();
-                    return true;
-                }
-                return false;
-            }
+        handleMouseTouchEvent(btnExit, function () {
+            world.setVisible(true);
+            layer.removeFromParent();
+            gameParams.state = gameStates.STARTED;
         });
-
-        cc.eventManager.addListener(closeListener.clone(), btnExit);
 
         layer.addChild(btnExit, 102);
 
@@ -2446,8 +2345,6 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDescription.setContentSize(cc.size(360, 200));
         policyDescription.setPosition(cc.p(20, 120));
         policyDescription.setColor(COLOR_ICE);
-        // policyDescription.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-        // policyDescription.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_BOTTOM);
         policyDetailsBackground.addChild(policyDescription, 2);
 
         var policyCostLabel = new ccui.Text("", FONT_FACE_BODY, 30);
@@ -2456,14 +2353,26 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyCostLabel.setPosition(cc.p(20, 80));
         policyDetailsBackground.addChild(policyCostLabel);
 
-        var policyDetailsInvest = new ccui.Button("res/andrea_png/BUTTONS/BUTTON_WHITE.png");
-        policyDetailsInvest.setSize(cc.size(300, 60));
-        policyDetailsInvest.setScale9Enabled(true);
-        policyDetailsInvest.setPosition(cc.p(200, 30));
-        policyDetailsInvest.setTitleFontSize(24);
-        policyDetailsInvest.setTitleColor(COLOR_BLACK);
-        policyDetailsInvest.setTitleText("Invest in this policy");
-        policyDetailsInvest.addClickEventListener(function () {
+        var btnPolicyInvest = new ccui.Button("res/andrea_png/BUTTONS/BUTTON_WHITE.png");
+        btnPolicyInvest.setTouchEnabled(true);
+        btnPolicyInvest.setSwallowTouches(false);
+        btnPolicyInvest.setSize(cc.size(300, 60));
+        btnPolicyInvest.setScale9Enabled(true);
+        btnPolicyInvest.setPosition(cc.p(200, 30));
+        btnPolicyInvest.setTitleFontSize(24);
+        btnPolicyInvest.setTitleColor(COLOR_BLACK);
+        btnPolicyInvest.setTitleText("Invest in this policy");
+
+        var calculateResourceAndCrisisImpacts = function calculateResourceAndCrisisImpacts(resource) {
+
+            // Calculate resource-specific effects
+            gameParams.resourceInterval /= 1 + resource.effect_on_resources;
+            gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
+            gameParams.crisisInterval /= 1 + resource.effect_on_crises;
+            gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
+        };
+
+        handleMouseTouchEvent(btnPolicyInvest, function () {
 
             if (gameParams.resources - resourceSelected.cost_1 >= 0 && typeof gameParams.strategies[resourceSelected.id] === "undefined") {
 
@@ -2473,11 +2382,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
 
-                // Calculate resource-specific effects
-                gameParams.resourceInterval /= 1 + resourceSelected.effect_on_resources;
-                gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
-                gameParams.crisisInterval /= 1 + resourceSelected.effect_on_crises;
-                gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
+                calculateResourceAndCrisisImpacts(resourceSelected);
             } else if (gameParams.resources - resourceSelected.cost_2 >= 0 && gameParams.strategies[resourceSelected.id] === 1) {
 
                 gameParams.resources -= resourceSelected.cost_2;
@@ -2485,6 +2390,8 @@ var DesignPolicyLayer = cc.Layer.extend({
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
+
+                calculateResourceAndCrisisImpacts(resourceSelected);
             } else if (gameParams.resources - resourceSelected.cost_3 >= 0 && gameParams.strategies[resourceSelected.id] == 2) {
 
                 gameParams.resources -= resourceSelected.cost_3;
@@ -2492,32 +2399,12 @@ var DesignPolicyLayer = cc.Layer.extend({
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
+
+                calculateResourceAndCrisisImpacts(resourceSelected);
             }
         });
-        policyDetailsBackground.addChild(policyDetailsInvest, 100);
+        policyDetailsBackground.addChild(btnPolicyInvest, 100);
         policyDetailsBackground.setVisible(false);
-
-        var resourceListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp: function onMouseUp(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-
-                    policyDetailsBackground.setVisible(true);
-                    resourceSelected = target.option;
-                    policyLabel.setString(resourceSelected.text_long);
-                    policyDescription.setString(resourceSelected.description);
-                    policyCostLabel.setString("Cost: " + resourceSelected.cost_1.toString());
-                    resourceSelectedButton = target;
-
-                    return true;
-                }
-                return false;
-            }
-        });
 
         var pageView = new ccui.PageView();
         pageView.setContentSize(cc.size(size.width, size.height - Y_OFFSET));
@@ -2531,8 +2418,6 @@ var DesignPolicyLayer = cc.Layer.extend({
             layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
 
             var resourceGrp = {};
-            var labelText = "Economy";
-            var policyOptions = [];
             switch (i) {
                 case 0:
                     resourceGrp = RESOURCES.economic;
@@ -2551,21 +2436,18 @@ var DesignPolicyLayer = cc.Layer.extend({
             label.setColor(COLOR_ICE);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
-            // layout.addChild(label);
 
             resourceGrp.policyOptions.forEach(function (opt) {
 
                 var btn = new ccui.Button();
                 btn.setTouchEnabled(true);
+                btn.setSwallowTouches(false);
                 btn.setAnchorPoint(cc.p(0, 0));
                 btn.setScale9Enabled(true);
                 btn.loadTextures(opt.img_normal, "", opt.img_on);
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(104, 104));
-                // btn.setTitleFontSize(20);
-                // btn.setTitleFontName(FONT_FACE_TITLE);
-                // btn.setTitleColor(COLOR_ICE);
-                // btn.setTitleText(opt.text);
+
                 btn.cost_1 = opt.cost_1;
                 btn.cost_2 = opt.cost_2;
                 btn.cost_3 = opt.cost_3;
@@ -2573,7 +2455,14 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 if (typeof gameParams.strategies[opt.id] !== "undefined") btn.enabled = false;
 
-                cc.eventManager.addListener(resourceListener.clone(), btn);
+                handleMouseTouchEvent(btn, function (target) {
+                    policyDetailsBackground.setVisible(true);
+                    resourceSelected = target.option;
+                    policyLabel.setString(resourceSelected.text_long);
+                    policyDescription.setString(resourceSelected.description);
+                    policyCostLabel.setString("Cost: " + resourceSelected.cost_1.toString());
+                    resourceSelectedButton = target;
+                });
                 layout.addChild(btn, 101);
 
                 var btnLabel = new cc.LabelTTF(opt.text, FONT_FACE_TITLE, 20);
@@ -2621,12 +2510,14 @@ var DesignPolicyLayer = cc.Layer.extend({
         //add buttons to jump to specific page
         var makeButton = function makeButton(text, point, index) {
             var btn = new ccui.Button();
+            btn.setTouchEnabled(true);
+            btn.setSwallowTouches(false);
             btn.setAnchorPoint(cc.p(0, 0));
             btn.setColor(COLOR_ICE);
             btn.setPosition(point);
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
-            btn.addClickEventListener(function () {
+            handleMouseTouchEvent(btn, function () {
                 resourceSelected = null;
                 policyDetailsBackground.setVisible(false);
                 pageView.setCurrentPageIndex(index);
@@ -2656,17 +2547,6 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.resourceScoreLabel.setPosition(cc.p(80, 25));
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
-
-        /*
-        var resourcesLabelBackground = new cc.LayerColor(COLOR_ICE, 80, 50);
-        resourcesLabelBackground.setAnchorPoint(cc.p(0, 0));
-        resourcesLabelBackground.setPosition(cc.p(60, 80));
-        layer.addChild(resourcesLabelBackground, 100);
-         this.availableResourcesLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
-        this.availableResourcesLabel.setPosition(cc.p(40, 25));
-        this.availableResourcesLabel.setColor(COLOR_BLACK);
-        resourcesLabelBackground.addChild(this.availableResourcesLabel, 100);
-        */
     }
 });
 
@@ -2767,16 +2647,18 @@ var StatsLayer = cc.Layer.extend({
             layerBackground.addChild(this.regionIndicatorLabel, 100);
         }
 
-        var btn = new ccui.Button();
-        btn.setAnchorPoint(cc.p(0, 0));
-        btn.setPosition(cc.p(950, 20));
-        btn.setTitleText("X");
-        btn.addClickEventListener(function () {
-            event.stopPropagation();
-            layer.removeFromParent();
+        var btnExit = new ccui.Button();
+        btnExit.setTouchEnabled(true);
+        btnExit.setSwallowTouches(false);
+        btnExit.setPosition(cc.p(size.width * 0.9, size.height * 0.9));
+        btnExit.setColor(COLOR_ICE);
+        btnExit.setTitleFontSize(72);
+        btnExit.setTitleText("X");
+        handleMouseTouchEvent(btnExit, function () {
             world.setVisible(true);
+            layer.removeFromParent();
             gameParams.state = gameStates.STARTED;
         });
-        layerBackground.addChild(btn, 100);
+        layerBackground.addChild(btnExit, 102);
     }
 });
