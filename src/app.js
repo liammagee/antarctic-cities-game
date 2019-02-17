@@ -374,6 +374,7 @@ var gameOver = function(parent, message, prompt) {
  * A common function for adding mouse/touch events.
  */
 var handleMouseTouchEvent = function(target, callback) {
+
     var listenerMouse = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
         onMouseUp : function(event) {
@@ -382,16 +383,18 @@ var handleMouseTouchEvent = function(target, callback) {
             var s = target.getContentSize();
             var rect = cc.rect(0, 0, s.width, s.height);
             if (cc.rectContainsPoint(rect, locationInNode)) {  
-                callback();
+                callback(target);
                 return true;
             }
             return false;
         }
     });
+
     var listenerTouch = cc.EventListener.create({
         event: cc.EventListener.TOUCH_ONE_BY_ONE,
         swallowTouches: true,
         onTouchBegan : function(touch, event) {
+
             var target = event.getCurrentTarget();
             var locationInNode = target.convertToNodeSpace(touch.getLocation());
             var s = target.getContentSize();
@@ -401,18 +404,23 @@ var handleMouseTouchEvent = function(target, callback) {
                 return true;
             }
             return false;
+
         },
         onTouchEnded : function(touch, event) {
+
             var target = event.getCurrentTarget();
             if (target.TOUCHED) {
                 target.TOUCHED = false;
-                callback();
+                callback(target);
             }
             return true;
+
         }
     });
+
     cc.eventManager.addListener(listenerMouse, target);
     cc.eventManager.addListener(listenerTouch, target);
+
 };
 
 /**
@@ -1032,66 +1040,49 @@ var WorldLayer = cc.Layer.extend({
         cc.eventManager.addListener(this.policyCartListener, this.btnDevelopPolicy);
         cc.eventManager.addListener(this.statsListener, this.worldStats);
 
-        var resListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    var res = Math.floor(1 + Math.random() * 3);
-                    gameParams.resources += res;
-                    target.removeFromParent();
-                    if (!gameParams.resourcesAdded) {
-                        gameParams.state = gameStates.PAUSED;
-                        gameParams.resourcesAdded = true;
-                        if (gameParams.tutorialMode) {
-                            showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function() {
-                                gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
-                                gameParams.state = gameStates.STARTED;
-                            });
-                        }
-                        else {
-                            gameParams.state = gameStates.STARTED;
-                        }
-                    }
-                    return true;
+        var processResourceSelection = function(target) {
+            
+            var res = Math.floor(1 + Math.random() * 3);
+            gameParams.resources += res;
+            target.removeFromParent();
+            if (!gameParams.resourcesAdded) {
+                gameParams.state = gameStates.PAUSED;
+                gameParams.resourcesAdded = true;
+                if (gameParams.tutorialMode) {
+                    showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function() {
+                        gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
+                        gameParams.state = gameStates.STARTED;
+                    });
                 }
-                return false;
-            }
-        });  
-        var crisisListener = cc.EventListener.create({
-            event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
-                if (cc.rectContainsPoint(rect, locationInNode)) {
-                    gameParams.crisisCountry = null;
-                    var crisis = null;
-                    for (var i = 0; i < gameParams.crises.length; i++) {
-                        if (gameParams.crises[i].id == target.crisisId) {
-                            var crisisInCountry = gameParams.crises[i];
-                            crisis = CRISES[crisisInCountry.crisis];
-                            gameParams.crises.splice(i, 1);
-                            break;
-                        }
-                    }
-                    target.removeFromParent();
-                    if (!gameParams.alertCrisis && gameParams.tutorialMode) {
-                        gameParams.state = gameStates.PAUSED;
-                        gameParams.alertCrisis = true;
-                        showMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function() {
-                            gameParams.state = gameStates.STARTED;
-                        });
-                    }
-                    return true;
+                else {
+                    gameParams.state = gameStates.STARTED;
                 }
-                return false;
             }
-        }); 
+
+        };
+
+        var processCrisisSelection = function(target) {
+
+            gameParams.crisisCountry = null;
+            var crisis = null;
+            for (var i = 0; i < gameParams.crises.length; i++) {
+                if (gameParams.crises[i].id == target.crisisId) {
+                    var crisisInCountry = gameParams.crises[i];
+                    crisis = CRISES[crisisInCountry.crisis];
+                    gameParams.crises.splice(i, 1);
+                    break;
+                }
+            }
+            target.removeFromParent();
+            if (!gameParams.alertCrisis && gameParams.tutorialMode) {
+                gameParams.state = gameStates.PAUSED;
+                gameParams.alertCrisis = true;
+                showMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function() {
+                    gameParams.state = gameStates.STARTED;
+                });
+            }
+
+        };
         
         /**
          * Update month / year in the interface
@@ -1294,6 +1285,7 @@ var WorldLayer = cc.Layer.extend({
                     if (r < RESOURCE_CHANCE) {
                         var btnRes = new ccui.Button();
                         btnRes.setTouchEnabled(true);
+                        btnRes.setSwallowTouches(false);
                         btnRes.setScale9Enabled(true);
                         btnRes.loadTextures("res/andrea_png/NEW_ICONS/ICON_RESOURCE.png", "", "");
                         var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
@@ -1303,10 +1295,12 @@ var WorldLayer = cc.Layer.extend({
                         btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                         // btnRes.setColor(COLOR_RESOURCE);
                         btnRes.placedAt = gameParams.counter;
-                        cc.eventManager.addListener(resListener.clone(), btnRes);
                         world.worldBackground.addChild(btnRes, 101);
+
+                        handleMouseTouchEvent(btnRes, processResourceSelection);
                         
                         buttons.push(btnRes);
+
                         if (!gameParams.alertResources) {
                             if (gameParams.tutorialMode) {
                                 gameParams.state = gameStates.PAUSED;
@@ -1414,6 +1408,7 @@ var WorldLayer = cc.Layer.extend({
 
                     var btnCrisis = new ccui.Button();
                     btnCrisis.setTouchEnabled(true);
+                    btnCrisis.setSwallowTouches(false);
                     btnCrisis.setScale9Enabled(true);
                     // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
                     btnCrisis.loadTextures(crisis.image, "", "");
@@ -1423,11 +1418,16 @@ var WorldLayer = cc.Layer.extend({
                     // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                     btnCrisis.placedAt = gameParams.counter;
                     btnCrisis.crisisId = crisisInCountry.id;
-                    cc.eventManager.addListener(crisisListener.clone(), btnCrisis);
+                    
+                    handleMouseTouchEvent(btnCrisis, processCrisisSelection);
+                    
                     world.worldBackground.addChild(btnCrisis, 101);
                     gameParams.state = gameStates.PAUSED;
+
                     showMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function(that) {
+
                         gameParams.state = gameStates.STARTED;
+
                     });
                     
                 }
