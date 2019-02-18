@@ -1127,7 +1127,8 @@ var WorldLayer = cc.Layer.extend({
                         sprite.removeFromParent();
                 }
                 */
-                points = points.slice(0, max - 1);
+                // points = points.slice(0, max - 1);
+                points = points.slice(0, min);
             } else {
                 var sqrt = Math.pow(country.area, 0.5);
                 if (points.length + (max - min) * country.numPoints > sqrt) return;
