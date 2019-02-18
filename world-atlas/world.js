@@ -201,7 +201,7 @@ function writeProj(proj, file) {
   // ADD COUNTRIES
   var countries = [], country_files = [], frags = [], iso_a3s = [];
   var writing = false;
-  var f = function(i, gid) {
+  var featureGenerator = function(i, gid) {
 
     var props = tracts.features[i].properties;
     country = {};
@@ -222,7 +222,7 @@ function writeProj(proj, file) {
 
     country_file = country.iso_a3 + '_' + file + '.png';
     if (iso_a3s.indexOf(country.iso_a3) !== -1)
-      return false;
+      return gid;
 
     if (!xmlOnly) {
       canvas = new Canvas(width, height);
@@ -289,15 +289,19 @@ function writeProj(proj, file) {
     // MULTIPOLYGON VERSION
     zones = svg_text.split(/[Z]/);
     tmx_frag = "";
-    var counter = 0;
+    var internalCounter = 0;
   
     // Parses the SVG comma-delimited pairs to builds an array of arrays of coordinate pairs
     var coords = zones.map(z => {
-      s = z.split(/[LM]/). 
+      s = z.split(/[ML]/). 
         map((p) => { p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
         filter((p) => { return p != "NaN,NaN"; });
+
+      // Remove non-unique points 
       s = [...new Set(s)];
-      s = s.sort((a, b) => { return a.length - b.length; });
+      // s = s.sort((a, b) => { return a.length - b.length; });
+      // if (country.NAME == "Russia")
+      //   console.log(s[0])
       return s;
     }).filter(s => { return s.length > 0; }).sort((a, b) => { return b.length - a.length; }).filter(s => { return s.length > 3; });
 
@@ -320,10 +324,10 @@ function writeProj(proj, file) {
       s_simp = s_simp.join(' ');
       */
 
-      tmx_frag += '\t<object id="' + (171 + i + counter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
+      tmx_frag += '\t<object id="' + (228 + i + internalCounter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
       tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
       tmx_frag += "\t\t<properties>\n";
-      if (counter == 1) {
+      if (internalCounter == 1) {
         tmx_frag += "\t\t\t<property name=\"GID\" value=\"" + (gid + 3) + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"NAME\" value=\"" + country.NAME + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"ECONOMY\" value=\"" + country.ECONOMY + "\"/>\n";
@@ -349,7 +353,8 @@ function writeProj(proj, file) {
 
   var counter = 0;
   tracts.features.forEach((feature, index) => { 
-    counter == f(index, counter);
+    console.log(counter);
+    counter = featureGenerator(index, counter);
   } );
 
   obj_id = 1;

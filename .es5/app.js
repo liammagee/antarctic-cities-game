@@ -823,17 +823,21 @@ var WorldLayer = cc.Layer.extend({
         var collisionDetection = function collisionDetection(points, test) {
             var crossed = false;
             var times = 0;
+
             // Double check the detection is within the widest bounds
             var maxx = Math.max.apply(Math, _toConsumableArray(points.map(function (p) {
-                return parseInt(p.x);
+                return p.x;
             })));
             for (var i = 0; i < points.length; i++) {
                 var p1 = points[i];
                 var p2 = i == points.length - 1 ? points[0] : points[i + 1];
-                var x1 = parseFloat(p1.x),
-                    y1 = parseFloat(p1.y),
-                    x2 = parseFloat(p2.x),
-                    y2 = parseFloat(p2.y);
+
+                // Make floating, and jitter to avoid boundary issues with integers.
+                var x1 = parseFloat(p1.x) + 0.001,
+                    y1 = parseFloat(p1.y) - 0.001,
+                    x2 = parseFloat(p2.x) + 0.001,
+                    y2 = parseFloat(p2.y) - 0.001;
+
                 if (y1 < test.y && y2 >= test.y || y1 > test.y && y2 <= test.y) {
                     if ((x1 + x2) / 2.0 < test.x && test.x < maxx) {
                         times++;
@@ -844,24 +848,81 @@ var WorldLayer = cc.Layer.extend({
             return crossed;
         };
 
+        // Sorts objects by their relative screen position, to avoid overlapping tiles
+        var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function (a, b) {
+            return a.points[0].y * size.height + a.points[0].x > b.points[0].y * size.height + b.points[0].x;
+        });
+
+        var pointArray = function pointArray(name) {
+            return sortedObjs.filter(function (so) {
+                return so.name == name;
+            }).map(function (so) {
+                return so.points;
+            });
+        };
+
         // Generates min, max coordinates
-        var generateCoords = function generateCoords(points) {
-            var minx = 0,
-                miny = 0,
-                maxx = 0,
-                maxy = 0;
-            for (var i = 0; i < points.length; i++) {
-                var point = points[i];
-                if (minx == 0 || minx > parseInt(point.x)) minx = parseInt(point.x);
-                if (miny == 0 || miny > parseInt(point.y)) miny = parseInt(point.y);
-                if (maxx < parseInt(point.x)) maxx = parseInt(point.x);
-                if (maxy < parseInt(point.y)) maxy = parseInt(point.y);
-            };
-            return { minx: minx, miny: miny, maxx: maxx, maxy: maxy };
+        var extremes = function extremes(name) {
+            var pa = pointArray(name);
+            var extremes = [];
+            for (var i = 0; i < pa.length; i++) {
+                var _p = pa[i];
+                var minx = 0,
+                    miny = 0,
+                    maxx = 0,
+                    maxy = 0;
+                for (var _j = 0; _j < _p.length; _j++) {
+                    var point = _p[_j];
+                    if (minx == 0 || minx > parseInt(point.x)) minx = parseInt(point.x);
+                    if (miny == 0 || miny > parseInt(point.y)) miny = parseInt(point.y);
+                    if (maxx < parseInt(point.x)) maxx = parseInt(point.x);
+                    if (maxy < parseInt(point.y)) maxy = parseInt(point.y);
+                }
+                extremes.push({ minx: minx, miny: miny, maxx: maxx, maxy: maxy });
+            }
+            return extremes;
+        };
+
+        var regionalArea = function regionalArea(points) {
+            var area = 0;
+            for (var _j2 = 0; _j2 < points.length - 1; _j2++) {
+                var pt1 = points[_j2];
+                var pt2 = points[_j2 + 1];
+                var xy1 = pt1.x * pt2.y;
+                var xy2 = pt1.y * pt2.x;
+                area += Math.abs(xy1 - xy2);
+            }
+            return area / 2;
+        };
+
+        // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
+        var areas = function areas(name) {
+            var pa = pointArray(name);
+            var area = 0;
+            for (var i = 0; i < pa.length; i++) {
+                var _p2 = pa[i];
+                area += regionalArea(_p2);
+            }
+            return area;
         };
 
         // Create country centroids
-        var centroids = function centroids(points) {
+        var centroids = function centroids(name) {
+            var pa = pointArray(name);
+            var lastArea = 0,
+                thisArea = 0;
+            var regionID = -1;
+            for (var i = 0; i < pa.length; i++) {
+                var _p3 = pa[i];
+                thisArea = regionalArea(_p3);
+                if (thisArea > lastArea) {
+                    regionID = i;
+                    lastArea = thisArea;
+                }
+            }
+            if (regionID == -1) return;
+
+            var points = pa[regionID];
             var totalX = 0,
                 totalY = 0;
             points.forEach(function (pt) {
@@ -871,32 +932,14 @@ var WorldLayer = cc.Layer.extend({
             return { x: totalX / points.length, y: totalY / points.length };
         };
 
-        // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
-        var areas = function areas(points) {
-            var area = 0;
-            for (var i = 0; i < points.length - 1; i++) {
-                var pt1 = points[i];
-                var pt2 = points[i + 1];
-                var xy1 = pt1.x * pt2.y;
-                var xy2 = pt1.y * pt2.x;
-                area += Math.abs(xy1 - xy2);
-            }
-            return area / 2;
-        };
-
-        // Sorts objects by their relative screen position, to avoid overlapping tiles
-        var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function (a, b) {
-            return a.points[0].y * size.height + a.points[0].x > b.points[0].y * size.height + b.points[0].x;
-        });
-
         world.countries = world.map.objectGroups[0].getObjects().reduce(function (map, obj) {
             if (!map[obj.name]) {
                 map[obj.name] = {
                     name: obj.NAME,
-                    centroid: centroids(obj.points),
-                    extremes: generateCoords(obj.points),
-                    area: areas(obj.points),
-                    points: obj.points,
+                    points: pointArray(obj.name),
+                    extremes: extremes(obj.name),
+                    centroid: centroids(obj.name),
+                    area: areas(obj.name),
 
                     affected_chance: 0.0,
                     pop_est: parseInt(obj.POP_EST),
@@ -1078,11 +1121,11 @@ var WorldLayer = cc.Layer.extend({
             world.yearLabel.setString(gameParams.currentDate.getFullYear().toString());
         };
 
-        var generatePoint = function generatePoint(points, coords) {
-            var minx = coords.minx,
-                miny = coords.miny,
-                maxx = coords.maxx,
-                maxy = coords.maxy;
+        var generatePoint = function generatePoint(pointArray, extremes) {
+            var minx = extremes.minx,
+                miny = extremes.miny,
+                maxx = extremes.maxx,
+                maxy = extremes.maxy;
             var testx = -1,
                 testy = -1,
                 k = 0,
@@ -1090,9 +1133,18 @@ var WorldLayer = cc.Layer.extend({
             var cd = false;
             var p = null;
             do {
-                testx = minx + Math.floor(Math.random() * (maxx - minx));
-                testy = miny + Math.floor(Math.random() * (maxy - miny));
+                var arrayIndex = Math.floor(Math.random() * pointArray.length);
+                var points = pointArray[arrayIndex];
+                var extreme = extremes[arrayIndex];
+                var _minx = extreme.minx,
+                    _miny = extreme.miny,
+                    _maxx = extreme.maxx,
+                    _maxy = extreme.maxy;
+                testx = _minx + Math.floor(Math.random() * (_maxx - _minx));
+                testy = _miny + Math.floor(Math.random() * (_maxy - _miny));
+
                 cd = collisionDetection(points, cc.p(testx, testy));
+                if (cd) break;
             } while (!cd && k++ < maxTries);
             if (cd) {
                 testy = size.height - Y_OFFSET - testy;
@@ -1103,17 +1155,17 @@ var WorldLayer = cc.Layer.extend({
 
         var generatePointsForCountry = function generatePointsForCountry(country, policy, min, max) {
             var batchNode = world.spriteBackground.getChildByTag(TAG_SPRITE_BATCH_NODE);
-            var coords = country.points;
-            var points = []; //country.policyPoints;
+            var pointArray = country.points;
+            var extremes = country.extremes;
+            var pointsToDraw = []; //country.policyPoints;
             var dots = []; //country.policyDots;
             if (policy) {
-                points = country.policyPoints;
+                pointsToDraw = country.policyPoints;
                 dots = country.policyDots;
             } else {
-                points = country.destructionPoints;
+                pointsToDraw = country.destructionPoints;
                 dots = country.destructionDots;
             }
-            var extremes = country.extremes;
 
             min = Math.round(min);
             max = Math.round(max);
@@ -1127,16 +1179,16 @@ var WorldLayer = cc.Layer.extend({
                         sprite.removeFromParent();
                 }
                 */
-                // points = points.slice(0, max - 1);
-                points = points.slice(0, min);
+                // pointsToDraw = pointsToDraw.slice(0, max - 1);
+                pointsToDraw = pointsToDraw.slice(0, min);
             } else {
                 var sqrt = Math.pow(country.area, 0.5);
-                if (points.length + (max - min) * country.numPoints > sqrt) return;
+                if (pointsToDraw.length + (max - min) * country.numPoints > sqrt) return;
                 for (var j = min; j < max; j++) {
                     var numPoints = country.numPoints;
                     for (var k = 0; k < numPoints; k++) {
-                        var p = generatePoint(coords, extremes);
-                        if (p != null && points.indexOf(p) === -1) {
+                        var p = generatePoint(pointArray, extremes);
+                        if (p != null && pointsToDraw.indexOf(p) === -1) {
                             /*
                             // Sprite-based dots
                             var sprite = new cc.Sprite(batchNode.texture, cc.rect(0, 0, 60, 60));
@@ -1153,13 +1205,14 @@ var WorldLayer = cc.Layer.extend({
                              batchNode.addChild(sprite, 1);
                             dots.push(sprite);
                             */
-                            points.push(p);
+                            pointsToDraw.push(p);
                         }
                     }
                 }
             }
-            return points;
+            return pointsToDraw;
         };
+
         var generatePoints = function generatePoints() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
@@ -2087,6 +2140,14 @@ var WorldLayer = cc.Layer.extend({
             onMouseMove: function onMouseMove(event) {
 
                 selectCountry(event, event.getLocation());
+            },
+
+            onMouseUp: function onMouseUp(event) {
+
+                var target = event.getCurrentTarget();
+                var locationInNode = target.convertToNodeSpace(event.getLocation());
+
+                console.log(locationInNode);
             }
 
         }, this.map);
