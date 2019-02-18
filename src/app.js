@@ -1945,7 +1945,11 @@ var WorldLayer = cc.Layer.extend({
                                     gameParams.state = gameStates.STARTED;
                                 });
 
-                            fireClickOnTarget(buttons[0]);
+                            if (gameParams.automateMode) {
+
+                                fireClickOnTarget(buttons[0]);
+
+                            }
 
                         }
                     }
@@ -2205,8 +2209,9 @@ var WorldLayer = cc.Layer.extend({
              
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
-    
-                console.log(locationInNode);
+
+                // For debugging point generation
+                // cc.debug(locationInNode);
 
             }
 
