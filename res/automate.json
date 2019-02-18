@@ -1,0 +1,19 @@
+{
+    "resourcesProb": 0.5,
+    "crisisDuration": 30,
+    "fastForward": true,
+    "policyEvents": [ 
+        {
+            "counter": 87,
+            "policyID": 3
+        },
+        {
+            "counter": 187,
+            "policyID": 3
+        },
+        {
+            "counter": 300,
+            "policyID": 15
+        }
+    ]
+}
