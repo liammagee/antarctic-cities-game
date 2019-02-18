@@ -21,6 +21,7 @@ COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transpare
 RESOURCES = {
     economic: {
         labelText: "Design your Economic Policy",
+        name: "Economy",
         policyOptions: [        
         {
             id: 1,
@@ -140,6 +141,7 @@ RESOURCES = {
     },
     politics: {        
         labelText: "Design your Political Policy",
+        name: "Politics",
         policyOptions: [ 
         {
             id: 5,
@@ -256,6 +258,7 @@ RESOURCES = {
     },
     cultural: {
         labelText: "Design your Cultural Policy",
+        name: "Culture",
         policyOptions: [ 
         {
             id: 9,
@@ -372,6 +375,7 @@ RESOURCES = {
     },
     ecology: {
         labelText: "Design your Ecological Policy",
+        name: "Ecology",
         policyOptions: [ 
         {
             id: 13,

@@ -17,6 +17,7 @@ var TAG_SPRITE_BATCH_NODE = 1;
 
 // Game variables
 var gameParams = {};
+var automateScript = {};
 var gameStates = {
     INITIALISED: 0,
     PREPARED: 1,
@@ -66,8 +67,50 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.messagesPositive = scenarioData.messages.positive;
     gameParams.tutorialMode = false;
     gameParams.tutorialHints = [];
+
+    // Obtain automation setting from parent
+    gameParams.automateMode = world.automate;
+    gameParams.automateScript = automateScript;
+
     updateTimeVars(DAY_INTERVAL);
     calculatePolicyConnections();
+};
+
+/**
+ * Fire click on target
+ */
+var fireClickOnTarget = function fireClickOnTarget(target, callback) {
+
+    setTimeout(function () {
+
+        // Assume no more than 4 parents
+        var x = target.getPosition().x;
+        var y = target.getPosition().y;
+
+        if (target.parent != null) {
+
+            x += target.parent.getPosition().x;
+            y += target.parent.getPosition().y;
+            if (target.parent.parent != null) {
+                x += target.parent.parent.getPosition().x;
+                y += target.parent.parent.getPosition().y;
+                if (target.parent.parent.parent != null) {
+
+                    x += target.parent.parent.parent.getPosition().x;
+                    y += target.parent.parent.parent.getPosition().y;
+                }
+            }
+        }
+
+        x += target.getContentSize().width / 2;
+        y += target.getContentSize().height / 2;
+
+        var e = new cc.EventMouse(cc.EventMouse.UP);
+        e.setLocation(x, y);
+        cc.eventManager.dispatchEvent(e);
+
+        if (typeof callback !== "undefined") callback();
+    }, 100);
 };
 
 /**
@@ -186,6 +229,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
     contentText.setColor(COLOR_WHITE);
     layerBackground.addChild(contentText, 2);
 
+    var buttons = [];
     var btn1 = new ccui.Button();
     btn1.setTouchEnabled(true);
     btn1.setSwallowTouches(false);
@@ -205,7 +249,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
 
     if (typeof prompt2 !== "undefined") {
 
-        var btn2 = new ccui.Button();
+        btn2 = new ccui.Button();
         btn2.setTouchEnabled(true);
         btn2.setSwallowTouches(false);
         btn2.setTitleText(prompt2);
@@ -222,6 +266,11 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
             callback2();
         });
     }
+
+    buttons.push(btn1);
+    if (typeof btn2 !== "undefined") buttons.push(btn2);
+
+    return buttons;
 };
 
 /**
@@ -310,7 +359,6 @@ var gameOver = function gameOver(parent, message, prompt) {
  * A common function for adding mouse/touch events.
  */
 var handleMouseTouchEvent = function handleMouseTouchEvent(target, callback) {
-
     var listenerMouse = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
         onMouseUp: function onMouseUp(event) {
@@ -366,6 +414,7 @@ var WorldLayer = cc.Layer.extend({
     initControls: function initControls() {
 
         var controlHandler = function controlHandler(target) {
+
             if (target == world.btnQuit) {
                 // Pause
                 gameParams.state = gameStates.PAUSED;
@@ -379,12 +428,14 @@ var WorldLayer = cc.Layer.extend({
                 });
             } else if (target == world.btnPause) {
                 // Pause
+
                 gameParams.state = gameStates.PAUSED;
                 world.btnPause.enabled = false;
                 world.btnPlay.enabled = true;
                 world.btnFF.enabled = true;
             } else if (target == world.btnPlay) {
                 // Play
+
                 updateTimeVars(DAY_INTERVAL);
                 gameParams.state = gameStates.STARTED;
                 world.btnPause.enabled = true;
@@ -392,7 +443,8 @@ var WorldLayer = cc.Layer.extend({
                 world.btnFF.enabled = true;
             } else if (target == world.btnFF) {
                 // Fast Forward
-                updateTimeVars(DAY_INTERVAL / 10);
+
+                updateTimeVars(DAY_INTERVAL / 20);
                 gameParams.state = gameStates.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
@@ -406,12 +458,13 @@ var WorldLayer = cc.Layer.extend({
         handleMouseTouchEvent(world.btnFF, controlHandler);
     },
 
-    ctor: function ctor(scenarioData) {
+    ctor: function ctor(scenarioData, automate) {
         this._super();
 
         // Add to global variables to maintain state
         world = this;
         world.scenarioData = scenarioData;
+        world.automate = automate;
 
         initGameParams(scenarioData);
 
@@ -678,15 +731,11 @@ var WorldLayer = cc.Layer.extend({
         this.countryLossProgressBase.setContentSize(cc.size(100, 10));
         this.countryLossProgressBase.setPosition(cc.p(380, Y_OFFSET / 2));
         this.countryLossProgressBase.setAnchorPoint(new cc.p(0, 0.5));
-        // this.countryLossProgressBase.setScale9Enabled(true);
-        // this.countryLossProgressBase.setCapInsets(3);
         this.countryLossProgress = new ccui.LoadingBar("res/liam_png/progress-bar.png", 0);
         this.countryLossProgress.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLossProgress.setContentSize(cc.size(100, 10));
         this.countryLossProgress.setPosition(cc.p(380, Y_OFFSET / 2));
         this.countryLossProgress.setAnchorPoint(new cc.p(0, 0.5));
-        // this.countryLossProgress.setScale9Enabled(true);
-        //this.countryLossProgress.setCapInsets(3);
         countryDetailLayout.addChild(this.countryLossProgressBase, 100);
         countryDetailLayout.addChild(this.countryLossProgress, 101);
 
@@ -714,7 +763,7 @@ var WorldLayer = cc.Layer.extend({
         this.countryPreparedProgress = new ccui.LoadingBar("res/liam_png/progress-bar.png", 0);
         this.countryPreparedProgress.setColor(COLOR_POLICY_POINTS);
         this.countryPreparedProgress.setContentSize(cc.size(100, 10));
-        this.countryPreparedProgress.setPosition(cc.p(700, Y_OFFSET / 2));
+        this.countryPreparedProgress.setPosition(cc.p(720, Y_OFFSET / 2));
         this.countryPreparedProgress.setAnchorPoint(new cc.p(0, 0.5));
         countryDetailLayout.addChild(this.countryPreparedProgressBase, 100);
         countryDetailLayout.addChild(this.countryPreparedProgress, 101);
@@ -1246,9 +1295,18 @@ var WorldLayer = cc.Layer.extend({
                         btnRes.placedAt = gameParams.counter;
                         world.worldBackground.addChild(btnRes, 101);
 
+                        buttons.push(btnRes);
+
                         handleMouseTouchEvent(btnRes, processResourceSelection);
 
-                        buttons.push(btnRes);
+                        if (gameParams.automateMode) {
+
+                            var _r = Math.random();
+                            if (_r < parseFloat(gameParams.automateScript.resourcesProb)) {
+
+                                fireClickOnTarget(btnRes);
+                            }
+                        }
 
                         if (!gameParams.alertResources) {
                             if (gameParams.tutorialMode) {
@@ -1307,6 +1365,7 @@ var WorldLayer = cc.Layer.extend({
                         crisisCountry.crisis = crisisKeys[crisisID];
                         crisisCountry.country = countryKeys[countryID];
                         crisisCountry.id = i;
+                        crisisCountry.counter = gameParams.counter;
                         break;
                     }
                 }
@@ -1364,16 +1423,22 @@ var WorldLayer = cc.Layer.extend({
                     // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                     btnCrisis.placedAt = gameParams.counter;
                     btnCrisis.crisisId = crisisInCountry.id;
+                    btnCrisis.name = "crisis" + crisisInCountry.id;
 
                     handleMouseTouchEvent(btnCrisis, processCrisisSelection);
 
                     world.worldBackground.addChild(btnCrisis, 101);
                     gameParams.state = gameStates.PAUSED;
 
-                    showMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
+                    var _buttons = showMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function (that) {
 
                         gameParams.state = gameStates.STARTED;
                     });
+
+                    if (gameParams.automateMode) {
+
+                        fireClickOnTarget(_buttons[0]);
+                    }
                 }
                 gameParams.lastCrisis = gameParams.counter;
             };
@@ -1690,6 +1755,56 @@ var WorldLayer = cc.Layer.extend({
 
                 var d = gameParams.currentDate;
                 gameParams.counter++;
+
+                // Handle automation here
+                if (gameParams.automateMode) {
+                    var _loop = function _loop(_i) {
+
+                        var pe = gameParams.automateScript.policyEvents[_i];
+                        if (gameParams.counter == pe.counter) {
+
+                            fireClickOnTarget(world.btnDevelopPolicy, function () {
+                                var resNames = Object.values(RESOURCES).map(function (res) {
+                                    return res.name;
+                                });
+                                var resGrp = Math.floor(pe.policyID / resNames.length);
+                                var element = world.designPolicyLayer.getChildByName(resNames[resGrp]);
+
+                                fireClickOnTarget(element, function () {
+                                    var btn = world.designPolicyLayer.policyButtons[pe.policyID];
+
+                                    fireClickOnTarget(btn, function () {
+
+                                        fireClickOnTarget(world.designPolicyLayer.investButton, function () {
+
+                                            fireClickOnTarget(world.designPolicyLayer.btnExit);
+                                        });
+                                    });
+                                });
+                            });
+                            return "break";
+                        }
+                    };
+
+                    // Select resources
+                    for (var _i = 0; _i < gameParams.automateScript.policyEvents.length; _i++) {
+                        var _ret = _loop(_i);
+
+                        if (_ret === "break") break;
+                    };
+
+                    // Select crisis
+                    for (var _i2 = 0; _i2 < gameParams.crises.length; _i2++) {
+
+                        var crisisInCountry = gameParams.crises[_i2];
+                        if (gameParams.counter == crisisInCountry.counter + gameParams.automateScript.crisisDuration) {
+
+                            var target = world.worldBackground.getChildByName("crisis" + crisisInCountry.id);
+                            fireClickOnTarget(target);
+                        }
+                    }
+                }
+
                 if (gameParams.counter % gameParams.timeInterval == 0) {
 
                     gameParams.currentDate = new Date(gameParams.currentDate.valueOf());
@@ -1726,9 +1841,11 @@ var WorldLayer = cc.Layer.extend({
                         if (showDialog) {
 
                             gameParams.state = gameStates.PAUSED;
-                            showMessageBoxOK(world, "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), message, "OK", function () {
+                            var _buttons2 = showMessageBoxOK(world, "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), message, "OK", function () {
                                 gameParams.state = gameStates.STARTED;
                             });
+
+                            fireClickOnTarget(_buttons2[0]);
                         }
                     }
 
@@ -2013,14 +2130,15 @@ var WorldLayer = cc.Layer.extend({
             //addEmitter();
         };
 
-        showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, "Start Tutorial", function (that) {
+        var nestedButtons = null;
+        var buttons = showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, "Start Tutorial", function (that) {
             gameParams.tutorialMode = true;
             var keys = Object.keys(world.countries);
             gameParams.startCountry = "UGA";
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
             gameParams.currentCountry = gameParams.startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
-            showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
+            var nestedButtons = showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
             });
         }, "Skip Tutorial", function (that) {
@@ -2029,14 +2147,38 @@ var WorldLayer = cc.Layer.extend({
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
             gameParams.currentCountry = gameParams.startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
-            showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
+            nestedButtons = showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
             });
         });
+
+        if (gameParams.automateMode) {
+
+            fireClickOnTarget(buttons[1], function () {
+
+                fireClickOnTarget(nestedButtons[0], function () {
+
+                    if (gameParams.automateScript.fastForward) {
+
+                        updateTimeVars(DAY_INTERVAL / 20);
+                        gameParams.state = gameStates.STARTED;
+                        world.btnPause.enabled = true;
+                        world.btnPlay.enabled = true;
+                        world.btnFF.enabled = false;
+                    }
+                });
+            });
+        }
     }
 });
 
 var WorldScene = cc.Scene.extend({
+    ctor: function ctor(automate) {
+        this._super();
+
+        this.automate = automate;
+    },
+
     onEnter: function onEnter() {
         this._super();
 
@@ -2044,8 +2186,14 @@ var WorldScene = cc.Scene.extend({
 
         // Add country data 
         cc.loader.loadJson("res/scenario-nature.json", function (error, scenarioData) {
-            var layer = new WorldLayer(scenarioData);
+            var layer = new WorldLayer(scenarioData, scene.automate);
             scene.addChild(layer);
+        });
+
+        // Add script data 
+        cc.loader.loadJson("res/automate.json", function (error, data) {
+
+            automateScript = data;
         });
     }
 });
@@ -2134,14 +2282,19 @@ var LoadingScene = cc.Scene.extend({
         a2.tag = 1;
         */
 
+        var automateHandler = function automateHandler() {
+            cc.director.runScene(new WorldScene(true));
+            // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
+        };
         var playHandler = function playHandler() {
-            cc.director.runScene(new WorldScene());
+            cc.director.runScene(new WorldScene(false));
             // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
         };
         var learnMoreHandler = function learnMoreHandler() {
             cc.sys.openURL("https://antarctic-cities.org/the-game/");
         };
 
+        handleMouseTouchEvent(antarcticaSprite, automateHandler);
         handleMouseTouchEvent(btnPlay, playHandler);
         handleMouseTouchEvent(btnLearnMore, learnMoreHandler);
     }
@@ -2354,8 +2507,10 @@ var ModifyCodeScene = cc.Scene.extend({
 
 var DesignPolicyLayer = cc.Layer.extend({
     ctor: function ctor(world) {
+
         this._super();
         this.world = world;
+        world.designPolicyLayer = this;
     },
     onEnter: function onEnter() {
         this._super();
@@ -2364,6 +2519,9 @@ var DesignPolicyLayer = cc.Layer.extend({
         var size = cc.winSize;
         var resourceSelected = null;
         var resourceSelectedButton = null;
+
+        // For automation
+        layer.policyButtons = [];
 
         var layerBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
@@ -2386,7 +2544,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             layer.removeFromParent();
             gameParams.state = gameStates.STARTED;
         });
-
+        layer.btnExit = btnExit;
         layer.addChild(btnExit, 102);
 
         var policyDetailsBackground = new cc.LayerColor(COLOR_BLACK, 400, 400);
@@ -2423,6 +2581,9 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnPolicyInvest.setTitleFontSize(24);
         btnPolicyInvest.setTitleColor(COLOR_BLACK);
         btnPolicyInvest.setTitleText("Invest in this policy");
+
+        // For automation
+        layer.investButton = btnPolicyInvest;
 
         var calculateResourceAndCrisisImpacts = function calculateResourceAndCrisisImpacts(resource) {
 
@@ -2501,6 +2662,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             resourceGrp.policyOptions.forEach(function (opt) {
 
                 var btn = new ccui.Button();
+                btn.setName(opt.text);
                 btn.setTouchEnabled(true);
                 btn.setSwallowTouches(false);
                 btn.setAnchorPoint(cc.p(0, 0));
@@ -2508,6 +2670,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.loadTextures(opt.img_normal, "", opt.img_on);
                 btn.attr(opt.location);
                 btn.setContentSize(cc.size(104, 104));
+                layer.policyButtons.push(btn);
 
                 btn.cost_1 = opt.cost_1;
                 btn.cost_2 = opt.cost_2;
@@ -2576,6 +2739,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             btn.setAnchorPoint(cc.p(0, 0));
             btn.setColor(COLOR_ICE);
             btn.setPosition(point);
+            btn.setName(text);
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
             handleMouseTouchEvent(btn, function () {
@@ -2585,10 +2749,14 @@ var DesignPolicyLayer = cc.Layer.extend({
             });
             layer.addChild(btn, 100);
         };
-        makeButton("Economy", cc.p(300, 80), 0);
-        makeButton("Politics", cc.p(500, 80), 1);
-        makeButton("Culture", cc.p(700, 80), 2);
-        makeButton("Ecology", cc.p(900, 80), 3);
+
+        Object.values(RESOURCES).forEach(function (res, index) {
+            makeButton(res.name, cc.p(300 + 200 * index, 80), index);
+        });
+        // makeButton("Economy", cc.p(300, 80), 0);
+        // makeButton("Politics", cc.p(500, 80), 1);
+        // makeButton("Culture", cc.p(700, 80), 2);
+        // makeButton("Ecology", cc.p(900, 80), 3);
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
