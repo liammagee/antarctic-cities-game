@@ -2210,6 +2210,7 @@ var WorldLayer = cc.Layer.extend({
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
 
+                gameParams.statsCountry = gameParams.currentCountry;
                 // For debugging point generation
                 // cc.debug(locationInNode);
 
@@ -2269,6 +2270,7 @@ var WorldLayer = cc.Layer.extend({
                 var keys = Object.keys(world.countries);
                 gameParams.startCountry = "UGA";
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
+                gameParams.statsCountry = gameParams.currentCountry;
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
                 let nestedButtons = showMessageBoxOK(world, "Prepare the world...", 
@@ -2281,6 +2283,7 @@ var WorldLayer = cc.Layer.extend({
                 gameParams.tutorialMode = false;
                 gameParams.startCountry = "UGA";
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
+                gameParams.statsCountry = gameParams.currentCountry;
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
                 nestedButtons = showMessageBoxOK(world, "Prepare the world...", 
@@ -2966,87 +2969,154 @@ var StatsLayer = cc.Layer.extend({
 
         var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layerBackground, 100);
+        layer.addChild(layerBackground, 1);
 
-        var heading = new cc.LabelTTF("Statistics", FONT_FACE_BODY, 38);
-        heading.attr({x: size.width * 0.5, y: size.height * 0.9});
-        layerBackground.addChild(heading, 101);
+
+        var pageView = new ccui.PageView();
+        pageView.setContentSize(cc.size(size.width, size.height - 80));
+        pageView.setAnchorPoint(cc.p(0, 0));
+        pageView.setPosition(cc.p(0, 0));
+        var pageCount = 3;
+
+        layer.addChild(pageView, 100);
+
+        var layoutWorld = new ccui.Layout();
+        layoutWorld.setContentSize(size.width, size.height - Y_OFFSET);
+        pageView.insertPage(layoutWorld, 1);
+
+        var layoutCountries = new ccui.Layout();
+        layoutCountries.setContentSize(size.width, size.height - Y_OFFSET);
+        pageView.insertPage(layoutCountries, 1);
+
+        var layoutTime = new ccui.Layout();
+        layoutTime.setContentSize(size.width, size.height - Y_OFFSET);
+        pageView.insertPage(layoutTime, 1);
+
+
+
+        //add buttons to jump to specific page
+        var makeButton = function(text, point, index) {
+            var btn = new ccui.Button();
+            btn.setTouchEnabled(true);
+            btn.setSwallowTouches(false);
+            btn.setAnchorPoint(cc.p(0, 0));
+            btn.setColor(COLOR_ICE);
+            btn.setPosition(point);
+            btn.setName(text);
+            btn.setTitleText(text);
+            btn.setTitleFontSize(36);
+            handleMouseTouchEvent(btn, function(){
+                pageView.setCurrentPageIndex(index);
+            });
+            layer.addChild(btn, 100);
+        };
+
+        makeButton("World", cc.p(size.width * 0.1, size.height - 80), 0);
+        makeButton("Countries", cc.p(size.width * 0.3, size.height - 80), 1);
+        makeButton("Time", cc.p(size.width * 0.5, size.height - 80), 2);
+
+        var headingWorld = new cc.LabelTTF("World Statistics", FONT_FACE_BODY, 38);
+        headingWorld.attr({x: size.width * 0.5, y: size.height * 0.85});
+        layoutWorld.addChild(headingWorld, 101);
+
+        var headingCountries = new cc.LabelTTF("Country Table", FONT_FACE_BODY, 38);
+        headingCountries.attr({x: size.width * 0.5, y: size.height * 0.85});
+        layoutCountries.addChild(headingCountries, 101);
+
+        var headingTime = new cc.LabelTTF("Time Graph", FONT_FACE_BODY, 38);
+        headingTime.attr({x: size.width * 0.5, y: size.height * 0.85});
+        layoutTime.addChild(headingTime, 101);
 
         var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
 
-        this.policyLabel = new cc.LabelTTF("Policy Effectiveness: ", FONT_FACE_BODY, 24);
-        this.policyLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.8));
-        layerBackground.addChild(this.policyLabel, 100);
+        // FOR THE WORLD STATISTICS PAGE
 
-        this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.policy), FONT_FACE_BODY, 24);
-        this.policyIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.8));
-        layerBackground.addChild(this.policyIndicatorLabel, 100);
-
-        this.destructionLabel = new cc.LabelTTF("World Destruction:", FONT_FACE_BODY, 24);
+        this.destructionLabel = new cc.LabelTTF("World Destruction (%):", FONT_FACE_BODY, 24);
         this.destructionLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.7));
-        layerBackground.addChild(this.destructionLabel, 100);
+        layoutWorld.addChild(this.destructionLabel, 100);
 
         this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.totalLoss), FONT_FACE_BODY, 24);
         this.destructionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.7));
-        layerBackground.addChild(this.destructionIndicatorLabel, 100);
+        layoutWorld.addChild(this.destructionIndicatorLabel, 100);
+        
+        this.policyLabel = new cc.LabelTTF("World Preparedness (%): ", FONT_FACE_BODY, 24);
+        this.policyLabel.setAnchorPoint(cc.p(0, 0));
+        this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.65));
+        layoutWorld.addChild(this.policyLabel, 100);
+
+        this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 24);
+        this.policyIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.65));
+        layoutWorld.addChild(this.policyIndicatorLabel, 100);
+
 
         // Country details
-        if (gameParams.currentCountry !== null) {
-            var country = world.countries[gameParams.currentCountry];
-            this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE_BODY, 24);
-            this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
-            this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
-            layerBackground.addChild(this.currentCountryLabel, 100);
-    
-            this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE_BODY, 24);
-            this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-            this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
-            layerBackground.addChild(this.currentCountryIndicatorLabel, 100);
-    
-            this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE_BODY, 24);
-            this.populationLabel.setAnchorPoint(cc.p(0, 0));
-            this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
-            layerBackground.addChild(this.populationLabel, 100);
-    
-            this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE_BODY, 24);
-            this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-            this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
-            layerBackground.addChild(this.populationIndicatorLabel, 100);
-    
-            this.gdpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE_BODY, 24);
-            this.gdpLabel.setAnchorPoint(cc.p(0, 0));
-            this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
-            layerBackground.addChild(this.gdpLabel, 100);
-    
-            this.gdpIndicatorLabel = new cc.LabelTTF(country.gdp_est, FONT_FACE_BODY, 24);
-            this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-            this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
-            layerBackground.addChild(this.gdpIndicatorLabel, 100);
-    
-            this.incomeGrpLabel = new cc.LabelTTF("Country GDP:", FONT_FACE_BODY, 24);
-            this.incomeGrpLabel.setAnchorPoint(cc.p(0, 0));
-            this.incomeGrpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.3));
-            layerBackground.addChild(this.incomeGrpLabel, 100);
-    
-            this.incomeGrpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE_BODY, 24);
-            this.incomeGrpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-            this.incomeGrpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.3));
-            layerBackground.addChild(this.incomeGrpIndicatorLabel, 100);
-    
-            this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE_BODY, 24);
-            this.regionLabel.setAnchorPoint(cc.p(0, 0));
-            this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.2));
-            layerBackground.addChild(this.regionLabel, 100);
-    
-            this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE_BODY, 24);
-            this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-            this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.2));
-            layerBackground.addChild(this.regionIndicatorLabel, 100);
-        }
+        var countryTag = gameParams.statsCountry;
+        if (countryTag === null)
+            countryTag = gameParams.startCountry;
+
+        var country = world.countries[countryTag];
+        this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE_BODY, 24);
+        this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
+        this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
+        layoutWorld.addChild(this.currentCountryLabel, 100);
+
+        this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE_BODY, 24);
+        this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
+        layoutWorld.addChild(this.currentCountryIndicatorLabel, 100);
+
+        this.regionLabel = new cc.LabelTTF("Country Destruction (%):", FONT_FACE_BODY, 24);
+        this.regionLabel.setAnchorPoint(cc.p(0, 0));
+        this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.55));
+        layoutWorld.addChild(this.regionLabel, 100);
+
+        this.regionIndicatorLabel = new cc.LabelTTF(makeString(country.loss), FONT_FACE_BODY, 24);
+        this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.55));
+        layoutWorld.addChild(this.regionIndicatorLabel, 100);
+
+        this.regionLabel = new cc.LabelTTF("Country Preparedness (%):", FONT_FACE_BODY, 24);
+        this.regionLabel.setAnchorPoint(cc.p(0, 0));
+        this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
+        layoutWorld.addChild(this.regionLabel, 100);
+
+        this.regionIndicatorLabel = new cc.LabelTTF(makeString(country.pop_prepared_percent), FONT_FACE_BODY, 24);
+        this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
+        layoutWorld.addChild(this.regionIndicatorLabel, 100);
+
+        this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE_BODY, 24);
+        this.populationLabel.setAnchorPoint(cc.p(0, 0));
+        this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.45));
+        layoutWorld.addChild(this.populationLabel, 100);
+
+        this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE_BODY, 24);
+        this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.45));
+        layoutWorld.addChild(this.populationIndicatorLabel, 100);
+
+        this.gdpLabel = new cc.LabelTTF("Country Income Group:", FONT_FACE_BODY, 24);
+        this.gdpLabel.setAnchorPoint(cc.p(0, 0));
+        this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
+        layoutWorld.addChild(this.gdpLabel, 100);
+
+        this.gdpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE_BODY, 24);
+        this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
+        layoutWorld.addChild(this.gdpIndicatorLabel, 100);
+
+        this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE_BODY, 24);
+        this.regionLabel.setAnchorPoint(cc.p(0, 0));
+        this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.35));
+        layoutWorld.addChild(this.regionLabel, 100);
+
+        this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE_BODY, 24);
+        this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
+        this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.35));
+        layoutWorld.addChild(this.regionIndicatorLabel, 100);
 
         var btnExit = new ccui.Button();
         btnExit.setTouchEnabled(true);
