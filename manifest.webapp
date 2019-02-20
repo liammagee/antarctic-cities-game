@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "name": "MyGameJS",
-  "description": "MyGameJS",
+  "name": "Antarctica-2048",
+  "description": "Antarctica 2048",
   "launch_path": "/index.html",
   "icons": {
     "128": "/res/icon.png"

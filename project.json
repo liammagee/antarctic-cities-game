@@ -12,6 +12,7 @@
     "extensions"
   ],
   "jsList": [
+    ".es5/app-test.js",
     ".es5/app.js",
     ".es5/dat.js",
     ".es5/resource.js"

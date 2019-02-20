@@ -1,7 +1,7 @@
 {
   "name": "polarised-cities",
   "version": "0.0.1",
-  "description": "Polarised Cities game",
+  "description": "Antarctica 2048",
   "scripts": {
     "compile": "./node_modules/.bin/babel --presets es2015-without-strict,stage-0 -d .es5/ src/ && node devutils/project.js",
     "server": "$(which http-server) -o -p 8000 .",

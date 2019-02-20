@@ -2816,6 +2816,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         pageView.setCurrentPageIndex(0);
 
         //add buttons to jump to specific page
+        var prevButton = null;
         var makeButton = function makeButton(text, point, index) {
             var btn = new ccui.Button();
             btn.setTouchEnabled(true);
@@ -2831,17 +2832,29 @@ var DesignPolicyLayer = cc.Layer.extend({
                 resourceSelected = null;
                 policyDetailsBackground.setVisible(false);
                 pageView.setCurrentPageIndex(index);
+                btn.setBright(false);
+                btn.enabled = false;
+                btn.setColor(COLOR_OAK);
+                if (prevButton != null && prevButton != btn) {
+                    prevButton.setBright(true);
+                    prevButton.enabled = true;
+                    prevButton.setColor(COLOR_ICE);
+                }
+                prevButton = btn;
             });
+            // Select the first button only
+            if (index == 0) {
+                btn.setBright(false);
+                btn.enabled = false;
+                btn.setColor(COLOR_OAK);
+                prevButton = btn;
+            }
             layer.addChild(btn, 100);
         };
 
         Object.values(RESOURCES).forEach(function (res, index) {
             makeButton(res.name, cc.p(300 + 200 * index, 80), index);
         });
-        // makeButton("Economy", cc.p(300, 80), 0);
-        // makeButton("Politics", cc.p(500, 80), 1);
-        // makeButton("Culture", cc.p(700, 80), 2);
-        // makeButton("Ecology", cc.p(900, 80), 3);
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
@@ -2910,6 +2923,7 @@ var StatsLayer = cc.Layer.extend({
         layoutTime.setVisible(false);
 
         //add buttons to jump to specific page
+        var prevButton = null;
         var makeButton = function makeButton(text, point, index) {
             var btn = new ccui.Button();
             btn.setTouchEnabled(true);
@@ -2942,7 +2956,23 @@ var StatsLayer = cc.Layer.extend({
                         break;
 
                 }
+                btn.setBright(false);
+                btn.enabled = false;
+                btn.setColor(COLOR_OAK);
+                if (prevButton != null && prevButton != btn) {
+                    prevButton.setBright(true);
+                    prevButton.enabled = true;
+                    prevButton.setColor(COLOR_ICE);
+                }
+                prevButton = btn;
             });
+            // Select the first button only
+            if (index == 0) {
+                btn.setBright(false);
+                btn.enabled = false;
+                btn.setColor(COLOR_OAK);
+                prevButton = btn;
+            }
             layer.addChild(btn, 100);
         };
 
