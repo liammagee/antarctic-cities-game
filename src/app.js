@@ -317,12 +317,6 @@ var gameOver = function(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
-    initGameParams(world.scenarioData);
-    gameParams.state = gameStates.GAME_OVER;
-    gameParams.startCountry = null;
-    gameParams.strategies = {};
-    world.tweetLabel.setString(gameParams.scenarioName);
-    world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
 
     var layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH * 0.66, WINDOW_HEIGHT * 0.66);
     layerBackground.attr({ 
@@ -361,6 +355,13 @@ var gameOver = function(parent, message, prompt) {
         y: (layerBackground.height * 0.1) 
     });
     handleMouseTouchEvent(btnOK, function() {
+        initGameParams(world.scenarioData);
+        gameParams.state = gameStates.GAME_OVER;
+        gameParams.startCountry = null;
+        gameParams.strategies = {};
+        world.tweetLabel.setString(gameParams.scenarioName);
+        world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
+
         cc.director.runScene(new LoadingScene());
     });
     menu.addChild(btnOK);
@@ -2100,6 +2101,7 @@ var WorldLayer = cc.Layer.extend({
 
                             var index = Math.floor(Math.random() * n.messages.length);
                             message = n.messages[index];
+                            break;
                             
                         }
                     }
@@ -2917,6 +2919,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             btn.setName(text);
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
+            btn.setTitleFontName(FONT_FACE_TITLE);
             handleMouseTouchEvent(btn, function(){
                 resourceSelected = null;
                 policyDetailsBackground.setVisible(false);
@@ -2971,28 +2974,29 @@ var StatsLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
+        var heading = new ccui.Text("Track how the world is doing", FONT_FACE_BODY, 38);
+        heading.attr({x: size.width * 0.5, y: size.height * 0.9});
+        heading.setColor(COLOR_ICE);
+        layer.addChild(heading, 101);
 
         var pageView = new ccui.PageView();
         pageView.setContentSize(cc.size(size.width, size.height - 80));
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(0, 0));
-        var pageCount = 3;
 
         layer.addChild(pageView, 100);
 
         var layoutWorld = new ccui.Layout();
-        layoutWorld.setContentSize(size.width, size.height - Y_OFFSET);
-        pageView.insertPage(layoutWorld, 1);
+        layoutWorld.setContentSize(size.width * 0.5, size.height * 0.5);
+        pageView.insertPage(layoutWorld, 0);
 
         var layoutCountries = new ccui.Layout();
-        layoutCountries.setContentSize(size.width, size.height - Y_OFFSET);
+        layoutCountries.setContentSize(size.width * 0.5, size.height * 0.5);
         pageView.insertPage(layoutCountries, 1);
 
         var layoutTime = new ccui.Layout();
-        layoutTime.setContentSize(size.width, size.height - Y_OFFSET);
-        pageView.insertPage(layoutTime, 1);
-
-
+        layoutTime.setContentSize(size.width * 0.5, size.height * 0.5);
+        pageView.insertPage(layoutTime, 2);
 
         //add buttons to jump to specific page
         var makeButton = function(text, point, index) {
@@ -3005,27 +3009,35 @@ var StatsLayer = cc.Layer.extend({
             btn.setName(text);
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
+            btn.setTitleFontName(FONT_FACE_TITLE);
             handleMouseTouchEvent(btn, function(){
                 pageView.setCurrentPageIndex(index);
             });
             layer.addChild(btn, 100);
         };
 
-        makeButton("World", cc.p(size.width * 0.1, size.height - 80), 0);
-        makeButton("Countries", cc.p(size.width * 0.3, size.height - 80), 1);
-        makeButton("Time", cc.p(size.width * 0.5, size.height - 80), 2);
+        makeButton("World", cc.p(300, 80), 0);
+        makeButton("Countries", cc.p(600, 80), 1);
+        makeButton("Trends", cc.p(900, 80), 2);
 
-        var headingWorld = new cc.LabelTTF("World Statistics", FONT_FACE_BODY, 38);
-        headingWorld.attr({x: size.width * 0.5, y: size.height * 0.85});
-        layoutWorld.addChild(headingWorld, 101);
+        // Add resource
+        this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
+        this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
+        this.resourceScoreBackground.setPosition(cc.p(0, 80));
+        layer.addChild(this.resourceScoreBackground, 100);
 
-        var headingCountries = new cc.LabelTTF("Country Table", FONT_FACE_BODY, 38);
-        headingCountries.attr({x: size.width * 0.5, y: size.height * 0.85});
-        layoutCountries.addChild(headingCountries, 101);
+        var antarcticaSmallSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_SMALL.png");
+        antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
+        antarcticaSmallSprite.setContentSize(cc.size(50, 51));
+        antarcticaSmallSprite.setScale(0.8);
+        antarcticaSmallSprite.setPosition(cc.p(40, 25));
+        this.resourceScoreBackground.addChild(antarcticaSmallSprite, 100);
 
-        var headingTime = new cc.LabelTTF("Time Graph", FONT_FACE_BODY, 38);
-        headingTime.attr({x: size.width * 0.5, y: size.height * 0.85});
-        layoutTime.addChild(headingTime, 101);
+        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, 30);
+        this.resourceScoreLabel.setAnchorPoint(cc.p(0.5, 0.5));
+        this.resourceScoreLabel.setPosition(cc.p(80, 25));
+        this.resourceScoreLabel.setColor(COLOR_LICORICE);
+        this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
         var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
 
@@ -3054,7 +3066,7 @@ var StatsLayer = cc.Layer.extend({
 
         // Country details
         var countryTag = gameParams.statsCountry;
-        if (countryTag === null)
+        if (typeof(countryTag) === "undefined" || countryTag === null)
             countryTag = gameParams.startCountry;
 
         var country = world.countries[countryTag];
@@ -3117,6 +3129,129 @@ var StatsLayer = cc.Layer.extend({
         this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
         this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.35));
         layoutWorld.addChild(this.regionIndicatorLabel, 100);
+
+        // Country view
+        this.tableCountryLabel = new cc.LabelTTF("Country", FONT_FACE_TITLE, 24);
+        this.tableLossLabel = new cc.LabelTTF("Environmental Loss", FONT_FACE_TITLE, 24);
+        this.tablePreparednessLabel = new cc.LabelTTF("Preparedness", FONT_FACE_TITLE, 24);
+        this.tableCountryLabel.setAnchorPoint(cc.p(0, 0));
+        this.tableLossLabel.setAnchorPoint(cc.p(0, 0));
+        this.tablePreparednessLabel.setAnchorPoint(cc.p(0, 0));
+        this.tableCountryLabel.setPosition(cc.p(size.width * 0.25 + 10, size.height * 0.75));
+        this.tableLossLabel.setPosition(cc.p(size.width * 0.5, size.height * 0.75));
+        this.tablePreparednessLabel.setPosition(cc.p(size.width * 0.7, size.height * 0.75));
+        layoutCountries.addChild(this.tableCountryLabel, 100);
+        layoutCountries.addChild(this.tableLossLabel, 100);
+        layoutCountries.addChild(this.tablePreparednessLabel, 100);
+
+        // Sort countries
+        var countriesSorted = Object.values(world.countries).sort((a, b) => {
+            if(a.name < b.name) { return -1; }
+            if(a.name > b.name) { return 1; }
+            return 0;            
+        });
+
+        var CustomTableViewCell = cc.TableViewCell.extend({
+            draw:function (ctx) {
+                this._super(ctx);
+            }
+        });
+
+        var TableViewCountriesLayer = cc.Layer.extend({
+
+            ctor:function () {
+                this._super();
+                this.init();
+            },
+        
+            init:function () {
+                var winSize = cc.director.getWinSize();
+        
+                tableView = new cc.TableView(this, cc.size(size.width * 0.5, size.height * 0.5));
+                tableView.setDirection(cc.SCROLLVIEW_DIRECTION_VERTICAL);
+                tableView.x = size.width * 0.25;
+                tableView.y = size.height * 0.25;
+                tableView.setDelegate(this);
+                tableView.setVerticalFillOrder(cc.TABLEVIEW_FILL_TOPDOWN);
+                this.addChild(tableView);
+                tableView.reloadData();
+        
+                return true;
+            },
+
+        
+            scrollViewDidScroll:function (view) {
+            },
+            scrollViewDidZoom:function (view) {
+            },
+        
+            tableCellTouched:function (table, cell) {
+                cc.log("cell touched at index: " + cell.getIdx());
+            },
+        
+            tableCellSizeForIndex:function (table, idx) {
+                return cc.size(size.width * 0.5, 30);
+            },
+        
+            tableCellAtIndex:function (table, idx) {
+                let country = countriesSorted[idx];
+                let color = country.loss > 20 ? COLOR_DESTRUCTION_POINTS : (country.pop_prepared_percent > 20 ? COLOR_POLICY_POINTS : COLOR_ICE);
+                var cell = table.dequeueCell();
+                var labelCountry, labelLoss, labelPreparedness;
+                if (!cell) {
+                // if (true) {
+                    cell = new CustomTableViewCell();
+
+                    labelCountry = new cc.LabelTTF(country.name, FONT_FACE_BODY, 20.0);
+                    labelCountry.color = color;
+                    labelCountry.x = 10;
+                    labelCountry.y = 0;
+                    labelCountry.anchorX = 0;
+                    labelCountry.anchorY = 0;
+                    labelCountry.tag = 123;
+                    cell.addChild(labelCountry);
+
+                    labelLoss = new cc.LabelTTF(makeString(country.loss), FONT_FACE_BODY, 20.0);
+                    // labelLoss.color = color;
+                    labelLoss.x = size.width * 0.25;
+                    labelLoss.y = 0;
+                    labelLoss.anchorX = 0;
+                    labelLoss.anchorY = 0;
+                    labelLoss.tag = 456;
+                    cell.addChild(labelLoss);
+
+                    labelPreparedness = new cc.LabelTTF(makeString(country.pop_prepared_percent), FONT_FACE_BODY, 20.0);
+                    // labelPreparedness.color = color;
+                    labelPreparedness.x = size.width * 0.45;
+                    labelPreparedness.y = 0;
+                    labelPreparedness.anchorX = 0;
+                    labelPreparedness.anchorY = 0;
+                    labelPreparedness.tag = 789;
+                    cell.addChild(labelPreparedness);
+
+
+                } else {
+                    labelCountry = cell.getChildByTag(123);
+                    labelCountry.setString(country.name);
+                    labelCountry.color = color;
+
+                    labelLoss = cell.getChildByTag(456);
+                    labelLoss.setString(makeString(country.loss));
+
+                    labelPreparedness = cell.getChildByTag(789);
+                    labelPreparedness.setString(makeString(country.pop_prepared_percent));
+                }
+        
+                return cell;
+            },
+        
+            numberOfCellsInTableView:function (table) {
+                return Object.keys(world.countries).length;
+            }
+        });
+        
+        let countriesTable = new TableViewCountriesLayer();
+        layoutCountries.addChild(countriesTable);
 
         var btnExit = new ccui.Button();
         btnExit.setTouchEnabled(true);
