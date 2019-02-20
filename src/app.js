@@ -534,7 +534,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.setTouchEnabled(true);
         this.btnQuit.setSwallowTouches(false);
         this.btnQuit.setScale9Enabled(true);
-        this.btnQuit.loadTextures("res/andrea_png/BUTTONS/BUTTON_QUIT.png", "", "res/andrea_png/BUTTONS/BUTTON_QUIT_ON.png");
+        this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_on_png);
         this.btnQuit.attr({ x: 21, y: size.height - 63 });
         this.btnQuit.setContentSize(cc.size(105, 105));
         this.btnQuit.setScale(0.4);
@@ -543,7 +543,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setSwallowTouches(false);
         this.btnPause.setScale9Enabled(true);
-        this.btnPause.loadTextures("res/andrea_png/BUTTONS/BUTTON_PAUSE_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PAUSE_ON.png");
+        this.btnPause.loadTextures(res.pause_off_png, "", res.pause_on_png);
         this.btnPause.attr({ x: 21, y: 21 });
         this.btnPause.setContentSize(cc.size(105, 105));
         this.btnPause.setScale(0.4);
@@ -552,7 +552,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPlay.setTouchEnabled(true);
         this.btnPlay.setSwallowTouches(false);
         this.btnPlay.setScale9Enabled(true);
-        this.btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAY_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAY_ON.png");
+        this.btnPlay.loadTextures(res.play_off_png, "", res.play_on_png);
         this.btnPlay.attr({ x: 62, y: 21 });
         this.btnPlay.setContentSize(cc.size(105, 105));
         this.btnPlay.setScale(0.4);
@@ -561,7 +561,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnFF.setTouchEnabled(true);
         this.btnFF.setSwallowTouches(false);
         this.btnFF.setScale9Enabled(true);
-        this.btnFF.loadTextures("res/andrea_png/BUTTONS/BUTTON_PLAYFAST_NORMAL.png", "", "res/andrea_png/BUTTONS/BUTTON_PLAYFAST_ON.png");
+        this.btnFF.loadTextures(res.playfast_off_png, "", res.playfast_on_png);
         this.btnFF.attr({ x: 103, y: 21 });
         this.btnFF.setContentSize(cc.size(105, 105));
         this.btnFF.setScale(0.4);
@@ -614,7 +614,7 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
         this.addChild(this.resourceScoreBackground, 100);
 
-        var antarcticaSmallSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_SMALL.png");
+        var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -761,11 +761,11 @@ var WorldLayer = cc.Layer.extend({
         this.countryLoss.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(this.countryLoss);
 
-        this.countryLossProgressBase = new ccui.LoadingBar("res/liam_png/progress-bar.png", 100);
+        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryLossProgressBase.setContentSize(cc.size(100, 10));
         this.countryLossProgressBase.setPosition(cc.p(380, Y_OFFSET / 2));
         this.countryLossProgressBase.setAnchorPoint(new cc.p(0,0.5));
-        this.countryLossProgress = new ccui.LoadingBar("res/liam_png/progress-bar.png", 0);
+        this.countryLossProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryLossProgress.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLossProgress.setContentSize(cc.size(100, 10));
         this.countryLossProgress.setPosition(cc.p(380, Y_OFFSET / 2));
@@ -790,11 +790,11 @@ var WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
-        this.countryPreparedProgressBase = new ccui.LoadingBar("res/liam_png/progress-bar.png", 100);
+        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryPreparedProgressBase.setContentSize(cc.size(100, 10));
         this.countryPreparedProgressBase.setPosition(cc.p(720, Y_OFFSET / 2));
         this.countryPreparedProgressBase.setAnchorPoint(new cc.p(0,0.5));
-        this.countryPreparedProgress = new ccui.LoadingBar("res/liam_png/progress-bar.png", 0);
+        this.countryPreparedProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryPreparedProgress.setColor(COLOR_POLICY_POINTS);
         this.countryPreparedProgress.setContentSize(cc.size(100, 10));
         this.countryPreparedProgress.setPosition(cc.p(720, Y_OFFSET / 2));
@@ -834,7 +834,7 @@ var WorldLayer = cc.Layer.extend({
     
             world._emitter.life = 4;
     
-            world._emitter.texture = cc.textureCache.addImage("res/Images/fire.png");
+            world._emitter.texture = cc.textureCache.addImage(res.fire_texture);
             world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
 
             var sourcePos = world._emitter.getSourcePosition();
@@ -1364,7 +1364,7 @@ var WorldLayer = cc.Layer.extend({
                         btnRes.setTouchEnabled(true);
                         btnRes.setSwallowTouches(false);
                         btnRes.setScale9Enabled(true);
-                        btnRes.loadTextures("res/andrea_png/NEW_ICONS/ICON_RESOURCE.png", "", "");
+                        btnRes.loadTextures(res.resource_icon, "", "");
                         var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                         var countryRand = world.countries[Object.keys(world.countries)[ind]];
                         var pt = countryRand.centroid;
@@ -2387,7 +2387,7 @@ var LoadingScene = cc.Scene.extend({
         layout.setTouchEnabled(true);
         layout.setSwallowTouches(true);
 
-        var antarcticaSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_LARGE.png");
+        var antarcticaSprite = new cc.Sprite(res.antarctica_large_png);
         antarcticaSprite.setAnchorPoint(new cc.p(0.5,0.5));
         antarcticaSprite.setContentSize(cc.size(100, 101));
         antarcticaSprite.setScale(1.5);
@@ -2412,7 +2412,7 @@ var LoadingScene = cc.Scene.extend({
         btnPlay.setSwallowTouches(false);
         btnPlay.setPressedActionEnabled(true);
         btnPlay.setScale9Enabled(true);
-        btnPlay.loadTextures("res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png", "res/andrea_png/BUTTONS/BUTTON_WHITE.png");
+        btnPlay.loadTextures(res.button_white, res.button_white, res.button_white);
         btnPlay.setTitleText("PLAY");
         btnPlay.setTitleFontName(FONT_FACE_BODY);
         btnPlay.setTitleColor(COLOR_BLACK);
@@ -2430,7 +2430,7 @@ var LoadingScene = cc.Scene.extend({
         btnLearnMore.setSwallowTouches(false);
         btnLearnMore.setPressedActionEnabled(true);
         btnLearnMore.setScale9Enabled(true);
-        btnLearnMore.loadTextures("res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png", "res/andrea_png/BUTTONS/BUTTON_GREY.png");
+        btnLearnMore.loadTextures(res.button_grey, res.button_grey, res.button_grey);
         btnLearnMore.setTitleText("LEARN MORE");
         btnLearnMore.setTitleFontName(FONT_FACE_BODY);
         btnLearnMore.setTitleColor(COLOR_BLACK);
@@ -2751,7 +2751,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyCostLabel.setPosition(cc.p(20, 80));
         policyDetailsBackground.addChild(policyCostLabel);
 
-        var btnPolicyInvest = new ccui.Button("res/andrea_png/BUTTONS/BUTTON_WHITE.png");
+        var btnPolicyInvest = new ccui.Button(res.button_white);
         btnPolicyInvest.setTouchEnabled(true);
         btnPolicyInvest.setSwallowTouches(false);
         btnPolicyInvest.setSize(cc.size(300, 60));
@@ -2958,7 +2958,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
         layer.addChild(this.resourceScoreBackground, 100);
 
-        var antarcticaSmallSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_SMALL.png");
+        var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -3068,7 +3068,7 @@ var StatsLayer = cc.Layer.extend({
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
         layer.addChild(this.resourceScoreBackground, 100);
 
-        var antarcticaSmallSprite = new cc.Sprite("res/andrea_png/NEW_ICONS/ANTARCTICA_SMALL.png");
+        var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
