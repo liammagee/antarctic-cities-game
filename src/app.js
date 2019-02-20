@@ -3085,28 +3085,39 @@ var StatsLayer = cc.Layer.extend({
 
         // FOR THE WORLD STATISTICS PAGE
 
-        this.destructionLabel = new cc.LabelTTF("World Destruction (%):", FONT_FACE_BODY, 24);
+        this.yearLabel = new cc.LabelTTF("Year " + gameParams.currentDate.getFullYear(), FONT_FACE_TITLE, 30);
+        this.yearLabel.setAnchorPoint(cc.p(0, 0));
+        this.yearLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.75));
+        layoutWorld.addChild(this.yearLabel, 100);
+
+        this.yearDescriptionLabel = new cc.LabelTTF("You have " + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + " years until the end of the simulation.", FONT_FACE_BODY, 20);
+        this.yearDescriptionLabel.setAnchorPoint(cc.p(0, 0));
+        this.yearDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.7));
+        layoutWorld.addChild(this.yearDescriptionLabel, 100);
+
+        this.destructionLabel = new cc.LabelTTF("Environmental loss", FONT_FACE_TITLE, 30);
         this.destructionLabel.setAnchorPoint(cc.p(0, 0));
-        this.destructionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.7));
+        this.destructionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.55));
         layoutWorld.addChild(this.destructionLabel, 100);
 
-        this.destructionIndicatorLabel = new cc.LabelTTF(makeString(gameParams.totalLoss), FONT_FACE_BODY, 24);
-        this.destructionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.destructionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.7));
-        layoutWorld.addChild(this.destructionIndicatorLabel, 100);
+        this.destructionDescriptionLabel = new cc.LabelTTF("Since " + gameParams.startDate.getFullYear() + ", the global environment has declined by " + makeString(gameParams.totalLoss) + "." , FONT_FACE_BODY, 20);
+        this.destructionDescriptionLabel.setAnchorPoint(cc.p(0, 0));
+        this.destructionDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.5));
+        layoutWorld.addChild(this.destructionDescriptionLabel, 100);
         
-        this.policyLabel = new cc.LabelTTF("World Preparedness (%): ", FONT_FACE_BODY, 24);
+        this.policyLabel = new cc.LabelTTF("Preparedness " + makeString(gameParams.populationPreparedPercent) + " / " + Math.round(gameParams.populationPrepared / 1000000) + "M", FONT_FACE_TITLE, 30);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.65));
+        this.policyLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.35));
         layoutWorld.addChild(this.policyLabel, 100);
-
-        this.policyIndicatorLabel = new cc.LabelTTF(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 24);
-        this.policyIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.65));
-        layoutWorld.addChild(this.policyIndicatorLabel, 100);
+        
+        this.policyDescriptionLabel = new cc.LabelTTF("Thanks to your policy platform, " + makeString(gameParams.populationPreparedPercent) + " of the world is now more ready to tak action against climate change." , FONT_FACE_BODY, 20);
+        this.policyDescriptionLabel.setAnchorPoint(cc.p(0, 0));
+        this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
+        layoutWorld.addChild(this.policyDescriptionLabel, 100);
 
 
         // Country details
+        /*
         var countryTag = gameParams.statsCountry;
         if (typeof(countryTag) === "undefined" || countryTag === null)
             countryTag = gameParams.startCountry;
@@ -3171,6 +3182,7 @@ var StatsLayer = cc.Layer.extend({
         this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
         this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.35));
         layoutWorld.addChild(this.regionIndicatorLabel, 100);
+        */
 
         // Country view
         this.tableCountryLabel = new cc.LabelTTF("Country", FONT_FACE_TITLE, 24);
@@ -3356,8 +3368,8 @@ var StatsLayer = cc.Layer.extend({
             x_o = x, yL_o = yL, yP_o = yP;
 
         }
-        var lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, 16);
-        var lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 16);
+        var lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, 24);
+        var lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 24);
         lblDestructionScore.color = colorD;
         lblPolicyScore.color = colorP;
         lblDestructionScore.attr({x: 4 + graphX + x, y: graphY + yL});
