@@ -65,6 +65,7 @@ var initGameParams = function(scenarioData) {
     gameParams.messagesPositive = scenarioData.messages.positive;
     gameParams.tutorialMode = false;
     gameParams.tutorialHints = [];
+    gameParams.stats = {};
 
     // Obtain automation setting from parent
     gameParams.automateMode = world.automate;
@@ -355,6 +356,7 @@ var gameOver = function(parent, message, prompt) {
         y: (layerBackground.height * 0.1) 
     });
     handleMouseTouchEvent(btnOK, function() {
+
         initGameParams(world.scenarioData);
         gameParams.state = gameStates.GAME_OVER;
         gameParams.startCountry = null;
@@ -363,8 +365,10 @@ var gameOver = function(parent, message, prompt) {
         world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
 
         cc.director.runScene(new LoadingScene());
+
     });
     menu.addChild(btnOK);
+
 };
 
 
@@ -1913,46 +1917,58 @@ var WorldLayer = cc.Layer.extend({
 
                     // Show message box for each new decade
                     var currentYear = gameParams.currentDate.getFullYear();
-                    if (currentYear > gameParams.previousDate.getFullYear() && gameParams.currentDate.getFullYear() % 10 == 0) {
+                    
+                    // Change of year
+                    if (currentYear > gameParams.previousDate.getFullYear()) {
 
-                        var message = "";
-                        var showDialog = false;
+                        gameParams.stats[gameParams.previousDate.getFullYear()] = {
+                            loss: gameParams.totalLoss,
+                            prepared: gameParams.populationPreparedPercent
+                        };
 
-                        // Sort narratives by loss for comparison
-                        var narratives = Object.values(NARATIVES.n2040).sort((o1, o2) => {return o2.loss - o1.loss});
+                        // Change of decade
+                        if (gameParams.currentDate.getFullYear() % 10 == 0) {
 
-                        switch (currentYear) {
-                            case 2040:
-                                showDialog = true;
-                                for (var i = 0; i < narratives.length; i++) {
-                                    var n = narratives[i];
-                                    if (gameParams.totalLoss > n.loss) {
-                                        var index = Math.floor(Math.random() * n.messages.length);
-                                        message = n.messages[index];
-                                        break;
+                            var message = "";
+                            var showDialog = false;
+    
+                            // Sort narratives by loss for comparison
+                            var narratives = Object.values(NARATIVES.n2040).sort((o1, o2) => {return o2.loss - o1.loss});
+    
+                            switch (currentYear) {
+                                case 2040:
+                                    showDialog = true;
+                                    for (var i = 0; i < narratives.length; i++) {
+                                        var n = narratives[i];
+                                        if (gameParams.totalLoss > n.loss) {
+                                            var index = Math.floor(Math.random() * n.messages.length);
+                                            message = n.messages[index];
+                                            break;
+                                        }
                                     }
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                        if (showDialog) {
-
-                            gameParams.state = gameStates.PAUSED;
-                            let buttons = showMessageBoxOK(world, 
-                                "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), 
-                                message, "OK", function() {
-                                    gameParams.state = gameStates.STARTED;
-                                });
-
-                            if (gameParams.automateMode) {
-
-                                fireClickOnTarget(buttons[0]);
-
+                                    break;
+                                default:
+                                    break;
                             }
-
+                            
+                            if (showDialog) {
+    
+                                gameParams.state = gameStates.PAUSED;
+                                let buttons = showMessageBoxOK(world, 
+                                    "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), 
+                                    message, "OK", function() {
+                                        gameParams.state = gameStates.STARTED;
+                                    });
+    
+                                if (gameParams.automateMode) {
+    
+                                    fireClickOnTarget(buttons[0]);
+    
+                                }
+    
+                            }
                         }
+    
                     }
 
                     gameParams.previousDate = gameParams.currentDate;
@@ -2102,7 +2118,7 @@ var WorldLayer = cc.Layer.extend({
                             var index = Math.floor(Math.random() * n.messages.length);
                             message = n.messages[index];
                             break;
-                            
+
                         }
                     }
 
@@ -2984,19 +3000,26 @@ var StatsLayer = cc.Layer.extend({
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(0, 0));
 
-        layer.addChild(pageView, 100);
 
         var layoutWorld = new ccui.Layout();
         layoutWorld.setContentSize(size.width * 0.5, size.height * 0.5);
-        pageView.insertPage(layoutWorld, 0);
+        // pageView.insertPage(layoutWorld, 0);
 
         var layoutCountries = new ccui.Layout();
         layoutCountries.setContentSize(size.width * 0.5, size.height * 0.5);
-        pageView.insertPage(layoutCountries, 1);
+        // pageView.insertPage(layoutCountries, 1);
 
         var layoutTime = new ccui.Layout();
         layoutTime.setContentSize(size.width * 0.5, size.height * 0.5);
-        pageView.insertPage(layoutTime, 2);
+        // pageView.insertPage(layoutTime, 2);
+
+        // layer.addChild(pageView, 100);
+        layerBackground.addChild(layoutWorld, 100);
+        layerBackground.addChild(layoutCountries, 100);
+        layerBackground.addChild(layoutTime, 100);
+        layoutWorld.setVisible(true);
+        layoutCountries.setVisible(false);
+        layoutTime.setVisible(false);
 
         //add buttons to jump to specific page
         var makeButton = function(text, point, index) {
@@ -3011,7 +3034,26 @@ var StatsLayer = cc.Layer.extend({
             btn.setTitleFontSize(36);
             btn.setTitleFontName(FONT_FACE_TITLE);
             handleMouseTouchEvent(btn, function(){
-                pageView.setCurrentPageIndex(index);
+                //pageView.setCurrentPageIndex(index);
+                switch(index) {
+                    case 0:
+                    default:
+                        layoutWorld.setVisible(true);
+                        layoutCountries.setVisible(false);
+                        layoutTime.setVisible(false);
+                        break;
+                    case 1:
+                        layoutWorld.setVisible(false);
+                        layoutCountries.setVisible(true);
+                        layoutTime.setVisible(false);
+                        break;
+                    case 2:
+                        layoutWorld.setVisible(false);
+                        layoutCountries.setVisible(false);
+                        layoutTime.setVisible(true);
+                        break;
+            
+                }
             });
             layer.addChild(btn, 100);
         };
@@ -3252,6 +3294,82 @@ var StatsLayer = cc.Layer.extend({
         
         let countriesTable = new TableViewCountriesLayer();
         layoutCountries.addChild(countriesTable);
+
+
+        // Add graph
+        var graphX = size.width * 0.25;
+        var graphEndX = graphX + size.width * 0.5;
+        var graphY = 200
+        var graphEndY = graphY + size.height * 0.5;
+        var years = gameParams.targetDate.getFullYear() - gameParams.startDate.getFullYear();
+        var graphIncrementX = size.width * 0.5 / years;
+        var graphIncrementY = size.height * 0.5 / 100;
+        var graphOffset = 40;
+        var lblStartYear = cc.LabelTTF.create(gameParams.startDate.getFullYear(), FONT_FACE_BODY, 24);
+        var lblEndYear = cc.LabelTTF.create(gameParams.targetDate.getFullYear(), FONT_FACE_BODY, 24);
+        lblStartYear.attr({ x: graphX, y: graphY});
+        lblEndYear.attr({ x: graphEndX, y: graphY});
+        lblStartYear.setAnchorPoint(cc.p(0, 0));
+        lblEndYear.setAnchorPoint(cc.p(0, 0));
+        layoutTime.addChild(lblStartYear);
+        layoutTime.addChild(lblEndYear);
+
+        let drawNode = new cc.DrawNode();
+        drawNode.setOpacity(255);
+        
+        var x_o, yP_o, yL_o, x, yP, yL;
+        var colorD =  new cc.Color(COLOR_DESTRUCTION_POINTS.r, 
+                                    COLOR_DESTRUCTION_POINTS.g, 
+                                    COLOR_DESTRUCTION_POINTS.b, 255);
+        var colorP =  new cc.Color(COLOR_POLICY_POINTS.r, 
+                                    COLOR_POLICY_POINTS.g, 
+                                    COLOR_POLICY_POINTS.b, 255);
+
+        var lineOffset = -10;    
+        drawNode.drawSegment(cc.p(0, graphOffset + lineOffset), cc.p(size.width * 0.5, graphOffset + lineOffset), 2, COLOR_ICE);
+        drawNode.drawSegment(cc.p(0, graphOffset + lineOffset), cc.p(0, graphOffset + size.height * 0.5), 2, COLOR_ICE);
+
+
+        for (var i = gameParams.startDate.getFullYear(); i < gameParams.targetDate.getFullYear(); i++) {
+            var index = i - gameParams.startDate.getFullYear();
+            var stats = gameParams.stats[i];
+            if (typeof(stats) === "undefined")
+                continue;
+            var loss = stats.loss;
+            var prepared = stats.prepared;
+            x = index * graphIncrementX;
+            yL = graphOffset + (100 - Math.round(loss)) * graphIncrementY;
+            yP = graphOffset + Math.round(prepared) * graphIncrementY;
+            if (index > 0) {
+
+                // Line 
+                // drawNode.drawSegment(cc.p(x_o, yL_o), cc.p(x, yL), 2, COLOR_DESTRUCTION_POINTS);
+                // drawNode.drawSegment(cc.p(x_o, yP_o), cc.p(x, yP), 2, COLOR_POLICY_POINTS);
+
+                // Staircase
+                drawNode.drawSegment(cc.p(x_o, yL_o), cc.p(x - 1, yL_o), 2, colorD);
+                drawNode.drawSegment(cc.p(x, yL_o), cc.p(x, yL), 2, colorD);
+                drawNode.drawSegment(cc.p(x_o, yP_o), cc.p(x - 1, yP_o), 2, colorP);
+                drawNode.drawSegment(cc.p(x, yP_o), cc.p(x, yP), 2, colorP);
+
+            }
+            x_o = x, yL_o = yL, yP_o = yP;
+
+        }
+        var lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, 16);
+        var lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 16);
+        lblDestructionScore.color = colorD;
+        lblPolicyScore.color = colorP;
+        lblDestructionScore.attr({x: 4 + graphX + x, y: graphY + yL});
+        lblPolicyScore.attr({x: 4 + graphX + x, y: graphY + yP});
+        lblDestructionScore.setAnchorPoint(cc.p(0, 0.5));
+        lblPolicyScore.setAnchorPoint(cc.p(0, 0.5));
+        layoutTime.addChild(lblDestructionScore);
+        layoutTime.addChild(lblPolicyScore);
+
+        drawNode.x = graphX;
+        drawNode.y = graphY;
+        layoutTime.addChild(drawNode, 100);
 
         var btnExit = new ccui.Button();
         btnExit.setTouchEnabled(true);
