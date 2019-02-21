@@ -45,6 +45,7 @@ var initGameParams = function(scenarioData) {
     gameParams.lastCrisis = 0;
     gameParams.crises = [];
     gameParams.crisisCountry = null;
+    gameParams.crisisCount = 0;
     gameParams.strategies = {};
     gameParams.policy = 0;
     gameParams.countriedAffected = 0;
@@ -63,6 +64,7 @@ var initGameParams = function(scenarioData) {
     gameParams.scenarioName = scenarioData.name;
     gameParams.messagesNegative = scenarioData.messages.negative;
     gameParams.messagesPositive = scenarioData.messages.positive;
+    gameParams.messageOverride = null;
     gameParams.tutorialMode = false;
     gameParams.tutorialHints = [];
     gameParams.stats = {};
@@ -168,7 +170,7 @@ var updateTimeVars = function(interval) {
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * 6;
     gameParams.resourceInterval = gameParams.timeInterval * 6; 
-    gameParams.crisisInterval = gameParams.timeInterval * 30;
+    gameParams.crisisInterval = gameParams.timeInterval * 10;
 
 };
 
@@ -318,6 +320,7 @@ var gameOver = function(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
+    gameParams.state = gameStates.PAUSED;
 
     var layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH * 0.66, WINDOW_HEIGHT * 0.66);
     layerBackground.attr({ 
@@ -363,6 +366,7 @@ var gameOver = function(parent, message, prompt) {
         gameParams.strategies = {};
         world.tweetLabel.setString(gameParams.scenarioName);
         world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
+        world.tweetAlertLabel.attr({ x: world.tweetLabel.x });
 
         cc.director.runScene(new LoadingScene());
 
@@ -376,6 +380,7 @@ var gameOver = function(parent, message, prompt) {
  * A common function for adding mouse/touch events.
  */
 var handleMouseTouchEvent = function(target, callback) {
+    
     var listenerMouse = cc.EventListener.create({
         event: cc.EventListener.MOUSE,
         onMouseUp : function(event) {
@@ -420,7 +425,7 @@ var handleMouseTouchEvent = function(target, callback) {
         }
     });
 
-    cc.eventManager.addListener(listenerMouse, target);
+    // cc.eventManager.addListener(listenerMouse, target);
     cc.eventManager.addListener(listenerTouch, target);
 
 };
@@ -468,7 +473,7 @@ var WorldLayer = cc.Layer.extend({
             }
             else if (target == world.btnFF) {  // Fast Forward
 
-                updateTimeVars(DAY_INTERVAL / 20);
+                updateTimeVars(DAY_INTERVAL / 10);
                 gameParams.state = gameStates.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
@@ -604,9 +609,18 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.addChild(this.tweetBackgroundLayer, 100);
 
         this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE_BODY, 18);
+        this.tweetLabel.setAnchorPoint(cc.p(0, 0.5));
+        this.tweetLabel.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
         this.tweetLabel.attr({ x: this.tweetBackground.width / 2, y: 18, width: this.tweetBackground.width });
-        this.tweetLabel.color = new cc.Color(255, 255, 255, 255);
+        this.tweetLabel.color = COLOR_ICE;
         this.tweetBackground.addChild(this.tweetLabel, 101);
+        this.tweetAlertLabel = new cc.LabelTTF("ALERT!", FONT_FACE_BODY, 18);
+        this.tweetAlertLabel.setAnchorPoint(cc.p(0, 0.5));
+        this.tweetAlertLabel.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT)
+        this.tweetAlertLabel.attr({ x: world.tweetLabel.x - 100, y: 18, width: 20 });
+        this.tweetAlertLabel.color = COLOR_DESTRUCTION_POINTS;
+        this.tweetAlertLabel.setVisible(false);
+        this.tweetBackground.addChild(this.tweetAlertLabel, 101);
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
@@ -1493,6 +1507,7 @@ var WorldLayer = cc.Layer.extend({
                     var crisisInCountry = crisisProbLocation(r2);
                     gameParams.crisisCountry = crisisInCountry;
                     gameParams.crises.push(crisisInCountry);
+                    gameParams.crisisCount++;
                     var crisis = CRISES[crisisInCountry.crisis];
                     var country = world.countries[crisisInCountry.country];
 
@@ -1513,19 +1528,33 @@ var WorldLayer = cc.Layer.extend({
                     handleMouseTouchEvent(btnCrisis, processCrisisSelection);
                     
                     world.worldBackground.addChild(btnCrisis, 101);
-                    gameParams.state = gameStates.PAUSED;
 
-                    let buttons = showMessageBoxOK(world, "Crisis alert!", "A " + crisis.name + " is taking place in " + country.name + ". Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.", "OK!", function(that) {
+                    // After the third crisis, add notifications to the news feed
+                    let message = "A " + crisis.name + " is taking place in " + country.name + "."; 
+                    if (gameParams.crisisCount < 3) {
 
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = gameStates.PAUSED;
+                        message += " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.";
 
-                    });
+                        let buttons = showMessageBoxOK(world, "Crisis alert!", message, "OK!", function(that) {
 
-                    if (gameParams.automateMode) {
-
-                        fireClickOnTarget(buttons[0]);
+                            gameParams.state = gameStates.STARTED;
     
-                    }                    
+                        });
+
+                        if (gameParams.automateMode) {
+
+                            fireClickOnTarget(buttons[0]);
+        
+                        }                    
+
+                    }
+                    else {
+                        
+                        if (gameParams.messageOverride == null)
+                            gameParams.messageOverride = message;
+
+                    }
                     
                 }
                 gameParams.lastCrisis = gameParams.counter;
@@ -2037,13 +2066,6 @@ var WorldLayer = cc.Layer.extend({
                     ri *= 1 + -crisis.effect_on_resources;
                     
                 });
-                /*
-                if (gameParams.crisisCountry != null) {
-                    var crisis = CRISES[gameParams.crisisCountry.crisis];
-                    var country = world.countries[gameParams.crisisCountry.country];
-                    ri *= 1 + -crisis.effect_on_resources;
-                }
-                */
 
                 // Various events
                 if (gameParams.counter % gameParams.crisisInterval == 0) {
@@ -2073,14 +2095,17 @@ var WorldLayer = cc.Layer.extend({
                 refreshDate(world);
 
                 // Scroll text
-                if (world.tweetLabel.x > -300) {
-                    world.tweetLabel.setPositionX(world.tweetLabel.x - 1);
-                }
-                else {
+                if (world.tweetLabel.x < -300 || gameParams.messageOverride != null) {
+                    var message = gameParams.scenarioName, messageIndex = -1;
+                    world.tweetLabel.color = COLOR_ICE;
+                    if (gameParams.messageOverride != null) {
+                        message = gameParams.messageOverride;
+                        gameParams.messageOverride = null;
+                        world.tweetAlertLabel.setVisible(true);
+                    }
                     // Change label
-                    if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
+                    else if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
                         var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
-                        var message = gameParams.scenarioName, messageIndex = -1;
                         if (Math.random() < weight) {
                             messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
                             message = gameParams.messagesNegative[messageIndex];
@@ -2089,9 +2114,17 @@ var WorldLayer = cc.Layer.extend({
                             messageIndex = Math.floor(Math.random() * gameParams.messagesPositive.length);
                             message = gameParams.messagesPositive[messageIndex];
                         }
-                        world.tweetLabel.setString(message);
+                        world.tweetAlertLabel.setVisible(false);
                     }
-                    world.tweetLabel.setPositionX(world.tweetBackground.width * 1.5);
+                    world.tweetLabel.setString(message);
+                    world.tweetLabel.setPositionX(world.tweetBackground.width * 1.2);
+                    world.tweetAlertLabel.setPositionX(world.tweetLabel.x - 100);
+                }
+                else {
+                    var adjustSpeed = Math.round(20 / gameParams.timeInterval);
+                    world.tweetLabel.setPositionX(world.tweetLabel.x - adjustSpeed);
+                    world.tweetAlertLabel.setPositionX(world.tweetLabel.x - 100);
+                    //world.tweetAlertLabel.setVisible(false);
                 }
 
                 // Game over                        
@@ -2132,11 +2165,12 @@ var WorldLayer = cc.Layer.extend({
             }; 
 
             // Run the updates in the background, so interaction is not blocked.
-            cc.async.parallel([
-                function() {
-                    updateTime();
-                }
-            ]);
+            // cc.async.parallel([
+            //     function() {
+            //         updateTime();
+            //     }
+            // ]);
+            updateTime();
 
         };
 
@@ -2291,7 +2325,7 @@ var WorldLayer = cc.Layer.extend({
                 gameParams.statsCountry = gameParams.currentCountry;
                 gameParams.currentCountry = gameParams.startCountry;
                 var countryName = world.countries[gameParams.startCountry].name;
-                let nestedButtons = showMessageBoxOK(world, "Prepare the world...", 
+                nestedButtons = showMessageBoxOK(world, "Prepare the world...", 
                     "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
                     function(that) {
                     beginSim();
@@ -2763,7 +2797,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnPolicyInvest.setTitleText("Invest in this policy");
         
         // For automation
-        layer.investButton = btnPolicyInvest;
+        // layer.investButton = btnPolicyInvest;
 
         var calculateResourceAndCrisisImpacts = function(resource) {
 
@@ -2777,7 +2811,6 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         handleMouseTouchEvent(btnPolicyInvest, function(){
 
-            console.log('clicked')
             if (gameParams.resources - resourceSelected.cost_1 >= 0 && 
                 typeof(gameParams.strategies[resourceSelected.id]) === "undefined") {
 
