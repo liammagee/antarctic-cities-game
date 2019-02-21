@@ -2756,7 +2756,8 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnPolicyInvest.setSwallowTouches(false);
         btnPolicyInvest.setSize(cc.size(300, 60));
         btnPolicyInvest.setScale9Enabled(true);
-        btnPolicyInvest.setPosition(cc.p(200, 30));
+        btnPolicyInvest.setPosition(cc.p(20, 0));
+        btnPolicyInvest.setAnchorPoint(cc.p(0, 0));
         btnPolicyInvest.setTitleFontSize(24);
         btnPolicyInvest.setTitleColor(COLOR_BLACK);
         btnPolicyInvest.setTitleText("Invest in this policy");
@@ -2776,6 +2777,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         handleMouseTouchEvent(btnPolicyInvest, function(){
 
+            console.log('clicked')
             if (gameParams.resources - resourceSelected.cost_1 >= 0 && 
                 typeof(gameParams.strategies[resourceSelected.id]) === "undefined") {
 
