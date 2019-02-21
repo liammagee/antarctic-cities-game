@@ -163,7 +163,7 @@ var updateTimeVars = function updateTimeVars(interval) {
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * 6;
     gameParams.resourceInterval = gameParams.timeInterval * 6;
-    gameParams.crisisInterval = gameParams.timeInterval * 10;
+    gameParams.crisisInterval = gameParams.timeInterval * 30;
 };
 
 /**
@@ -1503,7 +1503,7 @@ var WorldLayer = cc.Layer.extend({
 
                     // After the third crisis, add notifications to the news feed
                     var message = "A " + crisis.name + " is taking place in " + country.name + ".";
-                    if (gameParams.crisisCount < 3) {
+                    if (gameParams.crisisCount < 4) {
 
                         gameParams.state = gameStates.PAUSED;
                         message += " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.";
