@@ -15,7 +15,7 @@ var TAG_SPRITE_BATCH_NODE = 1;
 
 // Game variables
 var gameParams = {};
-var automateScript = [];
+var automateScripts = [];
 var gameStates = {
     INITIALISED: 0,
     PREPARED: 1,
@@ -72,8 +72,9 @@ var initGameParams = function(scenarioData) {
     // Obtain automation setting from parent
     if (world.automateID > -1) {
         gameParams.automateMode = true;
-        console.log(world.automateID - 1)
-        gameParams.automateScript = automateScript[world.automateID - 1];
+        gameParams.automateScript = automateScripts[world.automateID - 1];
+        console.log("Running " + gameParams.automateScript.name)
+
     }
 
     updateTimeVars(DAY_INTERVAL);
@@ -2495,7 +2496,7 @@ var WorldScene = cc.Scene.extend({
         // Add script data 
         cc.loader.loadJson("res/automate.json",function(error, data){
             
-            automateScript = data;
+            automateScripts = data;
 
         });
     }
