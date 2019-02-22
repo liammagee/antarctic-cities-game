@@ -15,7 +15,7 @@ var TAG_SPRITE_BATCH_NODE = 1;
 
 // Game variables
 var gameParams = {};
-var automateScript = {};
+var automateScript = [];
 var gameStates = {
     INITIALISED: 0,
     PREPARED: 1,
@@ -46,7 +46,7 @@ var initGameParams = function(scenarioData) {
     gameParams.crises = [];
     gameParams.crisisCountry = null;
     gameParams.crisisCount = 0;
-    gameParams.strategies = {};
+    gameParams.policies = {};
     gameParams.policy = 0;
     gameParams.countriedAffected = 0;
     gameParams.populationAware = 0;
@@ -70,8 +70,11 @@ var initGameParams = function(scenarioData) {
     gameParams.stats = {};
 
     // Obtain automation setting from parent
-    gameParams.automateMode = world.automate;
-    gameParams.automateScript = automateScript;
+    if (world.automateID > -1) {
+        gameParams.automateMode = true;
+        console.log(world.automateID - 1)
+        gameParams.automateScript = automateScript[world.automateID - 1];
+    }
 
     updateTimeVars(DAY_INTERVAL);
     calculatePolicyConnections();
@@ -376,7 +379,7 @@ var gameOver = function(parent, message, prompt) {
         initGameParams(world.scenarioData);
         gameParams.state = gameStates.GAME_OVER;
         gameParams.startCountry = null;
-        gameParams.strategies = {};
+        gameParams.policies = {};
         world.tweetLabel.setString(gameParams.scenarioName);
         world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
         world.tweetAlertLabel.attr({ x: world.tweetLabel.x });
@@ -505,13 +508,13 @@ var WorldLayer = cc.Layer.extend({
 
     },
 
-    ctor:function (scenarioData, automate) {
+    ctor:function (scenarioData, automateID) {
         this._super();
 
         // Add to global variables to maintain state
         world = this;
         world.scenarioData = scenarioData;
-        world.automate = automate;
+        world.automateID = automateID;
 
         initGameParams(scenarioData);     
 
@@ -1701,8 +1704,8 @@ var WorldLayer = cc.Layer.extend({
 
                 var infectivityRate = infectivityIncreaseSpeed;
 
-                Object.keys(gameParams.strategies).forEach(strategy => {
-                    var level = gameParams.strategies[strategy];
+                Object.keys(gameParams.policies).forEach(strategy => {
+                    var level = gameParams.policies[strategy];
                     switch(strategy.id) {
                         case 1:
                             // Increase infectivity when reducing inequality for low income countries
@@ -1775,130 +1778,194 @@ var WorldLayer = cc.Layer.extend({
                     country.pop_aware = country.pop_est;
             };
 
-            var registerSeverityWithin = function(country) {
+            world.calculatePolicyBalanceOnSeverity = function() {
+
+                var strategyCount = Object.values(gameParams.policies).reduce((accum, level) => accum + level, 0);
+                if (strategyCount == 0)
+                    return 1.0;
+
+                var domainMean = strategyCount / 4;
+                var ecn = 0, pol = 0, cul = 0, eco = 0;
+                Object.keys(gameParams.policies).forEach(policyID => {
+                    var policy = gameParams.policyOptions[policyID]
+                    var level = gameParams.policies[policyID];
+                    switch (policy.domain) {
+                        case 1:
+                            ecn += level;
+                            break;
+                        case 2:
+                            pol += level;
+                            break;
+                        case 3:
+                            cul += level;
+                            break;
+                        case 4:
+                            eco += level;
+                            break;
+                    }
+                });
+
+                var variances = Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
+
+                // Suppress the effect of imbalanced resources
+                var policyBalance = 1 - Math.pow((variances / Math.pow(strategyCount, 2)), 4);
+                
+                return policyBalance;
+
+            };
+
+
+            world.calculateSinglePolicyImpactOnSeverity = function(country, index) {
+
+                var severityEffect = 1.0;
+
+                var policyID = parseInt(Object.keys(gameParams.policies)[index]);
+                var policy = gameParams.policyOptions[policyID];
+                var level = gameParams.policies[policyID];
+
+                // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
+                var levelMultiplier = Math.log(level + 1.718);
+
+                // Check population
+                var pop = parseInt(country.pop_est);
+                // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                if (pop < 10000000) {
+                    severityEffect *= (1 + policy.effect_on_pop_low * levelMultiplier);
+                }
+                else if (pop < 100000000) {
+                    severityEffect *= (1 + policy.effect_on_pop_medium * levelMultiplier);
+                }
+                else {
+                    severityEffect *= (1 + policy.effect_on_pop_high * levelMultiplier);
+                }
+
+                // Check income
+                switch (country.income_grp_num ) {
+                    case 1:
+                    case 2:
+                        severityEffect *= (1 + policy.effect_on_income_high * levelMultiplier);
+                        break;
+                    case 3:
+                        severityEffect *= (1 + policy.effect_on_income_medium_high * levelMultiplier);
+                        break;
+                    case 4:
+                        severityEffect *= (1 + policy.effect_on_income_low_medium * levelMultiplier);
+                        break;
+                    case 5:
+                        severityEffect *= (1 + policy.effect_on_income_low * levelMultiplier);
+                        break;
+                }
+
+                // Check climate zone
+                var latitude = parseFloat(country.equator_dist);
+                // https://content.meteoblue.com/en/meteoscool/general-climate-zones
+                if (latitude > -23.5 && latitude < 23.5) {
+                    severityEffect *= (1 + policy.effect_on_geo_tropic * levelMultiplier);
+                }
+                else if (latitude > -40 && latitude < 40) {
+                    severityEffect *= (1 + policy.effect_on_geo_subtropic * levelMultiplier);
+                }
+                else if (latitude > -60 && latitude < 60) {
+                    severityEffect *= (1 + policy.effect_on_geo_temperate * levelMultiplier);
+                }
+                else {
+                    severityEffect *= (1 + policy.effect_on_geo_polar * levelMultiplier);
+                }
+
+                // Calculate impact of other strategies
+                for (var j = index + 1; j < Object.keys(gameParams.policies).length; j++) {
+                    // if (i == j)
+                    //     continue;
+
+                    var otherPolicyID = parseInt(Object.keys(gameParams.policies)[j]);
+                    var otherLevel = gameParams.policies[otherPolicyID];
+                    // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
+                    var otherLevelMultiplier = Math.log(otherLevel + 1.718);
+
+                    var relation = gameParams.policyRelations[policyID][otherPolicyID];
+                    if (typeof(relation) !== "undefined") {
+                        severityEffect *= (1 + relation) * otherLevelMultiplier;
+                    }
+                }
+
+                return severityEffect;
+
+            };
+
+            world.calculatePolicyImpactOnSeverity = function(country) {
+                
+                var severityEffect = 1.0;
+
+                for (var i = 0; i < Object.keys(gameParams.policies).length; i++) {
+
+                    severityEffect *= world.calculateSinglePolicyImpactOnSeverity(country, i);
+
+                }
+                
+                return severityEffect;
+
+            };
+
+            world.registerSeverityWithin = function(country) {
+
                 if (country.affected_chance == 0)
                     return;
 
-                // var popInfected = country.pop_aware;
-                var popInfected = country.pop_est;
+                // var popAware = country.pop_aware;
+                var popAware = country.pop_est;
                 var popPrepared = country.pop_prepared;
 
                 // Calculate severity
                 var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
                 var severityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_severity_increase;
 
-                var strategyCount = Object.keys(gameParams.strategies).length / 16;
-                var domainMean = strategyCount / 4;
-                var ecn = 0, pol = 0, cul = 0, eco = 0;
-                Object.keys(gameParams.strategies).forEach(s => {
-                    var level = gameParams.strategies[s];
-                    switch (s.domain) {
-                        case 1:
-                            ecn++;
-                            break;
-                        case 2:
-                            pol++;
-                            break;
-                        case 3:
-                            cul++;
-                            break;
-                        case 4:
-                            eco++;
-                            break;
-                    }
-                });
-                var variances = 1 + Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
-                var severityEffect = strategyCount / variances;
-                
 
-                // NEW CALCULATION
-                
-                // Calculate impact of policies
-                for (var i = 0; i < Object.keys(gameParams.strategies).length; i++) {
-                    var strategyID = parseInt(Object.keys(gameParams.strategies)[i]);
-                    var strategy = gameParams.policyOptions[strategyID];
-                    var level = gameParams.strategies[strategyID];
-                    // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
-                    var levelMultiplier = Math.log(level + 1.718);
+                var policyBalance =  world.calculatePolicyBalanceOnSeverity();
+                var policyImpact =  world.calculatePolicyImpactOnSeverity(country);
+                var severityEffect = policyBalance * policyImpact * severityIncreaseSpeed;
 
-                    // Check population
-                    var pop = parseInt(country.pop_est);
-                    // https://content.meteoblue.com/en/meteoscool/general-climate-zones
-                    if (pop < 10000000) {
-                        severityEffect *= (1 + strategy.effect_on_pop_low * levelMultiplier);
-                    }
-                    else if (pop < 100000000) {
-                        severityEffect *= (1 + strategy.effect_on_pop_medium * levelMultiplier);
-                    }
-                    else {
-                        severityEffect *= (1 + strategy.effect_on_pop_high * levelMultiplier);
-                    }
+                if (severityIncreaseSpeed < severityMinimumIncrease) {
 
-                    // Check income
-                    switch (country.income_grp_num ) {
-                        case 1:
-                        case 2:
-                            severityEffect *= (1 + strategy.effect_on_income_high * levelMultiplier);
-                            break;
-                        case 3:
-                            severityEffect *= (1 + strategy.effect_on_income_medium_high * levelMultiplier);
-                            break;
-                        case 4:
-                            severityEffect *= (1 + strategy.effect_on_income_low_medium * levelMultiplier);
-                            break;
-                        case 5:
-                            severityEffect *= (1 + strategy.effect_on_income_low * levelMultiplier);
-                            break;
-                    }
+                    severityIncreaseSpeed = severityMinimumIncrease;
 
-                    // Check climate zone
-                    var latitude = parseFloat(country.equator_dist);
-                    // https://content.meteoblue.com/en/meteoscool/general-climate-zones
-                    if (latitude > -23.5 && latitude < 23.5) {
-                        severityEffect *= (1 + strategy.effect_on_geo_tropic * levelMultiplier);
-                    }
-                    else if (latitude > -40 && latitude < 40) {
-                        severityEffect *= (1 + strategy.effect_on_geo_subtropic * levelMultiplier);
-                    }
-                    else if (latitude > -60 && latitude < 60) {
-                        severityEffect *= (1 + strategy.effect_on_geo_temperate * levelMultiplier);
-                    }
-                    else {
-                        severityEffect *= (1 + strategy.effect_on_geo_polar * levelMultiplier);
-                    }
-
-                    // Calculate impact of other strategies
-                    for (var j = i; j < Object.keys(gameParams.strategies).length; j++) {
-                        // if (i == j)
-                        //     continue;
-
-                        var otherStrategyID = parseInt(Object.keys(gameParams.strategies)[j]);
-                        var otherLevel = gameParams.strategies[otherStrategyID];
-                        // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
-                        var otherLevelMultiplier = Math.log(otherLevel + 1.718);
-
-                        var relation = gameParams.policyRelations[strategyID][otherStrategyID];
-                        if (typeof(relation) !== "undefined") {
-                            severityEffect *= relation * otherLevelMultiplier;
-                        }
-                    }
                 }
 
-                severityEffect *= severityIncreaseSpeed;
-                if (severityIncreaseSpeed < severityMinimumIncrease) 
-                    severityIncreaseSpeed = severityMinimumIncrease;
                 if (popPrepared == 0) {
-                    popPrepared = popInfected * 0.01;
+
+                    // 1 person
+                    popPrepared = 1; //popAware * 0.01;
+
                 }
                 else {
-                    popPrepared *= (1 + severityEffect);
+
+                    popPrepared *= (severityEffect);
+
                 }
+
+                if (country.iso_a3 == "USA")
+                    console.log(gameParams.counter, country.pop_prepared, severityEffect);
+
+                if (popPrepared > popAware) {
+
+                    popPrepared = popAware;
+
+                }
+
+                if (popPrepared > country.pop_est) {
+
+                    popPrepared = country.pop_est;
+
+                }
+
                 country.pop_prepared = popPrepared;
-                if (country.pop_prepared > country.pop_aware)
-                    country.pop_prepared = country.pop_aware;
+
+                    
             };
             
-            // Updates the game state at regular intervals
+
+            /**
+             * Updates the game state at regular intervals
+             */
             var updateTime = function() {
 
                 if (gameParams.state !== gameStates.STARTED) {
@@ -1967,17 +2034,18 @@ var WorldLayer = cc.Layer.extend({
 
                     // Show message box for each new decade
                     var currentYear = gameParams.currentDate.getFullYear();
+                    var previousYear = gameParams.previousDate.getFullYear();
                     
                     // Change of year
-                    if (currentYear > gameParams.previousDate.getFullYear()) {
+                    if (currentYear > previousYear) {
 
-                        gameParams.stats[gameParams.previousDate.getFullYear()] = {
+                        gameParams.stats[previousYear] = {
                             loss: gameParams.totalLoss,
                             prepared: gameParams.populationPreparedPercent
                         };
 
                         // Change of decade
-                        if (gameParams.currentDate.getFullYear() % 10 == 0) {
+                        if (currentYear % 10 == 0) {
 
                             var message = "";
                             var showDialog = false;
@@ -2005,7 +2073,7 @@ var WorldLayer = cc.Layer.extend({
     
                                 gameParams.state = gameStates.PAUSED;
                                 let buttons = showMessageBoxOK(world, 
-                                    "Antarctic Bulletin, year " + gameParams.currentDate.getFullYear(), 
+                                    "Antarctic Bulletin, year " + currentYear, 
                                     message, "OK", function() {
                                         gameParams.state = gameStates.STARTED;
                                     });
@@ -2027,18 +2095,26 @@ var WorldLayer = cc.Layer.extend({
                     // Add policy robustness and loss
                     var totalPolicy = 0, totalLoss = 0;
                     var countriedAffected = 0, populationAware = 0, populationPrepared = 0;
+                    
                     Object.keys(world.countries).forEach( key => {
+
                         var country = world.countries[key];
                         var loss = evaluateLoss(country);
+
                         if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
+
                             country.loss = loss;
                             generatePointsForCountry(country, false, country.previousLoss, country.loss);
                             country.previousLoss = loss;
+
                         }
+
                         if (country.affected_chance) {
+
                             transmitFrom(country);
                             infectWithin(country);
-                            registerSeverityWithin(country);
+                            world.registerSeverityWithin(country);
+
                             countriedAffected++;
                             populationAware += country.pop_aware;
                             populationPrepared += country.pop_prepared;
@@ -2046,17 +2122,18 @@ var WorldLayer = cc.Layer.extend({
                             country.pop_aware_percent = 100 * country.pop_aware / country.pop_est;
                             var existingConvincedPercentage = country.pop_prepared_percent;
                             country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
-                            var imin = 0;
-                            if (existingConvincedPercentage > 0.5) 
-                                imin = parseInt(existingConvincedPercentage);
-                            var imax = 0;
-                            if (country.pop_prepared_percent > 0.5) 
-                                imax = parseInt(country.pop_prepared_percent);
+
+                            var imin = (existingConvincedPercentage > 0.5) ? parseInt(existingConvincedPercentage) : 0;
+                            var imax = (country.pop_prepared_percent > 0.5) ? parseInt(country.pop_prepared_percent) : 0;
+
                             generatePointsForCountry(country, true, imin, imax);
+
                         }
                         totalPolicy += country.policy;
                         totalLoss += country.loss;
+
                     });
+
                     totalPolicy /= Object.keys(world.countries).length;
                     gameParams.policy = totalPolicy;
 
@@ -2393,10 +2470,13 @@ var WorldLayer = cc.Layer.extend({
 });
 
 var WorldScene = cc.Scene.extend({
-    ctor:function (automate) {
+    ctor:function (automateID) {
         this._super();
 
-        this.automate = automate;
+        if (typeof(automateID) !== "undefined")
+            this.automateID = automateID;
+        else
+            this.automateID = -1;
     },
 
     onEnter:function () {
@@ -2406,7 +2486,8 @@ var WorldScene = cc.Scene.extend({
 
         // Add country data 
         cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
-            var layer = new WorldLayer(scenarioData, scene.automate);
+            
+            var layer = new WorldLayer(scenarioData, scene.automateID);
             scene.addChild(layer);
     
         });
@@ -2414,7 +2495,7 @@ var WorldScene = cc.Scene.extend({
         // Add script data 
         cc.loader.loadJson("res/automate.json",function(error, data){
             
-            automateScript = data[0];
+            automateScript = data;
 
         });
     }
@@ -2494,6 +2575,52 @@ var LoadingScene = cc.Scene.extend({
         btnLearnMore.setLayoutParameter(lp2);
         layout.addChild(btnLearnMore, 100);
 
+        
+        var btnAutomate1 = new ccui.Button();
+        btnAutomate1.setContentSize(cc.size(80, 80));
+        btnAutomate1.setTouchEnabled(true);
+        btnAutomate1.setSwallowTouches(false);
+        btnAutomate1.setPressedActionEnabled(true);
+        btnAutomate1.setScale9Enabled(true);
+        btnAutomate1.setPosition(cc.p(0, 0));
+        layer.addChild(btnAutomate1, 100);
+
+        var btnAutomate2 = new ccui.Button();
+        btnAutomate2.setContentSize(cc.size(80, 80));
+        btnAutomate2.setTouchEnabled(true);
+        btnAutomate2.setSwallowTouches(false);
+        btnAutomate2.setPressedActionEnabled(true);
+        btnAutomate2.setScale9Enabled(true);
+        btnAutomate2.setPosition(cc.p(100, 0));
+        layer.addChild(btnAutomate2, 100);
+
+        var btnAutomate3 = new ccui.Button();
+        btnAutomate3.setContentSize(cc.size(80, 80));
+        btnAutomate3.setTouchEnabled(true);
+        btnAutomate3.setSwallowTouches(false);
+        btnAutomate3.setPressedActionEnabled(true);
+        btnAutomate3.setScale9Enabled(true);
+        btnAutomate3.setPosition(cc.p(200, 0));
+        layer.addChild(btnAutomate3, 100);
+
+        var btnAutomate4 = new ccui.Button();
+        btnAutomate4.setContentSize(cc.size(80, 80));
+        btnAutomate4.setTouchEnabled(true);
+        btnAutomate4.setSwallowTouches(false);
+        btnAutomate4.setPressedActionEnabled(true);
+        btnAutomate4.setScale9Enabled(true);
+        btnAutomate4.setPosition(cc.p(300, 0));
+        layer.addChild(btnAutomate4, 100);
+
+        var btnAutomate5 = new ccui.Button();
+        btnAutomate5.setContentSize(cc.size(80, 80));
+        btnAutomate5.setTouchEnabled(true);
+        btnAutomate5.setSwallowTouches(false);
+        btnAutomate5.setPressedActionEnabled(true);
+        btnAutomate5.setScale9Enabled(true);
+        btnAutomate5.setPosition(cc.p(400, 0));
+        layer.addChild(btnAutomate5, 100);
+
         /*
         // Test adding animation effects
         btnLearnMore.attr({x: size.width / 2, y: 0});
@@ -2507,19 +2634,50 @@ var LoadingScene = cc.Scene.extend({
         a2.tag = 1;
         */
 
-        var automateHandler = function() { 
-            cc.director.runScene(new WorldScene(true)); 
-            // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
+        var automateHandler1 = function() { 
+            cc.director.runScene(new WorldScene(1)); 
+        };
+        var automateHandler2 = function() { 
+            cc.director.runScene(new WorldScene(2)); 
+        };
+        var automateHandler3 = function() { 
+            cc.director.runScene(new WorldScene(3)); 
+        };
+        var automateHandler4 = function() { 
+            cc.director.runScene(new WorldScene(4)); 
+        };
+        var automateHandler5 = function() { 
+            cc.director.runScene(new WorldScene(5)); 
         };
         var playHandler = function() { 
-            cc.director.runScene(new WorldScene(false)); 
+            cc.director.runScene(new WorldScene()); 
             // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
         };
         var learnMoreHandler = function() {
             cc.sys.openURL("https://antarctic-cities.org/the-game/");
         };
 
-        handleMouseTouchEvent(antarcticaSprite, automateHandler);
+        if ('keyboard' in cc.sys.capabilities) {
+            cc.eventManager.addListener({
+                event: cc.EventListener.KEYBOARD,
+                onKeyPressed:  function(keyCode, event){
+                },
+                onKeyReleased: function(keyCode, event){
+                    var automateID = parseInt(cc.sys.isNative ? that.getNativeKeyName(keyCode) : String.fromCharCode(keyCode)) ;
+                    console.log(automateID);
+                    if (!isNaN(automateID) && automateID > 0 && automateID < 6 ) {
+                        cc.director.runScene(new WorldScene(automateID)); 
+                    }
+                }
+            }, layer);
+        }
+
+        // handleMouseTouchEvent(antarcticaSprite, automateHandler1);
+        handleMouseTouchEvent(btnAutomate1, automateHandler1);
+        handleMouseTouchEvent(btnAutomate2, automateHandler2);
+        handleMouseTouchEvent(btnAutomate3, automateHandler3);
+        handleMouseTouchEvent(btnAutomate4, automateHandler4);
+        handleMouseTouchEvent(btnAutomate5, automateHandler5);
         handleMouseTouchEvent(btnPlay, playHandler);
         handleMouseTouchEvent(btnLearnMore, learnMoreHandler);
 
@@ -2833,10 +2991,10 @@ var DesignPolicyLayer = cc.Layer.extend({
         handleMouseTouchEvent(btnPolicyInvest, function(){
 
             if (gameParams.resources - resourceSelected.cost_1 >= 0 && 
-                typeof(gameParams.strategies[resourceSelected.id]) === "undefined") {
+                typeof(gameParams.policies[resourceSelected.id]) === "undefined") {
 
                 gameParams.resources -= resourceSelected.cost_1;  
-                gameParams.strategies[resourceSelected.id] = 1;
+                gameParams.policies[resourceSelected.id] = 1;
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
@@ -2845,10 +3003,10 @@ var DesignPolicyLayer = cc.Layer.extend({
 
             }
             else if (gameParams.resources - resourceSelected.cost_2 >= 0 && 
-                gameParams.strategies[resourceSelected.id] === 1) {
+                gameParams.policies[resourceSelected.id] === 1) {
 
                 gameParams.resources -= resourceSelected.cost_2;  
-                gameParams.strategies[resourceSelected.id] = 2;
+                gameParams.policies[resourceSelected.id] = 2;
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
@@ -2857,10 +3015,10 @@ var DesignPolicyLayer = cc.Layer.extend({
 
             }
             else if (gameParams.resources - resourceSelected.cost_3 >= 0 && 
-                gameParams.strategies[resourceSelected.id] == 2) {
+                gameParams.policies[resourceSelected.id] == 2) {
 
                 gameParams.resources -= resourceSelected.cost_3;  
-                gameParams.strategies[resourceSelected.id] = 3;
+                gameParams.policies[resourceSelected.id] = 3;
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
@@ -2921,7 +3079,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.cost_3 = opt.cost_3;
                 btn.option = opt;
 
-                if (typeof(gameParams.strategies[opt.id]) !== "undefined")
+                if (typeof(gameParams.policies[opt.id]) !== "undefined")
                     btn.enabled = false;
                 
                 handleMouseTouchEvent(btn, function(target) {
@@ -2940,22 +3098,22 @@ var DesignPolicyLayer = cc.Layer.extend({
                 layout.addChild(btnLabel, 101);
 
                 var btnLvl1, btnLvl2, btnLvl3;
-                if (typeof(gameParams.strategies[opt.id]) === "undefined") {
+                if (typeof(gameParams.policies[opt.id]) === "undefined") {
                     btnLvl1 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
                 }
-                else if (gameParams.strategies[opt.id] === 1) {
+                else if (gameParams.policies[opt.id] === 1) {
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
                 }
-                else if (gameParams.strategies[opt.id] === 2) {
+                else if (gameParams.policies[opt.id] === 2) {
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
                 }
-                else if (gameParams.strategies[opt.id] === 3) {
+                else if (gameParams.policies[opt.id] === 3) {
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_on_png);
