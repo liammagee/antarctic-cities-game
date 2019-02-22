@@ -3,8 +3,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 // Global parameters
 var X_OFFSET = 0,
     Y_OFFSET = 50;
-var TIME_INTERVAL = 50;
-var DAY_INTERVAL = 20;
+var MONTH_INTERVAL = 20;
 var RESOURCE_CHANCE = 0.5;
 var CRISIS_CHANCE = 0.3;
 var FONT_FACE_TITLE = "ArvoFont";
@@ -78,7 +77,7 @@ var initGameParams = function initGameParams(scenarioData) {
         console.log("Running " + gameParams.automateScript.name);
     }
 
-    updateTimeVars(DAY_INTERVAL);
+    updateTimeVars(MONTH_INTERVAL);
     calculatePolicyConnections();
 };
 
@@ -462,7 +461,7 @@ var WorldLayer = cc.Layer.extend({
             } else if (target == world.btnPlay) {
                 // Play
 
-                updateTimeVars(DAY_INTERVAL);
+                updateTimeVars(MONTH_INTERVAL);
                 gameParams.state = gameStates.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = false;
@@ -470,7 +469,7 @@ var WorldLayer = cc.Layer.extend({
             } else if (target == world.btnFF) {
                 // Fast Forward
 
-                updateTimeVars(DAY_INTERVAL / 10);
+                updateTimeVars(MONTH_INTERVAL / 10);
                 gameParams.state = gameStates.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
@@ -1168,7 +1167,21 @@ var WorldLayer = cc.Layer.extend({
             var cd = false;
             var p = null;
             do {
-                var arrayIndex = Math.floor(Math.random() * pointArray.length);
+                var arrayIndex = 0;
+                var dists = pointArray.map(function (pa) {
+                    return pa.length / pointArray.reduce(function (t, pa) {
+                        return t + pa.length;
+                    }, 0);
+                });
+                var r = Math.random(),
+                    accum = 0;
+                for (var i = 0; i < dists.length; i++) {
+                    accum = +dists[i];
+                    if (r < accum) {
+                        arrayIndex = i;
+                        break;
+                    }
+                }
                 var points = pointArray[arrayIndex];
                 var extreme = extremes[arrayIndex];
                 var _minx = extreme.minx,
@@ -1544,7 +1557,7 @@ var WorldLayer = cc.Layer.extend({
             };
 
             // Evaluates loss
-            var evaluateLoss = function evaluateLoss(country) {
+            world.evaluateLoss = function (country) {
                 var loss = country.previousLoss;
 
                 var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
@@ -1552,8 +1565,9 @@ var WorldLayer = cc.Layer.extend({
                 // Calculate loss
                 loss = (1 + loss) * (1 + rateOfLoss) - 1;
 
-                // Weaken rate of loss by population convinced of good policy
-                loss /= 1 + country.pop_prepared_percent / 100.0;
+                // Weaken rate of loss by population prepared for good policy
+                var preparednessFactor = 0.1 * country.pop_prepared_percent / 100.0;
+                loss /= 1 + preparednessFactor;
 
                 gameParams.crises.forEach(function (crisisInCountry) {
                     var crisis = CRISES[crisisInCountry.crisis];
@@ -1561,14 +1575,6 @@ var WorldLayer = cc.Layer.extend({
                     // Add effects of country / global loss ratio to crisis effect
                     loss *= (1 + crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
                 });
-                /*
-                if (gameParams.crisisCountry != null) {
-                    var crisis = CRISES[gameParams.crisisCountry.crisis];
-                    var country = world.countries[gameParams.crisisCountry.country];
-                    // Add effects of country / global loss ratio to crisis effect
-                    loss *= (1 + crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
-                }
-                */
 
                 if (loss < gameParams.minimum_loss_increase) {
                     loss = gameParams.minimum_loss_increase;
@@ -1577,7 +1583,9 @@ var WorldLayer = cc.Layer.extend({
                 if (loss > 100) loss = 100;
                 if (loss < 0) loss = 0;
 
-                return loss;
+                var lossNormalised = loss / MONTH_INTERVAL;
+
+                return lossNormalised;
             };
 
             /**
@@ -1732,7 +1740,7 @@ var WorldLayer = cc.Layer.extend({
                 if (country.pop_aware > country.pop_est) country.pop_aware = country.pop_est;
             };
 
-            world.calculatePolicyBalanceOnSeverity = function () {
+            world.calculatePolicyBalanceOnPreparedness = function () {
 
                 var strategyCount = Object.values(gameParams.policies).reduce(function (accum, level) {
                     return accum + level;
@@ -1771,7 +1779,7 @@ var WorldLayer = cc.Layer.extend({
                 return policyBalance;
             };
 
-            world.calculateSinglePolicyImpactOnSeverity = function (country, index) {
+            world.calculateSinglePolicyImpactOnPreparedness = function (country, index) {
 
                 var severityEffect = 1.0;
 
@@ -1824,6 +1832,7 @@ var WorldLayer = cc.Layer.extend({
                 }
 
                 // Calculate impact of other strategies
+
                 for (var j = index + 1; j < Object.keys(gameParams.policies).length; j++) {
                     // if (i == j)
                     //     continue;
@@ -1834,27 +1843,29 @@ var WorldLayer = cc.Layer.extend({
                     var otherLevelMultiplier = Math.log(otherLevel + 1.718);
 
                     var relation = gameParams.policyRelations[policyID][otherPolicyID];
+
                     if (typeof relation !== "undefined") {
-                        severityEffect *= (1 + relation) * otherLevelMultiplier;
+
+                        severityEffect *= 1 + relation * otherLevelMultiplier;
                     }
                 }
 
                 return severityEffect;
             };
 
-            world.calculatePolicyImpactOnSeverity = function (country) {
+            world.calculatePolicyImpactOnPreparedness = function (country) {
 
                 var severityEffect = 1.0;
 
                 for (var i = 0; i < Object.keys(gameParams.policies).length; i++) {
 
-                    severityEffect *= world.calculateSinglePolicyImpactOnSeverity(country, i);
+                    severityEffect *= world.calculateSinglePolicyImpactOnPreparedness(country, i);
                 }
 
                 return severityEffect;
             };
 
-            world.registerSeverityWithin = function (country) {
+            world.registerPreparednessWithin = function (country) {
 
                 if (country.affected_chance == 0) return;
 
@@ -1865,10 +1876,10 @@ var WorldLayer = cc.Layer.extend({
                 // Calculate severity
                 var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
                 var severityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_severity_increase;
-
-                var policyBalance = world.calculatePolicyBalanceOnSeverity();
-                var policyImpact = world.calculatePolicyImpactOnSeverity(country);
-                var severityEffect = policyBalance * policyImpact * severityIncreaseSpeed;
+                var policyBalance = world.calculatePolicyBalanceOnPreparedness();
+                var policyImpact = world.calculatePolicyImpactOnPreparedness(country);
+                var policyEffect = policyBalance * policyImpact * severityIncreaseSpeed;
+                var policyEffectNormalised = 1 + (policyEffect - 1) / MONTH_INTERVAL;
 
                 if (severityIncreaseSpeed < severityMinimumIncrease) {
 
@@ -1881,10 +1892,10 @@ var WorldLayer = cc.Layer.extend({
                     popPrepared = 1; //popAware * 0.01;
                 } else {
 
-                    popPrepared *= severityEffect;
+                    popPrepared *= policyEffectNormalised;
                 }
 
-                if (country.iso_a3 == "USA") console.log(gameParams.counter, country.pop_prepared, severityEffect);
+                if (country.iso_a3 == "USA") console.log(gameParams.counter, country.pop_prepared, policyEffect, policyEffectNormalised);
 
                 if (popPrepared > popAware) {
 
@@ -1918,7 +1929,7 @@ var WorldLayer = cc.Layer.extend({
                     var _loop = function _loop(_i) {
 
                         var pe = gameParams.automateScript.policyEvents[_i];
-                        if (gameParams.counter == pe.counter / DAY_INTERVAL) {
+                        if (gameParams.counter == pe.counter / MONTH_INTERVAL) {
 
                             fireClickOnTarget(world.btnDevelopPolicy, function () {
                                 var resNames = Object.values(RESOURCES).map(function (res) {
@@ -2033,7 +2044,7 @@ var WorldLayer = cc.Layer.extend({
                     Object.keys(world.countries).forEach(function (key) {
 
                         var country = world.countries[key];
-                        var loss = evaluateLoss(country);
+                        var loss = world.evaluateLoss(country);
 
                         if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
 
@@ -2046,7 +2057,7 @@ var WorldLayer = cc.Layer.extend({
 
                             transmitFrom(country);
                             infectWithin(country);
-                            world.registerSeverityWithin(country);
+                            world.registerPreparednessWithin(country);
 
                             countriedAffected++;
                             populationAware += country.pop_aware;
@@ -2360,7 +2371,7 @@ var WorldLayer = cc.Layer.extend({
 
                     if (gameParams.automateScript.fastForward) {
 
-                        updateTimeVars(DAY_INTERVAL / 20);
+                        updateTimeVars(MONTH_INTERVAL / 20);
                         gameParams.state = gameStates.STARTED;
                         world.btnPause.enabled = true;
                         world.btnPlay.enabled = true;
@@ -2387,14 +2398,14 @@ var WorldScene = cc.Scene.extend({
         // Add country data 
         cc.loader.loadJson("res/scenario-nature.json", function (error, scenarioData) {
 
-            var layer = new WorldLayer(scenarioData, scene.automateID);
-            scene.addChild(layer);
-        });
+            // Add script data 
+            cc.loader.loadJson("res/automate.json", function (error, data) {
 
-        // Add script data 
-        cc.loader.loadJson("res/automate.json", function (error, data) {
+                automateScripts = data;
 
-            automateScripts = data;
+                var layer = new WorldLayer(scenarioData, scene.automateID);
+                scene.addChild(layer);
+            });
         });
     }
 });

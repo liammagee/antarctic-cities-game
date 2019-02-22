@@ -144,7 +144,7 @@
         { "counter": 10560, "policyID": 2 },
         { "counter": 11040, "policyID": 7 },
         { "counter": 11520, "policyID": 3 },
-        { "counter": 12000, "policyID": 8 }
+        { "counter": 12000, "policyID": 8 },
         { "counter": 11520, "policyID": 3 },
         { "counter": 12000, "policyID": 8 },
         { "counter": 12000, "policyID": 4 }
