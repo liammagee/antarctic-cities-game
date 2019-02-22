@@ -1,19 +1,35 @@
+[
 {
-    "resourcesProb": 0.5,
-    "crisisDuration": 30,
+    "name": "Green Growth",
+    "resourcesProb": 1.0,
+    "crisisDuration": 5,
     "fastForward": true,
     "policyEvents": [ 
-        {
-            "counter": 87,
-            "policyID": 3
-        },
-        {
-            "counter": 187,
-            "policyID": 3
-        },
-        {
-            "counter": 300,
-            "policyID": 15
-        }
+        { "counter": 480, "policyID": 2 },
+        { "counter": 960, "policyID": 3 },
+        { "counter": 1440, "policyID": 4 },
+        { "counter": 1920, "policyID": 5 },
+        { "counter": 2400, "policyID": 6 },
+        { "counter": 2880, "policyID": 7 },
+        { "counter": 3360, "policyID": 8 },
+        { "counter": 3840, "policyID": 13 },
+        { "counter": 4320, "policyID": 14 },
+        { "counter": 4800, "policyID": 15 },
+        { "counter": 5280, "policyID": 16 },
+        { "counter": 5760, "policyID": 2 },
+        { "counter": 6240, "policyID": 3 },
+        { "counter": 6720, "policyID": 4 },
+        { "counter": 7200, "policyID": 7 },
+        { "counter": 7680, "policyID": 8 },
+        { "counter": 8160, "policyID": 13 },
+        { "counter": 8640, "policyID": 14 },
+        { "counter": 9120, "policyID": 15 },
+        { "counter": 9600, "policyID": 16 },
+        { "counter": 10080, "policyID": 2 },
+        { "counter": 10560, "policyID": 3 },
+        { "counter": 11040, "policyID": 4 },
+        { "counter": 11520, "policyID": 7 },
+        { "counter": 12000, "policyID": 14 }
     ]
 }
+]

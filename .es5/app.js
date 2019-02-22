@@ -110,12 +110,20 @@ var fireClickOnTarget = function fireClickOnTarget(target, callback) {
 
         var e = new cc.EventMouse(cc.EventMouse.UP);
         e.setLocation(x, y);
-        // var touches = [];
-        // touches.push(new cc.Touch(x, y))
-        // var e = new cc.EventTouch(touches);
-        // e._eventCode = cc.EventTouch.ENDED;
-        // //e.setLocation(x, y);
         cc.eventManager.dispatchEvent(e);
+        /*
+        var touches = [];
+        var touch = new cc.Touch(x, y);
+        touch._setPrevPoint(x, y);
+        touch._startPoint = cc.p(x, y);
+        touches.push(touch)
+        var es = new cc.EventTouch(touches);
+        es._eventCode = cc.EventTouch.BEGAN;
+        var ee = new cc.EventTouch(touches);
+        ee._eventCode = cc.EventTouch.ENDED;
+        cc.eventManager.dispatchEvent(es);
+        cc.eventManager.dispatchEvent(ee);
+        */
 
         if (typeof callback !== "undefined") callback();
     }, 100);
@@ -392,7 +400,6 @@ var handleMouseTouchEvent = function handleMouseTouchEvent(target, callback) {
         event: cc.EventListener.TOUCH_ONE_BY_ONE,
         swallowTouches: true,
         onTouchBegan: function onTouchBegan(touch, event) {
-
             var target = event.getCurrentTarget();
             var locationInNode = target.convertToNodeSpace(touch.getLocation());
             var s = target.getContentSize();
@@ -414,8 +421,11 @@ var handleMouseTouchEvent = function handleMouseTouchEvent(target, callback) {
         }
     });
 
-    // cc.eventManager.addListener(listenerMouse, target);
-    cc.eventManager.addListener(listenerTouch, target);
+    if (gameParams.automateMode) {
+        cc.eventManager.addListener(listenerMouse, target);
+    } else {
+        cc.eventManager.addListener(listenerTouch, target);
+    }
 };
 
 /**
@@ -963,7 +973,7 @@ var WorldLayer = cc.Layer.extend({
                     centroid: centroids(obj.name),
                     area: areas(obj.name),
 
-                    affected_chance: 0.0,
+                    affected_chance: 1.0,
                     pop_est: parseInt(obj.POP_EST),
                     pop_aware: 0,
                     pop_aware_percent: 0,
@@ -1724,7 +1734,7 @@ var WorldLayer = cc.Layer.extend({
 
                 // var popInfected = country.pop_aware;
                 var popInfected = country.pop_est;
-                var popConvinced = country.pop_prepared;
+                var popPrepared = country.pop_prepared;
 
                 // Calculate severity
                 var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
@@ -1826,12 +1836,12 @@ var WorldLayer = cc.Layer.extend({
 
                 severityEffect *= severityIncreaseSpeed;
                 if (severityIncreaseSpeed < severityMinimumIncrease) severityIncreaseSpeed = severityMinimumIncrease;
-                if (popConvinced == 0) {
-                    popConvinced = popInfected * 0.01;
+                if (popPrepared == 0) {
+                    popPrepared = popInfected * 0.01;
                 } else {
-                    popConvinced *= 1 + severityEffect;
+                    popPrepared *= 1 + severityEffect;
                 }
-                country.pop_prepared = popConvinced;
+                country.pop_prepared = popPrepared;
                 if (country.pop_prepared > country.pop_aware) country.pop_prepared = country.pop_aware;
             };
 
@@ -1841,11 +1851,10 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.state !== gameStates.STARTED) {
 
                     // Refresh the timeout
-                    gameParams.timeoutID = setTimeout(updateTime, gameParams.timeInterval);
+                    gameParams.timeoutID = setTimeout(updateTime, 10);
                     return;
                 }
 
-                var d = gameParams.currentDate;
                 gameParams.counter++;
 
                 // Handle automation here
@@ -1853,17 +1862,17 @@ var WorldLayer = cc.Layer.extend({
                     var _loop = function _loop(_i) {
 
                         var pe = gameParams.automateScript.policyEvents[_i];
-                        if (gameParams.counter == pe.counter) {
+                        if (gameParams.counter == pe.counter / DAY_INTERVAL) {
 
                             fireClickOnTarget(world.btnDevelopPolicy, function () {
                                 var resNames = Object.values(RESOURCES).map(function (res) {
                                     return res.name;
                                 });
-                                var resGrp = Math.floor(pe.policyID / resNames.length);
+                                var resGrp = Math.floor((pe.policyID - 1) / resNames.length);
                                 var element = world.designPolicyLayer.getChildByName(resNames[resGrp]);
 
                                 fireClickOnTarget(element, function () {
-                                    var btn = world.designPolicyLayer.policyButtons[pe.policyID];
+                                    var btn = world.designPolicyLayer.policyButtons[pe.policyID - 1];
 
                                     fireClickOnTarget(btn, function () {
 
@@ -2110,7 +2119,7 @@ var WorldLayer = cc.Layer.extend({
                     }
 
                 // Refresh the timeout
-                gameParams.timeoutID = setTimeout(updateTime, gameParams.timeInterval);
+                gameParams.timeoutID = setTimeout(updateTime, 10);
             };
 
             // Run the updates in the background, so interaction is not blocked.
@@ -2319,7 +2328,7 @@ var WorldScene = cc.Scene.extend({
         // Add script data 
         cc.loader.loadJson("res/automate.json", function (error, data) {
 
-            automateScript = data;
+            automateScript = data[0];
         });
     }
 });
@@ -2710,7 +2719,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnPolicyInvest.setTitleText("Invest in this policy");
 
         // For automation
-        // layer.investButton = btnPolicyInvest;
+        layer.investButton = btnPolicyInvest;
 
         var calculateResourceAndCrisisImpacts = function calculateResourceAndCrisisImpacts(resource) {
 
