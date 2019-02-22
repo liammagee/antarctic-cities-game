@@ -109,6 +109,11 @@ var fireClickOnTarget = function(target, callback) {
 
         var e = new cc.EventMouse(cc.EventMouse.UP);
         e.setLocation(x, y);
+        // var touches = [];
+        // touches.push(new cc.Touch(x, y))
+        // var e = new cc.EventTouch(touches);
+        // e._eventCode = cc.EventTouch.ENDED;
+        // //e.setLocation(x, y);
         cc.eventManager.dispatchEvent(e);
 
         if (typeof(callback) !== "undefined")
@@ -1600,7 +1605,10 @@ var WorldLayer = cc.Layer.extend({
                 return loss;
             };
 
-            // Transmit
+            /**
+             * 
+             * @param {*} Calculates transmission of policies from 
+             */
             var transmitFrom = function(country) {
                 var neighbours = country.neighbours;
                 var sharedBorder = country.shared_border_percentage;
@@ -1618,6 +1626,8 @@ var WorldLayer = cc.Layer.extend({
                 var income = country.income_grp;
                 var incomeVal = parseFloat(income.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
                 
+                // THE FOLLOWING CODE MAKES USE OF AVAILABLE GEOGRAPHIC INFORMATION TO DEVELOP A PROXY FOR TRANSMISSION
+
                 var landProb = sharedBorder * transmissionLand * likelihoodOfTransmission * popFactor * incomeVal;
                 // Sea probability increases with (a) low shared border and (b) high income and (c) high population
                 var seaProb = (1  - sharedBorder)  * transmissionSea * likelihoodOfTransmission * popFactor * (1 - incomeVal);
@@ -1670,8 +1680,6 @@ var WorldLayer = cc.Layer.extend({
             var infectWithin = function(country) {
                 if (country.affected_chance == 0)
                     return;
-                var popCountry = country.pop_est;
-                var popInfected = country.pop_aware;
 
                 if (country.pop_aware >= parseInt(country.pop_est))
                     return;
@@ -1759,7 +1767,9 @@ var WorldLayer = cc.Layer.extend({
             var registerSeverityWithin = function(country) {
                 if (country.affected_chance == 0)
                     return;
-                var popInfected = country.pop_aware;
+
+                // var popInfected = country.pop_aware;
+                var popInfected = country.pop_est;
                 var popConvinced = country.pop_prepared;
 
                 // Calculate severity
@@ -1792,7 +1802,7 @@ var WorldLayer = cc.Layer.extend({
 
                 // NEW CALCULATION
                 
-                // Calculate impact of strategies
+                // Calculate impact of policies
                 for (var i = 0; i < Object.keys(gameParams.strategies).length; i++) {
                     var strategyID = parseInt(Object.keys(gameParams.strategies)[i]);
                     var strategy = gameParams.policyOptions[strategyID];
@@ -2315,7 +2325,7 @@ var WorldLayer = cc.Layer.extend({
 
         };
 
-        let nestedButtons = null;
+        var nestedButtons = null;
         let buttons = showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, 
             "Start Tutorial", function(that) {
                 gameParams.tutorialMode = true;
@@ -2349,7 +2359,7 @@ var WorldLayer = cc.Layer.extend({
         if (gameParams.automateMode) {
 
             fireClickOnTarget(buttons[1], function() {
-
+                
                 fireClickOnTarget(nestedButtons[0], function() {
 
                     if (gameParams.automateScript.fastForward) {

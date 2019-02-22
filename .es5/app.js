@@ -110,6 +110,11 @@ var fireClickOnTarget = function fireClickOnTarget(target, callback) {
 
         var e = new cc.EventMouse(cc.EventMouse.UP);
         e.setLocation(x, y);
+        // var touches = [];
+        // touches.push(new cc.Touch(x, y))
+        // var e = new cc.EventTouch(touches);
+        // e._eventCode = cc.EventTouch.ENDED;
+        // //e.setLocation(x, y);
         cc.eventManager.dispatchEvent(e);
 
         if (typeof callback !== "undefined") callback();
@@ -1562,7 +1567,10 @@ var WorldLayer = cc.Layer.extend({
                 return loss;
             };
 
-            // Transmit
+            /**
+             * 
+             * @param {*} Calculates transmission of policies from 
+             */
             var transmitFrom = function transmitFrom(country) {
                 var neighbours = country.neighbours;
                 var sharedBorder = country.shared_border_percentage;
@@ -1579,6 +1587,8 @@ var WorldLayer = cc.Layer.extend({
 
                 var income = country.income_grp;
                 var incomeVal = parseFloat(income.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
+
+                // THE FOLLOWING CODE MAKES USE OF AVAILABLE GEOGRAPHIC INFORMATION TO DEVELOP A PROXY FOR TRANSMISSION
 
                 var landProb = sharedBorder * transmissionLand * likelihoodOfTransmission * popFactor * incomeVal;
                 // Sea probability increases with (a) low shared border and (b) high income and (c) high population
@@ -1628,8 +1638,6 @@ var WorldLayer = cc.Layer.extend({
 
             var infectWithin = function infectWithin(country) {
                 if (country.affected_chance == 0) return;
-                var popCountry = country.pop_est;
-                var popInfected = country.pop_aware;
 
                 if (country.pop_aware >= parseInt(country.pop_est)) return;
 
@@ -1713,7 +1721,9 @@ var WorldLayer = cc.Layer.extend({
 
             var registerSeverityWithin = function registerSeverityWithin(country) {
                 if (country.affected_chance == 0) return;
-                var popInfected = country.pop_aware;
+
+                // var popInfected = country.pop_aware;
+                var popInfected = country.pop_est;
                 var popConvinced = country.pop_prepared;
 
                 // Calculate severity
@@ -1748,7 +1758,7 @@ var WorldLayer = cc.Layer.extend({
 
                 // NEW CALCULATION
 
-                // Calculate impact of strategies
+                // Calculate impact of policies
                 for (var i = 0; i < Object.keys(gameParams.strategies).length; i++) {
                     var strategyID = parseInt(Object.keys(gameParams.strategies)[i]);
                     var strategy = gameParams.policyOptions[strategyID];

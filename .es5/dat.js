@@ -32,6 +32,8 @@ RESOURCES = {
             img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_NORMAL.png",
             img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_ON.png",
             levels: 3,
+            effect_on_transmissability: 0,
+            effect_on_infectivity: 0,
             effect_on_resources: 0,
             effect_on_crises: 0,
             effect_on_pop_low: 0,
