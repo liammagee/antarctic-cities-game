@@ -900,13 +900,13 @@ var WorldLayer = cc.Layer.extend({
             var pa = pointArray(name);
             var extremes = [];
             for (var i = 0; i < pa.length; i++) {
-                var _p = pa[i];
+                var p = pa[i];
                 var minx = 0,
                     miny = 0,
                     maxx = 0,
                     maxy = 0;
-                for (var _j = 0; _j < _p.length; _j++) {
-                    var point = _p[_j];
+                for (var j = 0; j < p.length; j++) {
+                    var point = p[j];
                     if (minx == 0 || minx > parseInt(point.x)) minx = parseInt(point.x);
                     if (miny == 0 || miny > parseInt(point.y)) miny = parseInt(point.y);
                     if (maxx < parseInt(point.x)) maxx = parseInt(point.x);
@@ -919,9 +919,9 @@ var WorldLayer = cc.Layer.extend({
 
         var regionalArea = function regionalArea(points) {
             var area = 0;
-            for (var _j2 = 0; _j2 < points.length - 1; _j2++) {
-                var pt1 = points[_j2];
-                var pt2 = points[_j2 + 1];
+            for (var j = 0; j < points.length - 1; j++) {
+                var pt1 = points[j];
+                var pt2 = points[j + 1];
                 var xy1 = pt1.x * pt2.y;
                 var xy2 = pt1.y * pt2.x;
                 area += Math.abs(xy1 - xy2);
@@ -934,8 +934,8 @@ var WorldLayer = cc.Layer.extend({
             var pa = pointArray(name);
             var area = 0;
             for (var i = 0; i < pa.length; i++) {
-                var _p2 = pa[i];
-                area += regionalArea(_p2);
+                var p = pa[i];
+                area += regionalArea(p);
             }
             return area;
         };
@@ -947,8 +947,8 @@ var WorldLayer = cc.Layer.extend({
                 thisArea = 0;
             var regionID = -1;
             for (var i = 0; i < pa.length; i++) {
-                var _p3 = pa[i];
-                thisArea = regionalArea(_p3);
+                var p = pa[i];
+                thisArea = regionalArea(p);
                 if (thisArea > lastArea) {
                     regionID = i;
                     lastArea = thisArea;
@@ -1069,6 +1069,7 @@ var WorldLayer = cc.Layer.extend({
             // Change the power for more or less points
             country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
         });
+        // Object.values(world.countries).forEach(c => c.numPoints = c.points.reduce((a, pa) => a + pa.length, 0))
 
         // Add world populations
         gameParams.populationWorld = Object.keys(world.countries).map(function (c) {
@@ -1077,23 +1078,19 @@ var WorldLayer = cc.Layer.extend({
             return a + parseInt(c);
         }, 0);
 
+        /*
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
-            var mts = tilelayer.getMapTileSize(),
-                mw = mts.width,
-                mh = mts.height;
-            var cs = tilelayer.getContentSize(),
-                cw = cs.width,
-                ch = cs.height;
-            for (var k = 0; k < tilelayer.layerWidth; k++) {
-                for (var l = 0; l < tilelayer.layerHeight; l++) {
+            var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
+            var cs = tilelayer.getContentSize(), cw = cs.width, ch = cs.height;
+            for (var k = 0; k < tilelayer.layerWidth; k++){
+                for (var l = 0; l < tilelayer.layerHeight; l++){
                     var tx = k * mw + mw / 2 - poly.x;
-                    var ty = l * mh + mh / 2 - (ch - poly.y);
+                    var ty = (l * mh + mh / 2) - (ch - poly.y);
                     var tp = new cc.p(tx, ty);
-
-                    var cd = collisionDetection(poly.points, tp);
-                    if (cd) {
-                        if (typeof mappedTiles[poly] === "undefined") {
+                     var cd = collisionDetection(poly.points, tp);
+                    if (cd) { 
+                        if (typeof(mappedTiles[poly]) === "undefined") {
                             mappedTiles[poly] = [];
                         }
                         var p = new cc.p(k, l);
@@ -1102,6 +1099,7 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }
+        */
 
         var processResourceSelection = function processResourceSelection(target) {
 
@@ -1176,7 +1174,7 @@ var WorldLayer = cc.Layer.extend({
                 var r = Math.random(),
                     accum = 0;
                 for (var i = 0; i < dists.length; i++) {
-                    accum = +dists[i];
+                    accum += dists[i];
                     if (r < accum) {
                         arrayIndex = i;
                         break;
@@ -1201,7 +1199,7 @@ var WorldLayer = cc.Layer.extend({
             return p;
         };
 
-        var generatePointsForCountry = function generatePointsForCountry(country, policy, min, max) {
+        world.generatePointsForCountry = function (country, policy, min, max) {
             var batchNode = world.spriteBackground.getChildByTag(TAG_SPRITE_BATCH_NODE);
             var pointArray = country.points;
             var extremes = country.extremes;
@@ -1218,6 +1216,7 @@ var WorldLayer = cc.Layer.extend({
             min = Math.round(min);
             max = Math.round(max);
             if (min < 0 || max < 0) return;
+
             if (min > max) {
                 // Sprite-based dots
                 /*
@@ -1228,7 +1227,12 @@ var WorldLayer = cc.Layer.extend({
                 }
                 */
                 // pointsToDraw = pointsToDraw.slice(0, max - 1);
-                pointsToDraw = pointsToDraw.slice(0, min);
+
+                if (policy) {
+                    country.policyPoints = country.policyPoints.slice(0, max);
+                } else {
+                    country.destructionPoints = country.destructionPoints.slice(0, max);
+                }
             } else {
                 var sqrt = Math.pow(country.area, 0.5);
                 if (pointsToDraw.length + (max - min) * country.numPoints > sqrt) return;
@@ -1261,16 +1265,16 @@ var WorldLayer = cc.Layer.extend({
             return pointsToDraw;
         };
 
-        var generatePoints = function generatePoints() {
+        world.generatePoints = function () {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
                 var existingConvincedPercentage = country.pop_prepared_percent;
                 country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
-                generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
-                generatePointsForCountry(country, false, 0, country.destruction);
+                world.generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
+                // world.generatePointsForCountry(country, false, 0, country.loss);
             }
         };
-        generatePoints();
+        world.generatePoints();
 
         var genNormRand = function genNormRand() {
             // Produce a random value from a normal distribution with a mean of 120.
@@ -1563,7 +1567,7 @@ var WorldLayer = cc.Layer.extend({
                 var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
 
                 // Calculate loss
-                loss = (1 + loss) * (1 + rateOfLoss) - 1;
+                loss = (1 + loss) * (1 + rateOfLoss / MONTH_INTERVAL) - 1;
 
                 // Weaken rate of loss by population prepared for good policy
                 var preparednessFactor = 0.1 * country.pop_prepared_percent / 100.0;
@@ -1583,9 +1587,7 @@ var WorldLayer = cc.Layer.extend({
                 if (loss > 100) loss = 100;
                 if (loss < 0) loss = 0;
 
-                var lossNormalised = loss / MONTH_INTERVAL;
-
-                return lossNormalised;
+                return loss;
             };
 
             /**
@@ -1895,8 +1897,6 @@ var WorldLayer = cc.Layer.extend({
                     popPrepared *= policyEffectNormalised;
                 }
 
-                if (country.iso_a3 == "USA") console.log(gameParams.counter, country.pop_prepared, policyEffect, policyEffectNormalised);
-
                 if (popPrepared > popAware) {
 
                     popPrepared = popAware;
@@ -2049,8 +2049,8 @@ var WorldLayer = cc.Layer.extend({
                         if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
 
                             country.loss = loss;
-                            generatePointsForCountry(country, false, country.previousLoss, country.loss);
-                            country.previousLoss = loss;
+                            world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
+                            country.previousLoss = country.loss;
                         }
 
                         if (country.affected_chance) {
@@ -2070,7 +2070,7 @@ var WorldLayer = cc.Layer.extend({
                             var imin = existingConvincedPercentage > 0.5 ? parseInt(existingConvincedPercentage) : 0;
                             var imax = country.pop_prepared_percent > 0.5 ? parseInt(country.pop_prepared_percent) : 0;
 
-                            generatePointsForCountry(country, true, imin, imax);
+                            world.generatePointsForCountry(country, true, imin, imax);
                         }
                         totalPolicy += country.policy;
                         totalLoss += country.loss;

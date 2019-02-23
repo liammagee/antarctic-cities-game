@@ -1102,10 +1102,12 @@ var WorldLayer = cc.Layer.extend({
             // Change the power for more or less points
             country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
         });
+        // Object.values(world.countries).forEach(c => c.numPoints = c.points.reduce((a, pa) => a + pa.length, 0))
 
         // Add world populations
         gameParams.populationWorld = Object.keys(world.countries).map(c => { return world.countries[c].pop_est; }).reduce((a, c) => {return a + parseInt(c);}, 0);
 
+        /*
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
             var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
@@ -1127,6 +1129,7 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }
+        */
         
         var processResourceSelection = function(target) {
             
@@ -1194,7 +1197,7 @@ var WorldLayer = cc.Layer.extend({
                 let dists = pointArray.map(pa => pa.length / pointArray.reduce((t, pa) => t + pa.length, 0))
                 let r = Math.random(), accum = 0;
                 for (let i = 0; i < dists.length; i++) {
-                    accum =+ dists[i];
+                    accum += dists[i];
                     if (r < accum) {
                         arrayIndex = i;
                         break;
@@ -1218,7 +1221,7 @@ var WorldLayer = cc.Layer.extend({
             return p;
         };
 
-        var generatePointsForCountry = function(country, policy, min, max) {
+        world.generatePointsForCountry = function(country, policy, min, max) {
             var batchNode = world.spriteBackground.getChildByTag(TAG_SPRITE_BATCH_NODE);
             var pointArray = country.points;
             var extremes = country.extremes;
@@ -1237,6 +1240,7 @@ var WorldLayer = cc.Layer.extend({
             max = Math.round(max);
             if (min < 0 || max < 0)
                 return;
+
             if (min > max) {
                 // Sprite-based dots
                 /*
@@ -1247,7 +1251,13 @@ var WorldLayer = cc.Layer.extend({
                 }
                 */
                 // pointsToDraw = pointsToDraw.slice(0, max - 1);
-                pointsToDraw = pointsToDraw.slice(0, min);
+
+                if (policy) {
+                    country.policyPoints = country.policyPoints.slice(0, max);
+                }
+                else {
+                    country.destructionPoints = country.destructionPoints.slice(0, max);
+                }
             }
             else {
                 var sqrt = Math.pow(country.area, 0.5);
@@ -1283,16 +1293,16 @@ var WorldLayer = cc.Layer.extend({
             return pointsToDraw;
         };
 
-        var generatePoints = function() {
+        world.generatePoints = function() {
             for (var i = 0; i < Object.keys(world.countries).length; i++) {
                 var country = world.countries[Object.keys(world.countries)[i]];
                 var existingConvincedPercentage = country.pop_prepared_percent;
                 country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
-                generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
-                generatePointsForCountry(country, false, 0, country.destruction);
+                world.generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
+                // world.generatePointsForCountry(country, false, 0, country.loss);
             }
         };
-        generatePoints();
+        world.generatePoints();
 
         var genNormRand = function() {
             // Produce a random value from a normal distribution with a mean of 120.
@@ -1593,9 +1603,9 @@ var WorldLayer = cc.Layer.extend({
                 var loss = country.previousLoss;
 
                 var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
-
+                
                 // Calculate loss
-                loss = (1 + loss) * (1 + rateOfLoss) - 1;
+                loss = (1 + loss) * (1 + rateOfLoss / MONTH_INTERVAL) - 1;
 
                 // Weaken rate of loss by population prepared for good policy
                 var preparednessFactor = 0.1 * country.pop_prepared_percent / 100.0;
@@ -1618,9 +1628,7 @@ var WorldLayer = cc.Layer.extend({
                 if (loss < 0)
                     loss = 0;
 
-                var lossNormalised = loss / MONTH_INTERVAL;
-
-                return lossNormalised;
+                return loss;
             };
 
             /**
@@ -1950,9 +1958,6 @@ var WorldLayer = cc.Layer.extend({
 
                 }
 
-                if (country.iso_a3 == "USA")
-                    console.log(gameParams.counter, country.pop_prepared, policyEffect, policyEffectNormalised);
-
                 if (popPrepared > popAware) {
 
                     popPrepared = popAware;
@@ -2112,8 +2117,8 @@ var WorldLayer = cc.Layer.extend({
                         if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
 
                             country.loss = loss;
-                            generatePointsForCountry(country, false, country.previousLoss, country.loss);
-                            country.previousLoss = loss;
+                            world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
+                            country.previousLoss = country.loss;
 
                         }
 
@@ -2134,7 +2139,7 @@ var WorldLayer = cc.Layer.extend({
                             var imin = (existingConvincedPercentage > 0.5) ? parseInt(existingConvincedPercentage) : 0;
                             var imax = (country.pop_prepared_percent > 0.5) ? parseInt(country.pop_prepared_percent) : 0;
 
-                            generatePointsForCountry(country, true, imin, imax);
+                            world.generatePointsForCountry(country, true, imin, imax);
 
                         }
                         totalPolicy += country.policy;
