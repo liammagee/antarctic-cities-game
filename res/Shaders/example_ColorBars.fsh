@@ -1,25 +1,43 @@
+// http://www.cocos2d-iphone.org
+
 #ifdef GL_ES
-precision highp float;
+precision lowp float;
 #endif
 
-uniform vec2 center;
-uniform vec2 resolution;
+varying vec2 v_texCoord;
 
-varying vec2 []v_point_pos;
+vec4 getColorByCoord(int y){
+    if(y < 5){
+         if(y == 0){
+            return vec4(1,0,0,1);
+         } else if(y == 1){
+            return vec4(0,1,0,1);
+         } else if(y == 2){
+            return vec4(0,0,1,1);
+         } else if(y == 3){
+            return vec4(0,1,1,1);
+         } else{
+            return vec4(1,0,1,1);
+         }
+     } else {
+         if(y == 5){
+            return vec4(1,1,0,1);
+         } else if(y == 6){
+            return vec4(1,1,1,1);
+         } else if(y == 7){
+            return vec4(1,0.5,0,1);
+         } else if(y == 8){
+            return vec4(1,0.5,0.5,1);
+         }else {
+            return vec4(0.5,0.5,1,1);
+         }
+     }
+}
 
-void main(void)
-{
-    vec2 p = 2.0 * (gl_FragCoord.xy - center.xy) / resolution.xy;
-	p.x *= resolution.x/resolution.y;
-
-	float co = 0.0;
-	vec2 ppp = vec2(50.0, 50.0);
-	float dist = sqrt(pow(float(gl_FragCoord.x) - float(ppp.x), 2.0) + pow(float(gl_FragCoord.y) - float(ppp.y), 2.0));
-	float diag = sqrt(pow(float(resolution.x), 2.0) + pow(float(resolution.y), 2.0));
-	dist = dist / diag;
-	//float dist = sqrt(pow(float(gl_FragCoord.x) - float(v_point_pos.x), 2.0) + pow(float(gl_FragCoord.y) - float(v_point_pos.y), 2.0));
-	dist = (gl_FragCoord.x - center.x) / 256.0;
-	co = 1.0 - dist;
-	gl_FragColor = vec4( co, 0.0, 0.0,
-						1.0 );
+void main(void) {
+	// inline to prevent "float" loss and keep using lowp
+    //int y = int( mod(( (gl_FragCoord.y+gl_FragCoord.x)*mod(CC_Time[0],5.0)) / 10.0, 10.0 ) );
+	//int y = int( mod( CC_Time[3] + (gl_FragCoord.y + gl_FragCoord.x) / 10.0, 10.0 ) );
+	int y = int( mod(gl_FragCoord.y / 10.0, 10.0 ) );
+	gl_FragColor = getColorByCoord(y) * texture2D(CC_Texture0, v_texCoord);
 }

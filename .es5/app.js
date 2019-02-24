@@ -25,6 +25,326 @@ var gameStates = {
     GAME_OVER: 5
 };
 
+//------------------------------------------------------------------
+//
+// ShaderOutline
+//
+//------------------------------------------------------------------
+//FIX ME:
+//The renderers of webgl and opengl is quite different now, so we have to use different shader and different js code
+//This is a bug, need to be fixed in the future
+var ShaderOutlineEffect = cc.LayerGradient.extend({
+    ctor: function ctor(node, country, loss) {
+        this._super();
+
+        this.node = node;
+        this.country = country;
+        this.loss = loss;
+        this.timeCounter = 0;
+
+        var ccbjs = "res/";
+        if ('opengl' in cc.sys.capabilities) {
+            if (cc.sys.isNative) {
+                this.shader = new cc.GLProgram(res.shader_outline_vertex_nomvp, res.shader_outline_fragment);
+                this.shader.link();
+                this.shader.updateUniforms();
+            } else {
+                this.shader = new cc.GLProgram(res.shader_outline_vertex_nomvp, res.shader_outline_fragment);
+                this.shader.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);
+                this.shader.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);
+                this.shader.addAttribute(cc.ATTRIBUTE_NAME_COLOR, cc.VERTEX_ATTRIB_COLOR);
+
+                this.shader.link();
+                this.shader.updateUniforms();
+                this.shader.use();
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_threshold'), 1.75);
+                this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor1'), 255 / 255, 0 / 255, 0 / 255);
+                this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor2'), 0 / 255, 255 / 255, 0 / 255);
+
+                var program = this.shader.getProgram();
+                this.uniformResolution = gl.getUniformLocation(program, "resolution");
+                this.shader.setUniformLocationF32(this.uniformResolution, 256, 256);
+            }
+
+            // this.sprite.runAction(cc.sequence(cc.rotateTo(1.0, 10), cc.rotateTo(1.0, -10)).repeatForever());
+
+            if (cc.sys.isNative) {
+                var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this.shader);
+                glProgram_state.setUniformFloat("u_threshold", 1.75);
+                glProgram_state.setUniformFloat("u_selected", 0.0);
+                glProgram_state.setUniformFloat("u_fill1", 1.0);
+                glProgram_state.setUniformFloat("u_fill2", 1.0);
+                glProgram_state.setUniformVec3("u_outlineColor1", { x: 255 / 255, y: 0 / 255, z: 0 / 255 });
+                glProgram_state.setUniformVec3("u_outlineColor2", { x: 0 / 255, y: 255 / 255, z: 0 / 255 });
+                node.setGLProgramState(glProgram_state);
+            } else {
+                node.shaderProgram = this.shader;
+            }
+
+            this.scheduleUpdate();
+        }
+    },
+    update: function update(dt) {
+
+        if (gameParams.state != gameStates.STARTED) return;
+
+        if (this.timeCounter > 0.2) {
+            this.timeCounter = 0;
+            return;
+        }
+        this.timeCounter += dt;
+        if (this.country.iso_a3 == "USA") console.log(Math.abs(this.node.getRotation() / 500), this.country.loss, dt);
+
+        var selected = this.country.selected ? 1.0 : 0.0;
+        if ('opengl' in cc.sys.capabilities) {
+            if (cc.sys.isNative) {
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_selected'), selected);
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill1'), 1.0 + this.country.loss);
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill2'), 1.0 + this.country.pop_prepared_percent);
+                this.node.getGLProgramState().setUniformFloat("u_radius", Math.abs(this.node.getRotation() / 500));
+            } else {
+                this.shader.use();
+                this.shader.setUniformLocationF32(this.uniformResolution, 256, 256);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_selected'), selected);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill1'), this.country.loss);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill2'), this.country.pop_prepared_percent);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_radius'), Math.abs(this.node.getRotation() / 500));
+                this.shader.updateUniforms();
+            }
+        }
+    }
+});
+
+var initCountries = function initCountries() {
+
+    var size = cc.winSize;
+
+    world.collisionDetection = function (points, test) {
+        var crossed = false;
+        var times = 0;
+
+        // Double check the detection is within the widest bounds
+        var maxx = Math.max.apply(Math, _toConsumableArray(points.map(function (p) {
+            return p.x;
+        })));
+        for (var i = 0; i < points.length; i++) {
+            var p1 = points[i];
+            var p2 = i == points.length - 1 ? points[0] : points[i + 1];
+
+            // Make floating, and jitter to avoid boundary issues with integers.
+            var x1 = parseFloat(p1.x) + 0.001,
+                y1 = parseFloat(p1.y) - 0.001,
+                x2 = parseFloat(p2.x) + 0.001,
+                y2 = parseFloat(p2.y) - 0.001;
+
+            if (y1 < test.y && y2 >= test.y || y1 > test.y && y2 <= test.y) {
+                if ((x1 + x2) / 2.0 < test.x && test.x < maxx) {
+                    times++;
+                    crossed = !crossed;
+                }
+            }
+        }
+        return crossed;
+    };
+
+    // Sorts objects by their relative screen position, to avoid overlapping tiles
+    world.sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function (a, b) {
+        return a.points[0].y * size.height + a.points[0].x > b.points[0].y * size.height + b.points[0].x;
+    });
+
+    var pointArray = function pointArray(name) {
+        return world.sortedObjs.filter(function (so) {
+            return so.name == name;
+        }).map(function (so) {
+            return so.points;
+        });
+    };
+
+    // Generates min, max coordinates
+    var extremes = function extremes(name) {
+        var pa = pointArray(name);
+        var extremes = [];
+        for (var i = 0; i < pa.length; i++) {
+            var p = pa[i];
+            var minx = 0,
+                miny = 0,
+                maxx = 0,
+                maxy = 0;
+            for (var j = 0; j < p.length; j++) {
+                var point = p[j];
+                if (minx == 0 || minx > parseInt(point.x)) minx = parseInt(point.x);
+                if (miny == 0 || miny > parseInt(point.y)) miny = parseInt(point.y);
+                if (maxx < parseInt(point.x)) maxx = parseInt(point.x);
+                if (maxy < parseInt(point.y)) maxy = parseInt(point.y);
+            }
+            extremes.push({ minx: minx, miny: miny, maxx: maxx, maxy: maxy });
+        }
+        return extremes;
+    };
+
+    var regionalArea = function regionalArea(points) {
+        var area = 0;
+        for (var j = 0; j < points.length - 1; j++) {
+            var pt1 = points[j];
+            var pt2 = points[j + 1];
+            var xy1 = pt1.x * pt2.y;
+            var xy2 = pt1.y * pt2.x;
+            area += Math.abs(xy1 - xy2);
+        }
+        return area / 2;
+    };
+
+    // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
+    var areas = function areas(name) {
+        var pa = pointArray(name);
+        var area = 0;
+        for (var i = 0; i < pa.length; i++) {
+            var p = pa[i];
+            area += regionalArea(p);
+        }
+        return area;
+    };
+
+    // Create country centroids
+    var centroids = function centroids(name) {
+        var pa = pointArray(name);
+        var lastArea = 0,
+            thisArea = 0;
+        var regionID = -1;
+        for (var i = 0; i < pa.length; i++) {
+            var p = pa[i];
+            thisArea = regionalArea(p);
+            if (thisArea > lastArea) {
+                regionID = i;
+                lastArea = thisArea;
+            }
+        }
+        if (regionID == -1) return;
+
+        var points = pa[regionID];
+        var totalX = 0,
+            totalY = 0;
+        points.forEach(function (pt) {
+            totalX += parseFloat(pt.x);
+            totalY += parseFloat(pt.y);
+        });
+        return { x: totalX / points.length, y: totalY / points.length };
+    };
+
+    world.countries = world.map.objectGroups[0].getObjects().reduce(function (map, obj) {
+        if (!map[obj.name]) {
+            map[obj.name] = {
+                name: obj.NAME,
+                points: pointArray(obj.name),
+                extremes: extremes(obj.name),
+                centroid: centroids(obj.name),
+                area: areas(obj.name),
+
+                affected_chance: 1.0,
+                pop_est: parseInt(obj.POP_EST),
+                pop_aware: 0,
+                pop_aware_percent: 0,
+                pop_prepared: 0,
+                pop_prepared_percent: 0,
+
+                gdp_est: parseInt(obj.GDP_MD_EST),
+                gid: obj.GID,
+                iso_a2: obj.ISO_A2,
+                iso_a3: obj.ISO_A3,
+                subregion: obj.SUBREGION,
+                economy: obj.ECONOMY,
+                income_grp: obj.INCOME_GRP,
+                income_grp_num: parseInt(obj.INCOME_GRP.charAt(0)),
+                equator_dist: obj.EQUATOR_DIST,
+                policy: 0,
+                previousLoss: gameParams.previousLoss,
+                loss: 0,
+                neighbours: [],
+                points_shared: 0,
+                points_total: 0,
+                shared_border_percentage: 0,
+                policyPoints: [],
+                policyDots: [],
+                destructionPoints: [],
+                destructionDots: [],
+                selected: false
+            };
+        }
+        return map;
+    }, {});
+
+    // Add proportion of main land mass with shared borders
+    world.countryKeys = Object.keys(world.countries);
+    var allPoints = {};
+    world.countryKeys.forEach(function (k) {
+        var c = world.countries[k];
+        c.points.forEach(function (p) {
+            var pStr = p.x + "-" + p.y;
+            if (allPoints[pStr]) {
+                allPoints[pStr].push(c.iso_a3);
+            } else {
+                allPoints[pStr] = [c.iso_a3];
+            }
+        });
+    });
+
+    Object.keys(allPoints).forEach(function (k) {
+        var countries = allPoints[k];
+        countries.forEach(function (c1) {
+            var country = world.countries[c1];
+            countries.forEach(function (c2) {
+                if (c1 != c2) {
+                    if (country.neighbours.indexOf(c2) == -1) {
+                        country.neighbours.push(c2);
+                    }
+                    country.points_shared += 1;
+                }
+            });
+            country.points_total += 1;
+        });
+    });
+    Object.keys(world.countries).forEach(function (c) {
+        var country = world.countries[c];
+        country.shared_border_percentage = country.points_shared / country.points_total;
+        if (country.shared_border_percentage > 1.0) country.shared_border_percentage = 1.0;
+    });
+
+    // Add population density
+    Object.keys(world.countries).forEach(function (c) {
+        var country = world.countries[c];
+        country.density = country.pop_est / country.area;
+    });
+    world.areaMin = 0, world.areaMax = 0, world.areaMean = 0;
+    world.areaMinCountry = "", world.areaMaxCountry = "";
+    Object.keys(world.countries).forEach(function (c) {
+        var country = world.countries[c];
+        if (world.areaMin == 0 || world.areaMin > country.area) {
+            world.areaMin = country.area;
+            world.areaMinCountry = c;
+        }
+        if (world.areaMax < country.area) {
+            world.areaMax = country.area;
+            world.areaMaxCountry = c;
+        }
+        world.areaMean += country.area;
+    });
+    world.areaMean /= Object.keys(world.countries).length;
+    world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
+    Object.keys(world.countries).forEach(function (c) {
+        var country = world.countries[c];
+        // Change the power for more or less points
+        country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
+    });
+    // Object.values(world.countries).forEach(c => c.numPoints = c.points.reduce((a, pa) => a + pa.length, 0))
+
+    // Add world populations
+    gameParams.populationWorld = Object.keys(world.countries).map(function (c) {
+        return world.countries[c].pop_est;
+    }).reduce(function (a, c) {
+        return a + parseInt(c);
+    }, 0);
+};
+
 /**
  * Initialises the game parameters.
  */
@@ -447,6 +767,7 @@ var WorldLayer = cc.Layer.extend({
 
                     postResultsToServer();
 
+                    gameParams.state = gameStates.GAME_OVER;
                     cc.director.runScene(new LoadingScene());
                 }, "RETURN TO GAME", function () {
                     gameParams.state = gameStates.STARTED;
@@ -621,6 +942,9 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.resourceScoreBackground, 100);
 
         var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
+        // antarcticaSmallSprite.setAnchorPoint(new cc.p(0., 0.));
+        // antarcticaSmallSprite.setContentSize(cc.size(250, 251));
+        // antarcticaSmallSprite.setScale(8);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -700,6 +1024,8 @@ var WorldLayer = cc.Layer.extend({
             }
         }, this.worldBackground);
 
+        initCountries();
+
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
         // for (var i = 0; i < 169; i++) {
@@ -708,9 +1034,23 @@ var WorldLayer = cc.Layer.extend({
         // Stereographic projection - 0.1
         // for (var i = 0; i < 166; i++) {
         // 50m Stereographic projection - 0.0
+
         for (var i = 0; i < 225; i++) {
-            var l = this.map.getLayer("Tile Layer " + (i + 3));
-            l.setTileGID(0, cc.p(0, 0));
+            var gid = i + 3;
+            var l = this.map.getLayer("Tile Layer " + gid);
+            var arr = Object.values(world.countries).filter(function (c) {
+                return c.gid == gid;
+            });
+            if (arr.length == 0) continue;
+            var country = arr[0];
+            var shaderNode = new ShaderOutlineEffect(l, country, false);
+            shaderNode.width = 1;
+            shaderNode.height = 1;
+            shaderNode.x = this.width;
+            shaderNode.y = this.height;
+            world.worldBackground.addChild(shaderNode, 1);
+
+            //l.setTileGID(0,cc.p(0,0))
         }
 
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
@@ -842,6 +1182,12 @@ var WorldLayer = cc.Layer.extend({
             world._emitter.y = cc.winSize.height / 2 - 50;
         };
 
+        // var shaderNode = new ShaderOutlineEffect(antarcticaSmallSprite);
+        // shaderNode.x = this.width;
+        // shaderNode.y = this.height;
+        // world.worldBackground.addChild(shaderNode, 110);
+
+
         return true;
     },
 
@@ -854,230 +1200,6 @@ var WorldLayer = cc.Layer.extend({
         var oldLayers = [];
         var lastLayerID = -1;
 
-        var collisionDetection = function collisionDetection(points, test) {
-            var crossed = false;
-            var times = 0;
-
-            // Double check the detection is within the widest bounds
-            var maxx = Math.max.apply(Math, _toConsumableArray(points.map(function (p) {
-                return p.x;
-            })));
-            for (var i = 0; i < points.length; i++) {
-                var p1 = points[i];
-                var p2 = i == points.length - 1 ? points[0] : points[i + 1];
-
-                // Make floating, and jitter to avoid boundary issues with integers.
-                var x1 = parseFloat(p1.x) + 0.001,
-                    y1 = parseFloat(p1.y) - 0.001,
-                    x2 = parseFloat(p2.x) + 0.001,
-                    y2 = parseFloat(p2.y) - 0.001;
-
-                if (y1 < test.y && y2 >= test.y || y1 > test.y && y2 <= test.y) {
-                    if ((x1 + x2) / 2.0 < test.x && test.x < maxx) {
-                        times++;
-                        crossed = !crossed;
-                    }
-                }
-            }
-            return crossed;
-        };
-
-        // Sorts objects by their relative screen position, to avoid overlapping tiles
-        var sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function (a, b) {
-            return a.points[0].y * size.height + a.points[0].x > b.points[0].y * size.height + b.points[0].x;
-        });
-
-        var pointArray = function pointArray(name) {
-            return sortedObjs.filter(function (so) {
-                return so.name == name;
-            }).map(function (so) {
-                return so.points;
-            });
-        };
-
-        // Generates min, max coordinates
-        var extremes = function extremes(name) {
-            var pa = pointArray(name);
-            var extremes = [];
-            for (var i = 0; i < pa.length; i++) {
-                var p = pa[i];
-                var minx = 0,
-                    miny = 0,
-                    maxx = 0,
-                    maxy = 0;
-                for (var j = 0; j < p.length; j++) {
-                    var point = p[j];
-                    if (minx == 0 || minx > parseInt(point.x)) minx = parseInt(point.x);
-                    if (miny == 0 || miny > parseInt(point.y)) miny = parseInt(point.y);
-                    if (maxx < parseInt(point.x)) maxx = parseInt(point.x);
-                    if (maxy < parseInt(point.y)) maxy = parseInt(point.y);
-                }
-                extremes.push({ minx: minx, miny: miny, maxx: maxx, maxy: maxy });
-            }
-            return extremes;
-        };
-
-        var regionalArea = function regionalArea(points) {
-            var area = 0;
-            for (var j = 0; j < points.length - 1; j++) {
-                var pt1 = points[j];
-                var pt2 = points[j + 1];
-                var xy1 = pt1.x * pt2.y;
-                var xy2 = pt1.y * pt2.x;
-                area += Math.abs(xy1 - xy2);
-            }
-            return area / 2;
-        };
-
-        // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
-        var areas = function areas(name) {
-            var pa = pointArray(name);
-            var area = 0;
-            for (var i = 0; i < pa.length; i++) {
-                var p = pa[i];
-                area += regionalArea(p);
-            }
-            return area;
-        };
-
-        // Create country centroids
-        var centroids = function centroids(name) {
-            var pa = pointArray(name);
-            var lastArea = 0,
-                thisArea = 0;
-            var regionID = -1;
-            for (var i = 0; i < pa.length; i++) {
-                var p = pa[i];
-                thisArea = regionalArea(p);
-                if (thisArea > lastArea) {
-                    regionID = i;
-                    lastArea = thisArea;
-                }
-            }
-            if (regionID == -1) return;
-
-            var points = pa[regionID];
-            var totalX = 0,
-                totalY = 0;
-            points.forEach(function (pt) {
-                totalX += parseFloat(pt.x);
-                totalY += parseFloat(pt.y);
-            });
-            return { x: totalX / points.length, y: totalY / points.length };
-        };
-
-        world.countries = world.map.objectGroups[0].getObjects().reduce(function (map, obj) {
-            if (!map[obj.name]) {
-                map[obj.name] = {
-                    name: obj.NAME,
-                    points: pointArray(obj.name),
-                    extremes: extremes(obj.name),
-                    centroid: centroids(obj.name),
-                    area: areas(obj.name),
-
-                    affected_chance: 1.0,
-                    pop_est: parseInt(obj.POP_EST),
-                    pop_aware: 0,
-                    pop_aware_percent: 0,
-                    pop_prepared: 0,
-                    pop_prepared_percent: 0,
-
-                    gdp_est: parseInt(obj.GDP_MD_EST),
-                    gid: obj.GID,
-                    iso_a2: obj.ISO_A2,
-                    iso_a3: obj.ISO_A3,
-                    subregion: obj.SUBREGION,
-                    economy: obj.ECONOMY,
-                    income_grp: obj.INCOME_GRP,
-                    income_grp_num: parseInt(obj.INCOME_GRP.charAt(0)),
-                    equator_dist: obj.EQUATOR_DIST,
-                    policy: 0,
-                    previousLoss: gameParams.previousLoss,
-                    loss: 0,
-                    neighbours: [],
-                    points_shared: 0,
-                    points_total: 0,
-                    shared_border_percentage: 0,
-                    policyPoints: [],
-                    policyDots: [],
-                    destructionPoints: [],
-                    destructionDots: []
-                };
-            }
-            return map;
-        }, {});
-
-        // Add proportion of main land mass with shared borders
-        var countryKeys = Object.keys(world.countries);
-        var allPoints = {};
-        countryKeys.forEach(function (k) {
-            var c = world.countries[k];
-            c.points.forEach(function (p) {
-                var pStr = p.x + "-" + p.y;
-                if (allPoints[pStr]) {
-                    allPoints[pStr].push(c.iso_a3);
-                } else {
-                    allPoints[pStr] = [c.iso_a3];
-                }
-            });
-        });
-
-        Object.keys(allPoints).forEach(function (k) {
-            var countries = allPoints[k];
-            countries.forEach(function (c1) {
-                var country = world.countries[c1];
-                countries.forEach(function (c2) {
-                    if (c1 != c2) {
-                        if (country.neighbours.indexOf(c2) == -1) {
-                            country.neighbours.push(c2);
-                        }
-                        country.points_shared += 1;
-                    }
-                });
-                country.points_total += 1;
-            });
-        });
-        Object.keys(world.countries).forEach(function (c) {
-            var country = world.countries[c];
-            country.shared_border_percentage = country.points_shared / country.points_total;
-            if (country.shared_border_percentage > 1.0) country.shared_border_percentage = 1.0;
-        });
-
-        // Add population density
-        Object.keys(world.countries).forEach(function (c) {
-            var country = world.countries[c];
-            country.density = country.pop_est / country.area;
-        });
-        world.areaMin = 0, world.areaMax = 0, world.areaMean = 0;
-        world.areaMinCountry = "", world.areaMaxCountry = "";
-        Object.keys(world.countries).forEach(function (c) {
-            var country = world.countries[c];
-            if (world.areaMin == 0 || world.areaMin > country.area) {
-                world.areaMin = country.area;
-                world.areaMinCountry = c;
-            }
-            if (world.areaMax < country.area) {
-                world.areaMax = country.area;
-                world.areaMaxCountry = c;
-            }
-            world.areaMean += country.area;
-        });
-        world.areaMean /= Object.keys(world.countries).length;
-        world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
-        Object.keys(world.countries).forEach(function (c) {
-            var country = world.countries[c];
-            // Change the power for more or less points
-            country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
-        });
-        // Object.values(world.countries).forEach(c => c.numPoints = c.points.reduce((a, pa) => a + pa.length, 0))
-
-        // Add world populations
-        gameParams.populationWorld = Object.keys(world.countries).map(function (c) {
-            return world.countries[c].pop_est;
-        }).reduce(function (a, c) {
-            return a + parseInt(c);
-        }, 0);
-
         /*
         for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
             var poly = this.map.objectGroups[0].getObjects()[j];
@@ -1088,7 +1210,7 @@ var WorldLayer = cc.Layer.extend({
                     var tx = k * mw + mw / 2 - poly.x;
                     var ty = (l * mh + mh / 2) - (ch - poly.y);
                     var tp = new cc.p(tx, ty);
-                     var cd = collisionDetection(poly.points, tp);
+                     var cd = world.collisionDetection(poly.points, tp);
                     if (cd) { 
                         if (typeof(mappedTiles[poly]) === "undefined") {
                             mappedTiles[poly] = [];
@@ -1189,7 +1311,7 @@ var WorldLayer = cc.Layer.extend({
                 testx = _minx + Math.floor(Math.random() * (_maxx - _minx));
                 testy = _miny + Math.floor(Math.random() * (_maxy - _miny));
 
-                cd = collisionDetection(points, cc.p(testx, testy));
+                cd = world.collisionDetection(points, cc.p(testx, testy));
                 if (cd) break;
             } while (!cd && k++ < maxTries);
             if (cd) {
@@ -1270,8 +1392,8 @@ var WorldLayer = cc.Layer.extend({
                 var country = world.countries[Object.keys(world.countries)[i]];
                 var existingConvincedPercentage = country.pop_prepared_percent;
                 country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
-                world.generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
-                // world.generatePointsForCountry(country, false, 0, country.loss);
+                // world.generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
+                // // world.generatePointsForCountry(country, false, 0, country.loss);
             }
         };
         world.generatePoints();
@@ -2049,7 +2171,7 @@ var WorldLayer = cc.Layer.extend({
                         if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
 
                             country.loss = loss;
-                            world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
+                            // world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
                             country.previousLoss = country.loss;
                         }
 
@@ -2070,7 +2192,7 @@ var WorldLayer = cc.Layer.extend({
                             var imin = existingConvincedPercentage > 0.5 ? parseInt(existingConvincedPercentage) : 0;
                             var imax = country.pop_prepared_percent > 0.5 ? parseInt(country.pop_prepared_percent) : 0;
 
-                            world.generatePointsForCountry(country, true, imin, imax);
+                            // world.generatePointsForCountry(country, true, imin, imax);
                         }
                         totalPolicy += country.policy;
                         totalLoss += country.loss;
@@ -2079,7 +2201,7 @@ var WorldLayer = cc.Layer.extend({
                     totalPolicy /= Object.keys(world.countries).length;
                     gameParams.policy = totalPolicy;
 
-                    totalLoss /= countryKeys.length;
+                    totalLoss /= Object.keys(world.countries).length;
                     gameParams.previousLoss = totalLoss;
                     gameParams.totalLoss = totalLoss;
 
@@ -2221,10 +2343,10 @@ var WorldLayer = cc.Layer.extend({
             if (typeof layer._texGrids !== "undefined" && typeof layer._texGrids[gid] === "undefined") return;
 
             var start = 0,
-                end = sortedObjs.length;
+                end = world.sortedObjs.length;
             if (lastLayerID > -1) {
                 start = start < 0 ? 0 : start;
-                end = end > sortedObjs.length ? sortedObjs.length : end;
+                end = end > world.sortedObjs.length ? world.sortedObjs.length : end;
             };
 
             var ed = function ed(pt1, pt2) {
@@ -2233,9 +2355,9 @@ var WorldLayer = cc.Layer.extend({
             var minED = -1,
                 selectedCountry = null;
             for (var j = start; j < end; j++) {
-                var poly = sortedObjs[j];
+                var poly = world.sortedObjs[j];
                 var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
-                var cd = collisionDetection(poly.points, mousePoint);
+                var cd = world.collisionDetection(poly.points, mousePoint);
                 if (cd) {
                     lastLayerID = j;
                     var countryObj = world.countries[poly.name];
@@ -2243,6 +2365,7 @@ var WorldLayer = cc.Layer.extend({
                     if (minED === -1 || ced < minED) {
                         minED = ced;
                         selectedCountry = poly.name;
+                        selectedCountry.selected = true;
                     }
                 }
             }
@@ -2250,13 +2373,16 @@ var WorldLayer = cc.Layer.extend({
             // Pick the match with the closest centroid ID
             var currentLayer = null;
             if (selectedCountry != null) {
+                if (gameParams.currentCountry != null) world.countries[gameParams.currentCountry].selected = false;
                 gameParams.currentCountry = selectedCountry;
+                if (gameParams.currentCountry != null) world.countries[gameParams.currentCountry].selected = true;
                 currentCountry = selectedCountry;
                 var gid = world.countries[selectedCountry].gid;
                 currentLayer = target.getLayer("Tile Layer " + gid);
-                currentLayer.setTileGID(gid, cc.p(0, 0));
+                // currentLayer.setTileGID((gid),cc.p(0, 0));
                 printCountryStats();
             } else {
+                if (gameParams.currentCountry != null) world.countries[gameParams.currentCountry].selected = false;
                 gameParams.currentCountry = null;
                 printWorldStats();
             }
@@ -2271,7 +2397,9 @@ var WorldLayer = cc.Layer.extend({
                 //     // Do nothing
                 // }
                 // else 
-                if (currentLayer === null || layer != currentLayer) layer.setTileGID(0, cc.p(0, 0));
+
+                // if ((currentLayer === null || layer != currentLayer))
+                //     layer.setTileGID((0),cc.p(0,0));
             });
             oldLayers = [];
             if (currentLayer != null) oldLayers.push(currentLayer);
