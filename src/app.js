@@ -90,13 +90,14 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
         if (gameParams.state != gameStates.STARTED)
             return;
 
-        if (this.timeCounter > 0.2) {
-            this.timeCounter = 0;
-            return;
-        }
-        this.timeCounter += dt;
-        if (this.country.iso_a3 == "USA")
-            console.log(Math.abs(this.node.getRotation() / 500), this.country.loss, dt);
+        // if (this.timeCounter > 0.2) {
+        //     this.timeCounter = 0;
+        //     return;
+        // }
+        // this.timeCounter += dt;
+
+        // if (this.country.iso_a3 == "USA")
+        //     console.log(Math.abs(this.node.getRotation() / 500), this.country.loss, dt);
 
         var selected = this.country.selected ? 1.0 : 0.0;
         if( 'opengl' in cc.sys.capabilities ) {
