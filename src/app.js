@@ -1742,13 +1742,12 @@ var WorldLayer = cc.Layer.extend({
             // Evaluates loss
             world.evaluateLoss = function(country) {
 
-
                 var lossCurrent = country.loss;
                 var lossNew = country.loss;
 
                 // Add random amount to default rate of loss
                 var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
-                var rateOfLossMonthly = rateOfLoss;// / MONTH_INTERVAL;
+                var rateOfLossMonthly = rateOfLoss;
                 var rateOfLossFactor = 1 + rateOfLossMonthly;
 
                 

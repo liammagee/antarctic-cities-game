@@ -153,8 +153,9 @@ function writeProj(proj, file) {
       col = 255;
     context.fillStyle = '#' + col.toString(16)  + 'AA00';
     console.log(props.MAPCOLOR7 +":"+ col +":"+context.fillStyle);
+    console.log(path.bounds(tracts.features[index]))
     context.beginPath();
-    path(tracts.features[index]);
+    ///path(tracts.features[index]);
     context.fill();
     context.stroke();
     context.closePath();
@@ -201,6 +202,7 @@ function writeProj(proj, file) {
   // ADD COUNTRIES
   var countries = [], country_files = [], frags = [], iso_a3s = [];
   var writing = false;
+
   var featureGenerator = function(i, gid) {
 
     var props = tracts.features[i].properties;
@@ -225,10 +227,9 @@ function writeProj(proj, file) {
       return gid;
 
     if (!xmlOnly) {
-      canvas = new Canvas(width, height);
-      var context = canvas.getContext('2d');
-      path = d3.geoPath(proj, context);
+      //path = d3.geoPath(proj, context);
 
+      // bounds = path.bounds(tracts.features[i]),
       bounds = path.bounds(topojson.mesh(data)),
             dx = bounds[1][0] - bounds[0][0],
             dy = bounds[1][1] - bounds[0][1],
@@ -240,6 +241,9 @@ function writeProj(proj, file) {
             translate = [-bounds[0][0], -bounds[0][1]];
             // translate = [width / 2 - scale * x, height / 2 - scale * y];
 
+      canvas = new Canvas(width, height);
+      var context = canvas.getContext('2d');
+
       context.scale(scalex, scaley);
       context.translate(translate[0], translate[1]);
 
@@ -250,10 +254,13 @@ function writeProj(proj, file) {
       context.beginPath();
       path(tracts.features[i]);
       context.fill();
+      context.closePath();
+      
 
-      context.beginPath();
-      path(tracts.features[i]);
-      context.stroke();
+      // Toggle off white border
+      // context.beginPath();
+      // path(tracts.features[i]);
+      // context.stroke();
 
 
       var out2 = fs.createWriteStream('./countries/' + country_file);
