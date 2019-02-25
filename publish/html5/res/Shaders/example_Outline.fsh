@@ -99,12 +99,12 @@ void main()
     
     if (u_selected == 0.0) {
         accum += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-        accum *= u_fill1 / 100.;
+        accum *= 0.25 + u_fill1 / 100. * 0.5;
         accum.rgb = u_outlineColor1 * accum.a;
         accum.a *= u_fill1 / 100.;
         accum *= accum * vec4(vec3(rnd1),1.0);
         accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-        accum2 *= u_fill2 / 100.;
+        accum2 *= 0.25 + u_fill2 / 100. * 0.5;
         accum2.rgb = u_outlineColor2 * accum2.a;
         accum2.a *= u_fill2 / 100.;
         accum2 *= accum2 * vec4(vec3(rnd2),1.0);

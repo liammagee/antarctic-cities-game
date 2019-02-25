@@ -257,7 +257,7 @@ var initCountries = function() {
                     equator_dist: obj.EQUATOR_DIST,
                     policy: 0,
                     previousLoss: gameParams.previousLoss,
-                    loss: 0,
+                    loss: gameParams.previousLoss,
                     neighbours: [],
                     points_shared: 0,
                     points_total: 0,
@@ -1726,37 +1726,62 @@ var WorldLayer = cc.Layer.extend({
                 gameParams.lastCrisis = gameParams.counter;
             };
 
+            world.sigmoidalPercent = function(percent) {
+
+                let inflectionPoint = 10;
+                // Some value between -1.0 and 1.0
+                let normedPercent = ( percent - inflectionPoint ) / inflectionPoint;
+                let normedPercentWithFactor = normedPercent * 1.0;
+                // Some value between e (2.78...) and 1 / e (0.367) 
+                let sigmoidalPercent = 1 / Math.pow(Math.E, normedPercentWithFactor);
+
+                return sigmoidalPercent;
+
+            };
+
             // Evaluates loss
             world.evaluateLoss = function(country) {
-                var loss = country.previousLoss;
 
+
+                var lossCurrent = country.loss;
+                var lossNew = country.loss;
+
+                // Add random amount to default rate of loss
                 var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
+                var rateOfLossMonthly = rateOfLoss;// / MONTH_INTERVAL;
+                var rateOfLossFactor = 1 + rateOfLossMonthly;
+
                 
                 // Calculate loss
-                loss = (1 + loss) * (1 + rateOfLoss / MONTH_INTERVAL) - 1;
+                // lossNew = (1 + lossCurrent) * (1 + rateOfLoss / MONTH_INTERVAL) - 1;
 
                 // Weaken rate of loss by population prepared for good policy
-                var preparednessFactor = 0.1 * country.pop_prepared_percent / 100.0;
-                loss /= (1 + preparednessFactor);
+                var preparednessFactor = 1 + 0.1 * country.pop_prepared_percent / 100.0;
+                rateOfLossFactor /= preparednessFactor;
+                //lossNew /= (1 + preparednessFactor);
 
+                //var crisis = CRISES[gameParams.crises[0].crisis];
                 gameParams.crises.forEach(crisisInCountry => {
                     var crisis = CRISES[crisisInCountry.crisis];
-                    var country = world.countries[crisisInCountry.country];
                     // Add effects of country / global loss ratio to crisis effect
-                    loss *= (1 + crisis.effect_on_environmental_loss) * (1 / (country.loss / gameParams.totalLoss));
+                    // Take the square root of the ratio of country to world loss, and multiply this by the crisis effect
+                    rateOfLossFactor *= (1 + crisis.effect_on_environmental_loss * (Math.pow(lossCurrent / gameParams.totalLoss, 0.5)));
                     
                 });
 
-                if (loss < gameParams.minimum_loss_increase) {
-                    loss = gameParams.minimum_loss_increase;
-                }
 
-                if (loss > 100)
-                    loss = 100;
-                if (loss < 0)
-                    loss = 0;
+                // Create a 
+                var sigmoidalLossFactor = ( 1 + (rateOfLossFactor - 1) * world.sigmoidalPercent(lossCurrent) );
+                var lossNew = lossCurrent + (sigmoidalLossFactor - 1);
 
-                return loss;
+
+                if (lossNew > 100)
+                    lossNew = 100;
+                if (lossNew < 0)
+                    lossNew = 0;
+
+                return lossNew;
+
             };
 
             /**
@@ -2241,14 +2266,23 @@ var WorldLayer = cc.Layer.extend({
 
                         var country = world.countries[key];
                         var loss = world.evaluateLoss(country);
-
-                        if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
-
-                            country.loss = loss;
-                            // world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
-                            country.previousLoss = country.loss;
-
+                        if (country.iso_a3 == "USA") {
+                            console.log(country.previousLoss, loss)
                         }
+                            
+
+                        if (loss >= 0.1) {
+                            country.previousLoss = country.loss;
+                            country.loss = loss;
+                        }
+
+                        // if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
+
+                        //     country.loss = loss;
+                        //     // world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
+                        //     country.previousLoss = country.loss;
+
+                        // }
 
                         if (country.affected_chance) {
 
