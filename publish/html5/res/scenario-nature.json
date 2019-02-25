@@ -60,8 +60,8 @@
     		"mutation_likelihood": 0.5
     	},
     	"advanced_stats": {
-    		"loss_increase_speed": 0.01, 
-    		"minimum_loss_increase": 0.001, 
+    		"loss_increase_speed": 0.02, 
+    		"minimum_loss_increase": 0.002, 
     		"infectivity_increase_speed": 1.0, 
     		"minimum_infectivity_increase": 0.1, 
     		"severity_increase_speed": 1.0, 
