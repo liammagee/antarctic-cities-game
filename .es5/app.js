@@ -1686,7 +1686,7 @@ var WorldLayer = cc.Layer.extend({
 
             world.sigmoidalPercent = function (percent) {
 
-                var inflectionPoint = 10;
+                var inflectionPoint = 40;
                 // Some value between -1.0 and 1.0
                 var normedPercent = (percent - inflectionPoint) / inflectionPoint;
                 var normedPercentWithFactor = normedPercent * 1.0;
