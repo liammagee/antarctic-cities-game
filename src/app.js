@@ -6,8 +6,8 @@ var CRISIS_CHANCE = 0.3;
 var FONT_FACE_TITLE = "ArvoFont";
 var FONT_FACE_BODY = "JosefinSansFont";
 // var FONT_FACE_BODY = "Trebuchet MS";
-var RESOURCE_SIZE_W = 32; 
-var RESOURCE_SIZE_H = 54; 
+var RESOURCE_SIZE_W = 64; 
+var RESOURCE_SIZE_H = 72; 
 var RESOURCE_DURATION = 300;
 var TAG_SPRITE_BATCH_NODE = 1;
 
