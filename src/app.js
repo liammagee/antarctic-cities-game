@@ -1726,9 +1726,10 @@ var WorldLayer = cc.Layer.extend({
                 gameParams.lastCrisis = gameParams.counter;
             };
 
-            world.sigmoidalPercent = function(percent) {
+            world.sigmoidalPercent = function(percent, inflectionPoint) {
 
-                let inflectionPoint = 40;
+                if (typeof(inflectionPoint) === "undefined")
+                    inflectionPoint = 50;
                 // Some value between -1.0 and 1.0
                 let normedPercent = ( percent - inflectionPoint ) / inflectionPoint;
                 let normedPercentWithFactor = normedPercent * 1.0;
@@ -2071,7 +2072,10 @@ var WorldLayer = cc.Layer.extend({
 
                 }
                 
-                return severityEffect;
+                // Add sigmoidal effect
+                let sigmoidalInfluence = world.sigmoidalPercent(country.pop_prepared_percent, 5) + 0.5;
+
+                return severityEffect * sigmoidalInfluence;
 
             };
 
