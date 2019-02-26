@@ -2501,23 +2501,26 @@ var WorldLayer = cc.Layer.extend({
         };
 
         var nestedButtons = null;
+        var keys = Object.keys(world.countries);
+
+        var antCountries = ["NZL", "AUS", "ZAF", "ARG", "CHL"];
+        var startCountry = antCountries[Math.floor(Math.random() * antCountries.length)];
         var buttons = showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, "Start Tutorial", function (that) {
             gameParams.tutorialMode = true;
-            var keys = Object.keys(world.countries);
-            gameParams.startCountry = "UGA";
+            gameParams.startCountry = startCountry;
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
-            gameParams.statsCountry = gameParams.currentCountry;
-            gameParams.currentCountry = gameParams.startCountry;
+            gameParams.statsCountry = startCountry;
+            gameParams.currentCountry = startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
             nestedButtons = showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
             });
         }, "Skip Tutorial", function (that) {
             gameParams.tutorialMode = false;
-            gameParams.startCountry = "UGA";
+            gameParams.startCountry = startCountry;
             // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
-            gameParams.statsCountry = gameParams.currentCountry;
-            gameParams.currentCountry = gameParams.startCountry;
+            gameParams.statsCountry = startCountry;
+            gameParams.currentCountry = startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
             nestedButtons = showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
