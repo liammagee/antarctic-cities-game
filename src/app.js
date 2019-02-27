@@ -2772,7 +2772,7 @@ var LoadingScene = cc.Scene.extend({
         var lp0 = new ccui.RelativeLayoutParameter();
         lp0.setMargin(margin);
         lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-        var lblWelcome = new ccui.Text("Welcome to the Antarctica Futures game!", FONT_FACE_BODY, 36);
+        var lblWelcome = new ccui.Text("Welcome to Antarctica 2048!", FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setLayoutParameter(lp0);
         layout.addChild(lblWelcome);
