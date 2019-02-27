@@ -1054,13 +1054,12 @@ var WorldLayer = cc.Layer.extend({
 
                 var sprite = new cc.Sprite(l.tileset.sourceImage);
 
-                sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - Y_OFFSET - country.offsetY - sprite.height / 2.)));
-                sprite.setAnchorPoint(cc.p(0., 0.5));
+                sprite.setPosition(cc.p(parseInt(country.offsetX) + 2, 1 + parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
+                sprite.setAnchorPoint(cc.p(0., 0.));
                 sprite.setScale(0.9);
                 world.worldBackground.addChild(sprite, 2);
 
                 world.spriteCountries[country.iso_a3] = sprite;
-                // country.selected = true;
 
                 var shaderNode = new ShaderOutlineEffect(sprite, country, false);
                 shaderNode.width = 1;

@@ -256,8 +256,12 @@ function writeProj(proj, file) {
       // var canvasCountry = new Canvas(width / 2, height / 2);
       var contextCountry = canvasCountry.getContext('2d');
       var pathCountry = d3.geoPath(proj, contextCountry);
+      // contextCountry.clearRect();
+      // contextCountry.fillStyle = '#000';
+      // contextCountry.fillRect(0, 0, width, height);
+
       console.log(canvasCountry.width, canvasCountry.height)
-      console.log(-translate[0], -translate[1])
+      console.log(tracts.features[i])
             
       contextCountry.scale(scalex_country, scaley_country);
       contextCountry.translate(translate_country[0], translate_country[1]);
@@ -331,7 +335,9 @@ function writeProj(proj, file) {
       // if (country.NAME == "Russia")
       //   console.log(s[0])
       return s;
-    }).filter(s => { return s.length > 0; }).sort((a, b) => { return b.length - a.length; }).filter(s => { return s.length > 3; });
+    }).filter(s => { return s.length > 0; }).sort((a, b) => { return b.length - a.length; });
+    // Filter is useful, but creates problems determining min/max coords
+    //.filter(s => { return s.length > 3; });
 
     // Calculate the approximate distance of the country's largest land mass from the equator
     var orig_coords = tracts_sim.features[i].geometry.coordinates.sort((a, b) => { return b[0].length - a[0].length;})
@@ -341,7 +347,7 @@ function writeProj(proj, file) {
       mainland_coords = orig_coords[0][0];
     var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
     var meanLongitudes = sumOfLongitudes / mainland_coords.length;
-    var minX = 0, minY = 0;
+    var minX = 0, maxY = 0;
     coords.forEach(s => {
       s.forEach(s2 => {
         var s3 = s2.split(',');
@@ -350,12 +356,12 @@ function writeProj(proj, file) {
         if (testX < minX || minX == 0) {
           minX = testX;
         }
-        if (testY < minY || minY == 0) {
-          minY = testY;
+        if (testY > maxY || maxY == 0) {
+          maxY = testY;
         }
       })
     });
-    console.log("mins:", minX, minY)
+    console.log("mins:", minX, maxY)
     // For each element in the array, i.e. land mass, construct a TMX object
     coords.forEach(s => {
       s = s.join(' ');
@@ -381,7 +387,7 @@ function writeProj(proj, file) {
         tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"EQUATOR_DIST\" value=\"" + meanLongitudes + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"OFFSET_X\" value=\"" + minX + "\"/>\n";
-        tmx_frag += "\t\t\t<property name=\"OFFSET_Y\" value=\"" + minY + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"OFFSET_Y\" value=\"" + maxY + "\"/>\n";
       }
       tmx_frag += "\t\t</properties>\n";
       tmx_frag += '\t</object>\n';
@@ -398,7 +404,7 @@ function writeProj(proj, file) {
   var counter = 0;
   tracts.features.forEach((feature, index) => { 
     console.log(counter);
-    // if (index == 0)
+    // if (index == 225)
       counter = featureGenerator(index, counter);
   } );
 
