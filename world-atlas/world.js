@@ -25,6 +25,9 @@ if (typeof(args[1]) !== 'undefined') {
   jsonFile = args[1];
   console.log(jsonFile);
 }
+
+// Colours
+var COUNTRY_GREY = '#D8E1E3';
   
 
 
@@ -139,12 +142,13 @@ function writeProj(proj, file) {
 
   context.strokeStyle = '#fff';
   context.lineWidth = 2.0;
-  context.fillStyle = '#000';
+  context.fillStyle = COUNTRY_GREY;
 
   context.beginPath();
   path(topojson.mesh(data));
   context.stroke();
 
+/*
   tracts.features.forEach((feature, index) => { 
 
     var props = tracts.features[index].properties;
@@ -160,6 +164,7 @@ function writeProj(proj, file) {
     context.stroke();
     context.closePath();
   } );
+  */
 
   context.beginPath();
   path(tracts);
@@ -229,41 +234,58 @@ function writeProj(proj, file) {
       var context = canvas.getContext('2d');
       path = d3.geoPath(proj, context);
 
-      bounds = path.bounds(topojson.mesh(data)),
-            dx = bounds[1][0] - bounds[0][0],
-            dy = bounds[1][1] - bounds[0][1],
-            x = (bounds[0][0] + bounds[1][0]) / 2,
-            y = (bounds[0][1] + bounds[1][1]) / 2,
+      var bounds_world = path.bounds(topojson.mesh(data)),
+            dx = bounds_world[1][0] - bounds_world[0][0],
+            dy = bounds_world[1][1] - bounds_world[0][1],
+            x = (bounds_world[0][0] + bounds_world[1][0]) / 2,
+            y = (bounds_world[0][1] + bounds_world[1][1]) / 2,
             scale = .9 / Math.max(dx / width, dy / height),
             scalex = width / dx, 
             scaley = height  / dy,
-            translate = [-bounds[0][0], -bounds[0][1]];
-      context.scale(scalex, scaley);
-      context.translate(translate[0], translate[1]);
+            translate = [-bounds_world[0][0], -bounds_world[0][1]];
+
+      var bounds_country = path.bounds(tracts.features[i]),
+            dx_country = bounds_country[1][0] - bounds_country[0][0],
+            dy_country = bounds_country[1][1] - bounds_country[0][1],
+            scale = .9 / Math.max(dy_country / width, dy_country / height),
+            scalex_country = 1.0,
+            scaley_country = height / width,
+            translate_country = [-bounds_country[0][0], -bounds_country[0][1]];
+
+      var canvasCountry = new Canvas(parseInt(dx_country * scalex_country), parseInt(dy_country * scaley_country));
+      // var canvasCountry = new Canvas(width / 2, height / 2);
+      var contextCountry = canvasCountry.getContext('2d');
+      var pathCountry = d3.geoPath(proj, contextCountry);
+      console.log(canvasCountry.width, canvasCountry.height)
+      console.log(-translate[0], -translate[1])
+            
+      contextCountry.scale(scalex_country, scaley_country);
+      contextCountry.translate(translate_country[0], translate_country[1]);
+      // console.log(translate)
 
       //  Draw smaller images
       // canvas = new Canvas(dx, dy);
       // context = canvas.getContext('2d');
 
-      context.strokeStyle = '#f00';
-      context.lineWidth = 3.0;
+      contextCountry.strokeStyle = '#f00';
+      contextCountry.lineWidth = 3.0;
       
-      // context.fillStyle = '#000';
-      context.fillStyle = '#D8E1E3';
+      // contextCountry.fillStyle = '#F00';
+      contextCountry.fillStyle = COUNTRY_GREY;
 
-      context.beginPath();
-      path(tracts.features[i]);
-      context.fill();
+      contextCountry.beginPath();
+      pathCountry(tracts.features[i]);
+      contextCountry.fill();
       
 
       // Toggle off border
-      // context.beginPath();
+      // contextCountry.beginPath();
       // path(tracts.features[i]);
-      // context.stroke();
+      // contextCountry.stroke();
 
 
       var out2 = fs.createWriteStream('./countries/' + country_file);
-      var stream2 = canvas.pngStream();
+      var stream2 = canvasCountry.pngStream();
       stream2.on('data', function(chunk){
         out2.write(chunk);
       });
@@ -319,7 +341,21 @@ function writeProj(proj, file) {
       mainland_coords = orig_coords[0][0];
     var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
     var meanLongitudes = sumOfLongitudes / mainland_coords.length;
-
+    var minX = 0, minY = 0;
+    coords.forEach(s => {
+      s.forEach(s2 => {
+        var s3 = s2.split(',');
+        var testX = parseInt(s3[0]);
+        var testY = parseInt(s3[1]);
+        if (testX < minX || minX == 0) {
+          minX = testX;
+        }
+        if (testY < minY || minY == 0) {
+          minY = testY;
+        }
+      })
+    });
+    console.log("mins:", minX, minY)
     // For each element in the array, i.e. land mass, construct a TMX object
     coords.forEach(s => {
       s = s.join(' ');
@@ -344,6 +380,8 @@ function writeProj(proj, file) {
         tmx_frag += "\t\t\t<property name=\"GDP_MD_EST\" value=\"" + country.GDP_MD_EST + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"ISO_A3\" value=\"" + country.iso_a3 + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"EQUATOR_DIST\" value=\"" + meanLongitudes + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"OFFSET_X\" value=\"" + minX + "\"/>\n";
+        tmx_frag += "\t\t\t<property name=\"OFFSET_Y\" value=\"" + minY + "\"/>\n";
       }
       tmx_frag += "\t\t</properties>\n";
       tmx_frag += '\t</object>\n';
@@ -361,7 +399,7 @@ function writeProj(proj, file) {
   tracts.features.forEach((feature, index) => { 
     console.log(counter);
     // if (index == 0)
-    counter = featureGenerator(index, counter);
+      counter = featureGenerator(index, counter);
   } );
 
   obj_id = 1;

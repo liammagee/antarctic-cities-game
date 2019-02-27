@@ -1830,6 +1830,8 @@
 			<property name="GDP_MD_EST" value="28330"/>
 			<property name="ISO_A3" value="ZWE"/>
 			<property name="EQUATOR_DIST" value="-19.147785500919117"/>
+			<property name="OFFSET_X" value="738"/>
+			<property name="OFFSET_Y" value="289"/>
 		</properties>
 	</object>
 
@@ -1846,6 +1848,8 @@
 			<property name="GDP_MD_EST" value="65170"/>
 			<property name="ISO_A3" value="ZMB"/>
 			<property name="EQUATOR_DIST" value="-12.52083626906498"/>
+			<property name="OFFSET_X" value="732"/>
+			<property name="OFFSET_Y" value="277"/>
 		</properties>
 	</object>
 
@@ -1862,6 +1866,8 @@
 			<property name="GDP_MD_EST" value="73450"/>
 			<property name="ISO_A3" value="YEM"/>
 			<property name="EQUATOR_DIST" value="16.079427259290544"/>
+			<property name="OFFSET_X" value="866"/>
+			<property name="OFFSET_Y" value="246"/>
 		</properties>
 	</object>
 	<object id="231" name="YEM" x="0" y="0" visible="0">
@@ -1883,6 +1889,8 @@
 			<property name="GDP_MD_EST" value="594900"/>
 			<property name="ISO_A3" value="VNM"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="927"/>
+			<property name="OFFSET_Y" value="413"/>
 		</properties>
 	</object>
 
@@ -1899,6 +1907,8 @@
 			<property name="GDP_MD_EST" value="468600"/>
 			<property name="ISO_A3" value="VEN"/>
 			<property name="EQUATOR_DIST" value="7.1293479742005745"/>
+			<property name="OFFSET_X" value="395"/>
+			<property name="OFFSET_Y" value="299"/>
 		</properties>
 	</object>
 	<object id="233" name="VEN" x="0" y="0" visible="0">
@@ -1921,6 +1931,8 @@
 			<property name="GDP_MD_EST" value="723"/>
 			<property name="ISO_A3" value="VUT"/>
 			<property name="EQUATOR_DIST" value="-15.149686826508624"/>
+			<property name="OFFSET_X" value="701"/>
+			<property name="OFFSET_Y" value="468"/>
 		</properties>
 	</object>
 	<object id="235" name="VUT" x="0" y="0" visible="0">
@@ -1952,6 +1964,8 @@
 			<property name="GDP_MD_EST" value="202300"/>
 			<property name="ISO_A3" value="UZB"/>
 			<property name="EQUATOR_DIST" value="41.25969238281245"/>
+			<property name="OFFSET_X" value="1092"/>
+			<property name="OFFSET_Y" value="200"/>
 		</properties>
 	</object>
 	<object id="236" name="UZB" x="0" y="0" visible="0">
@@ -1973,6 +1987,8 @@
 			<property name="GDP_MD_EST" value="73250"/>
 			<property name="ISO_A3" value="URY"/>
 			<property name="EQUATOR_DIST" value="-32.29726084462414"/>
+			<property name="OFFSET_X" value="553"/>
+			<property name="OFFSET_Y" value="332"/>
 		</properties>
 	</object>
 
@@ -1991,6 +2007,8 @@
 			<property name="GDP_MD_EST" value="682"/>
 			<property name="ISO_A3" value="MNP"/>
 			<property name="EQUATOR_DIST" value="15.174697265624996"/>
+			<property name="OFFSET_X" value="836"/>
+			<property name="OFFSET_Y" value="510"/>
 		</properties>
 	</object>
 	<object id="240" name="MNP" x="0" y="0" visible="0">
@@ -2013,6 +2031,8 @@
 			<property name="GDP_MD_EST" value="4882"/>
 			<property name="ISO_A3" value="GUM"/>
 			<property name="EQUATOR_DIST" value="13.429471842447915"/>
+			<property name="OFFSET_X" value="836"/>
+			<property name="OFFSET_Y" value="508"/>
 		</properties>
 	</object>
 
@@ -2030,6 +2050,8 @@
 			<property name="GDP_MD_EST" value="131000"/>
 			<property name="ISO_A3" value="PRI"/>
 			<property name="EQUATOR_DIST" value="18.22306235708841"/>
+			<property name="OFFSET_X" value="369"/>
+			<property name="OFFSET_Y" value="300"/>
 		</properties>
 	</object>
 	<object id="244" name="PRI" x="0" y="0" visible="0">
@@ -2051,6 +2073,8 @@
 			<property name="GDP_MD_EST" value="18560000"/>
 			<property name="ISO_A3" value="USA"/>
 			<property name="EQUATOR_DIST" value="37.96611541594696"/>
+			<property name="OFFSET_X" value="41"/>
+			<property name="OFFSET_Y" value="250"/>
 		</properties>
 	</object>
 	<object id="245" name="USA" x="0" y="0" visible="0">
@@ -2232,6 +2256,8 @@
 			<property name="GDP_MD_EST" value="0.3"/>
 			<property name="ISO_A3" value="SGS"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="620"/>
+			<property name="OFFSET_Y" value="341"/>
 		</properties>
 	</object>
 
@@ -2252,6 +2278,8 @@
 			<property name="GDP_MD_EST" value="281.8"/>
 			<property name="ISO_A3" value="FLK"/>
 			<property name="EQUATOR_DIST" value="-51.703256330818945"/>
+			<property name="OFFSET_X" value="595"/>
+			<property name="OFFSET_Y" value="350"/>
 		</properties>
 	</object>
 	<object id="251" name="FLK" x="0" y="0" visible="0">
@@ -2273,6 +2301,8 @@
 			<property name="GDP_MD_EST" value="2507"/>
 			<property name="ISO_A3" value="CYM"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="342"/>
+			<property name="OFFSET_Y" value="346"/>
 		</properties>
 	</object>
 
@@ -2291,6 +2321,8 @@
 			<property name="GDP_MD_EST" value="632"/>
 			<property name="ISO_A3" value="TCA"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="339"/>
+			<property name="OFFSET_Y" value="316"/>
 		</properties>
 	</object>
 
@@ -2308,6 +2340,8 @@
 			<property name="GDP_MD_EST" value="5080"/>
 			<property name="ISO_A3" value="JEY"/>
 			<property name="EQUATOR_DIST" value="49.20955946180555"/>
+			<property name="OFFSET_X" value="642"/>
+			<property name="OFFSET_Y" value="27"/>
 		</properties>
 	</object>
 
@@ -2325,6 +2359,8 @@
 			<property name="GDP_MD_EST" value="2788000"/>
 			<property name="ISO_A3" value="GBR"/>
 			<property name="EQUATOR_DIST" value="54.2254325326033"/>
+			<property name="OFFSET_X" value="603"/>
+			<property name="OFFSET_Y" value="12"/>
 		</properties>
 	</object>
 	<object id="260" name="GBR" x="0" y="0" visible="0">
@@ -2346,6 +2382,8 @@
 			<property name="GDP_MD_EST" value="667200"/>
 			<property name="ISO_A3" value="ARE"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="945"/>
+			<property name="OFFSET_Y" value="250"/>
 		</properties>
 	</object>
 
@@ -2362,6 +2400,8 @@
 			<property name="GDP_MD_EST" value="352600"/>
 			<property name="ISO_A3" value="UKR"/>
 			<property name="EQUATOR_DIST" value="48.76024316936386"/>
+			<property name="OFFSET_X" value="897"/>
+			<property name="OFFSET_Y" value="34"/>
 		</properties>
 	</object>
 	<object id="262" name="UKR" x="0" y="0" visible="0">
@@ -2383,6 +2423,8 @@
 			<property name="GDP_MD_EST" value="84930"/>
 			<property name="ISO_A3" value="UGA"/>
 			<property name="EQUATOR_DIST" value="1.384924316406244"/>
+			<property name="OFFSET_X" value="778"/>
+			<property name="OFFSET_Y" value="256"/>
 		</properties>
 	</object>
 
@@ -2399,6 +2441,8 @@
 			<property name="GDP_MD_EST" value="94720"/>
 			<property name="ISO_A3" value="TKM"/>
 			<property name="EQUATOR_DIST" value="39.525211971507346"/>
+			<property name="OFFSET_X" value="1046"/>
+			<property name="OFFSET_Y" value="199"/>
 		</properties>
 	</object>
 	<object id="264" name="TKM" x="0" y="0" visible="0">
@@ -2420,6 +2464,8 @@
 			<property name="GDP_MD_EST" value="1670000"/>
 			<property name="ISO_A3" value="TUR"/>
 			<property name="EQUATOR_DIST" value="38.64412674863111"/>
+			<property name="OFFSET_X" value="879"/>
+			<property name="OFFSET_Y" value="115"/>
 		</properties>
 	</object>
 	<object id="265" name="TUR" x="0" y="0" visible="0">
@@ -2446,6 +2492,8 @@
 			<property name="GDP_MD_EST" value="130800"/>
 			<property name="ISO_A3" value="TUN"/>
 			<property name="EQUATOR_DIST" value="34.24019028172347"/>
+			<property name="OFFSET_X" value="723"/>
+			<property name="OFFSET_Y" value="117"/>
 		</properties>
 	</object>
 	<object id="266" name="TUN" x="0" y="0" visible="0">
@@ -2467,6 +2515,8 @@
 			<property name="GDP_MD_EST" value="43570"/>
 			<property name="ISO_A3" value="TTO"/>
 			<property name="EQUATOR_DIST" value="10.457853190104162"/>
+			<property name="OFFSET_X" value="419"/>
+			<property name="OFFSET_Y" value="297"/>
 		</properties>
 	</object>
 	<object id="267" name="TTO" x="0" y="0" visible="0">
@@ -2489,6 +2539,8 @@
 			<property name="GDP_MD_EST" value="11610"/>
 			<property name="ISO_A3" value="TGO"/>
 			<property name="EQUATOR_DIST" value="8.6988153545673"/>
+			<property name="OFFSET_X" value="666"/>
+			<property name="OFFSET_Y" value="217"/>
 		</properties>
 	</object>
 
@@ -2505,6 +2557,8 @@
 			<property name="GDP_MD_EST" value="4975"/>
 			<property name="ISO_A3" value="TLS"/>
 			<property name="EQUATOR_DIST" value="-8.87669845281863"/>
+			<property name="OFFSET_X" value="826"/>
+			<property name="OFFSET_Y" value="436"/>
 		</properties>
 	</object>
 	<object id="270" name="TLS" x="0" y="0" visible="0">
@@ -2526,6 +2580,8 @@
 			<property name="GDP_MD_EST" value="1161000"/>
 			<property name="ISO_A3" value="THA"/>
 			<property name="EQUATOR_DIST" value="13.807561521511353"/>
+			<property name="OFFSET_X" value="918"/>
+			<property name="OFFSET_Y" value="396"/>
 		</properties>
 	</object>
 	<object id="271" name="THA" x="0" y="0" visible="0">
@@ -2547,6 +2603,8 @@
 			<property name="GDP_MD_EST" value="150600"/>
 			<property name="ISO_A3" value="TZA"/>
 			<property name="EQUATOR_DIST" value="-6.60566524981003"/>
+			<property name="OFFSET_X" value="769"/>
+			<property name="OFFSET_Y" value="265"/>
 		</properties>
 	</object>
 	<object id="272" name="TZA" x="0" y="0" visible="0">
@@ -2573,6 +2631,8 @@
 			<property name="GDP_MD_EST" value="25810"/>
 			<property name="ISO_A3" value="TJK"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="1098"/>
+			<property name="OFFSET_Y" value="269"/>
 		</properties>
 	</object>
 
@@ -2589,6 +2649,8 @@
 			<property name="GDP_MD_EST" value="1127000"/>
 			<property name="ISO_A3" value="TWN"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="962"/>
+			<property name="OFFSET_Y" value="472"/>
 		</properties>
 	</object>
 
@@ -2605,6 +2667,8 @@
 			<property name="GDP_MD_EST" value="50280"/>
 			<property name="ISO_A3" value="SYR"/>
 			<property name="EQUATOR_DIST" value="35.11741325827205"/>
+			<property name="OFFSET_X" value="915"/>
+			<property name="OFFSET_Y" value="168"/>
 		</properties>
 	</object>
 
@@ -2621,6 +2685,8 @@
 			<property name="GDP_MD_EST" value="496300"/>
 			<property name="ISO_A3" value="CHE"/>
 			<property name="EQUATOR_DIST" value="46.741566312249304"/>
+			<property name="OFFSET_X" value="726"/>
+			<property name="OFFSET_Y" value="44"/>
 		</properties>
 	</object>
 
@@ -2637,6 +2703,8 @@
 			<property name="GDP_MD_EST" value="11060"/>
 			<property name="ISO_A3" value="SWZ"/>
 			<property name="EQUATOR_DIST" value="-26.459529194078954"/>
+			<property name="OFFSET_X" value="740"/>
+			<property name="OFFSET_Y" value="305"/>
 		</properties>
 	</object>
 
@@ -2653,6 +2721,8 @@
 			<property name="GDP_MD_EST" value="8547"/>
 			<property name="ISO_A3" value="SUR"/>
 			<property name="EQUATOR_DIST" value="3.725439187754748"/>
+			<property name="OFFSET_X" value="450"/>
+			<property name="OFFSET_Y" value="291"/>
 		</properties>
 	</object>
 
@@ -2669,6 +2739,8 @@
 			<property name="GDP_MD_EST" value="20880"/>
 			<property name="ISO_A3" value="SSD"/>
 			<property name="EQUATOR_DIST" value="7.903389360860809"/>
+			<property name="OFFSET_X" value="777"/>
+			<property name="OFFSET_Y" value="234"/>
 		</properties>
 	</object>
 
@@ -2685,6 +2757,8 @@
 			<property name="GDP_MD_EST" value="176300"/>
 			<property name="ISO_A3" value="SDN"/>
 			<property name="EQUATOR_DIST" value="13.965282875419454"/>
+			<property name="OFFSET_X" value="775"/>
+			<property name="OFFSET_Y" value="201"/>
 		</properties>
 	</object>
 
@@ -2701,6 +2775,8 @@
 			<property name="GDP_MD_EST" value="236700"/>
 			<property name="ISO_A3" value="LKA"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="921"/>
+			<property name="OFFSET_Y" value="348"/>
 		</properties>
 	</object>
 
@@ -2717,6 +2793,8 @@
 			<property name="GDP_MD_EST" value="1690000"/>
 			<property name="ISO_A3" value="ESP"/>
 			<property name="EQUATOR_DIST" value="40.9150782552083"/>
+			<property name="OFFSET_X" value="545"/>
+			<property name="OFFSET_Y" value="74"/>
 		</properties>
 	</object>
 	<object id="283" name="ESP" x="0" y="0" visible="0">
@@ -2783,6 +2861,8 @@
 			<property name="GDP_MD_EST" value="1929000"/>
 			<property name="ISO_A3" value="KOR"/>
 			<property name="EQUATOR_DIST" value="36.09136526925223"/>
+			<property name="OFFSET_X" value="1011"/>
+			<property name="OFFSET_Y" value="516"/>
 		</properties>
 	</object>
 	<object id="284" name="KOR" x="0" y="0" visible="0">
@@ -2834,6 +2914,8 @@
 			<property name="GDP_MD_EST" value="739100"/>
 			<property name="ISO_A3" value="ZAF"/>
 			<property name="EQUATOR_DIST" value="-28.157243342869712"/>
+			<property name="OFFSET_X" value="705"/>
+			<property name="OFFSET_Y" value="297"/>
 		</properties>
 	</object>
 	<object id="285" name="ZAF" x="0" y="0" visible="0">
@@ -2855,6 +2937,8 @@
 			<property name="GDP_MD_EST" value="4719"/>
 			<property name="ISO_A3" value="SOM"/>
 			<property name="EQUATOR_DIST" value="5.965227887347022"/>
+			<property name="OFFSET_X" value="816"/>
+			<property name="OFFSET_Y" value="271"/>
 		</properties>
 	</object>
 
@@ -2871,6 +2955,8 @@
 			<property name="GDP_MD_EST" value="1198"/>
 			<property name="ISO_A3" value="SLB"/>
 			<property name="EQUATOR_DIST" value="-8.046051432291671"/>
+			<property name="OFFSET_X" value="725"/>
+			<property name="OFFSET_Y" value="473"/>
 		</properties>
 	</object>
 	<object id="288" name="SLB" x="0" y="0" visible="0">
@@ -2917,6 +3003,8 @@
 			<property name="GDP_MD_EST" value="168800"/>
 			<property name="ISO_A3" value="SVK"/>
 			<property name="EQUATOR_DIST" value="48.838190665409485"/>
+			<property name="OFFSET_X" value="844"/>
+			<property name="OFFSET_Y" value="43"/>
 		</properties>
 	</object>
 
@@ -2933,6 +3021,8 @@
 			<property name="GDP_MD_EST" value="68350"/>
 			<property name="ISO_A3" value="SVN"/>
 			<property name="EQUATOR_DIST" value="46.12320371685604"/>
+			<property name="OFFSET_X" value="800"/>
+			<property name="OFFSET_Y" value="60"/>
 		</properties>
 	</object>
 
@@ -2950,6 +3040,8 @@
 			<property name="GDP_MD_EST" value="10640"/>
 			<property name="ISO_A3" value="SLE"/>
 			<property name="EQUATOR_DIST" value="8.626152091190725"/>
+			<property name="OFFSET_X" value="604"/>
+			<property name="OFFSET_Y" value="224"/>
 		</properties>
 	</object>
 	<object id="292" name="SLE" x="0" y="0" visible="0">
@@ -2972,6 +3064,8 @@
 			<property name="GDP_MD_EST" value="101800"/>
 			<property name="ISO_A3" value="SRB"/>
 			<property name="EQUATOR_DIST" value="44.24544051381085"/>
+			<property name="OFFSET_X" value="844"/>
+			<property name="OFFSET_Y" value="72"/>
 		</properties>
 	</object>
 
@@ -2988,6 +3082,8 @@
 			<property name="GDP_MD_EST" value="39720"/>
 			<property name="ISO_A3" value="SEN"/>
 			<property name="EQUATOR_DIST" value="14.033233868634268"/>
+			<property name="OFFSET_X" value="575"/>
+			<property name="OFFSET_Y" value="207"/>
 		</properties>
 	</object>
 
@@ -3004,6 +3100,8 @@
 			<property name="GDP_MD_EST" value="1731000"/>
 			<property name="ISO_A3" value="SAU"/>
 			<property name="EQUATOR_DIST" value="23.438163332595053"/>
+			<property name="OFFSET_X" value="875"/>
+			<property name="OFFSET_Y" value="190"/>
 		</properties>
 	</object>
 	<object id="296" name="SAU" x="0" y="0" visible="0">
@@ -3030,6 +3128,8 @@
 			<property name="GDP_MD_EST" value="694"/>
 			<property name="ISO_A3" value="STP"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="693"/>
+			<property name="OFFSET_Y" value="245"/>
 		</properties>
 	</object>
 
@@ -3046,6 +3146,8 @@
 			<property name="GDP_MD_EST" value="2023"/>
 			<property name="ISO_A3" value="SMR"/>
 			<property name="EQUATOR_DIST" value="43.93666294642856"/>
+			<property name="OFFSET_X" value="784"/>
+			<property name="OFFSET_Y" value="77"/>
 		</properties>
 	</object>
 
@@ -3062,6 +3164,8 @@
 			<property name="GDP_MD_EST" value="1046"/>
 			<property name="ISO_A3" value="WSM"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="639"/>
+			<property name="OFFSET_Y" value="474"/>
 		</properties>
 	</object>
 
@@ -3079,6 +3183,8 @@
 			<property name="GDP_MD_EST" value="2083"/>
 			<property name="ISO_A3" value="LCA"/>
 			<property name="EQUATOR_DIST" value="13.911406249999995"/>
+			<property name="OFFSET_X" value="406"/>
+			<property name="OFFSET_Y" value="294"/>
 		</properties>
 	</object>
 
@@ -3096,6 +3202,8 @@
 			<property name="GDP_MD_EST" value="21970"/>
 			<property name="ISO_A3" value="RWA"/>
 			<property name="EQUATOR_DIST" value="-2.005829960466873"/>
+			<property name="OFFSET_X" value="774"/>
+			<property name="OFFSET_Y" value="265"/>
 		</properties>
 	</object>
 
@@ -3112,6 +3220,8 @@
 			<property name="GDP_MD_EST" value="3745000"/>
 			<property name="ISO_A3" value="RUS"/>
 			<property name="EQUATOR_DIST" value="59.63687742539332"/>
+			<property name="OFFSET_X" value="916"/>
+			<property name="OFFSET_Y" value="64"/>
 		</properties>
 	</object>
 	<object id="304" name="RUS" x="0" y="0" visible="0">
@@ -3213,6 +3323,8 @@
 			<property name="GDP_MD_EST" value="441000"/>
 			<property name="ISO_A3" value="ROU"/>
 			<property name="EQUATOR_DIST" value="45.84464850878193"/>
+			<property name="OFFSET_X" value="866"/>
+			<property name="OFFSET_Y" value="64"/>
 		</properties>
 	</object>
 
@@ -3229,6 +3341,8 @@
 			<property name="GDP_MD_EST" value="334500"/>
 			<property name="ISO_A3" value="QAT"/>
 			<property name="EQUATOR_DIST" value="25.19930491727942"/>
+			<property name="OFFSET_X" value="947"/>
+			<property name="OFFSET_Y" value="244"/>
 		</properties>
 	</object>
 
@@ -3245,6 +3359,8 @@
 			<property name="GDP_MD_EST" value="297100"/>
 			<property name="ISO_A3" value="PRT"/>
 			<property name="EQUATOR_DIST" value="39.95643953713039"/>
+			<property name="OFFSET_X" value="411"/>
+			<property name="OFFSET_Y" value="86"/>
 		</properties>
 	</object>
 	<object id="307" name="PRT" x="0" y="0" visible="0">
@@ -3296,6 +3412,8 @@
 			<property name="GDP_MD_EST" value="1052000"/>
 			<property name="ISO_A3" value="POL"/>
 			<property name="EQUATOR_DIST" value="51.40067015056367"/>
+			<property name="OFFSET_X" value="834"/>
+			<property name="OFFSET_Y" value="12"/>
 		</properties>
 	</object>
 
@@ -3312,6 +3430,8 @@
 			<property name="GDP_MD_EST" value="801900"/>
 			<property name="ISO_A3" value="PHL"/>
 			<property name="EQUATOR_DIST" value="15.079762604277002"/>
+			<property name="OFFSET_X" value="875"/>
+			<property name="OFFSET_Y" value="443"/>
 		</properties>
 	</object>
 	<object id="309" name="PHL" x="0" y="0" visible="0">
@@ -3438,6 +3558,8 @@
 			<property name="GDP_MD_EST" value="410400"/>
 			<property name="ISO_A3" value="PER"/>
 			<property name="EQUATOR_DIST" value="-7.445722689410021"/>
+			<property name="OFFSET_X" value="442"/>
+			<property name="OFFSET_Y" value="332"/>
 		</properties>
 	</object>
 
@@ -3454,6 +3576,8 @@
 			<property name="GDP_MD_EST" value="64670"/>
 			<property name="ISO_A3" value="PRY"/>
 			<property name="EQUATOR_DIST" value="-23.737789168895905"/>
+			<property name="OFFSET_X" value="522"/>
+			<property name="OFFSET_Y" value="325"/>
 		</properties>
 	</object>
 
@@ -3470,6 +3594,8 @@
 			<property name="GDP_MD_EST" value="28020"/>
 			<property name="ISO_A3" value="PNG"/>
 			<property name="EQUATOR_DIST" value="-7.6222562162583065"/>
+			<property name="OFFSET_X" value="751"/>
+			<property name="OFFSET_Y" value="460"/>
 		</properties>
 	</object>
 	<object id="312" name="PNG" x="0" y="0" visible="0">
@@ -3536,6 +3662,8 @@
 			<property name="GDP_MD_EST" value="93120"/>
 			<property name="ISO_A3" value="PAN"/>
 			<property name="EQUATOR_DIST" value="8.49607015363337"/>
+			<property name="OFFSET_X" value="393"/>
+			<property name="OFFSET_Y" value="342"/>
 		</properties>
 	</object>
 	<object id="313" name="PAN" x="0" y="0" visible="0">
@@ -3558,6 +3686,8 @@
 			<property name="GDP_MD_EST" value="988200"/>
 			<property name="ISO_A3" value="PAK"/>
 			<property name="EQUATOR_DIST" value="30.175477164513996"/>
+			<property name="OFFSET_X" value="988"/>
+			<property name="OFFSET_Y" value="266"/>
 		</properties>
 	</object>
 
@@ -3574,6 +3704,8 @@
 			<property name="GDP_MD_EST" value="173100"/>
 			<property name="ISO_A3" value="OMN"/>
 			<property name="EQUATOR_DIST" value="21.09886328125001"/>
+			<property name="OFFSET_X" value="916"/>
+			<property name="OFFSET_Y" value="259"/>
 		</properties>
 	</object>
 	<object id="316" name="OMN" x="0" y="0" visible="0">
@@ -3600,6 +3732,8 @@
 			<property name="GDP_MD_EST" value="40000"/>
 			<property name="ISO_A3" value="PRK"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="1044"/>
+			<property name="OFFSET_Y" value="526"/>
 		</properties>
 	</object>
 
@@ -3616,6 +3750,8 @@
 			<property name="GDP_MD_EST" value="1089000"/>
 			<property name="ISO_A3" value="NGA"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="679"/>
+			<property name="OFFSET_Y" value="210"/>
 		</properties>
 	</object>
 
@@ -3632,6 +3768,8 @@
 			<property name="GDP_MD_EST" value="20150"/>
 			<property name="ISO_A3" value="NER"/>
 			<property name="EQUATOR_DIST" value="15.345265778186267"/>
+			<property name="OFFSET_X" value="667"/>
+			<property name="OFFSET_Y" value="182"/>
 		</properties>
 	</object>
 
@@ -3648,6 +3786,8 @@
 			<property name="GDP_MD_EST" value="33550"/>
 			<property name="ISO_A3" value="NIC"/>
 			<property name="EQUATOR_DIST" value="13.075517411665485"/>
+			<property name="OFFSET_X" value="365"/>
+			<property name="OFFSET_Y" value="354"/>
 		</properties>
 	</object>
 
@@ -3664,6 +3804,8 @@
 			<property name="GDP_MD_EST" value="174800"/>
 			<property name="ISO_A3" value="NZL"/>
 			<property name="EQUATOR_DIST" value="-43.65130841290512"/>
+			<property name="OFFSET_X" value="669"/>
+			<property name="OFFSET_Y" value="425"/>
 		</properties>
 	</object>
 	<object id="322" name="NZL" x="0" y="0" visible="0">
@@ -3687,6 +3829,8 @@
 			<property name="GDP_MD_EST" value="870800"/>
 			<property name="ISO_A3" value="NLD"/>
 			<property name="EQUATOR_DIST" value="51.80564277236797"/>
+			<property name="OFFSET_X" value="705"/>
+			<property name="OFFSET_Y" value="1"/>
 		</properties>
 	</object>
 	<object id="325" name="NLD" x="0" y="0" visible="0">
@@ -3714,6 +3858,8 @@
 			<property name="GDP_MD_EST" value="3128"/>
 			<property name="ISO_A3" value="CUW"/>
 			<property name="EQUATOR_DIST" value="12.209072265624997"/>
+			<property name="OFFSET_X" value="396"/>
+			<property name="OFFSET_Y" value="317"/>
 		</properties>
 	</object>
 
@@ -3730,6 +3876,8 @@
 			<property name="GDP_MD_EST" value="71520"/>
 			<property name="ISO_A3" value="NPL"/>
 			<property name="EQUATOR_DIST" value="28.096879351021055"/>
+			<property name="OFFSET_X" value="1041"/>
+			<property name="OFFSET_Y" value="337"/>
 		</properties>
 	</object>
 
@@ -3747,6 +3895,8 @@
 			<property name="GDP_MD_EST" value="25990"/>
 			<property name="ISO_A3" value="NAM"/>
 			<property name="EQUATOR_DIST" value="-21.820455867686178"/>
+			<property name="OFFSET_X" value="701"/>
+			<property name="OFFSET_Y" value="281"/>
 		</properties>
 	</object>
 
@@ -3763,6 +3913,8 @@
 			<property name="GDP_MD_EST" value="35010"/>
 			<property name="ISO_A3" value="MOZ"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="742"/>
+			<property name="OFFSET_Y" value="288"/>
 		</properties>
 	</object>
 	<object id="331" name="MOZ" x="0" y="0" visible="0">
@@ -3784,6 +3936,8 @@
 			<property name="GDP_MD_EST" value="282800"/>
 			<property name="ISO_A3" value="MAR"/>
 			<property name="EQUATOR_DIST" value="28.48567080290411"/>
+			<property name="OFFSET_X" value="566"/>
+			<property name="OFFSET_Y" value="122"/>
 		</properties>
 	</object>
 
@@ -3800,6 +3954,8 @@
 			<property name="GDP_MD_EST" value="906.5"/>
 			<property name="ISO_A3" value="ESH"/>
 			<property name="EQUATOR_DIST" value="24.43088176344154"/>
+			<property name="OFFSET_X" value="567"/>
+			<property name="OFFSET_Y" value="163"/>
 		</properties>
 	</object>
 
@@ -3816,6 +3972,8 @@
 			<property name="GDP_MD_EST" value="10610"/>
 			<property name="ISO_A3" value="MNE"/>
 			<property name="EQUATOR_DIST" value="42.81717370074728"/>
+			<property name="OFFSET_X" value="834"/>
+			<property name="OFFSET_Y" value="90"/>
 		</properties>
 	</object>
 
@@ -3832,6 +3990,8 @@
 			<property name="GDP_MD_EST" value="37000"/>
 			<property name="ISO_A3" value="MNG"/>
 			<property name="EQUATOR_DIST" value="47.77735648777179"/>
+			<property name="OFFSET_X" value="1164"/>
+			<property name="OFFSET_Y" value="361"/>
 		</properties>
 	</object>
 
@@ -3848,6 +4008,8 @@
 			<property name="GDP_MD_EST" value="18540"/>
 			<property name="ISO_A3" value="MDA"/>
 			<property name="EQUATOR_DIST" value="47.08213480494966"/>
+			<property name="OFFSET_X" value="934"/>
+			<property name="OFFSET_Y" value="71"/>
 		</properties>
 	</object>
 
@@ -3864,6 +4026,8 @@
 			<property name="GDP_MD_EST" value="7672"/>
 			<property name="ISO_A3" value="MCO"/>
 			<property name="EQUATOR_DIST" value="43.75479213169643"/>
+			<property name="OFFSET_X" value="736"/>
+			<property name="OFFSET_Y" value="74"/>
 		</properties>
 	</object>
 
@@ -3880,6 +4044,8 @@
 			<property name="GDP_MD_EST" value="2307000"/>
 			<property name="ISO_A3" value="MEX"/>
 			<property name="EQUATOR_DIST" value="24.061099495144035"/>
+			<property name="OFFSET_X" value="266"/>
+			<property name="OFFSET_Y" value="364"/>
 		</properties>
 	</object>
 	<object id="338" name="MEX" x="0" y="0" visible="0">
@@ -3936,6 +4102,8 @@
 			<property name="GDP_MD_EST" value="25850"/>
 			<property name="ISO_A3" value="MUS"/>
 			<property name="EQUATOR_DIST" value="-20.297337582236846"/>
+			<property name="OFFSET_X" value="802"/>
+			<property name="OFFSET_Y" value="326"/>
 		</properties>
 	</object>
 
@@ -3952,6 +4120,8 @@
 			<property name="GDP_MD_EST" value="16710"/>
 			<property name="ISO_A3" value="MRT"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="567"/>
+			<property name="OFFSET_Y" value="165"/>
 		</properties>
 	</object>
 
@@ -3968,6 +4138,8 @@
 			<property name="GDP_MD_EST" value="16320"/>
 			<property name="ISO_A3" value="MLT"/>
 			<property name="EQUATOR_DIST" value="35.88021850585937"/>
+			<property name="OFFSET_X" value="778"/>
+			<property name="OFFSET_Y" value="128"/>
 		</properties>
 	</object>
 	<object id="341" name="MLT" x="0" y="0" visible="0">
@@ -3989,6 +4161,8 @@
 			<property name="GDP_MD_EST" value="38090"/>
 			<property name="ISO_A3" value="MLI"/>
 			<property name="EQUATOR_DIST" value="14.817743460739706"/>
+			<property name="OFFSET_X" value="602"/>
+			<property name="OFFSET_Y" value="172"/>
 		</properties>
 	</object>
 
@@ -4006,6 +4180,8 @@
 			<property name="GDP_MD_EST" value="863000"/>
 			<property name="ISO_A3" value="MYS"/>
 			<property name="EQUATOR_DIST" value="3.6939545988305156"/>
+			<property name="OFFSET_X" value="883"/>
+			<property name="OFFSET_Y" value="400"/>
 		</properties>
 	</object>
 	<object id="344" name="MYS" x="0" y="0" visible="0">
@@ -4032,6 +4208,8 @@
 			<property name="GDP_MD_EST" value="21200"/>
 			<property name="ISO_A3" value="MWI"/>
 			<property name="EQUATOR_DIST" value="-12.793906854950222"/>
+			<property name="OFFSET_X" value="765"/>
+			<property name="OFFSET_Y" value="283"/>
 		</properties>
 	</object>
 	<object id="345" name="MWI" x="0" y="0" visible="0">
@@ -4053,6 +4231,8 @@
 			<property name="GDP_MD_EST" value="36860"/>
 			<property name="ISO_A3" value="MDG"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="769"/>
+			<property name="OFFSET_Y" value="305"/>
 		</properties>
 	</object>
 
@@ -4069,6 +4249,8 @@
 			<property name="GDP_MD_EST" value="29520"/>
 			<property name="ISO_A3" value="MKD"/>
 			<property name="EQUATOR_DIST" value="41.63538833429783"/>
+			<property name="OFFSET_X" value="846"/>
+			<property name="OFFSET_Y" value="103"/>
 		</properties>
 	</object>
 
@@ -4085,6 +4267,8 @@
 			<property name="GDP_MD_EST" value="58740"/>
 			<property name="ISO_A3" value="LUX"/>
 			<property name="EQUATOR_DIST" value="49.762631623641305"/>
+			<property name="OFFSET_X" value="730"/>
+			<property name="OFFSET_Y" value="20"/>
 		</properties>
 	</object>
 
@@ -4101,6 +4285,8 @@
 			<property name="GDP_MD_EST" value="4978"/>
 			<property name="ISO_A3" value="LIE"/>
 			<property name="EQUATOR_DIST" value="47.14267578125"/>
+			<property name="OFFSET_X" value="764"/>
+			<property name="OFFSET_Y" value="49"/>
 		</properties>
 	</object>
 
@@ -4117,6 +4303,8 @@
 			<property name="GDP_MD_EST" value="90890"/>
 			<property name="ISO_A3" value="LBY"/>
 			<property name="EQUATOR_DIST" value="28.18044842078063"/>
+			<property name="OFFSET_X" value="727"/>
+			<property name="OFFSET_Y" value="140"/>
 		</properties>
 	</object>
 
@@ -4133,6 +4321,8 @@
 			<property name="GDP_MD_EST" value="3881"/>
 			<property name="ISO_A3" value="LBR"/>
 			<property name="EQUATOR_DIST" value="6.985899210319236"/>
+			<property name="OFFSET_X" value="614"/>
+			<property name="OFFSET_Y" value="227"/>
 		</properties>
 	</object>
 
@@ -4149,6 +4339,8 @@
 			<property name="GDP_MD_EST" value="6019"/>
 			<property name="ISO_A3" value="LSO"/>
 			<property name="EQUATOR_DIST" value="-29.67713575487013"/>
+			<property name="OFFSET_X" value="728"/>
+			<property name="OFFSET_Y" value="307"/>
 		</properties>
 	</object>
 
@@ -4165,6 +4357,8 @@
 			<property name="GDP_MD_EST" value="85160"/>
 			<property name="ISO_A3" value="LBN"/>
 			<property name="EQUATOR_DIST" value="33.86063901839717"/>
+			<property name="OFFSET_X" value="913"/>
+			<property name="OFFSET_Y" value="175"/>
 		</properties>
 	</object>
 
@@ -4181,6 +4375,8 @@
 			<property name="GDP_MD_EST" value="40960"/>
 			<property name="ISO_A3" value="LAO"/>
 			<property name="EQUATOR_DIST" value="18.436889272836538"/>
+			<property name="OFFSET_X" value="952"/>
+			<property name="OFFSET_Y" value="407"/>
 		</properties>
 	</object>
 
@@ -4197,6 +4393,8 @@
 			<property name="GDP_MD_EST" value="21010"/>
 			<property name="ISO_A3" value="KGZ"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="1128"/>
+			<property name="OFFSET_Y" value="277"/>
 		</properties>
 	</object>
 	<object id="357" name="KGZ" x="0" y="0" visible="0">
@@ -4218,6 +4416,8 @@
 			<property name="GDP_MD_EST" value="301100"/>
 			<property name="ISO_A3" value="KWT"/>
 			<property name="EQUATOR_DIST" value="29.340788717830875"/>
+			<property name="OFFSET_X" value="953"/>
+			<property name="OFFSET_Y" value="222"/>
 		</properties>
 	</object>
 	<object id="358" name="KWT" x="0" y="0" visible="0">
@@ -4239,6 +4439,8 @@
 			<property name="GDP_MD_EST" value="18490"/>
 			<property name="ISO_A3" value="KOS"/>
 			<property name="EQUATOR_DIST" value="42.593442789713535"/>
+			<property name="OFFSET_X" value="848"/>
+			<property name="OFFSET_Y" value="95"/>
 		</properties>
 	</object>
 
@@ -4255,6 +4457,8 @@
 			<property name="GDP_MD_EST" value="211"/>
 			<property name="ISO_A3" value="KIR"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="573"/>
+			<property name="OFFSET_Y" value="497"/>
 		</properties>
 	</object>
 
@@ -4271,6 +4475,8 @@
 			<property name="GDP_MD_EST" value="152700"/>
 			<property name="ISO_A3" value="KEN"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="794"/>
+			<property name="OFFSET_Y" value="258"/>
 		</properties>
 	</object>
 
@@ -4287,6 +4493,8 @@
 			<property name="GDP_MD_EST" value="460700"/>
 			<property name="ISO_A3" value="KAZ"/>
 			<property name="EQUATOR_DIST" value="47.9637412784984"/>
+			<property name="OFFSET_X" value="1078"/>
+			<property name="OFFSET_Y" value="132"/>
 		</properties>
 	</object>
 	<object id="362" name="KAZ" x="0" y="0" visible="0">
@@ -4308,6 +4516,8 @@
 			<property name="GDP_MD_EST" value="86190"/>
 			<property name="ISO_A3" value="JOR"/>
 			<property name="EQUATOR_DIST" value="31.335671997070317"/>
+			<property name="OFFSET_X" value="894"/>
+			<property name="OFFSET_Y" value="182"/>
 		</properties>
 	</object>
 
@@ -4324,6 +4534,8 @@
 			<property name="GDP_MD_EST" value="4932000"/>
 			<property name="ISO_A3" value="JPN"/>
 			<property name="EQUATOR_DIST" value="36.72066304788959"/>
+			<property name="OFFSET_X" value="943"/>
+			<property name="OFFSET_Y" value="501"/>
 		</properties>
 	</object>
 	<object id="364" name="JPN" x="0" y="0" visible="0">
@@ -4430,6 +4642,8 @@
 			<property name="GDP_MD_EST" value="25390"/>
 			<property name="ISO_A3" value="JAM"/>
 			<property name="EQUATOR_DIST" value="18.116650390624994"/>
+			<property name="OFFSET_X" value="351"/>
+			<property name="OFFSET_Y" value="332"/>
 		</properties>
 	</object>
 
@@ -4446,6 +4660,8 @@
 			<property name="GDP_MD_EST" value="2221000"/>
 			<property name="ISO_A3" value="ITA"/>
 			<property name="EQUATOR_DIST" value="43.85885357171996"/>
+			<property name="OFFSET_X" value="731"/>
+			<property name="OFFSET_Y" value="53"/>
 		</properties>
 	</object>
 	<object id="366" name="ITA" x="0" y="0" visible="0">
@@ -4487,6 +4703,8 @@
 			<property name="GDP_MD_EST" value="297000"/>
 			<property name="ISO_A3" value="ISR"/>
 			<property name="EQUATOR_DIST" value="31.883136625744058"/>
+			<property name="OFFSET_X" value="894"/>
+			<property name="OFFSET_Y" value="180"/>
 		</properties>
 	</object>
 
@@ -4503,6 +4721,8 @@
 			<property name="GDP_MD_EST" value="21220.77"/>
 			<property name="ISO_A3" value="PSE"/>
 			<property name="EQUATOR_DIST" value="31.929820556640625"/>
+			<property name="OFFSET_X" value="899"/>
+			<property name="OFFSET_Y" value="182"/>
 		</properties>
 	</object>
 	<object id="368" name="PSE" x="0" y="0" visible="0">
@@ -4524,6 +4744,8 @@
 			<property name="GDP_MD_EST" value="322000"/>
 			<property name="ISO_A3" value="IRL"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="545"/>
+			<property name="OFFSET_Y" value="3"/>
 		</properties>
 	</object>
 
@@ -4540,6 +4762,8 @@
 			<property name="GDP_MD_EST" value="596700"/>
 			<property name="ISO_A3" value="IRQ"/>
 			<property name="EQUATOR_DIST" value="33.78983473880098"/>
+			<property name="OFFSET_X" value="932"/>
+			<property name="OFFSET_Y" value="182"/>
 		</properties>
 	</object>
 
@@ -4556,6 +4780,8 @@
 			<property name="GDP_MD_EST" value="1459000"/>
 			<property name="ISO_A3" value="IRN"/>
 			<property name="EQUATOR_DIST" value="33.56156646675987"/>
+			<property name="OFFSET_X" value="968"/>
+			<property name="OFFSET_Y" value="178"/>
 		</properties>
 	</object>
 	<object id="371" name="IRN" x="0" y="0" visible="0">
@@ -4577,6 +4803,8 @@
 			<property name="GDP_MD_EST" value="3028000"/>
 			<property name="ISO_A3" value="IDN"/>
 			<property name="EQUATOR_DIST" value="0.3057439745086913"/>
+			<property name="OFFSET_X" value="791"/>
+			<property name="OFFSET_Y" value="387"/>
 		</properties>
 	</object>
 	<object id="372" name="IDN" x="0" y="0" visible="0">
@@ -4878,6 +5106,8 @@
 			<property name="GDP_MD_EST" value="8721000"/>
 			<property name="ISO_A3" value="IND"/>
 			<property name="EQUATOR_DIST" value="24.932038883895675"/>
+			<property name="OFFSET_X" value="927"/>
+			<property name="OFFSET_Y" value="301"/>
 		</properties>
 	</object>
 	<object id="373" name="IND" x="0" y="0" visible="0">
@@ -4904,6 +5134,8 @@
 			<property name="GDP_MD_EST" value="267600"/>
 			<property name="ISO_A3" value="HUN"/>
 			<property name="EQUATOR_DIST" value="47.23226489485984"/>
+			<property name="OFFSET_X" value="829"/>
+			<property name="OFFSET_Y" value="53"/>
 		</properties>
 	</object>
 
@@ -4920,6 +5152,8 @@
 			<property name="GDP_MD_EST" value="43190"/>
 			<property name="ISO_A3" value="HND"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="358"/>
+			<property name="OFFSET_Y" value="354"/>
 		</properties>
 	</object>
 
@@ -4936,6 +5170,8 @@
 			<property name="GDP_MD_EST" value="19340"/>
 			<property name="ISO_A3" value="HTI"/>
 			<property name="EQUATOR_DIST" value="18.806503798935434"/>
+			<property name="OFFSET_X" value="349"/>
+			<property name="OFFSET_Y" value="317"/>
 		</properties>
 	</object>
 	<object id="377" name="HTI" x="0" y="0" visible="0">
@@ -4957,6 +5193,8 @@
 			<property name="GDP_MD_EST" value="6093"/>
 			<property name="ISO_A3" value="GUY"/>
 			<property name="EQUATOR_DIST" value="4.374312493194684"/>
+			<property name="OFFSET_X" value="432"/>
+			<property name="OFFSET_Y" value="297"/>
 		</properties>
 	</object>
 
@@ -4973,6 +5211,8 @@
 			<property name="GDP_MD_EST" value="2851"/>
 			<property name="ISO_A3" value="GNB"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="583"/>
+			<property name="OFFSET_Y" value="218"/>
 		</properties>
 	</object>
 
@@ -4989,6 +5229,8 @@
 			<property name="GDP_MD_EST" value="16080"/>
 			<property name="ISO_A3" value="GIN"/>
 			<property name="EQUATOR_DIST" value="10.105041924838353"/>
+			<property name="OFFSET_X" value="593"/>
+			<property name="OFFSET_Y" value="216"/>
 		</properties>
 	</object>
 
@@ -5005,6 +5247,8 @@
 			<property name="GDP_MD_EST" value="131800"/>
 			<property name="ISO_A3" value="GTM"/>
 			<property name="EQUATOR_DIST" value="15.55689835258152"/>
+			<property name="OFFSET_X" value="347"/>
+			<property name="OFFSET_Y" value="369"/>
 		</properties>
 	</object>
 
@@ -5022,6 +5266,8 @@
 			<property name="GDP_MD_EST" value="290500"/>
 			<property name="ISO_A3" value="GRC"/>
 			<property name="EQUATOR_DIST" value="39.4320338611297"/>
+			<property name="OFFSET_X" value="833"/>
+			<property name="OFFSET_Y" value="111"/>
 		</properties>
 	</object>
 	<object id="383" name="GRC" x="0" y="0" visible="0">
@@ -5163,6 +5409,8 @@
 			<property name="GDP_MD_EST" value="120800"/>
 			<property name="ISO_A3" value="GHA"/>
 			<property name="EQUATOR_DIST" value="8.298039768559267"/>
+			<property name="OFFSET_X" value="652"/>
+			<property name="OFFSET_Y" value="217"/>
 		</properties>
 	</object>
 
@@ -5179,6 +5427,8 @@
 			<property name="GDP_MD_EST" value="3979000"/>
 			<property name="ISO_A3" value="DEU"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="733"/>
+			<property name="OFFSET_Y" value="2"/>
 		</properties>
 	</object>
 
@@ -5195,6 +5445,8 @@
 			<property name="GDP_MD_EST" value="37270"/>
 			<property name="ISO_A3" value="GEO"/>
 			<property name="EQUATOR_DIST" value="42.05945568549924"/>
+			<property name="OFFSET_X" value="1009"/>
+			<property name="OFFSET_Y" value="144"/>
 		</properties>
 	</object>
 
@@ -5211,6 +5463,8 @@
 			<property name="GDP_MD_EST" value="3387"/>
 			<property name="ISO_A3" value="GMB"/>
 			<property name="EQUATOR_DIST" value="13.436391668450337"/>
+			<property name="OFFSET_X" value="581"/>
+			<property name="OFFSET_Y" value="215"/>
 		</properties>
 	</object>
 
@@ -5227,6 +5481,8 @@
 			<property name="GDP_MD_EST" value="35980"/>
 			<property name="ISO_A3" value="GAB"/>
 			<property name="EQUATOR_DIST" value="-0.8627626989160583"/>
+			<property name="OFFSET_X" value="701"/>
+			<property name="OFFSET_Y" value="243"/>
 		</properties>
 	</object>
 
@@ -5243,6 +5499,8 @@
 			<property name="GDP_MD_EST" value="2699000"/>
 			<property name="ISO_A3" value="FRA"/>
 			<property name="EQUATOR_DIST" value="46.61446327466639"/>
+			<property name="OFFSET_X" value="393"/>
+			<property name="OFFSET_Y" value="9"/>
 		</properties>
 	</object>
 	<object id="389" name="FRA" x="0" y="0" visible="0">
@@ -5294,6 +5552,8 @@
 			<property name="GDP_MD_EST" value="215.3"/>
 			<property name="ISO_A3" value="SPM"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="174"/>
+			<property name="OFFSET_Y" value="192"/>
 		</properties>
 	</object>
 
@@ -5314,6 +5574,8 @@
 			<property name="GDP_MD_EST" value="10770"/>
 			<property name="ISO_A3" value="NCL"/>
 			<property name="EQUATOR_DIST" value="-21.31651141826923"/>
+			<property name="OFFSET_X" value="699"/>
+			<property name="OFFSET_Y" value="459"/>
 		</properties>
 	</object>
 	<object id="395" name="NCL" x="0" y="0" visible="0">
@@ -5335,6 +5597,8 @@
 			<property name="GDP_MD_EST" value="16"/>
 			<property name="ISO_A3" value="ATF"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="746"/>
+			<property name="OFFSET_Y" value="357"/>
 		</properties>
 	</object>
 
@@ -5351,6 +5615,8 @@
 			<property name="GDP_MD_EST" value="8374"/>
 			<property name="ISO_A3" value="FJI"/>
 			<property name="EQUATOR_DIST" value="-16.596420984100885"/>
+			<property name="OFFSET_X" value="666"/>
+			<property name="OFFSET_Y" value="466"/>
 		</properties>
 	</object>
 	<object id="399" name="FJI" x="0" y="0" visible="0">
@@ -5377,6 +5643,8 @@
 			<property name="GDP_MD_EST" value="174700"/>
 			<property name="ISO_A3" value="ETH"/>
 			<property name="EQUATOR_DIST" value="9.164613837437916"/>
+			<property name="OFFSET_X" value="812"/>
+			<property name="OFFSET_Y" value="241"/>
 		</properties>
 	</object>
 
@@ -5393,6 +5661,8 @@
 			<property name="GDP_MD_EST" value="9169"/>
 			<property name="ISO_A3" value="ERI"/>
 			<property name="EQUATOR_DIST" value="15.063192443847658"/>
+			<property name="OFFSET_X" value="844"/>
+			<property name="OFFSET_Y" value="235"/>
 		</properties>
 	</object>
 	<object id="402" name="ERI" x="0" y="0" visible="0">
@@ -5414,6 +5684,8 @@
 			<property name="GDP_MD_EST" value="31770"/>
 			<property name="ISO_A3" value="GNQ"/>
 			<property name="EQUATOR_DIST" value="1.4907579787233987"/>
+			<property name="OFFSET_X" value="703"/>
+			<property name="OFFSET_Y" value="238"/>
 		</properties>
 	</object>
 	<object id="403" name="GNQ" x="0" y="0" visible="0">
@@ -5435,6 +5707,8 @@
 			<property name="GDP_MD_EST" value="54790"/>
 			<property name="ISO_A3" value="SLV"/>
 			<property name="EQUATOR_DIST" value="13.850656540329393"/>
+			<property name="OFFSET_X" value="367"/>
+			<property name="OFFSET_Y" value="368"/>
 		</properties>
 	</object>
 
@@ -5451,6 +5725,8 @@
 			<property name="GDP_MD_EST" value="1105000"/>
 			<property name="ISO_A3" value="EGY"/>
 			<property name="EQUATOR_DIST" value="27.63943961524209"/>
+			<property name="OFFSET_X" value="812"/>
+			<property name="OFFSET_Y" value="165"/>
 		</properties>
 	</object>
 
@@ -5467,6 +5743,8 @@
 			<property name="GDP_MD_EST" value="182400"/>
 			<property name="ISO_A3" value="ECU"/>
 			<property name="EQUATOR_DIST" value="-2.0162897513615214"/>
+			<property name="OFFSET_X" value="432"/>
+			<property name="OFFSET_Y" value="342"/>
 		</properties>
 	</object>
 	<object id="406" name="ECU" x="0" y="0" visible="0">
@@ -5503,6 +5781,8 @@
 			<property name="GDP_MD_EST" value="161900"/>
 			<property name="ISO_A3" value="DOM"/>
 			<property name="EQUATOR_DIST" value="18.825178745814732"/>
+			<property name="OFFSET_X" value="352"/>
+			<property name="OFFSET_Y" value="308"/>
 		</properties>
 	</object>
 
@@ -5520,6 +5800,8 @@
 			<property name="GDP_MD_EST" value="3345"/>
 			<property name="ISO_A3" value="DJI"/>
 			<property name="EQUATOR_DIST" value="11.752295793805798"/>
+			<property name="OFFSET_X" value="854"/>
+			<property name="OFFSET_Y" value="256"/>
 		</properties>
 	</object>
 
@@ -5536,6 +5818,8 @@
 			<property name="GDP_MD_EST" value="350900"/>
 			<property name="ISO_A3" value="CZE"/>
 			<property name="EQUATOR_DIST" value="49.87842163085937"/>
+			<property name="OFFSET_X" value="801"/>
+			<property name="OFFSET_Y" value="21"/>
 		</properties>
 	</object>
 
@@ -5552,6 +5836,8 @@
 			<property name="GDP_MD_EST" value="3600"/>
 			<property name="ISO_A3" value="CYP"/>
 			<property name="EQUATOR_DIST" value="35.20254017223011"/>
+			<property name="OFFSET_X" value="908"/>
+			<property name="OFFSET_Y" value="165"/>
 		</properties>
 	</object>
 
@@ -5568,6 +5854,8 @@
 			<property name="GDP_MD_EST" value="132900"/>
 			<property name="ISO_A3" value="CUB"/>
 			<property name="EQUATOR_DIST" value="21.616481436670348"/>
+			<property name="OFFSET_X" value="317"/>
+			<property name="OFFSET_Y" value="324"/>
 		</properties>
 	</object>
 	<object id="416" name="CUB" x="0" y="0" visible="0">
@@ -5604,6 +5892,8 @@
 			<property name="GDP_MD_EST" value="94240"/>
 			<property name="ISO_A3" value="HRV"/>
 			<property name="EQUATOR_DIST" value="45.124945041937224"/>
+			<property name="OFFSET_X" value="799"/>
+			<property name="OFFSET_Y" value="64"/>
 		</properties>
 	</object>
 	<object id="417" name="HRV" x="0" y="0" visible="0">
@@ -5670,6 +5960,8 @@
 			<property name="GDP_MD_EST" value="87120"/>
 			<property name="ISO_A3" value="CIV"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="627"/>
+			<property name="OFFSET_Y" value="219"/>
 		</properties>
 	</object>
 
@@ -5686,6 +5978,8 @@
 			<property name="GDP_MD_EST" value="79260"/>
 			<property name="ISO_A3" value="CRI"/>
 			<property name="EQUATOR_DIST" value="9.745937353148495"/>
+			<property name="OFFSET_X" value="384"/>
+			<property name="OFFSET_Y" value="355"/>
 		</properties>
 	</object>
 
@@ -5702,6 +5996,8 @@
 			<property name="GDP_MD_EST" value="66010"/>
 			<property name="ISO_A3" value="COD"/>
 			<property name="EQUATOR_DIST" value="-4.546785922747333"/>
+			<property name="OFFSET_X" value="711"/>
+			<property name="OFFSET_Y" value="241"/>
 		</properties>
 	</object>
 
@@ -5718,6 +6014,8 @@
 			<property name="GDP_MD_EST" value="30270"/>
 			<property name="ISO_A3" value="COG"/>
 			<property name="EQUATOR_DIST" value="-1.144022409539479"/>
+			<property name="OFFSET_X" value="708"/>
+			<property name="OFFSET_Y" value="243"/>
 		</properties>
 	</object>
 
@@ -5735,6 +6033,8 @@
 			<property name="GDP_MD_EST" value="688000"/>
 			<property name="ISO_A3" value="COL"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="392"/>
+			<property name="OFFSET_Y" value="319"/>
 		</properties>
 	</object>
 
@@ -5751,6 +6051,8 @@
 			<property name="GDP_MD_EST" value="21140000"/>
 			<property name="ISO_A3" value="CHN"/>
 			<property name="EQUATOR_DIST" value="36.191474368978284"/>
+			<property name="OFFSET_X" value="969"/>
+			<property name="OFFSET_Y" value="297"/>
 		</properties>
 	</object>
 	<object id="424" name="CHN" x="0" y="0" visible="0">
@@ -5788,6 +6090,8 @@
 			<property name="GDP_MD_EST" value="427400"/>
 			<property name="ISO_A3" value="HKG"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="982"/>
+			<property name="OFFSET_Y" value="453"/>
 		</properties>
 	</object>
 
@@ -5804,6 +6108,8 @@
 			<property name="GDP_MD_EST" value="436100"/>
 			<property name="ISO_A3" value="CHL"/>
 			<property name="EQUATOR_DIST" value="-40.63522030226526"/>
+			<property name="OFFSET_X" value="507"/>
+			<property name="OFFSET_Y" value="341"/>
 		</properties>
 	</object>
 	<object id="427" name="CHL" x="0" y="0" visible="0">
@@ -5865,6 +6171,8 @@
 			<property name="GDP_MD_EST" value="30590"/>
 			<property name="ISO_A3" value="TCD"/>
 			<property name="EQUATOR_DIST" value="12.790398813359099"/>
+			<property name="OFFSET_X" value="733"/>
+			<property name="OFFSET_Y" value="185"/>
 		</properties>
 	</object>
 
@@ -5881,6 +6189,8 @@
 			<property name="GDP_MD_EST" value="3206"/>
 			<property name="ISO_A3" value="CAF"/>
 			<property name="EQUATOR_DIST" value="6.394382052951383"/>
+			<property name="OFFSET_X" value="730"/>
+			<property name="OFFSET_Y" value="230"/>
 		</properties>
 	</object>
 
@@ -5897,6 +6207,8 @@
 			<property name="GDP_MD_EST" value="3583"/>
 			<property name="ISO_A3" value="CPV"/>
 			<property name="EQUATOR_DIST" value="15.130814034598211"/>
+			<property name="OFFSET_X" value="532"/>
+			<property name="OFFSET_Y" value="214"/>
 		</properties>
 	</object>
 	<object id="430" name="CPV" x="0" y="0" visible="0">
@@ -5938,6 +6250,8 @@
 			<property name="GDP_MD_EST" value="1674000"/>
 			<property name="ISO_A3" value="CAN"/>
 			<property name="EQUATOR_DIST" value="60.304357862314234"/>
+			<property name="OFFSET_X" value="-8"/>
+			<property name="OFFSET_Y" value="161"/>
 		</properties>
 	</object>
 	<object id="431" name="CAN" x="0" y="0" visible="0">
@@ -6099,6 +6413,8 @@
 			<property name="GDP_MD_EST" value="77240"/>
 			<property name="ISO_A3" value="CMR"/>
 			<property name="EQUATOR_DIST" value="6.252769112723212"/>
+			<property name="OFFSET_X" value="704"/>
+			<property name="OFFSET_Y" value="217"/>
 		</properties>
 	</object>
 
@@ -6115,6 +6431,8 @@
 			<property name="GDP_MD_EST" value="58940"/>
 			<property name="ISO_A3" value="KHM"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="936"/>
+			<property name="OFFSET_Y" value="409"/>
 		</properties>
 	</object>
 
@@ -6131,6 +6449,8 @@
 			<property name="GDP_MD_EST" value="311100"/>
 			<property name="ISO_A3" value="MMR"/>
 			<property name="EQUATOR_DIST" value="19.97236320880472"/>
+			<property name="OFFSET_X" value="940"/>
+			<property name="OFFSET_Y" value="382"/>
 		</properties>
 	</object>
 	<object id="434" name="MMR" x="0" y="0" visible="0">
@@ -6152,6 +6472,8 @@
 			<property name="GDP_MD_EST" value="7892"/>
 			<property name="ISO_A3" value="BDI"/>
 			<property name="EQUATOR_DIST" value="-3.0541053185096203"/>
+			<property name="OFFSET_X" value="772"/>
+			<property name="OFFSET_Y" value="267"/>
 		</properties>
 	</object>
 
@@ -6168,6 +6490,8 @@
 			<property name="GDP_MD_EST" value="32990"/>
 			<property name="ISO_A3" value="BFA"/>
 			<property name="EQUATOR_DIST" value="11.97449415606473"/>
+			<property name="OFFSET_X" value="639"/>
+			<property name="OFFSET_Y" value="206"/>
 		</properties>
 	</object>
 
@@ -6184,6 +6508,8 @@
 			<property name="GDP_MD_EST" value="143100"/>
 			<property name="ISO_A3" value="BGR"/>
 			<property name="EQUATOR_DIST" value="42.614950953648744"/>
+			<property name="OFFSET_X" value="866"/>
+			<property name="OFFSET_Y" value="92"/>
 		</properties>
 	</object>
 
@@ -6200,6 +6526,8 @@
 			<property name="GDP_MD_EST" value="33730"/>
 			<property name="ISO_A3" value="BRN"/>
 			<property name="EQUATOR_DIST" value="4.52487670898437"/>
+			<property name="OFFSET_X" value="893"/>
+			<property name="OFFSET_Y" value="432"/>
 		</properties>
 	</object>
 	<object id="438" name="BRN" x="0" y="0" visible="0">
@@ -6221,6 +6549,8 @@
 			<property name="GDP_MD_EST" value="3081000"/>
 			<property name="ISO_A3" value="BRA"/>
 			<property name="EQUATOR_DIST" value="-10.397148769341635"/>
+			<property name="OFFSET_X" value="440"/>
+			<property name="OFFSET_Y" value="278"/>
 		</properties>
 	</object>
 	<object id="439" name="BRA" x="0" y="0" visible="0">
@@ -6267,6 +6597,8 @@
 			<property name="GDP_MD_EST" value="35900"/>
 			<property name="ISO_A3" value="BWA"/>
 			<property name="EQUATOR_DIST" value="-22.523437058116535"/>
+			<property name="OFFSET_X" value="717"/>
+			<property name="OFFSET_Y" value="287"/>
 		</properties>
 	</object>
 
@@ -6283,6 +6615,8 @@
 			<property name="GDP_MD_EST" value="42530"/>
 			<property name="ISO_A3" value="BIH"/>
 			<property name="EQUATOR_DIST" value="44.05847468964043"/>
+			<property name="OFFSET_X" value="818"/>
+			<property name="OFFSET_Y" value="73"/>
 		</properties>
 	</object>
 
@@ -6299,6 +6633,8 @@
 			<property name="GDP_MD_EST" value="78350"/>
 			<property name="ISO_A3" value="BOL"/>
 			<property name="EQUATOR_DIST" value="-16.55089012036483"/>
+			<property name="OFFSET_X" value="487"/>
+			<property name="OFFSET_Y" value="324"/>
 		</properties>
 	</object>
 
@@ -6315,6 +6651,8 @@
 			<property name="GDP_MD_EST" value="6432"/>
 			<property name="ISO_A3" value="BTN"/>
 			<property name="EQUATOR_DIST" value="27.402659667968752"/>
+			<property name="OFFSET_X" value="1043"/>
+			<property name="OFFSET_Y" value="370"/>
 		</properties>
 	</object>
 
@@ -6331,6 +6669,8 @@
 			<property name="GDP_MD_EST" value="24310"/>
 			<property name="ISO_A3" value="BEN"/>
 			<property name="EQUATOR_DIST" value="9.696912534545064"/>
+			<property name="OFFSET_X" value="670"/>
+			<property name="OFFSET_Y" value="214"/>
 		</properties>
 	</object>
 
@@ -6347,6 +6687,8 @@
 			<property name="GDP_MD_EST" value="3088"/>
 			<property name="ISO_A3" value="BLZ"/>
 			<property name="EQUATOR_DIST" value="NaN"/>
+			<property name="OFFSET_X" value="344"/>
+			<property name="OFFSET_Y" value="368"/>
 		</properties>
 	</object>
 
@@ -6363,6 +6705,8 @@
 			<property name="GDP_MD_EST" value="508600"/>
 			<property name="ISO_A3" value="BEL"/>
 			<property name="EQUATOR_DIST" value="50.5956276094618"/>
+			<property name="OFFSET_X" value="695"/>
+			<property name="OFFSET_Y" value="6"/>
 		</properties>
 	</object>
 
@@ -6379,6 +6723,8 @@
 			<property name="GDP_MD_EST" value="165400"/>
 			<property name="ISO_A3" value="BLR"/>
 			<property name="EQUATOR_DIST" value="53.519820415936515"/>
+			<property name="OFFSET_X" value="933"/>
+			<property name="OFFSET_Y" value="31"/>
 		</properties>
 	</object>
 
@@ -6396,6 +6742,8 @@
 			<property name="GDP_MD_EST" value="628400"/>
 			<property name="ISO_A3" value="BGD"/>
 			<property name="EQUATOR_DIST" value="23.73523657527972"/>
+			<property name="OFFSET_X" value="1003"/>
+			<property name="OFFSET_Y" value="368"/>
 		</properties>
 	</object>
 	<object id="449" name="BGD" x="0" y="0" visible="0">
@@ -6422,6 +6770,8 @@
 			<property name="GDP_MD_EST" value="66370"/>
 			<property name="ISO_A3" value="BHR"/>
 			<property name="EQUATOR_DIST" value="26.05096153846154"/>
+			<property name="OFFSET_X" value="953"/>
+			<property name="OFFSET_Y" value="242"/>
 		</properties>
 	</object>
 
@@ -6438,6 +6788,8 @@
 			<property name="GDP_MD_EST" value="9066"/>
 			<property name="ISO_A3" value="BHS"/>
 			<property name="EQUATOR_DIST" value="26.484096207157254"/>
+			<property name="OFFSET_X" value="296"/>
+			<property name="OFFSET_Y" value="317"/>
 		</properties>
 	</object>
 	<object id="451" name="BHS" x="0" y="0" visible="0">
@@ -6509,6 +6861,8 @@
 			<property name="GDP_MD_EST" value="167900"/>
 			<property name="ISO_A3" value="AZE"/>
 			<property name="EQUATOR_DIST" value="40.28789181014865"/>
+			<property name="OFFSET_X" value="1014"/>
+			<property name="OFFSET_Y" value="173"/>
 		</properties>
 	</object>
 	<object id="452" name="AZE" x="0" y="0" visible="0">
@@ -6535,6 +6889,8 @@
 			<property name="GDP_MD_EST" value="416600"/>
 			<property name="ISO_A3" value="AUT"/>
 			<property name="EQUATOR_DIST" value="47.57484938677618"/>
+			<property name="OFFSET_X" value="765"/>
+			<property name="OFFSET_Y" value="41"/>
 		</properties>
 	</object>
 
@@ -6551,6 +6907,8 @@
 			<property name="GDP_MD_EST" value="1189000"/>
 			<property name="ISO_A3" value="AUS"/>
 			<property name="EQUATOR_DIST" value="-23.230660169789868"/>
+			<property name="OFFSET_X" value="720"/>
+			<property name="OFFSET_Y" value="403"/>
 		</properties>
 	</object>
 	<object id="454" name="AUS" x="0" y="0" visible="0">
@@ -6614,6 +6972,8 @@
 			<property name="GDP_MD_EST" value="26300"/>
 			<property name="ISO_A3" value="ARM"/>
 			<property name="EQUATOR_DIST" value="40.13239802870639"/>
+			<property name="OFFSET_X" value="1012"/>
+			<property name="OFFSET_Y" value="168"/>
 		</properties>
 	</object>
 	<object id="459" name="ARM" x="0" y="0" visible="0">
@@ -6635,6 +6995,8 @@
 			<property name="GDP_MD_EST" value="879400"/>
 			<property name="ISO_A3" value="ARG"/>
 			<property name="EQUATOR_DIST" value="-36.23127675513699"/>
+			<property name="OFFSET_X" value="522"/>
+			<property name="OFFSET_Y" value="327"/>
 		</properties>
 	</object>
 	<object id="460" name="ARG" x="0" y="0" visible="0">
@@ -6657,6 +7019,8 @@
 			<property name="GDP_MD_EST" value="189000"/>
 			<property name="ISO_A3" value="AGO"/>
 			<property name="EQUATOR_DIST" value="-11.658815126161311"/>
+			<property name="OFFSET_X" value="701"/>
+			<property name="OFFSET_Y" value="258"/>
 		</properties>
 	</object>
 	<object id="462" name="AGO" x="0" y="0" visible="0">
@@ -6678,6 +7042,8 @@
 			<property name="GDP_MD_EST" value="3327"/>
 			<property name="ISO_A3" value="AND"/>
 			<property name="EQUATOR_DIST" value="42.5299650493421"/>
+			<property name="OFFSET_X" value="679"/>
+			<property name="OFFSET_Y" value="80"/>
 		</properties>
 	</object>
 
@@ -6694,6 +7060,8 @@
 			<property name="GDP_MD_EST" value="609400"/>
 			<property name="ISO_A3" value="DZA"/>
 			<property name="EQUATOR_DIST" value="29.230014943200445"/>
+			<property name="OFFSET_X" value="607"/>
+			<property name="OFFSET_Y" value="117"/>
 		</properties>
 	</object>
 
@@ -6710,6 +7078,8 @@
 			<property name="GDP_MD_EST" value="33900"/>
 			<property name="ISO_A3" value="ALB"/>
 			<property name="EQUATOR_DIST" value="41.09108260163164"/>
+			<property name="OFFSET_X" value="833"/>
+			<property name="OFFSET_Y" value="97"/>
 		</properties>
 	</object>
 
@@ -6726,6 +7096,8 @@
 			<property name="GDP_MD_EST" value="64080"/>
 			<property name="ISO_A3" value="AFG"/>
 			<property name="EQUATOR_DIST" value="34.94126965034298"/>
+			<property name="OFFSET_X" value="1017"/>
+			<property name="OFFSET_Y" value="254"/>
 		</properties>
 	</object>
 
@@ -6742,6 +7114,8 @@
 			<property name="GDP_MD_EST" value="15"/>
 			<property name="ISO_A3" value="-99"/>
 			<property name="EQUATOR_DIST" value="35.3943336123512"/>
+			<property name="OFFSET_X" value="1103"/>
+			<property name="OFFSET_Y" value="317"/>
 		</properties>
 	</object>
 
@@ -6758,6 +7132,8 @@
 			<property name="GDP_MD_EST" value="810"/>
 			<property name="ISO_A3" value="ATA"/>
 			<property name="EQUATOR_DIST" value="-74.73519764510964"/>
+			<property name="OFFSET_X" value="619"/>
+			<property name="OFFSET_Y" value="352"/>
 		</properties>
 	</object>
 	<object id="468" name="ATA" x="0" y="0" visible="0">

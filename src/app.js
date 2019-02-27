@@ -87,8 +87,8 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
     },
     update:function(dt) {  
 
-        if (gameParams.state != gameStates.STARTED)
-            return;
+        // if (gameParams.state != gameStates.STARTED || gameParams.state != gameStates.PAUSED)
+        //     return;
 
         // if (this.timeCounter > 0.2) {
         //     this.timeCounter = 0;
@@ -255,6 +255,9 @@ var initCountries = function() {
                     income_grp: obj.INCOME_GRP,
                     income_grp_num: parseInt(obj.INCOME_GRP.charAt(0)),
                     equator_dist: obj.EQUATOR_DIST,
+                    offsetX: obj.OFFSET_X,
+                    offsetY: obj.OFFSET_Y,
+
                     policy: 0,
                     previousLoss: gameParams.previousLoss,
                     loss: gameParams.previousLoss,
@@ -1069,6 +1072,7 @@ var WorldLayer = cc.Layer.extend({
         // for (var i = 0; i < 166; i++) {
         // 50m Stereographic projection - 0.0
 
+        world.spriteCountries = {};
         for (var i = 0; i < 225; i++) {
             var gid = (i + 3);
             var l = this.map.getLayer("Tile Layer " + gid);
@@ -1076,12 +1080,34 @@ var WorldLayer = cc.Layer.extend({
             if (arr.length == 0)
                 continue;
             var country = arr[0];
-            var shaderNode = new ShaderOutlineEffect(l, country, false);
-            shaderNode.width = 1;
-            shaderNode.height = 1;
-            shaderNode.x = this.width;
-            shaderNode.y = this.height;
-            world.worldBackground.addChild(shaderNode, 1);
+            if (typeof(country.offsetX) !== "undefined"  ) {
+                
+                var sprite = new cc.Sprite(l.tileset.sourceImage);
+
+                sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - Y_OFFSET - country.offsetY - sprite.height / 2.)));
+                sprite.setAnchorPoint(cc.p(0., 0.5));
+                sprite.setScale(0.9);
+                world.worldBackground.addChild(sprite, 2);
+
+                world.spriteCountries[country.iso_a3] = sprite;
+                // country.selected = true;
+
+                var shaderNode = new ShaderOutlineEffect(sprite, country, false);
+                shaderNode.width = 1;
+                shaderNode.height = 1;
+                shaderNode.x = this.width;
+                shaderNode.y = this.height;
+                world.worldBackground.addChild(shaderNode, 1);
+
+            }
+            else {
+                var shaderNode = new ShaderOutlineEffect(l, country, false);
+                shaderNode.width = 1;
+                shaderNode.height = 1;
+                shaderNode.x = this.width;
+                shaderNode.y = this.height;
+                world.worldBackground.addChild(shaderNode, 1);
+            }
 
             //l.setTileGID(0,cc.p(0,0))
         }
@@ -2262,7 +2288,7 @@ var WorldLayer = cc.Layer.extend({
                         var country = world.countries[key];
                         var loss = world.evaluateLoss(country);
                         if (country.iso_a3 == "USA") {
-                            console.log(country.previousLoss, loss)
+                            //console.log(country.previousLoss, loss)
                         }
                             
 
@@ -2476,6 +2502,7 @@ var WorldLayer = cc.Layer.extend({
             
             var target = event.getCurrentTarget();
             var locationInNode = target.convertToNodeSpace(location);
+            // var locationInNode = location;
             var x = 0, y = 0;
 
             var layer = target.getLayer("Tile Layer 1");
@@ -2495,7 +2522,8 @@ var WorldLayer = cc.Layer.extend({
             var minED = -1, selectedCountry = null;
             for (var j = start; j < end; j++) {
                 var poly = world.sortedObjs[j];
-                var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
+                // var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
+                var mousePoint = new cc.p(locationInNode.x, size.height - locationInNode.y - (Y_OFFSET));
                 var cd = world.collisionDetection(poly.points, mousePoint);
                 if (cd) {
                     lastLayerID = j;
@@ -2524,6 +2552,7 @@ var WorldLayer = cc.Layer.extend({
                 printCountryStats();
             }
             else {
+                // && gameParams.currentCountry != "ZWE"
                 if (gameParams.currentCountry != null)
                     world.countries[gameParams.currentCountry].selected = false;
                 gameParams.currentCountry = null;
@@ -3164,6 +3193,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDescription.setContentSize(cc.size(360,200));
         policyDescription.setPosition(cc.p(20, 120));
         policyDescription.setColor(COLOR_ICE);
+        policyDescription.setString("Click on a policy to read more, and invest!");
         policyDetailsBackground.addChild(policyDescription, 2);
 
         var policyCostLabel = new ccui.Text("", FONT_FACE_BODY, 30);
@@ -3371,7 +3401,11 @@ var DesignPolicyLayer = cc.Layer.extend({
                     prevButton.enabled = true;
                     prevButton.setColor(COLOR_ICE);
                 }
+                
                 prevButton = btn;
+
+                policyDescription.setString("Click on a policy to read more, and invest!");
+
             });
             // Select the first button only
             if (index == 0) {

@@ -137,7 +137,7 @@ void main()
         accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y + radius));
         accumB *= 1.75;
         accumB.rgb = u_outlineColor1 * accumB.a;
-        normal = ( accumB * (1.0 - normal.a)) + (normal * 0.0);
+        normal = ( accumB * (1.0 - normal.a)) + (normal * 1.0);
         gl_FragColor = v_fragmentColor * normal;
     }
     // gl_FragColor = v_fragmentColor * normal;
