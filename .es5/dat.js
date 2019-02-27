@@ -566,7 +566,7 @@ CRISES = {
         effect_on_global_gdp: 0,
         effect_on_transmissability: 0,
         effect_on_infectivity: 0,
-        effect_on_resources: -3.0,
+        effect_on_resources: -0.2,
         effect_on_environmental_loss: 0.3,
         influence_of_environmental_loss: 2.0,
         influence_of_preparedness: -0.2

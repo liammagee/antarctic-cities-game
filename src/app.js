@@ -507,7 +507,7 @@ var updateTimeVars = function(interval) {
 
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * 6;
-    gameParams.resourceInterval = gameParams.timeInterval * 6; 
+    gameParams.resourceInterval = gameParams.timeInterval * 10; 
     gameParams.crisisInterval = gameParams.timeInterval * 30;
 
 };
@@ -1537,58 +1537,53 @@ var WorldLayer = cc.Layer.extend({
                                     
             // Add chance of new resource
             var addResource = function() {
-                var r = Math.random();
-                if (gameParams.counter - gameParams.lastResource >= gameParams.resourceInterval) {
-                    if (r < RESOURCE_CHANCE) {
-                        var btnRes = new ccui.Button();
-                        btnRes.setTouchEnabled(true);
-                        btnRes.setSwallowTouches(false);
-                        btnRes.setScale9Enabled(true);
-                        btnRes.loadTextures(res.resource_icon, "", "");
-                        var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
-                        var countryRand = world.countries[Object.keys(world.countries)[ind]];
-                        var pt = countryRand.centroid;
-                        btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y + RESOURCE_SIZE_H / 2 });
-                        btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
-                        // btnRes.setColor(COLOR_RESOURCE);
-                        btnRes.placedAt = gameParams.counter;
-                        world.worldBackground.addChild(btnRes, 101);
+                var btnRes = new ccui.Button();
+                btnRes.setTouchEnabled(true);
+                btnRes.setSwallowTouches(false);
+                btnRes.setScale9Enabled(true);
+                btnRes.loadTextures(res.resource_icon, "", "");
+                var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
+                var countryRand = world.countries[Object.keys(world.countries)[ind]];
+                var pt = countryRand.centroid;
+                btnRes.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y + RESOURCE_SIZE_H / 2 });
+                btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
+                // btnRes.setColor(COLOR_RESOURCE);
+                btnRes.placedAt = gameParams.counter;
+                world.worldBackground.addChild(btnRes, 101);
 
-                        buttons.push(btnRes);
+                buttons.push(btnRes);
 
-                        handleMouseTouchEvent(btnRes, processResourceSelection);
+                handleMouseTouchEvent(btnRes, processResourceSelection);
 
-                        if (gameParams.automateMode) {
-                            
-                            let r = Math.random();
-                            if (r < parseFloat(gameParams.automateScript.resourcesProb)) {
+                if (gameParams.automateMode) {
+                    
+                    let r = Math.random();
+                    if (r < parseFloat(gameParams.automateScript.resourcesProb)) {
 
-                                fireClickOnTarget(btnRes);
+                        fireClickOnTarget(btnRes);
 
-                            }
-
-                        }
-                                        
-
-                        if (!gameParams.alertResources) {
-                            if (gameParams.tutorialMode) {
-                                gameParams.state = gameStates.PAUSED;
-                                gameParams.alertResources = true;
-                                showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function(that) {
-                                    gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
-                                    gameParams.state = gameStates.STARTED;
-                                });
-                            }
-                        }
                     }
-                    gameParams.lastResource = gameParams.counter;
+
                 }
+                                
+
+                if (!gameParams.alertResources) {
+                    if (gameParams.tutorialMode) {
+                        gameParams.state = gameStates.PAUSED;
+                        gameParams.alertResources = true;
+                        showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function(that) {
+                            gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
+                            gameParams.state = gameStates.STARTED;
+                        });
+                    }
+                }
+                gameParams.lastResource = gameParams.counter;
             };
                                     
             /**
              * Calculate the probability distribution of crisis & country
              */ 
-            var crisisProbDistribution = function() {
+            world.crisisProbDistribution = function() {
                 var probs = [];
                 var crisisKeys = Object.keys(CRISES);
                 var countryKeys = Object.keys(world.countries);
@@ -1603,9 +1598,11 @@ var WorldLayer = cc.Layer.extend({
                         totalInfluence += lossProp * crisis.influence_of_environmental_loss;
                         totalInfluence += preparedProp * crisis.influence_of_preparedness;
                         if (isNaN(totalInfluence))
-                            totalInfluence = 1.0;
-                        denom += totalInfluence;
-                        probs.push(totalInfluence);
+                            totalInfluence = 0.0;
+                        if (totalInfluence > 0) {
+                            denom += totalInfluence;
+                            probs.push(totalInfluence);
+                        }
                     });
                 });
                 for (var i = 0; i < probs.length; i++) {
@@ -1614,8 +1611,8 @@ var WorldLayer = cc.Layer.extend({
                 return probs;
             };
 
-            var crisisProbLocation = function(r) {
-                var probs = crisisProbDistribution();
+            world.crisisProbLocation = function(r) {
+                var probs = world.crisisProbDistribution();
                 var crisisKeys = Object.keys(CRISES);
                 var countryKeys = Object.keys(world.countries);
                 var crisisCountry = {};
@@ -1633,6 +1630,64 @@ var WorldLayer = cc.Layer.extend({
                     }
                 }
                 return crisisCountry;
+            };
+
+            var addCrisis = function() {
+
+                var r2 = Math.random();
+                var crisisInCountry = world.crisisProbLocation(r2);
+                gameParams.crisisCountry = crisisInCountry;
+                gameParams.crises.push(crisisInCountry);
+                gameParams.crisisCount++;
+                var crisis = CRISES[crisisInCountry.crisis];
+                var country = world.countries[crisisInCountry.country];
+
+                var btnCrisis = new ccui.Button();
+                btnCrisis.setTouchEnabled(true);
+                btnCrisis.setSwallowTouches(false);
+                btnCrisis.setScale9Enabled(true);
+                // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
+                btnCrisis.loadTextures(crisis.image, "", "");
+                var pt = country.centroid;
+                btnCrisis.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y + RESOURCE_SIZE_H / 2 });
+                btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
+                // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
+                btnCrisis.placedAt = gameParams.counter;
+                btnCrisis.crisisId = crisisInCountry.id;
+                btnCrisis.name = "crisis"+crisisInCountry.id;
+                
+                handleMouseTouchEvent(btnCrisis, processCrisisSelection);
+                
+                world.worldBackground.addChild(btnCrisis, 101);
+
+                // After the third crisis, add notifications to the news feed
+                let message = "A " + crisis.name + " is taking place in " + country.name + "."; 
+                if (gameParams.crisisCount < 4) {
+
+                    gameParams.state = gameStates.PAUSED;
+                    message += " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.";
+
+                    let buttons = showMessageBoxOK(world, "Crisis alert!", message, "OK!", function(that) {
+
+                        gameParams.state = gameStates.STARTED;
+
+                    });
+
+                    if (gameParams.automateMode) {
+
+                        fireClickOnTarget(buttons[0]);
+    
+                    }                    
+
+                }
+                else {
+                    
+                    if (gameParams.messageOverride == null)
+                        gameParams.messageOverride = message;
+
+                }
+                
+                gameParams.lastCrisis = gameParams.counter;
             };
 
             var addTutorial = function() {
@@ -1661,69 +1716,6 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.tutorialHints.push(message);
                     gameParams.state = gameStates.STARTED;
                 });
-            };
-
-            var addCrisis = function() {
-                if (gameParams.counter - gameParams.lastCrisis < gameParams.crisisInterval) 
-                    return;
-
-                var r = Math.random();
-                if (r < CRISIS_CHANCE) {
-                    var r2 = Math.random();
-                    var crisisInCountry = crisisProbLocation(r2);
-                    gameParams.crisisCountry = crisisInCountry;
-                    gameParams.crises.push(crisisInCountry);
-                    gameParams.crisisCount++;
-                    var crisis = CRISES[crisisInCountry.crisis];
-                    var country = world.countries[crisisInCountry.country];
-
-                    var btnCrisis = new ccui.Button();
-                    btnCrisis.setTouchEnabled(true);
-                    btnCrisis.setSwallowTouches(false);
-                    btnCrisis.setScale9Enabled(true);
-                    // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
-                    btnCrisis.loadTextures(crisis.image, "", "");
-                    var pt = country.centroid;
-                    btnCrisis.attr({ x: pt.x, y: (size.height - Y_OFFSET) - pt.y + RESOURCE_SIZE_H / 2 });
-                    btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
-                    // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
-                    btnCrisis.placedAt = gameParams.counter;
-                    btnCrisis.crisisId = crisisInCountry.id;
-                    btnCrisis.name = "crisis"+crisisInCountry.id;
-                    
-                    handleMouseTouchEvent(btnCrisis, processCrisisSelection);
-                    
-                    world.worldBackground.addChild(btnCrisis, 101);
-
-                    // After the third crisis, add notifications to the news feed
-                    let message = "A " + crisis.name + " is taking place in " + country.name + "."; 
-                    if (gameParams.crisisCount < 4) {
-
-                        gameParams.state = gameStates.PAUSED;
-                        message += " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.";
-
-                        let buttons = showMessageBoxOK(world, "Crisis alert!", message, "OK!", function(that) {
-
-                            gameParams.state = gameStates.STARTED;
-    
-                        });
-
-                        if (gameParams.automateMode) {
-
-                            fireClickOnTarget(buttons[0]);
-        
-                        }                    
-
-                    }
-                    else {
-                        
-                        if (gameParams.messageOverride == null)
-                            gameParams.messageOverride = message;
-
-                    }
-                    
-                }
-                gameParams.lastCrisis = gameParams.counter;
             };
 
             world.sigmoidalPercent = function(percent, inflectionPoint) {
@@ -2140,7 +2132,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.state !== gameStates.STARTED) {
 
                     // Refresh the timeout
-                    gameParams.timeoutID = setTimeout(updateTime, 10);
+                    gameParams.timeoutID = setTimeout(updateTime, 20);
                     return;
 
                 }
@@ -2333,23 +2325,50 @@ var WorldLayer = cc.Layer.extend({
                     }
 
                 }
+
+
+                // Various events
+                var ci = gameParams.crisisInterval;
+                Object.keys(gameParams.policies).forEach(policyID => {
+
+                    var policy = gameParams.policyOptions[policyID];
+                    var policyLevel = gameParams.policies[policyID];
+                    //console.log(policy.text, policy.effect_on_crises, policyLevel)
+                    ci /= 1 + (policy.effect_on_crises * Math.log(policyLevel + 1.718));
+                    
+                });                
+                // Check enough time has elapsed to generate a new resource with some probability (1 / RESOURCE_CHANCE)
+                if (gameParams.counter - gameParams.lastCrisis >= ci  && Math.random() < CRISIS_CHANCE) {
+                    addCrisis();
+                }
                 
                 var ri = gameParams.resourceInterval;
                 gameParams.crises.forEach(crisisInCountry => {
+                    
                     var crisis = CRISES[crisisInCountry.crisis];
                     var country = world.countries[crisisInCountry.country];
                     // Slow down resource production
-                    ri *= 1 + -crisis.effect_on_resources;
+                    //console.log(crisis.name, crisis.effect_on_resources, ri)
+                    ri /= (1 + crisis.effect_on_resources);
                     
-                });
+                }); 
+                Object.keys(gameParams.policies).forEach(policyID => {
 
-                // Various events
-                if (gameParams.counter % gameParams.crisisInterval == 0) {
-                    addCrisis();
-                }
-                if (gameParams.counter % ri == 0) {
+                    var policy = gameParams.policyOptions[policyID];
+                    var policyLevel = gameParams.policies[policyID];
+                    //console.log(policy.text, policy.effect_on_resources, policyLevel)
+                    ri /= (1 + (policy.effect_on_resources * Math.log(policyLevel + 1.718)));
+                    
+                }); 
+
+                // Check enough time has elapsed to generate a new resource with some probability (1 / RESOURCE_CHANCE)
+                if (gameParams.counter - gameParams.lastResource >= ri) {
+
                     addResource();
+
                 }
+                gameParams.resourceInterval += 0.1 * gameParams.timeInterval;
+
                 if (gameParams.tutorialMode && gameParams.counter % gameParams.tutorialInterval == 0) {
                     addTutorial();
                 }
@@ -2436,7 +2455,7 @@ var WorldLayer = cc.Layer.extend({
                 }
 
                 // Refresh the timeout
-                gameParams.timeoutID = setTimeout(updateTime, 10);
+                gameParams.timeoutID = setTimeout(updateTime, 20);
 
             }; 
 
@@ -2854,8 +2873,7 @@ var LoadingScene = cc.Scene.extend({
                 },
                 onKeyReleased: function(keyCode, event){
                     var automateID = parseInt(cc.sys.isNative ? that.getNativeKeyName(keyCode) : String.fromCharCode(keyCode)) ;
-                    console.log(automateID);
-                    if (!isNaN(automateID) && automateID > 0 && automateID < 6 ) {
+                    if (!isNaN(automateID) && automateID > 0 && automateID < 7 ) {
                         cc.director.runScene(new WorldScene(automateID)); 
                     }
                 }
@@ -3171,10 +3189,10 @@ var DesignPolicyLayer = cc.Layer.extend({
         var calculateResourceAndCrisisImpacts = function(resource) {
 
             // Calculate resource-specific effects
-            gameParams.resourceInterval /= (1 + resource.effect_on_resources);
-            gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
-            gameParams.crisisInterval /= (1 + resource.effect_on_crises);
-            gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
+            // gameParams.resourceInterval /= (1 + resource.effect_on_resources);
+            // gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
+            // gameParams.crisisInterval /= (1 + resource.effect_on_crises);
+            // gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
 
         };
 

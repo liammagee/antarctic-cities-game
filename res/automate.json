@@ -1,8 +1,8 @@
 [
 {
     "name": "Green Growth",
-    "resourcesProb": 1.0,
-    "crisisDuration": 25,
+    "resourcesProb": 0.8,
+    "crisisDuration": 10,
     "fastForward": true,
     "policyEvents": [ 
         { "counter": 480, "policyID": 1 },
@@ -34,8 +34,8 @@
 },
 {
     "name": "Democratic Ecosocialism",
-    "resourcesProb": 1.0,
-    "crisisDuration": 25,
+    "resourcesProb": 0.8,
+    "crisisDuration": 10,
     "fastForward": true,
     "policyEvents": [ 
         { "counter": 480, "policyID": 2 },
@@ -61,8 +61,8 @@
 },
 {
     "name": "Eco totalitarian",
-    "resourcesProb": 1.0,
-    "crisisDuration": 25,
+    "resourcesProb": 0.8,
+    "crisisDuration": 10,
     "fastForward": true,
     "policyEvents": [ 
         { "counter": 480, "policyID": 1 },
@@ -85,8 +85,8 @@
 },
 {
     "name": "Green Internationalist",
-    "resourcesProb": 1.0,
-    "crisisDuration": 25,
+    "resourcesProb": 0.8,
+    "crisisDuration": 10,
     "fastForward": true,
     "policyEvents": [ 
         { "counter": 480, "policyID": 1 },
@@ -120,8 +120,8 @@
 },
 {
     "name": "Climate-change sceptic",
-    "resourcesProb": 1.0,
-    "crisisDuration": 25,
+    "resourcesProb": 0.8,
+    "crisisDuration": 10,
     "fastForward": true,
     "policyEvents": [ 
         { "counter": 480, "policyID": 1 },
@@ -152,6 +152,14 @@
         { "counter": 11520, "policyID": 3 },
         { "counter": 12000, "policyID": 8 },
         { "counter": 12000, "policyID": 4 }
+    ]
+},
+{
+    "name": "Do nothing",
+    "resourcesProb": 0.8,
+    "crisisDuration": 10,
+    "fastForward": true,
+    "policyEvents": [ 
     ]
 }
 

@@ -141,9 +141,9 @@ function writeProj(proj, file) {
   context.lineWidth = 2.0;
   context.fillStyle = '#000';
 
-  // context.beginPath();
-  // path(topojson.mesh(data));
-  // context.stroke();
+  context.beginPath();
+  path(topojson.mesh(data));
+  context.stroke();
 
   tracts.features.forEach((feature, index) => { 
 
@@ -161,7 +161,6 @@ function writeProj(proj, file) {
     context.closePath();
   } );
 
-  /*
   context.beginPath();
   path(tracts);
   context.fill();
@@ -169,14 +168,13 @@ function writeProj(proj, file) {
   context.beginPath();
   path(tracts);
   context.stroke();
-  */
 
   // Graticule
   var graticule = d3.geoGraticule();
   context.beginPath();
   context.strokeStyle = '#ccc';
   path(graticule());
-  // context.stroke();
+  context.stroke();
 
 
   // d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
@@ -227,9 +225,10 @@ function writeProj(proj, file) {
       return gid;
 
     if (!xmlOnly) {
-      //path = d3.geoPath(proj, context);
+      canvas = new Canvas(width, height);
+      var context = canvas.getContext('2d');
+      path = d3.geoPath(proj, context);
 
-      // bounds = path.bounds(tracts.features[i]),
       bounds = path.bounds(topojson.mesh(data)),
             dx = bounds[1][0] - bounds[0][0],
             dy = bounds[1][1] - bounds[0][1],
@@ -239,25 +238,25 @@ function writeProj(proj, file) {
             scalex = width / dx, 
             scaley = height  / dy,
             translate = [-bounds[0][0], -bounds[0][1]];
-            // translate = [width / 2 - scale * x, height / 2 - scale * y];
-
-      canvas = new Canvas(width, height);
-      var context = canvas.getContext('2d');
-
       context.scale(scalex, scaley);
       context.translate(translate[0], translate[1]);
 
+      //  Draw smaller images
+      // canvas = new Canvas(dx, dy);
+      // context = canvas.getContext('2d');
+
       context.strokeStyle = '#f00';
       context.lineWidth = 3.0;
-      context.fillStyle = '#000';
+      
+      // context.fillStyle = '#000';
+      context.fillStyle = '#D8E1E3';
 
       context.beginPath();
       path(tracts.features[i]);
       context.fill();
-      context.closePath();
       
 
-      // Toggle off white border
+      // Toggle off border
       // context.beginPath();
       // path(tracts.features[i]);
       // context.stroke();
@@ -361,6 +360,7 @@ function writeProj(proj, file) {
   var counter = 0;
   tracts.features.forEach((feature, index) => { 
     console.log(counter);
+    // if (index == 0)
     counter = featureGenerator(index, counter);
   } );
 
