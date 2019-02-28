@@ -252,7 +252,8 @@ function writeProj(proj, file) {
             scaley_country = height / width,
             translate_country = [-bounds_country[0][0], -bounds_country[0][1]];
 
-      var canvasCountry = new Canvas(parseInt(dx_country * scalex_country), parseInt(dy_country * scaley_country));
+      console.log(translate_country[1], dy_country, scaley_country,dy_country * scaley_country, scaley, )
+      var canvasCountry = new Canvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
       // var canvasCountry = new Canvas(width / 2, height / 2);
       var contextCountry = canvasCountry.getContext('2d');
       var pathCountry = d3.geoPath(proj, contextCountry);
@@ -260,10 +261,10 @@ function writeProj(proj, file) {
       // contextCountry.fillStyle = '#000';
       // contextCountry.fillRect(0, 0, width, height);
 
-      console.log(canvasCountry.width, canvasCountry.height)
-      console.log(tracts.features[i])
+      // console.log(canvasCountry.width, canvasCountry.height)
+      // console.log(tracts.features[i])
             
-      contextCountry.scale(scalex_country, scaley_country);
+      contextCountry.scale(scalex, scaley);
       contextCountry.translate(translate_country[0], translate_country[1]);
       // console.log(translate)
 
@@ -326,7 +327,7 @@ function writeProj(proj, file) {
     // Parses the SVG comma-delimited pairs to builds an array of arrays of coordinate pairs
     var coords = zones.map(z => {
       s = z.split(/[ML]/). 
-        map((p) => { p = p.split(','); return [parseInt((parseFloat(p[0]) + translatex) * scalex), parseInt((parseFloat(p[1]) + translatey) * scaley)].join(',') }).
+        map((p) => { p = p.split(','); return [Math.round((parseFloat(p[0]) + translatex) * scalex * 1000) / 1000, Math.round((parseFloat(p[1]) + translatey) * scaley * 1000) / 1000].join(',') }).
         filter((p) => { return p != "NaN,NaN"; });
 
       // Remove non-unique points 
@@ -351,8 +352,8 @@ function writeProj(proj, file) {
     coords.forEach(s => {
       s.forEach(s2 => {
         var s3 = s2.split(',');
-        var testX = parseInt(s3[0]);
-        var testY = parseInt(s3[1]);
+        var testX = parseFloat(s3[0]);
+        var testY = parseFloat(s3[1]);
         if (testX < minX || minX == 0) {
           minX = testX;
         }
@@ -404,7 +405,7 @@ function writeProj(proj, file) {
   var counter = 0;
   tracts.features.forEach((feature, index) => { 
     console.log(counter);
-    // if (index == 225)
+    // if (index == 16)
       counter = featureGenerator(index, counter);
   } );
 
