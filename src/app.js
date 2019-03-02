@@ -850,6 +850,95 @@ var WorldLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
+        // add "World" background layer
+        this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
+        this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
+        this.addChild(this.worldBackground, 1);
+
+        // Interaction handling
+        cc.eventManager.addListener({
+            event: cc.EventListener.MOUSE,
+            // Pan handling
+            onMouseMove: function(event){
+                if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
+                    var node = event.getCurrentTarget(); 
+                    var scale = node.getScale();
+                    var size = node.getContentSize();
+                    var scaledX = scale * size.width;
+                    var scaledY = scale * size.height;
+                    // Calculate margins adjusted for size
+                    var marginX = node.width / (2 / (1e-06 + scale - 1));
+                    var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
+                    if (node.x + event.getDeltaX() < marginX && 
+                        node.x + event.getDeltaX() > -marginX &&
+                        node.y + event.getDeltaY() < marginY && 
+                        node.y + event.getDeltaY() > -marginY ) {
+                        node.x += event.getDeltaX();
+                        node.y += event.getDeltaY();
+                    }
+                }
+            },
+            // Zoom handling
+            onMouseScroll: function(event){
+                var node = event.getCurrentTarget(); 
+                var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
+                var newScale = node.getScale() * (1 + delta / 1000.0);
+                // Calculate margins adjusted for size
+                var marginX = node.width / (2 / (1e-06 + newScale - 1));
+                var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
+                if (newScale <= 10.0 && newScale >= 1.0 && 
+                    node.x < marginX && 
+                    node.x > -marginX) {
+                    node.setScale(newScale);
+                }
+            }
+        }, this.worldBackground);
+
+        // Add map
+        this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
+        this.map.setAnchorPoint(new cc.p(0,0));
+        this.map.attr({ x: 0, y: 0 });
+        this.worldBackground.addChild(this.map, 2);
+        tilelayer = this.map.getLayer("Tile Layer 1");
+
+        initCountries();
+
+        // for (var i = 0; i < 177; i++) {
+        // Peirce projection
+        // for (var i = 0; i < 169; i++) {
+        // Stereographic projection - 0.9
+        // for (var i = 0; i < 160; i++) {
+        // Stereographic projection - 0.1
+        // for (var i = 0; i < 166; i++) {
+        // 50m Stereographic projection - 0.0
+        world.spriteCountries = {};
+        for (var i = 0; i < 225; i++) {
+            var gid = (i + 3);
+            var l = this.map.getLayer("Tile Layer " + gid);
+            var arr = Object.values(world.countries).filter(c => c.gid == gid);
+            if (arr.length == 0)
+                continue;
+            var country = arr[0];
+
+            var sprite = new cc.Sprite(l.tileset.sourceImage);
+
+            sprite.setPosition(cc.p(parseInt(country.offsetX), 
+                parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
+            sprite.setAnchorPoint(cc.p(0., 0.));
+            world.worldBackground.addChild(sprite, 2);
+
+            world.spriteCountries[country.iso_a3] = sprite;
+
+            var shaderNode = new ShaderOutlineEffect(sprite, country, false);
+            shaderNode.width = 1;
+            shaderNode.height = 1;
+            shaderNode.x = this.width;
+            shaderNode.y = this.height;
+            world.worldBackground.addChild(shaderNode, 1);
+
+        }
+
+
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
         // this.controlsBackground.setAnchorPoint(cc.p(0,0));
@@ -987,127 +1076,16 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
-        // Add "World" background layer
-        this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
-        this.spriteBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
-        this.addChild(this.spriteBackground, 1);
+        // // Add "World" background layer
+        // this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
+        // this.spriteBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
+        // this.addChild(this.spriteBackground, 1);
 
-        var dotSpriteBatch = new cc.SpriteBatchNode(res.dot_png, 1000);
-        dotSpriteBatch.setAnchorPoint(new cc.p(0,0));
-        dotSpriteBatch.attr({ x: 0, y: 0 });
-        this.spriteBackground.addChild(dotSpriteBatch, 100, TAG_SPRITE_BATCH_NODE);
+        // var dotSpriteBatch = new cc.SpriteBatchNode(res.dot_png, 1000);
+        // dotSpriteBatch.setAnchorPoint(new cc.p(0,0));
+        // dotSpriteBatch.attr({ x: 0, y: 0 });
+        // this.spriteBackground.addChild(dotSpriteBatch, 100, TAG_SPRITE_BATCH_NODE);
 
-        // add "World" background layer
-        this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
-        this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
-        this.addChild(this.worldBackground, 1);
-
-        var worldSprite = new cc.Sprite(res.world_png);
-        worldSprite.setAnchorPoint(new cc.p(0,0));
-        worldSprite.attr({ x: 0, y: 0 });
-        // this.worldBackground.addChild(worldSprite, 0);
-
-        // Add graticule to background
-        var graticuleSprite = new cc.Sprite(res.grat_png);
-        graticuleSprite.setAnchorPoint(new cc.p(0,0))
-        graticuleSprite.attr({ x: 0, y: 0 });
-        // this.worldBackground.addChild(graticuleSprite, 1);
-
-        // Add map
-        this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
-        this.map.setAnchorPoint(new cc.p(0,0));
-        this.map.attr({ x: 0, y: 0 });
-        this.worldBackground.addChild(this.map, 2);
-        tilelayer = this.map.getLayer("Tile Layer 1");
-
-        // Interaction handling
-        cc.eventManager.addListener({
-            event: cc.EventListener.MOUSE,
-            // Pan handling
-            onMouseMove: function(event){
-                if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
-                    var node = event.getCurrentTarget(); 
-                    var scale = node.getScale();
-                    var size = node.getContentSize();
-                    var scaledX = scale * size.width;
-                    var scaledY = scale * size.height;
-                    // Calculate margins adjusted for size
-                    var marginX = node.width / (2 / (1e-06 + scale - 1));
-                    var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
-                    if (node.x + event.getDeltaX() < marginX && 
-                        node.x + event.getDeltaX() > -marginX &&
-                        node.y + event.getDeltaY() < marginY && 
-                        node.y + event.getDeltaY() > -marginY ) {
-                        node.x += event.getDeltaX();
-                        node.y += event.getDeltaY();
-                    }
-                }
-            },
-            // Zoom handling
-            onMouseScroll: function(event){
-                var node = event.getCurrentTarget(); 
-                var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
-                var newScale = node.getScale() * (1 + delta / 1000.0);
-                // Calculate margins adjusted for size
-                var marginX = node.width / (2 / (1e-06 + newScale - 1));
-                var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
-                if (newScale <= 10.0 && newScale >= 1.0 && 
-                    node.x < marginX && 
-                    node.x > -marginX) {
-                    node.setScale(newScale);
-                }
-            }
-        }, this.worldBackground);
-
-        initCountries();
-
-        // for (var i = 0; i < 177; i++) {
-        // Peirce projection
-        // for (var i = 0; i < 169; i++) {
-        // Stereographic projection - 0.9
-        // for (var i = 0; i < 160; i++) {
-        // Stereographic projection - 0.1
-        // for (var i = 0; i < 166; i++) {
-        // 50m Stereographic projection - 0.0
-
-        world.spriteCountries = {};
-        for (var i = 0; i < 225; i++) {
-            var gid = (i + 3);
-            var l = this.map.getLayer("Tile Layer " + gid);
-            var arr = Object.values(world.countries).filter(c => c.gid == gid);
-            if (arr.length == 0)
-                continue;
-            var country = arr[0];
-            if (typeof(country.offsetX) !== "undefined"  ) {
-                
-                var sprite = new cc.Sprite(l.tileset.sourceImage);
-
-                sprite.setPosition(cc.p(parseInt(country.offsetX), 
-                    parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
-                sprite.setAnchorPoint(cc.p(0., 0.));
-                world.worldBackground.addChild(sprite, 2);
-
-                world.spriteCountries[country.iso_a3] = sprite;
-
-                var shaderNode = new ShaderOutlineEffect(sprite, country, false);
-                shaderNode.width = 1;
-                shaderNode.height = 1;
-                shaderNode.x = this.width;
-                shaderNode.y = this.height;
-                world.worldBackground.addChild(shaderNode, 1);
-
-            }
-            else {
-                var shaderNode = new ShaderOutlineEffect(l, country, false);
-                shaderNode.width = 1;
-                shaderNode.height = 1;
-                shaderNode.x = this.width;
-                shaderNode.y = this.height;
-                world.worldBackground.addChild(shaderNode, 1);
-            }
-
-            //l.setTileGID(0,cc.p(0,0))
-        }
 
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
         layout.setAnchorPoint(new cc.p(0,0));
@@ -1258,29 +1236,6 @@ var WorldLayer = cc.Layer.extend({
         var oldLayers = [];
         var lastLayerID = -1;
 
-        /*
-        for (var j = 0; j < this.map.objectGroups[0].getObjects().length; j++) {
-            var poly = this.map.objectGroups[0].getObjects()[j];
-            var mts = tilelayer.getMapTileSize(), mw = mts.width, mh = mts.height;
-            var cs = tilelayer.getContentSize(), cw = cs.width, ch = cs.height;
-            for (var k = 0; k < tilelayer.layerWidth; k++){
-                for (var l = 0; l < tilelayer.layerHeight; l++){
-                    var tx = k * mw + mw / 2 - poly.x;
-                    var ty = (l * mh + mh / 2) - (ch - poly.y);
-                    var tp = new cc.p(tx, ty);
-
-                    var cd = world.collisionDetection(poly.points, tp);
-                    if (cd) { 
-                        if (typeof(mappedTiles[poly]) === "undefined") {
-                            mappedTiles[poly] = [];
-                        }
-                        var p = new cc.p(k, l);
-                        mappedTiles[poly].push(p);
-                    }
-                }
-            }
-        }
-        */
         
         var processResourceSelection = function(target) {
             
