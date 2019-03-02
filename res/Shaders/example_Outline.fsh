@@ -113,45 +113,33 @@ void main()
 
     normal = texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     
-    if (u_selected == 0.0) {
+    accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y - radius));
+    accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y - radius));
+    accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y + radius));
+    accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y + radius));
+    accumB *= 1.75;
+    accumB.rgb = greyDark * accumB.a;
+    accumB *= (1.0 - normal.a) * u_selected;
 
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y - radius));
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y - radius));
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y + radius));
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y + radius));
-        accumB *= 1.75;
-        accumB.rgb = greyDark * accumB.a;
+    accum0 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
+    accum0.rgb *= grey * accum0.a;
 
-        accum0 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-        accum0.rgb *= grey * accum0.a;
+    accum1 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
+    //accum1 *= 0.1 + u_fill1 / 100. * 0.9 ;
+    accum1.rgb = u_outlineColor1 * accum1.a;
+    accum1 *= accum1 * dotMask1; 
+    accum1 *= f1;
+    accum1 *= (u_fill1 / 100.) * (u_fill1 / 100.);
+    
+    accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
+    //accum2 *= 0.1 + u_fill2 / 100. * 0.9 ;
+    accum2.rgb = u_outlineColor2 * accum2.a;
+    accum2 *= accum2 * dotMask2; 
+    accum2 *= f1;
+    accum2 *= (u_fill2 / 100.) * (u_fill2 / 100.);
+            
+    normal = accumB + accum1 + accum2;
+    // normal = ( accumB * (1.0 - normal.a)) + (normal * 1.0);
+    gl_FragColor = normal;
 
-        accum1 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-        //accum1 *= 0.1 + u_fill1 / 100. * 0.9 ;
-        accum1.rgb = u_outlineColor1 * accum1.a;
-        accum1 *= accum1 * dotMask1; 
-        // accum1.a = 0.;
-        accum1 *= f1;
-        accum1 *= u_fill1 / 100.;
-        
-        accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-        //accum2 *= 0.1 + u_fill2 / 100. * 0.9 ;
-        accum2.rgb = u_outlineColor2 * accum2.a;
-        accum2 *= accum2 * dotMask2; 
-        accum2 *= f1;
-        accum2 *= u_fill2 / 100.;
-                
-        normal = accum1 + accum2;
-        // normal = ( accumB * (1.0 - normal.a)) + (normal * 1.0);
-        gl_FragColor = normal;
-    }
-    else {
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y - radius));
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y - radius));
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y + radius));
-        accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y + radius));
-        accumB *= 1.75;
-        accumB.rgb = greyDark * accumB.a;
-        normal = ( accumB * (1.0 - normal.a)) + (normal * 0.0);
-        gl_FragColor = v_fragmentColor * normal;
-    }
 }
