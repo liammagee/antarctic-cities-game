@@ -58,6 +58,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.updateUniforms();
                 this.shader.use();
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_threshold'), 1.75);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), 1.0);
                 this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor1'), 255 / 255, 0 / 255, 0 / 255);
                 this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor2'), 0 / 255, 255 / 255, 0 / 255);
 
@@ -71,6 +72,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
             if (cc.sys.isNative) {
                 var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this.shader);
                 glProgram_state.setUniformFloat("u_threshold", 1.75);
+                glProgram_state.setUniformFloat("u_zoom", 1.0);
                 glProgram_state.setUniformFloat("u_selected", 0.0);
                 glProgram_state.setUniformFloat("u_fill1", 1.0);
                 glProgram_state.setUniformFloat("u_fill2", 1.0);
@@ -89,26 +91,22 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
         // if (gameParams.state != gameStates.STARTED || gameParams.state != gameStates.PAUSED)
         //     return;
 
-        // if (this.timeCounter > 0.2) {
-        //     this.timeCounter = 0;
-        //     return;
+        // if (this.country.iso_a3 == "USA") {
+        //     console.log(this.country.loss, this.country.pop_prepared_percent)
         // }
-        // this.timeCounter += dt;
-
-        // if (this.country.iso_a3 == "USA")
-        //     console.log(Math.abs(this.node.getRotation() / 500), this.country.loss, dt);
-
         var selected = this.country.selected ? 1.0 : 0.0;
         if ('opengl' in cc.sys.capabilities) {
             if (cc.sys.isNative) {
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_selected'), selected);
-                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill1'), 1.0 + this.country.loss);
-                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill2'), 1.0 + this.country.pop_prepared_percent);
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill1'), this.country.loss);
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill2'), this.country.pop_prepared_percent);
                 this.node.getGLProgramState().setUniformFloat("u_radius", Math.abs(this.node.getRotation() / 500));
             } else {
                 this.shader.use();
                 this.shader.setUniformLocationF32(this.uniformResolution, 256, 256);
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_selected'), selected);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill1'), this.country.loss);
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill2'), this.country.pop_prepared_percent);
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_radius'), Math.abs(this.node.getRotation() / 500));
@@ -626,7 +624,6 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
 var postResultsToServer = function postResultsToServer() {
     // Test posting data
     var xhr = cc.loader.getXMLHttpRequest();
-    // this.streamXHREventsToLabel(xhr, statusPostLabel, responseLabel, "POST", "sendPostPlainText");
 
     xhr.open("POST", "http://localhost:8000/game_data");
 
@@ -830,7 +827,7 @@ var WorldLayer = cc.Layer.extend({
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
-        this.controlsBackground.setAnchorPoint(cc.p(0, 0));
+        // this.controlsBackground.setAnchorPoint(cc.p(0,0));
         this.controlsBackground.x = size.width - 138;
         this.controlsBackground.y = size.height - 84;
         this.addChild(this.controlsBackground, 100);
