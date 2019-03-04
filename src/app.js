@@ -2186,46 +2186,43 @@ var WorldLayer = cc.Layer.extend({
                         };
 
                         // Change of decade
-                        if (currentYear % 10 == 0) {
+                        var message = "";
+                        var showDialog = false;
 
-                            var message = "";
-                            var showDialog = false;
-    
-                            // Sort narratives by loss for comparison
-                            var narratives = Object.values(NARATIVES.n2040).sort((o1, o2) => {return o2.loss - o1.loss});
-    
-                            switch (currentYear) {
-                                case 2040:
-                                    showDialog = true;
-                                    for (var i = 0; i < narratives.length; i++) {
-                                        var n = narratives[i];
-                                        if (gameParams.totalLoss > n.loss) {
-                                            var index = Math.floor(Math.random() * n.messages.length);
-                                            message = n.messages[index];
-                                            break;
-                                        }
+                        // Sort narratives by loss for comparison
+                        var narratives = Object.values(NARATIVES.n2048).sort((o1, o2) => {return o2.loss - o1.loss});
+
+                        switch (currentYear) {
+                            case 2048:
+                                showDialog = true;
+                                for (var i = 0; i < narratives.length; i++) {
+                                    var n = narratives[i];
+                                    if (gameParams.totalLoss > n.loss) {
+                                        var index = Math.floor(Math.random() * n.messages.length);
+                                        message = n.messages[index];
+                                        break;
                                     }
-                                    break;
-                                default:
-                                    break;
-                            }
-                            
-                            if (showDialog) {
-    
-                                gameParams.state = gameStates.PAUSED;
-                                let buttons = showMessageBoxOK(world, 
-                                    "Antarctic Bulletin, year " + currentYear, 
-                                    message, "OK", function() {
-                                        gameParams.state = gameStates.STARTED;
-                                    });
-    
-                                if (gameParams.automateMode) {
-    
-                                    fireClickOnTarget(buttons[0]);
-    
                                 }
-    
+                                break;
+                            default:
+                                break;
+                        }
+                            
+                        if (showDialog) {
+
+                            gameParams.state = gameStates.PAUSED;
+                            let buttons = showMessageBoxOK(world, 
+                                "Antarctic Bulletin, year " + currentYear, 
+                                message, "OK", function() {
+                                    gameParams.state = gameStates.STARTED;
+                                });
+
+                            if (gameParams.automateMode) {
+
+                                fireClickOnTarget(buttons[0]);
+
                             }
+
                         }
     
                     }

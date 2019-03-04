@@ -711,7 +711,7 @@ TUTORIAL_MESSAGES = {
 };
 
 NARATIVES = {
-    n2040: {
+    n2048: {
         BAD: {
             loss: 20,
             messages: [
@@ -739,7 +739,7 @@ NARATIVES = {
         GOOD: {
             loss: 0,
             messages: [
-                "While some ice shelves in the Antarctic Peninsula and Amundsen Sea have been forever lost, the thinning rates observed in the large ice shelves for the period 1994–2012 remained fairly steady through to 2040. The marine ice cliff instability has mostly been limited to a few outlet glaciers in the Amundsen Sea sector of West Antarctica and has not reached East Antarctica. Keep improving your global policy strategy to save Antarctica.",
+                "While some ice shelves in the Antarctic Peninsula and Amundsen Sea have been forever lost, the thinning rates observed in the large ice shelves for the period 1994–2012 remained fairly steady through to 2048. The marine ice cliff instability has mostly been limited to a few outlet glaciers in the Amundsen Sea sector of West Antarctica and has not reached East Antarctica. Keep improving your global policy strategy to save Antarctica.",
                 "Although ocean acidification is continuing, the impact is stabilizing as atmospheric CO2 levels are descreasing. Some Antarctic population declines have been recorded in sensitive species, but others adapted, resulting in less change than was initially forecast. Seal and seabird populations will probably be able to adapt to the new ecosystemic conditions if extreme events due to climate change become less frequent.",
                 "Thanks to the strong action in mitigation greenhouse emissions, changes in the temperature and salinity of the Southern Ocean are reversing. The Antarctic Circumpolar Current is reshifting towards the Equator, therefore contributing to cooling  the Southern Ocean.  Changes in wind-driven ocean currents are reducing the exposure of the floating ice shelves to basal melt by warm ocean waters. However, the reduction in ocean heat transport to the ice shelf cavities is coming too late to save some West Antarctic ice shelves and ice tongues. Keep acting on your global policy strategy to save Antarctica.",
             ]
@@ -749,7 +749,7 @@ NARATIVES = {
         BAD: {
             loss: 80,
             messages: [
-                "You lost! Your policy platform did not achieve its aim and an unprecedented environmental catastrophe is wiping out humanity. A nuclear war over the use of Antarctic water and underground resources has sparked in 2069 and has since decimated the population globally. Large human migrations have become more and more common since 2040, when low-rise coastal cities needed to be abandoned. Carbon footprint is finally decreasing, because of population loss, and climate change will probably reverse, but half of the species on the planet have gone extinct. Underground cities for wealthy people are under construction, whilst the majority of the world’s population will not survive the combination of climate wars and extreme climate events."
+                "You lost! Your policy platform did not achieve its aim and an unprecedented environmental catastrophe is wiping out humanity. A nuclear war over the use of Antarctic water and underground resources has sparked in 2069 and has since decimated the population globally. Large human migrations have become more and more common since 2048, when low-rise coastal cities needed to be abandoned. Carbon footprint is finally decreasing, because of population loss, and climate change will probably reverse, but half of the species on the planet have gone extinct. Underground cities for wealthy people are under construction, whilst the majority of the world’s population will not survive the combination of climate wars and extreme climate events."
             ]
         },
         MID: {
