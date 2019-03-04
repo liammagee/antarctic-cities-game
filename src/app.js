@@ -1118,8 +1118,8 @@ var WorldLayer = cc.Layer.extend({
         layout.addChild(this.btnDevelopPolicy);
 
     
-        var countryDetailLayout = new cc.Layer();
-        // var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        // var countryDetailLayout = new cc.Layer();
+        var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
         countryDetailLayout.setAnchorPoint(new cc.p(0,0));
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
         countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });        
