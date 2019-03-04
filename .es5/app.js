@@ -2509,7 +2509,7 @@ var WorldLayer = cc.Layer.extend({
             gameParams.statsCountry = startCountry;
             gameParams.currentCountry = startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
-            nestedButtons = showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
+            nestedButtons = showMessageBoxOK(world, "Prepare the world...", "In 2019, your global policy mission begins in " + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environmental loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, function (that) {
                 beginSim();
             });
         }, "Skip Tutorial", function (that) {
@@ -3389,7 +3389,7 @@ var StatsLayer = cc.Layer.extend({
         this.policyLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.35));
         layoutWorld.addChild(this.policyLabel, 100);
 
-        this.policyDescriptionLabel = new cc.LabelTTF("Thanks to your policy platform, " + makeString(gameParams.populationPreparedPercent) + " of the world is now more ready to tak action against climate change.", FONT_FACE_BODY, 20);
+        this.policyDescriptionLabel = new cc.LabelTTF("Thanks to your policy platform, " + makeString(gameParams.populationPreparedPercent) + " of the world is now more ready to take action against climate change.", FONT_FACE_BODY, 20);
         this.policyDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
         layoutWorld.addChild(this.policyDescriptionLabel, 100);
