@@ -830,14 +830,13 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
 
-        /*
-         // Interaction handling
+        // Interaction handling
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             // Pan handling
-            onMouseMove: function(event){
-                if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
-                    var node = event.getCurrentTarget(); 
+            onMouseMove: function onMouseMove(event) {
+                if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
+                    var node = event.getCurrentTarget();
                     var scale = node.getScale();
                     var size = node.getContentSize();
                     var scaledX = scale * size.width;
@@ -845,31 +844,25 @@ var WorldLayer = cc.Layer.extend({
                     // Calculate margins adjusted for size
                     var marginX = node.width / (2 / (1e-06 + scale - 1));
                     var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
-                    if (node.x + event.getDeltaX() < marginX && 
-                        node.x + event.getDeltaX() > -marginX &&
-                        node.y + event.getDeltaY() < marginY && 
-                        node.y + event.getDeltaY() > -marginY ) {
+                    if (node.x + event.getDeltaX() < marginX && node.x + event.getDeltaX() > -marginX && node.y + event.getDeltaY() < marginY && node.y + event.getDeltaY() > -marginY) {
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
                     }
                 }
             },
             // Zoom handling
-            onMouseScroll: function(event){
-                var node = event.getCurrentTarget(); 
+            onMouseScroll: function onMouseScroll(event) {
+                var node = event.getCurrentTarget();
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
                 var newScale = node.getScale() * (1 + delta / 1000.0);
                 // Calculate margins adjusted for size
                 var marginX = node.width / (2 / (1e-06 + newScale - 1));
                 var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
-                if (newScale <= 10.0 && newScale >= 1.0 && 
-                    node.x < marginX && 
-                    node.x > -marginX) {
+                if (newScale <= 10.0 && newScale >= 1.0 && node.x < marginX && node.x > -marginX) {
                     node.setScale(newScale);
                 }
             }
         }, this.worldBackground);
-        */
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
@@ -880,7 +873,6 @@ var WorldLayer = cc.Layer.extend({
 
         initCountries();
 
-        /*
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
         // for (var i = 0; i < 169; i++) {
@@ -891,26 +883,29 @@ var WorldLayer = cc.Layer.extend({
         // 50m Stereographic projection - 0.0
         world.spriteCountries = {};
         for (var i = 0; i < 225; i++) {
-            var gid = (i + 3);
+            var gid = i + 3;
             var l = this.map.getLayer("Tile Layer " + gid);
-            var arr = Object.values(world.countries).filter(c => c.gid == gid);
-            if (arr.length == 0)
-                continue;
+            var arr = Object.values(world.countries).filter(function (c) {
+                return c.gid == gid;
+            });
+            if (arr.length == 0) continue;
             var country = arr[0];
-             var sprite = new cc.Sprite(l.tileset.sourceImage);
-             sprite.setPosition(cc.p(parseInt(country.offsetX), 
-                parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
+
+            var sprite = new cc.Sprite(l.tileset.sourceImage);
+
+            sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
             sprite.setAnchorPoint(cc.p(0., 0.));
             world.worldBackground.addChild(sprite, 2);
-             world.spriteCountries[country.iso_a3] = sprite;
-             var shaderNode = new ShaderOutlineEffect(sprite, country, false);
+
+            world.spriteCountries[country.iso_a3] = sprite;
+
+            var shaderNode = new ShaderOutlineEffect(sprite, country, false);
             shaderNode.width = 1;
             shaderNode.height = 1;
             shaderNode.x = this.width;
             shaderNode.y = this.height;
             world.worldBackground.addChild(shaderNode, 1);
-         }
-        */
+        }
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);

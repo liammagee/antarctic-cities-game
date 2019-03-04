@@ -855,8 +855,6 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
 
-        /*
-
         // Interaction handling
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
@@ -895,7 +893,6 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }, this.worldBackground);
-        */
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
@@ -906,7 +903,6 @@ var WorldLayer = cc.Layer.extend({
 
         initCountries();
 
-        /*
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
         // for (var i = 0; i < 169; i++) {
@@ -941,8 +937,6 @@ var WorldLayer = cc.Layer.extend({
             world.worldBackground.addChild(shaderNode, 1);
 
         }
-        */
-
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
