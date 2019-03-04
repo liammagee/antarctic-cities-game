@@ -60,6 +60,8 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.use();
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_threshold'), 1.75);
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), 1.0);
+                this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_location'), parseFloat(this.node.x), parseFloat(this.node.y));
+                this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_mouse'), 0.0, 0.0);
                 this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor1'), 255 / 255, 0 / 255, 0 / 255);
                 this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor2'), 0 / 255, 255 / 255, 0 / 255);
 
@@ -77,6 +79,8 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 glProgram_state.setUniformFloat("u_selected", 0.0);
                 glProgram_state.setUniformFloat("u_fill1", 1.0);
                 glProgram_state.setUniformFloat("u_fill2", 1.0);
+                glProgram_state.setUniformVec2("u_location", {x: this.node.x, y: this.node.y});
+                glProgram_state.setUniformVec2("u_mouse", {x: 0.0, y: 0.0});
                 glProgram_state.setUniformVec3("u_outlineColor1", {x: 255/255, y: 0/255, z: 0/255});
                 glProgram_state.setUniformVec3("u_outlineColor2", {x: 0/255, y: 255/255, z: 0/255});
                 node.setGLProgramState(glProgram_state);
@@ -91,9 +95,14 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
 
         // if (gameParams.state != gameStates.STARTED || gameParams.state != gameStates.PAUSED)
         //     return;
-
-        // if (this.country.iso_a3 == "USA") {
-        //     console.log(this.country.loss, this.country.pop_prepared_percent)
+        var mouseX = -1.0, mouseY = -1.0;
+        if (world.mouse.x > this.node.x && world.mouse.x < this.node.x + this.node.width &&
+            world.mouse.y > this.node.y && world.mouse.y < this.node.y + this.node.height) {
+            mouseX = ((world.mouse.x - this.node.x) / this.node.width );
+            mouseY = ((world.mouse.y - Y_OFFSET - this.node.y) / this.node.height );
+        }
+        // if (this.country.iso_a3 == "AUS") {
+        //     console.log(mouseX, mouseY)
         // }
         var selected = this.country.selected ? 1.0 : 0.0;
         if( 'opengl' in cc.sys.capabilities ) {
@@ -102,6 +111,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill1'), (this.country.loss));
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill2'), (this.country.pop_prepared_percent));
+                this.node.getGLProgramState().setUniformVec2(this.shader.getUniformLocationForName('u_mouse'), {x: (mouseX), y: (mouseY)});
                 this.node.getGLProgramState().setUniformFloat("u_radius", Math.abs(this.node.getRotation() / 500));
             }
             else{
@@ -111,6 +121,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill1'), (this.country.loss));
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill2'), (this.country.pop_prepared_percent));
+                this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_mouse'), (mouseX), (mouseY));
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_radius'), Math.abs(this.node.getRotation() / 500));
                 this.shader.updateUniforms();
             }
@@ -839,6 +850,7 @@ var WorldLayer = cc.Layer.extend({
         world = this;
         world.scenarioData = scenarioData;
         world.automateID = automateID;
+        world.mouse = { x: 0, y: 0 };
 
         initGameParams(scenarioData);     
 
@@ -850,9 +862,16 @@ var WorldLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
+
+        layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
+        layout.setAnchorPoint(new cc.p(0,0));
+        layout.attr({ x: 0, y: 0 });
+        this.addChild(layout, 2);
+
         // add "World" background layer
         this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
+        this.worldBackground.setContentSize(size);
         this.addChild(this.worldBackground, 1);
 
         // Interaction handling
@@ -898,7 +917,7 @@ var WorldLayer = cc.Layer.extend({
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
         // this.map.setAnchorPoint(new cc.p(0,0));
         // this.map.attr({ x: 0, y: 0 });
-        this.worldBackground.addChild(this.map, 100);
+        this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
         initCountries();
@@ -925,7 +944,7 @@ var WorldLayer = cc.Layer.extend({
             sprite.setPosition(cc.p(parseInt(country.offsetX), 
                 parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
             sprite.setAnchorPoint(cc.p(0., 0.));
-            world.worldBackground.addChild(sprite, 2);
+            world.worldBackground.addChild(sprite, 3);
 
             world.spriteCountries[country.iso_a3] = sprite;
 
@@ -934,32 +953,43 @@ var WorldLayer = cc.Layer.extend({
             shaderNode.height = 1;
             shaderNode.x = this.width;
             shaderNode.y = this.height;
-            world.worldBackground.addChild(shaderNode, 1);
+            world.worldBackground.addChild(shaderNode, 3);
 
         }
 
         // Add controls
-        this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
-        // this.controlsBackground.setAnchorPoint(cc.p(0,0));
+        this.controlsBackground = new cc.Layer();
+        this.controlsBackground.setAnchorPoint(cc.p(0,0));
         this.controlsBackground.x = size.width - 138;
         this.controlsBackground.y = size.height - 84;
-        this.addChild(this.controlsBackground, 100);
+        this.controlsBackground.setContentSize(cc.size(126,72));
+        layout.addChild(this.controlsBackground, 2);
 
+        // this.dateBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 30);
+        this.dateBackground = new cc.Layer();
+        this.dateBackground.setAnchorPoint(cc.p(0,0));
+        this.dateBackground.attr({ x: 0, y: 42 });
+        this.dateBackground.setContentSize(cc.size(126, 30));
+        this.dateBackground.setColor(COLOR_BACKGROUND_TRANS);
         this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
         this.dayLabel.attr({ x: 14, y: 48 });
-        this.dayLabel.color = COLOR_FOREGROUND;
+        this.dayLabel.color = COLOR_LICORICE;
+        //this.dayLabel.color = COLOR_FOREGROUND;
         this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
         this.monthLabel.attr({ x: 30, y: 48 });
-        this.monthLabel.color = COLOR_FOREGROUND;
+        this.monthLabel.color = COLOR_LICORICE;
+        //this.monthLabel.color = COLOR_FOREGROUND;
         this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.attr({ x: 54, y: 48 });
-        this.yearLabel.color = COLOR_FOREGROUND;
-        // this.controlsBackground.addChild(this.dayLabel, 100);
-        this.controlsBackground.addChild(this.monthLabel, 100);
-        this.controlsBackground.addChild(this.yearLabel, 100);
+        this.yearLabel.color = COLOR_LICORICE;
+        //this.yearLabel.color = COLOR_FOREGROUND;
+        // this.controlsBackground.addChild(this.dayLabel, 1);
+        this.controlsBackground.addChild(this.monthLabel, 1);
+        this.controlsBackground.addChild(this.yearLabel, 1);
+        this.controlsBackground.addChild(this.dateBackground, 1);
 
         this.btnQuit = new ccui.Button();
         this.btnPause = new ccui.Button();
@@ -974,34 +1004,37 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.attr({ x: 21, y: size.height - 63 });
         this.btnQuit.setContentSize(cc.size(105, 105));
         this.btnQuit.setScale(0.4);
-        this.addChild(this.btnQuit, 100);
+        this.addChild(this.btnQuit, 102);
         
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setSwallowTouches(false);
         this.btnPause.setScale9Enabled(true);
         this.btnPause.loadTextures(res.pause_off_png, "", res.pause_on_png);
-        this.btnPause.attr({ x: 21, y: 21 });
+        this.btnPause.setAnchorPoint(cc.p(0.0, 0.0));
+        this.btnPause.attr({ x: 0, y: 0 });
         this.btnPause.setContentSize(cc.size(105, 105));
         this.btnPause.setScale(0.4);
-        this.controlsBackground.addChild(this.btnPause, 100, "pause");
+        this.controlsBackground.addChild(this.btnPause, 1, "pause");
         
         this.btnPlay.setTouchEnabled(true);
         this.btnPlay.setSwallowTouches(false);
         this.btnPlay.setScale9Enabled(true);
         this.btnPlay.loadTextures(res.play_off_png, "", res.play_on_png);
-        this.btnPlay.attr({ x: 62, y: 21 });
+        this.btnPlay.setAnchorPoint(cc.p(0.0, 0.0));
+        this.btnPlay.attr({ x: 42, y: 0 });
         this.btnPlay.setContentSize(cc.size(105, 105));
         this.btnPlay.setScale(0.4);
-        this.controlsBackground.addChild(this.btnPlay, 100, "play");
+        this.controlsBackground.addChild(this.btnPlay, 1, "play");
         
         this.btnFF.setTouchEnabled(true);
         this.btnFF.setSwallowTouches(false);
         this.btnFF.setScale9Enabled(true);
         this.btnFF.loadTextures(res.playfast_off_png, "", res.playfast_on_png);
-        this.btnFF.attr({ x: 103, y: 21 });
+        this.btnFF.setAnchorPoint(cc.p(0.0, 0.0));
+        this.btnFF.attr({ x: 84, y: 0 });
         this.btnFF.setContentSize(cc.size(105, 105));
         this.btnFF.setScale(0.4);
-        this.controlsBackground.addChild(this.btnFF, 100, "fast");
+        this.controlsBackground.addChild(this.btnFF, 1, "fast");
 
         this.initControls();
 
@@ -1072,11 +1105,6 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
-        layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
-        layout.setAnchorPoint(new cc.p(0,0));
-        layout.attr({ x: 0, y: 0 });
-        this.addChild(layout, 100);
-
         this.btnDevelopPolicy = new ccui.Button();
         this.btnDevelopPolicy.setTouchEnabled(true);
         this.btnDevelopPolicy.setSwallowTouches(false);
@@ -1090,10 +1118,12 @@ var WorldLayer = cc.Layer.extend({
         layout.addChild(this.btnDevelopPolicy);
 
     
-        var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        var countryDetailLayout = new cc.Layer();
+        // var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
         countryDetailLayout.setAnchorPoint(new cc.p(0,0));
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
-        countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });        layout.addChild(countryDetailLayout);
+        countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });        
+        layout.addChild(countryDetailLayout);
         var fontSize = 20;
         var labelOffsetY = Y_OFFSET / 2;// - fontSize / 2;
 
@@ -1190,7 +1220,7 @@ var WorldLayer = cc.Layer.extend({
 
         var addEmitter = function () {
             world._emitter = new cc.ParticleRain();
-            world.worldBackground.addChild(world._emitter, 110);
+            //world.worldBackground.addChild(world._emitter, 110);
     
             world._emitter.life = 4;
     
@@ -1400,7 +1430,7 @@ var WorldLayer = cc.Layer.extend({
             if (typeof(world.renderer) === "undefined") {
                 var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
                 rend.setPosition(size.width/2,size.height/2);
-                world.worldBackground.addChild(rend, 99);
+                //world.worldBackground.addChild(rend, 99);
                 world.renderer = rend;
                 world.renderer.setOpacity(100);
             }
@@ -1506,7 +1536,7 @@ var WorldLayer = cc.Layer.extend({
                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnRes.setColor(COLOR_RESOURCE);
                 btnRes.placedAt = gameParams.counter;
-                world.worldBackground.addChild(btnRes, 101);
+                //world.worldBackground.addChild(btnRes, 101);
 
                 buttons.push(btnRes);
 
@@ -1615,7 +1645,7 @@ var WorldLayer = cc.Layer.extend({
                 
                 handleMouseTouchEvent(btnCrisis, processCrisisSelection);
                 
-                world.worldBackground.addChild(btnCrisis, 101);
+                //world.worldBackground.addChild(btnCrisis, 101);
 
                 // After the third crisis, add notifications to the news feed
                 let message = "A " + crisis.name + " is taking place in " + country.name + "."; 
@@ -2464,6 +2494,7 @@ var WorldLayer = cc.Layer.extend({
                         minED = ced;
                         selectedCountry = poly.name;
                         selectedCountry.selected = true;
+                        break;
                     }
                 }
             }
@@ -2477,8 +2508,8 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.currentCountry != null)
                     world.countries[gameParams.currentCountry].selected = true;
                 currentCountry = selectedCountry;
-                var gid = world.countries[selectedCountry].gid;
-                currentLayer = target.getLayer("Tile Layer " + gid);
+                // var gid = world.countries[selectedCountry].gid;
+                // currentLayer = target.getLayer("Tile Layer " + gid);
                 // currentLayer.setTileGID((gid),cc.p(0, 0));
                 printCountryStats();
             }
@@ -2511,11 +2542,13 @@ var WorldLayer = cc.Layer.extend({
             return true;
         };
 
+
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
 
             onMouseMove : function(event) {
              
+                world.mouse = event.getLocation();
                 selectCountry(event, event.getLocation());
 
             },

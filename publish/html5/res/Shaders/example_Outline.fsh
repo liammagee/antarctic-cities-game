@@ -13,6 +13,8 @@ uniform float u_fill2;
 uniform float u_radius;
 uniform float u_zoom;
 uniform float u_selected;
+uniform vec2 u_location;
+uniform vec2 u_mouse;
 uniform vec2 resolution;
 
 
@@ -88,6 +90,7 @@ void main()
     vec4 accum1 = vec4(0.0);
     vec4 accum2 = vec4(0.0);
     vec4 normal = vec4(0.0);
+    vec4 mouse = vec4(0.0);
     vec3 grey = vec3(214.0 / 255.0, 225.0 / 255.0, 227.0 / 255.0);
     vec3 greyDark = vec3(42.0 / 255.0, 54.0 / 255.0, 68.0 / 255.0);
 
@@ -113,12 +116,19 @@ void main()
 
     normal = texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     
+    // float selected = 0.0;
+    // // mouse = texture2D(CC_Texture0, vec2(0.,0.));
+    // mouse = texture2D(CC_Texture0, vec2(u_mouse.x, u_mouse.y) );
+    // // mouse = texture2D(CC_Texture0, vec2(0.5, 0.5));
+    // selected = mouse.a * 1.0;
+    
     accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y - radius));
     accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y - radius));
     accumB += texture2D(CC_Texture0, vec2(v_texCoord.x + radius, v_texCoord.y + radius));
     accumB += texture2D(CC_Texture0, vec2(v_texCoord.x - radius, v_texCoord.y + radius));
     accumB *= 1.75;
     accumB.rgb = greyDark * accumB.a;
+    // accumB *= (1.0 - normal.a) * selected;
     accumB *= (1.0 - normal.a) * u_selected;
 
     accum0 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
@@ -138,8 +148,8 @@ void main()
     accum2 *= f1;
     accum2 *= (u_fill2 / 100.) * (u_fill2 / 100.);
             
-    normal = accumB + accum1 + accum2;
-    // normal = ( accumB * (1.0 - normal.a)) + (normal * 1.0);
+    normal = accum1 + accum2;
+    normal = ( accumB * (1.0 - normal.a)) + (normal * normal.a);
     gl_FragColor = normal;
 
 }
