@@ -855,6 +855,8 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
 
+        /*
+
         // Interaction handling
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
@@ -893,16 +895,18 @@ var WorldLayer = cc.Layer.extend({
                 }
             }
         }, this.worldBackground);
+        */
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
-        this.map.setAnchorPoint(new cc.p(0,0));
-        this.map.attr({ x: 0, y: 0 });
-        this.worldBackground.addChild(this.map, 2);
+        // this.map.setAnchorPoint(new cc.p(0,0));
+        // this.map.attr({ x: 0, y: 0 });
+        this.worldBackground.addChild(this.map, 100);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
         initCountries();
 
+        /*
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
         // for (var i = 0; i < 169; i++) {
@@ -937,6 +941,7 @@ var WorldLayer = cc.Layer.extend({
             world.worldBackground.addChild(shaderNode, 1);
 
         }
+        */
 
 
         // Add controls
@@ -1061,9 +1066,6 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.resourceScoreBackground, 100);
 
         var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
-        // antarcticaSmallSprite.setAnchorPoint(new cc.p(0., 0.));
-        // antarcticaSmallSprite.setContentSize(cc.size(250, 251));
-        // antarcticaSmallSprite.setScale(8);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -1075,17 +1077,6 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreLabel.setPosition(cc.p(80, 25));
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
-
-        // // Add "World" background layer
-        // this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
-        // this.spriteBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
-        // this.addChild(this.spriteBackground, 1);
-
-        // var dotSpriteBatch = new cc.SpriteBatchNode(res.dot_png, 1000);
-        // dotSpriteBatch.setAnchorPoint(new cc.p(0,0));
-        // dotSpriteBatch.attr({ x: 0, y: 0 });
-        // this.spriteBackground.addChild(dotSpriteBatch, 100, TAG_SPRITE_BATCH_NODE);
-
 
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
         layout.setAnchorPoint(new cc.p(0,0));
@@ -1217,12 +1208,6 @@ var WorldLayer = cc.Layer.extend({
                 world._emitter.x = cc.winSize.width / 2;
                 world._emitter.y = cc.winSize.height / 2 - 50;
         };
-
-        // var shaderNode = new ShaderOutlineEffect(antarcticaSmallSprite);
-        // shaderNode.x = this.width;
-        // shaderNode.y = this.height;
-        // world.worldBackground.addChild(shaderNode, 110);
-    
 
         return true;
     },
@@ -1408,7 +1393,7 @@ var WorldLayer = cc.Layer.extend({
                 // // world.generatePointsForCountry(country, false, 0, country.loss);
             }
         };
-        world.generatePoints();
+        // world.generatePoints();
 
         var genNormRand = function() {
             // Produce a random value from a normal distribution with a mean of 120.
@@ -1465,7 +1450,7 @@ var WorldLayer = cc.Layer.extend({
             // world.renderer.end();
             // world.renderer.retain();
         };
-        drawPoints();
+        // drawPoints();
         world.drawPoints = drawPoints;
 
         var printCountryStats = function(){

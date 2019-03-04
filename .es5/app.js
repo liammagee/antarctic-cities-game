@@ -830,13 +830,14 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.addChild(this.worldBackground, 1);
 
-        // Interaction handling
+        /*
+         // Interaction handling
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
             // Pan handling
-            onMouseMove: function onMouseMove(event) {
-                if (event.getButton() == cc.EventMouse.BUTTON_LEFT) {
-                    var node = event.getCurrentTarget();
+            onMouseMove: function(event){
+                if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
+                    var node = event.getCurrentTarget(); 
                     var scale = node.getScale();
                     var size = node.getContentSize();
                     var scaledX = scale * size.width;
@@ -844,35 +845,42 @@ var WorldLayer = cc.Layer.extend({
                     // Calculate margins adjusted for size
                     var marginX = node.width / (2 / (1e-06 + scale - 1));
                     var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
-                    if (node.x + event.getDeltaX() < marginX && node.x + event.getDeltaX() > -marginX && node.y + event.getDeltaY() < marginY && node.y + event.getDeltaY() > -marginY) {
+                    if (node.x + event.getDeltaX() < marginX && 
+                        node.x + event.getDeltaX() > -marginX &&
+                        node.y + event.getDeltaY() < marginY && 
+                        node.y + event.getDeltaY() > -marginY ) {
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
                     }
                 }
             },
             // Zoom handling
-            onMouseScroll: function onMouseScroll(event) {
-                var node = event.getCurrentTarget();
+            onMouseScroll: function(event){
+                var node = event.getCurrentTarget(); 
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
                 var newScale = node.getScale() * (1 + delta / 1000.0);
                 // Calculate margins adjusted for size
                 var marginX = node.width / (2 / (1e-06 + newScale - 1));
                 var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
-                if (newScale <= 10.0 && newScale >= 1.0 && node.x < marginX && node.x > -marginX) {
+                if (newScale <= 10.0 && newScale >= 1.0 && 
+                    node.x < marginX && 
+                    node.x > -marginX) {
                     node.setScale(newScale);
                 }
             }
         }, this.worldBackground);
+        */
 
         // Add map
         this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
-        this.map.setAnchorPoint(new cc.p(0, 0));
-        this.map.attr({ x: 0, y: 0 });
-        this.worldBackground.addChild(this.map, 2);
+        // this.map.setAnchorPoint(new cc.p(0,0));
+        // this.map.attr({ x: 0, y: 0 });
+        this.worldBackground.addChild(this.map, 100);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
         initCountries();
 
+        /*
         // for (var i = 0; i < 177; i++) {
         // Peirce projection
         // for (var i = 0; i < 169; i++) {
@@ -883,29 +891,26 @@ var WorldLayer = cc.Layer.extend({
         // 50m Stereographic projection - 0.0
         world.spriteCountries = {};
         for (var i = 0; i < 225; i++) {
-            var gid = i + 3;
+            var gid = (i + 3);
             var l = this.map.getLayer("Tile Layer " + gid);
-            var arr = Object.values(world.countries).filter(function (c) {
-                return c.gid == gid;
-            });
-            if (arr.length == 0) continue;
+            var arr = Object.values(world.countries).filter(c => c.gid == gid);
+            if (arr.length == 0)
+                continue;
             var country = arr[0];
-
-            var sprite = new cc.Sprite(l.tileset.sourceImage);
-
-            sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
+             var sprite = new cc.Sprite(l.tileset.sourceImage);
+             sprite.setPosition(cc.p(parseInt(country.offsetX), 
+                parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
             sprite.setAnchorPoint(cc.p(0., 0.));
             world.worldBackground.addChild(sprite, 2);
-
-            world.spriteCountries[country.iso_a3] = sprite;
-
-            var shaderNode = new ShaderOutlineEffect(sprite, country, false);
+             world.spriteCountries[country.iso_a3] = sprite;
+             var shaderNode = new ShaderOutlineEffect(sprite, country, false);
             shaderNode.width = 1;
             shaderNode.height = 1;
             shaderNode.x = this.width;
             shaderNode.y = this.height;
             world.worldBackground.addChild(shaderNode, 1);
-        }
+         }
+        */
 
         // Add controls
         this.controlsBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 72);
@@ -1027,9 +1032,6 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(this.resourceScoreBackground, 100);
 
         var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
-        // antarcticaSmallSprite.setAnchorPoint(new cc.p(0., 0.));
-        // antarcticaSmallSprite.setContentSize(cc.size(250, 251));
-        // antarcticaSmallSprite.setScale(8);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -1041,17 +1043,6 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreLabel.setPosition(cc.p(80, 25));
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
-
-        // // Add "World" background layer
-        // this.spriteBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
-        // this.spriteBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
-        // this.addChild(this.spriteBackground, 1);
-
-        // var dotSpriteBatch = new cc.SpriteBatchNode(res.dot_png, 1000);
-        // dotSpriteBatch.setAnchorPoint(new cc.p(0,0));
-        // dotSpriteBatch.attr({ x: 0, y: 0 });
-        // this.spriteBackground.addChild(dotSpriteBatch, 100, TAG_SPRITE_BATCH_NODE);
-
 
         layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
         layout.setAnchorPoint(new cc.p(0, 0));
@@ -1181,12 +1172,6 @@ var WorldLayer = cc.Layer.extend({
             if (sourcePos.x === 0 && sourcePos.y === 0) world._emitter.x = cc.winSize.width / 2;
             world._emitter.y = cc.winSize.height / 2 - 50;
         };
-
-        // var shaderNode = new ShaderOutlineEffect(antarcticaSmallSprite);
-        // shaderNode.x = this.width;
-        // shaderNode.y = this.height;
-        // world.worldBackground.addChild(shaderNode, 110);
-
 
         return true;
     },
@@ -1373,7 +1358,7 @@ var WorldLayer = cc.Layer.extend({
                 // // world.generatePointsForCountry(country, false, 0, country.loss);
             }
         };
-        world.generatePoints();
+        // world.generatePoints();
 
         var genNormRand = function genNormRand() {
             // Produce a random value from a normal distribution with a mean of 120.
@@ -1430,7 +1415,7 @@ var WorldLayer = cc.Layer.extend({
             // world.renderer.end();
             // world.renderer.retain();
         };
-        drawPoints();
+        // drawPoints();
         world.drawPoints = drawPoints;
 
         var printCountryStats = function printCountryStats() {
