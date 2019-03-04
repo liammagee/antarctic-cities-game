@@ -1536,7 +1536,7 @@ var WorldLayer = cc.Layer.extend({
                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnRes.setColor(COLOR_RESOURCE);
                 btnRes.placedAt = gameParams.counter;
-                //world.worldBackground.addChild(btnRes, 101);
+                world.worldBackground.addChild(btnRes, 101);
 
                 buttons.push(btnRes);
 
@@ -1645,7 +1645,7 @@ var WorldLayer = cc.Layer.extend({
                 
                 handleMouseTouchEvent(btnCrisis, processCrisisSelection);
                 
-                //world.worldBackground.addChild(btnCrisis, 101);
+                world.worldBackground.addChild(btnCrisis, 101);
 
                 // After the third crisis, add notifications to the news feed
                 let message = "A " + crisis.name + " is taking place in " + country.name + "."; 
