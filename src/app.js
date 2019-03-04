@@ -1,15 +1,18 @@
 // Global parameters
 var X_OFFSET = 0, Y_OFFSET = 50;
-var MONTH_INTERVAL = 20;
-var RESOURCE_CHANCE = 0.5;
-var CRISIS_CHANCE = 0.3;
 var FONT_FACE_TITLE = "ArvoFont";
 var FONT_FACE_BODY = "JosefinSansFont";
-// var FONT_FACE_BODY = "Trebuchet MS";
+
+var MONTH_INTERVAL = 20;
+var RESOURCE_CHANCE = 0.1;
+var CRISIS_CHANCE = 0.05;
 var RESOURCE_SIZE_W = 64; 
 var RESOURCE_SIZE_H = 72; 
-var RESOURCE_DURATION = 300;
 var TAG_SPRITE_BATCH_NODE = 1;
+var TUTORIAL_INTERVAL_MULTIPLIER = 6; 
+var RESOURCE_INTERVAL_MULTIPLIER = 10; 
+var CRISIS_INTERVAL_MULTIPLIER = 20; 
+var RESOURCE_DURATION = 300;
 
 
 // Game variables
@@ -376,7 +379,8 @@ var initGameParams = function(scenarioData) {
     gameParams.currentDate = gameParams.startDate;
     gameParams.counter = 0;
     gameParams.lastResource = 0;
-    gameParams.lastCrisis = 0;
+    // First crisis will take twice as long
+    gameParams.lastCrisis = CRISIS_INTERVAL_MULTIPLIER;
     gameParams.crises = [];
     gameParams.crisisCountry = null;
     gameParams.crisisCount = 0;
@@ -519,9 +523,9 @@ var startGameParams = function() {
 var updateTimeVars = function(interval) {
 
     gameParams.timeInterval = interval;
-    gameParams.tutorialInterval = gameParams.timeInterval * 6;
-    gameParams.resourceInterval = gameParams.timeInterval * 10; 
-    gameParams.crisisInterval = gameParams.timeInterval * 30;
+    gameParams.tutorialInterval = gameParams.timeInterval * TUTORIAL_INTERVAL_MULTIPLIER;
+    gameParams.resourceInterval = gameParams.timeInterval * RESOURCE_INTERVAL_MULTIPLIER; 
+    gameParams.crisisInterval = gameParams.timeInterval * CRISIS_INTERVAL_MULTIPLIER;
 
 };
 
@@ -647,7 +651,7 @@ var postResultsToServer = function() {
     // Test posting data
     var xhr = cc.loader.getXMLHttpRequest();
 
-    xhr.open("POST", "http://localhost:8000/game_data");
+    xhr.open("POST", "http://43.240.98.94/game_data");
 
     //set Content-type "text/plain;charset=UTF-8" to post plain text
     xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
@@ -1043,21 +1047,10 @@ var WorldLayer = cc.Layer.extend({
         this.btnFF.enabled = false;
 
         // Add tweet area
-        // this.tweetBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 600, 36);
-        this.tweetBackground2 = new ccui.ScrollView();
-        this.tweetBackground2.setDirection(ccui.ScrollView.DIR_VERTICAL);
-        //this.tweetBackground2.setTouchEnabled(true);
-        this.tweetBackground2.attr({ width: 600, height: 36, x: (size.width / 2) - (WINDOW_WIDTH / 2), y: size.height - 96 });
-        this.tweetBackground2.setContentSize(cc.size(600, 36));
-        // this.tweetBackground2.setBackGroundColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackground2.setInnerContainerSize(cc.size(WINDOW_WIDTH / 2, 36));
-        // this.tweetBackground2.setAnchorPoint(new cc.p(0,0));
-        // this.addChild(this.tweetBackground2, 110);
-
         this.tweetBackground = new cc.ClippingNode();
         this.tweetBackground.setColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackground.attr({ width: WINDOW_WIDTH / 2, height: 36, x: (WINDOW_WIDTH / 4), y: size.height - 48 });
-        this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH / 2, 36));
+        this.tweetBackground.attr({ width: WINDOW_WIDTH * 0.66, height: 36, x: (WINDOW_WIDTH / 6), y: size.height - 48 });
+        this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH * 0.66, 36));
         var stencil = new cc.DrawNode();
         var rectangle = [cc.p(0, 0),cc.p(this.tweetBackground.width, 0),
             cc.p(this.tweetBackground.width, this.tweetBackground.height),
@@ -1481,8 +1474,8 @@ var WorldLayer = cc.Layer.extend({
             var country = world.countries[gameParams.currentCountry];
             world.countryLabel.setString(country.name);
 
-            var lossPercent = Math.round(country.loss);
-            var preparedPercent = Math.round(country.pop_prepared_percent);
+            var lossPercent = Math.floor(country.loss);
+            var preparedPercent = Math.floor(country.pop_prepared_percent);
 
             world.countryLoss.setString(lossPercent + "%" );
             world.countryLossProgress.setPercent(lossPercent);
@@ -2326,7 +2319,9 @@ var WorldLayer = cc.Layer.extend({
                 });                
                 // Check enough time has elapsed to generate a new resource with some probability (1 / RESOURCE_CHANCE)
                 if (gameParams.counter - gameParams.lastCrisis >= ci  && Math.random() < CRISIS_CHANCE) {
+
                     addCrisis();
+
                 }
                 
                 var ri = gameParams.resourceInterval;
@@ -3180,15 +3175,6 @@ var DesignPolicyLayer = cc.Layer.extend({
         // For automation
         layer.investButton = btnPolicyInvest;
 
-        var calculateResourceAndCrisisImpacts = function(resource) {
-
-            // Calculate resource-specific effects
-            // gameParams.resourceInterval /= (1 + resource.effect_on_resources);
-            // gameParams.resourceInterval = Math.floor(gameParams.resourceInterval);
-            // gameParams.crisisInterval /= (1 + resource.effect_on_crises);
-            // gameParams.crisisInterval = Math.floor(gameParams.crisisInterval);
-
-        };
 
         handleMouseTouchEvent(btnPolicyInvest, function(){
 
