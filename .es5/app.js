@@ -2987,6 +2987,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnExit.setTitleFontSize(72);
         btnExit.setTitleText("X");
         handleMouseTouchEvent(btnExit, function () {
+
             world.setVisible(true);
             layer.removeFromParent();
             gameParams.state = gameStates.STARTED;
@@ -3005,13 +3006,14 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyLabel.setPosition(cc.p(20, 340));
         policyDetailsBackground.addChild(policyLabel);
 
+        var policyGeneralLabel = "<<< Select one of the policies to invest in it!";
         var policyDescription = new ccui.Text("", FONT_FACE_BODY, 20);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
         policyDescription.setContentSize(cc.size(360, 200));
         policyDescription.setPosition(cc.p(20, 120));
         policyDescription.setColor(COLOR_ICE);
-        policyDescription.setString("Click on a policy to read more, and invest!");
+        policyDescription.setString(policyGeneralLabel);
         policyDetailsBackground.addChild(policyDescription, 2);
 
         var policyCostLabel = new ccui.Text("", FONT_FACE_BODY, 30);
@@ -3020,7 +3022,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyCostLabel.setPosition(cc.p(20, 80));
         policyDetailsBackground.addChild(policyCostLabel);
 
-        var btnPolicyInvest = new ccui.Button(res.button_white);
+        var btnPolicyInvest = new ccui.Button(res.button_white, "", res.button_grey);
         btnPolicyInvest.setTouchEnabled(true);
         btnPolicyInvest.setSwallowTouches(false);
         btnPolicyInvest.setSize(cc.size(300, 60));
@@ -3029,6 +3031,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnPolicyInvest.setAnchorPoint(cc.p(0, 0));
         btnPolicyInvest.setTitleFontSize(24);
         btnPolicyInvest.setTitleColor(COLOR_BLACK);
+        btnPolicyInvest.setTitleFontName(FONT_FACE_BODY);
         btnPolicyInvest.setTitleText("Invest in this policy");
 
         // For automation
@@ -3036,24 +3039,23 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         handleMouseTouchEvent(btnPolicyInvest, function () {
 
+            var cost = resourceSelected.cost_1;
             if (gameParams.resources - resourceSelected.cost_1 >= 0 && typeof gameParams.policies[resourceSelected.id] === "undefined") {
 
                 gameParams.resources -= resourceSelected.cost_1;
+                cost = resourceSelected.cost_2;
                 gameParams.policies[resourceSelected.id] = 1;
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
-
-                calculateResourceAndCrisisImpacts(resourceSelected);
             } else if (gameParams.resources - resourceSelected.cost_2 >= 0 && gameParams.policies[resourceSelected.id] === 1) {
 
                 gameParams.resources -= resourceSelected.cost_2;
+                cost = resourceSelected.cost_3;
                 gameParams.policies[resourceSelected.id] = 2;
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
-
-                calculateResourceAndCrisisImpacts(resourceSelected);
             } else if (gameParams.resources - resourceSelected.cost_3 >= 0 && gameParams.policies[resourceSelected.id] == 2) {
 
                 gameParams.resources -= resourceSelected.cost_3;
@@ -3061,12 +3063,26 @@ var DesignPolicyLayer = cc.Layer.extend({
                 resourceSelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
+            }
 
-                calculateResourceAndCrisisImpacts(resourceSelected);
+            if (gameParams.policies[resourceSelected.id] == 3) {
+
+                btnPolicyInvest.setBright(false);
+                btnPolicyInvest.setEnabled(false);
+                btnPolicyInvest.setTitleText("You have completed this policy!");
+            } else if (cost < gameParams.resources) {
+
+                btnPolicyInvest.setBright(true);
+                btnPolicyInvest.setEnabled(true);
+                btnPolicyInvest.setTitleText("Invest in this policy");
+            } else {
+
+                btnPolicyInvest.setBright(false);
+                btnPolicyInvest.setEnabled(false);
+                btnPolicyInvest.setTitleText("You need more resources!");
             }
         });
         policyDetailsBackground.addChild(btnPolicyInvest, 100);
-        policyDetailsBackground.setVisible(false);
 
         var pageView = new ccui.PageView();
         pageView.setContentSize(cc.size(size.width, size.height - Y_OFFSET));
@@ -3099,7 +3115,20 @@ var DesignPolicyLayer = cc.Layer.extend({
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
 
+            var xLoc = 0,
+                yLoc = 0,
+                policyOptionCounter = 0;
             resourceGrp.policyOptions.forEach(function (opt) {
+
+                xLoc = (1 + policyOptionCounter % 2) * 300 - 52;
+                yLoc = (1 - Math.floor(policyOptionCounter / 2)) * 300 + 200 - 26;
+                policyOptionCounter++;
+
+                var btnLayer = new cc.Layer();
+                btnLayer.setAnchorPoint(cc.p(0, 0));
+                btnLayer.attr({ x: xLoc, y: yLoc });
+                btnLayer.setContentSize(cc.size(200, 200));
+                layout.addChild(btnLayer, 101);
 
                 var btn = new ccui.Button();
                 btn.setName(opt.text);
@@ -3108,31 +3137,24 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btn.setAnchorPoint(cc.p(0, 0));
                 btn.setScale9Enabled(true);
                 btn.loadTextures(opt.img_normal, "", opt.img_on);
-                btn.attr(opt.location);
+                btn.attr({ x: 52, y: 52 });
                 btn.setContentSize(cc.size(104, 104));
                 layer.policyButtons.push(btn);
 
                 btn.cost_1 = opt.cost_1;
                 btn.cost_2 = opt.cost_2;
                 btn.cost_3 = opt.cost_3;
+                btnLayer.option = opt;
                 btn.option = opt;
 
                 if (typeof gameParams.policies[opt.id] !== "undefined") btn.enabled = false;
 
-                handleMouseTouchEvent(btn, function (target) {
-                    policyDetailsBackground.setVisible(true);
-                    resourceSelected = target.option;
-                    policyLabel.setString(resourceSelected.text_long);
-                    policyDescription.setString(resourceSelected.description);
-                    policyCostLabel.setString("Cost: " + resourceSelected.cost_1.toString());
-                    resourceSelectedButton = target;
-                });
-                layout.addChild(btn, 101);
+                btnLayer.addChild(btn, 101);
 
                 var btnLabel = new cc.LabelTTF(opt.text, FONT_FACE_TITLE, 20);
-                btnLabel.attr({ x: opt.location.x + 26, y: opt.location.y - 52 });
+                btnLabel.attr({ x: 78, y: 0 });
                 btnLabel.setAnchorPoint(cc.p(0.5, 0.0));
-                layout.addChild(btnLabel, 101);
+                btnLayer.addChild(btnLabel, 101);
 
                 var btnLvl1, btnLvl2, btnLvl3;
                 if (typeof gameParams.policies[opt.id] === "undefined") {
@@ -3152,19 +3174,54 @@ var DesignPolicyLayer = cc.Layer.extend({
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_on_png);
                 }
-                btnLvl1.attr({ x: opt.location.x - 52, y: opt.location.y });
+                btnLvl1.attr({ x: 0, y: 52 });
                 btnLvl1.setAnchorPoint(cc.p(0.0, 0.0));
-                btnLvl2.attr({ x: opt.location.x - 52, y: opt.location.y + 35 });
+                btnLvl2.attr({ x: 0, y: btnLvl1.y + 35 });
                 btnLvl2.setAnchorPoint(cc.p(0.0, 0.0));
-                btnLvl3.attr({ x: opt.location.x - 52, y: opt.location.y + 70 });
+                btnLvl3.attr({ x: 0, y: btnLvl2.y + 35 });
                 btnLvl3.setAnchorPoint(cc.p(0.0, 0.0));
-                layout.addChild(btnLvl1, 101);
-                layout.addChild(btnLvl2, 101);
-                layout.addChild(btnLvl3, 101);
+                btnLayer.addChild(btnLvl1, 101);
+                btnLayer.addChild(btnLvl2, 101);
+                btnLayer.addChild(btnLvl3, 101);
 
                 levelButtons[opt.id * 100 + 1] = btnLvl1;
                 levelButtons[opt.id * 100 + 2] = btnLvl2;
                 levelButtons[opt.id * 100 + 3] = btnLvl3;
+
+                var policySelector = function policySelector(target) {
+
+                    resourceSelected = target.option;
+                    policyLabel.setString(resourceSelected.text_long);
+                    policyDescription.setString(resourceSelected.description);
+                    var cost = resourceSelected.cost_1;
+                    if (gameParams.policies[opt.id] == 1) cost = resourceSelected.cost_2;else if (gameParams.policies[opt.id] == 2) cost = resourceSelected.cost_3;else if (gameParams.policies[opt.id] == 3) cost = 0;
+                    policyCostLabel.setString("Cost: " + cost.toString());
+
+                    if (gameParams.policies[opt.id] == 3) {
+
+                        btnPolicyInvest.setBright(false);
+                        btnPolicyInvest.setEnabled(false);
+                        btnPolicyInvest.setTitleText("You have completed this policy!");
+                    } else if (cost < gameParams.resources) {
+
+                        btnPolicyInvest.setBright(true);
+                        btnPolicyInvest.setEnabled(true);
+                        btnPolicyInvest.setTitleText("Invest in this policy");
+                    } else {
+
+                        btnPolicyInvest.setBright(false);
+                        btnPolicyInvest.setEnabled(false);
+                        btnPolicyInvest.setTitleText("You need more resources!");
+                    }
+
+                    resourceSelectedButton = target;
+
+                    policyLabel.setVisible(true);
+                    policyCostLabel.setVisible(true);
+                    btnPolicyInvest.setVisible(true);
+                };
+
+                handleMouseTouchEvent(btnLayer, policySelector);
             });
             pageView.insertPage(layout, i);
         }
@@ -3185,13 +3242,15 @@ var DesignPolicyLayer = cc.Layer.extend({
             btn.setTitleFontSize(36);
             btn.setTitleFontName(FONT_FACE_TITLE);
             handleMouseTouchEvent(btn, function () {
+
                 resourceSelected = null;
-                policyDetailsBackground.setVisible(false);
                 pageView.setCurrentPageIndex(index);
                 btn.setBright(false);
                 btn.enabled = false;
                 btn.setColor(COLOR_OAK);
+
                 if (prevButton != null && prevButton != btn) {
+
                     prevButton.setBright(true);
                     prevButton.enabled = true;
                     prevButton.setColor(COLOR_ICE);
@@ -3199,8 +3258,12 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 prevButton = btn;
 
-                policyDescription.setString("Click on a policy to read more, and invest!");
+                policyLabel.setVisible(false);
+                policyDescription.setString(policyGeneralLabel);
+                policyCostLabel.setVisible(false);
+                btnPolicyInvest.setVisible(false);
             });
+
             // Select the first button only
             if (index == 0) {
                 btn.setBright(false);
