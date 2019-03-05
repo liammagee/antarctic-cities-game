@@ -641,12 +641,55 @@ var postResultsToServer = function postResultsToServer() {
     // Test posting data
     var xhr = cc.loader.getXMLHttpRequest();
 
-    xhr.open("POST", "http://43.240.98.94/game_data");
+    // xhr.open("POST", "http://43.240.98.94/game_data");
+    xhr.open("POST", "http://localhost:8000/game_data");
 
     //set Content-type "text/plain;charset=UTF-8" to post plain text
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    cc.log(JSON.stringify(gameParams));
-    xhr.send(JSON.stringify(gameParams));
+    var gameLog = Object.assign({}, gameParams, {
+        policyOptions: undefined,
+        policyRelations: undefined,
+        messagesNegative: undefined,
+        messagesPositive: undefined,
+        timeoutID: undefined,
+        tutorialHints: undefined,
+        tutorialInterval: undefined
+    });
+    var countries = {};
+    Object.values(world.countries).forEach(function (c) {
+        countries[c.iso_a3] = Object.assign({}, c, {
+
+            points: undefined,
+            points_shared: undefined,
+            points_total: undefined,
+            selected: undefined,
+            shared_border_percentage: undefined,
+            subregion: undefined,
+            destructionPoints: undefined,
+            destructionDots: undefined,
+            policyPoints: undefined,
+            policyDots: undefined,
+            offsetX: undefined,
+            offsetY: undefined,
+            neighbours: undefined,
+            income_grp: undefined,
+            income_grp_num: undefined,
+            iso_a2: undefined,
+            gid: undefined,
+            gdp: undefined,
+            extremes: undefined,
+            equator_dist: undefined,
+            centroid: undefined,
+            area: undefined,
+            density: undefined,
+            economy: undefined
+
+        });
+    });
+    gameLog.countries = countries;
+
+    cc.log(JSON.stringify(gameLog));
+    xhr.send(JSON.stringify(gameLog));
 };
 
 /**
