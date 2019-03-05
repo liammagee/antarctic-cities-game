@@ -652,8 +652,8 @@ var postResultsToServer = function() {
     // Test posting data
     var xhr = cc.loader.getXMLHttpRequest();
 
-    // xhr.open("POST", "http://43.240.98.94/game_data");
-    xhr.open("POST", "http://localhost:8000/game_data");
+    xhr.open("POST", "http://43.240.98.94/game_data");
+    // xhr.open("POST", "http://localhost:8000/game_data");
 
     //set Content-type "text/plain;charset=UTF-8" to post plain text
     xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
