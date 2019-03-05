@@ -2308,8 +2308,9 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.counter - gameParams.lastResource >= ri) {
 
                     addResource();
+
+                    gameParams.resourceInterval *= 1.1;
                 }
-                gameParams.resourceInterval += 0.1 * gameParams.timeInterval;
 
                 if (gameParams.tutorialMode && gameParams.counter % gameParams.tutorialInterval == 0) {
                     addTutorial();

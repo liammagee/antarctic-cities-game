@@ -294,6 +294,7 @@
 
             </sources>
             <sources dir="${basedir}">
+                <file name=".es5/app-test.js"/>
                 <file name=".es5/app.js"/>
                 <file name=".es5/dat.js"/>
                 <file name=".es5/resource.js"/>
