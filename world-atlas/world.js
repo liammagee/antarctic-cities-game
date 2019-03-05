@@ -252,7 +252,6 @@ function writeProj(proj, file) {
             scaley_country = height / width,
             translate_country = [-bounds_country[0][0], -bounds_country[0][1]];
 
-      console.log(translate_country[1], dy_country, scaley_country,dy_country * scaley_country, scaley, )
       var canvasCountry = new Canvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
       // var canvasCountry = new Canvas(width / 2, height / 2);
       var contextCountry = canvasCountry.getContext('2d');
@@ -346,6 +345,7 @@ function writeProj(proj, file) {
     // When there are multiple polygons, i.e. land masses
     if (coords.length > 1)
       mainland_coords = orig_coords[0][0];
+    console.log("len: ",country.iso_a3, mainland_coords.length)
     var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
     var meanLongitudes = sumOfLongitudes / mainland_coords.length;
     var minX = 0, maxY = 0;
@@ -362,7 +362,6 @@ function writeProj(proj, file) {
         }
       })
     });
-    console.log("mins:", minX, maxY)
     // For each element in the array, i.e. land mass, construct a TMX object
     coords.forEach(s => {
       s = s.join(' ');
@@ -394,12 +393,17 @@ function writeProj(proj, file) {
       tmx_frag += '\t</object>\n';
     });
 
-    countries.push(country);
-    iso_a3s.push(country.iso_a3);
-    country_files.push(country_file);
-    frags.push(tmx_frag);
+    if (mainland_coords.length > 20) {
+      countries.push(country);
+      iso_a3s.push(country.iso_a3);
+      country_files.push(country_file);
+      frags.push(tmx_frag);
 
-    return gid + 1;
+      return gid + 1;
+    }
+    else  {
+      return gid;
+    }
   };
 
   var counter = 0;

@@ -367,6 +367,7 @@ var initCountries = function() {
 var initGameParams = function(scenarioData) {
     gameParams = {};
     gameParams.state = gameStates.INITIALISED;
+    gameParams.modal = false;
     gameParams.startDate = new Date(Date.now());
     gameParams.startDate.setDate(1);
     gameParams.startDate.setMonth(scenarioData.start_month);
@@ -755,6 +756,7 @@ var handleMouseTouchEvent = function(target, callback) {
         event: cc.EventListener.TOUCH_ONE_BY_ONE,
         swallowTouches: true,
         onTouchBegan : function(touch, event) {
+
             var target = event.getCurrentTarget();
             var locationInNode = target.convertToNodeSpace(touch.getLocation());
             var s = target.getContentSize();
@@ -883,6 +885,10 @@ var WorldLayer = cc.Layer.extend({
             event: cc.EventListener.MOUSE,
             // Pan handling
             onMouseMove: function(event){
+
+                if (gameParams.modal)
+                    return false;
+
                 if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
                     var node = event.getCurrentTarget(); 
                     var scale = node.getScale();
@@ -903,6 +909,10 @@ var WorldLayer = cc.Layer.extend({
             },
             // Zoom handling
             onMouseScroll: function(event){
+
+                if (gameParams.modal)
+                    return false;
+
                 var node = event.getCurrentTarget(); 
                 var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
                 var newScale = node.getScale() * (1 + delta / 1000.0);
@@ -935,7 +945,8 @@ var WorldLayer = cc.Layer.extend({
         // for (var i = 0; i < 166; i++) {
         // 50m Stereographic projection - 0.0
         world.spriteCountries = {};
-        for (var i = 0; i < 225; i++) {
+        // for (var i = 0; i < 225; i++) {
+        for (var i = 0; i < 168; i++) {
             var gid = (i + 3);
             var l = this.map.getLayer("Tile Layer " + gid);
             var arr = Object.values(world.countries).filter(c => c.gid == gid);
@@ -1203,12 +1214,14 @@ var WorldLayer = cc.Layer.extend({
             layer = new DesignPolicyLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
+            gameParams.modal = true;
         });
         handleMouseTouchEvent(this.btnStats, function(){
             gameParams.state = gameStates.PAUSED;
             layer = new StatsLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
+            gameParams.modal = true;
         });
 
         var addEmitter = function () {
@@ -2540,12 +2553,17 @@ var WorldLayer = cc.Layer.extend({
 
             onMouseMove : function(event) {
              
-                world.mouse = event.getLocation();
+                if (gameParams.modal)
+                    return false;
+
                 selectCountry(event, event.getLocation());
 
             },
 
             onMouseUp : function(event) {
+             
+                if (gameParams.modal)
+                    return false;
              
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(event.getLocation());
@@ -2563,6 +2581,9 @@ var WorldLayer = cc.Layer.extend({
             swallowTouches: true,
             onTouchBegan : function(touch, event) {
 
+                if (gameParams.modal)
+                    return false;
+
                 var target = event.getCurrentTarget();
                 var locationInNode = target.convertToNodeSpace(touch.getLocation());
                 var s = target.getContentSize();
@@ -2575,6 +2596,9 @@ var WorldLayer = cc.Layer.extend({
 
             },
             onTouchEnded : function(touch, event) {
+
+                if (gameParams.modal)
+                    return false;
 
                 var target = event.getCurrentTarget();
                 if (target.TOUCHED) {
@@ -3108,6 +3132,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         // For automation
         layer.policyButtons = [];
 
+
         var layerBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
@@ -3129,6 +3154,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             world.setVisible(true);
             layer.removeFromParent();
             gameParams.state = gameStates.STARTED;
+            gameParams.modal = false;
 
         });
         layer.btnExit = btnExit;
@@ -3217,7 +3243,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 btnPolicyInvest.setBright(false);
                 btnPolicyInvest.setEnabled(false);
-                btnPolicyInvest.setTitleText("You have completed this policy!");
+                btnPolicyInvest.setTitleText("Policy completed!");
 
             }
             else if (cost < gameParams.resources) {
@@ -3235,8 +3261,8 @@ var DesignPolicyLayer = cc.Layer.extend({
 
             }
 
+        });
 
-        })
         policyDetailsBackground.addChild(btnPolicyInvest, 100);
 
         var pageView = new ccui.PageView();
@@ -3364,7 +3390,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                         btnPolicyInvest.setBright(false);
                         btnPolicyInvest.setEnabled(false);
-                        btnPolicyInvest.setTitleText("You have completed this policy!");
+                        btnPolicyInvest.setTitleText("Policy completed!");
 
                     }
                     else if (cost < gameParams.resources) {
@@ -3395,6 +3421,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             });
             pageView.insertPage(layout, i);
         }
+
         layer.addChild(pageView, 100);
         pageView.setCurrentPageIndex(0);
 
@@ -3470,6 +3497,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
     }
+
 });
 
 
@@ -3905,11 +3933,16 @@ var StatsLayer = cc.Layer.extend({
         btnExit.setColor(COLOR_ICE);
         btnExit.setTitleFontSize(72);
         btnExit.setTitleText("X");
+        
         handleMouseTouchEvent(btnExit, function() {
+        
             world.setVisible(true);
             layer.removeFromParent();
             gameParams.state = gameStates.STARTED;
+            gameParams.modal = false;
+        
         });
+
         layerBackground.addChild(btnExit, 102);
 
     }
