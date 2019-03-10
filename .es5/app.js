@@ -983,11 +983,17 @@ var WorldLayer = cc.Layer.extend({
 
         // Add controls
         this.controlsBackground = new cc.Layer();
-        this.controlsBackground.setAnchorPoint(cc.p(0, 0));
+        this.controlsBackground.setAnchorPoint(cc.p(0.5, 0.5));
         this.controlsBackground.x = size.width - 138;
         this.controlsBackground.y = size.height - 84;
         this.controlsBackground.setContentSize(cc.size(126, 72));
-        layout.addChild(this.controlsBackground, 2);
+        var controlsBackgroundSprite = new cc.Sprite(res.ctrls_background);
+        controlsBackgroundSprite.setAnchorPoint(new cc.p(0.0, 0.0));
+        controlsBackgroundSprite.setContentSize(cc.size(126, 72));
+        controlsBackgroundSprite.setPosition(cc.p(0, 0));
+        controlsBackgroundSprite.setOpacity(200);
+        this.controlsBackground.addChild(controlsBackgroundSprite, 1);
+        layout.addChild(this.controlsBackground, 1);
 
         // this.dateBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 30);
         this.dateBackground = new cc.Layer();
@@ -998,22 +1004,20 @@ var WorldLayer = cc.Layer.extend({
         this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
         this.dayLabel.attr({ x: 14, y: 48 });
-        this.dayLabel.color = COLOR_LICORICE;
-        //this.dayLabel.color = COLOR_FOREGROUND;
+        this.dayLabel.color = COLOR_FOREGROUND;
         this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
         this.monthLabel.attr({ x: 30, y: 48 });
-        this.monthLabel.color = COLOR_LICORICE;
-        //this.monthLabel.color = COLOR_FOREGROUND;
+        this.monthLabel.color = COLOR_FOREGROUND;
         this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.attr({ x: 54, y: 48 });
-        this.yearLabel.color = COLOR_LICORICE;
-        //this.yearLabel.color = COLOR_FOREGROUND;
+        this.yearLabel.color = COLOR_FOREGROUND;
         // this.controlsBackground.addChild(this.dayLabel, 1);
-        this.controlsBackground.addChild(this.monthLabel, 1);
-        this.controlsBackground.addChild(this.yearLabel, 1);
-        this.controlsBackground.addChild(this.dateBackground, 1);
+
+        this.controlsBackground.addChild(this.monthLabel, 2);
+        this.controlsBackground.addChild(this.yearLabel, 2);
+        this.controlsBackground.addChild(this.dateBackground, 2);
 
         this.btnQuit = new ccui.Button();
         this.btnPause = new ccui.Button();
@@ -1038,7 +1042,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPause.attr({ x: 0, y: 0 });
         this.btnPause.setContentSize(cc.size(105, 105));
         this.btnPause.setScale(0.4);
-        this.controlsBackground.addChild(this.btnPause, 1, "pause");
+        this.controlsBackground.addChild(this.btnPause, 2, "pause");
 
         this.btnPlay.setTouchEnabled(true);
         this.btnPlay.setSwallowTouches(false);
@@ -1048,7 +1052,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPlay.attr({ x: 42, y: 0 });
         this.btnPlay.setContentSize(cc.size(105, 105));
         this.btnPlay.setScale(0.4);
-        this.controlsBackground.addChild(this.btnPlay, 1, "play");
+        this.controlsBackground.addChild(this.btnPlay, 2, "play");
 
         this.btnFF.setTouchEnabled(true);
         this.btnFF.setSwallowTouches(false);
@@ -1058,7 +1062,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnFF.attr({ x: 84, y: 0 });
         this.btnFF.setContentSize(cc.size(105, 105));
         this.btnFF.setScale(0.4);
-        this.controlsBackground.addChild(this.btnFF, 1, "fast");
+        this.controlsBackground.addChild(this.btnFF, 2, "fast");
 
         this.initControls();
 

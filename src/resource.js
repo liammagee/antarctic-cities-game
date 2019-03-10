@@ -23,6 +23,7 @@ var res = {
     button_white: "res/andrea_png/BUTTONS/BUTTON_WHITE.png",
     button_grey: "res/andrea_png/BUTTONS/BUTTON_GREY.png",
     progress_bar: "res/liam_png/progress-bar.png",
+    ctrls_background: "res/liam_png/ctrls-background.png",
     fire_texture: "res/Images/fire.png",
     shader_outline_vertex_nomvp: "res/Shaders/example_Outline_noMVP.vsh",
     shader_outline_vertex: "res/Shaders/example_Outline.vsh",
