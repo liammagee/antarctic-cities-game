@@ -1644,7 +1644,6 @@ var WorldLayer = cc.Layer.extend({
                 btnCrisis.setTouchEnabled(true);
                 btnCrisis.setSwallowTouches(false);
                 btnCrisis.setScale9Enabled(true);
-                // btnCrisis.loadTextures("res/icons/delapouite/originals/svg/ffffff/transparent/banging-gavel.svg", "", "");
                 btnCrisis.loadTextures(crisis.image, "", "");
                 var pt = country.centroid;
                 btnCrisis.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
@@ -2667,44 +2666,92 @@ var LoadingScene = cc.Scene.extend({
         lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
         var lblWelcome = new ccui.Text("Welcome to Antarctica 2048!", FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
-        lblWelcome.setLayoutParameter(lp0);
-        layout.addChild(lblWelcome);
+        lblWelcome.setAnchorPoint(new cc.p(0.5, 0.5));
+        lblWelcome.setPosition(cc.p(size.width / 2, 5 * size.height / 8));
+        // layout.addChild(lblWelcome);
+        layer.addChild(lblWelcome, 101);
 
-        var lp1 = new ccui.RelativeLayoutParameter();
-        lp1.setMargin(margin);
-        lp1.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
+        var lblAbout = new ccui.Text("This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.", FONT_FACE_BODY, 20);
+        lblAbout.setAnchorPoint(cc.p(0.0, 1.0));
+        lblAbout.ignoreContentAdaptWithSize(false);
+        lblAbout.setPosition(cc.p(1 * size.width / 8, 4 * size.height / 8));
+        lblAbout.setContentSize(cc.size(6 * size.width / 8, 1 * size.height / 8));
+        layer.addChild(lblAbout, 101);
+
         var btnPlay = new ccui.Button();
         btnPlay.setContentSize(cc.size(320, 80));
-        btnPlay.setTouchEnabled(true);
         btnPlay.setSwallowTouches(false);
         btnPlay.setPressedActionEnabled(true);
         btnPlay.setScale9Enabled(true);
-        btnPlay.loadTextures(res.button_white, res.button_white, res.button_white);
+        btnPlay.loadTextures(res.button_white, res.button_grey, res.button_grey);
         btnPlay.setTitleText("PLAY");
         btnPlay.setTitleFontName(FONT_FACE_BODY);
         btnPlay.setTitleColor(COLOR_BLACK);
         btnPlay.setTitleFontSize(38);
-        // btnPlay.attr({x: size.width / 2, y: size.height / 2});
-        btnPlay.setLayoutParameter(lp1);
-        layout.addChild(btnPlay, 100);
+        btnPlay.setAnchorPoint(cc.p(0.5, 0.5));
+        btnPlay.setPosition(cc.p(3 * size.width / 8, 1 * size.height / 8));
+        if (cc.sys.localStorage.content === "true") {
 
-        var lp2 = new ccui.RelativeLayoutParameter();
-        lp2.setMargin(margin);
-        lp2.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
+            btnPlay.setTouchEnabled(true);
+            btnPlay.setBright(true);
+            btnPlay.setEnabled(true);
+        } else {
+            btnPlay.setTouchEnabled(false);
+            btnPlay.setBright(false);
+            btnPlay.setEnabled(false);
+        }
+        layer.addChild(btnPlay, 101);
+
         var btnLearnMore = new ccui.Button();
         btnLearnMore.setContentSize(cc.size(320, 80));
         btnLearnMore.setTouchEnabled(true);
         btnLearnMore.setSwallowTouches(false);
         btnLearnMore.setPressedActionEnabled(true);
         btnLearnMore.setScale9Enabled(true);
-        btnLearnMore.loadTextures(res.button_grey, res.button_grey, res.button_grey);
+        btnLearnMore.loadTextures(res.button_white, res.button_grey, res.button_grey);
         btnLearnMore.setTitleText("LEARN MORE");
         btnLearnMore.setTitleFontName(FONT_FACE_BODY);
         btnLearnMore.setTitleColor(COLOR_BLACK);
         btnLearnMore.setTitleFontSize(38);
-        // btnLearnMore.attr({x: size.width / 2, y: size.height / 2});
-        btnLearnMore.setLayoutParameter(lp2);
-        layout.addChild(btnLearnMore, 100);
+        btnLearnMore.setAnchorPoint(cc.p(0.5, 0.5));
+        btnLearnMore.setPosition(cc.p(5 * size.width / 8, 1 * size.height / 8));
+        layer.addChild(btnLearnMore, 101);
+
+        var selectedStateEvent = function selectedStateEvent(sender, type) {
+            switch (type) {
+                case ccui.CheckBox.EVENT_UNSELECTED:
+                    btnPlay.setBright(false);
+                    btnPlay.setEnabled(false);
+                    btnPlay.setTouchEnabled(false);
+                    cc.sys.localStorage.content = false;
+                    break;
+                case ccui.CheckBox.EVENT_SELECTED:
+                    btnPlay.setBright(true);
+                    btnPlay.setEnabled(true);
+                    btnPlay.setTouchEnabled(true);
+                    cc.sys.localStorage.content = true;
+                    break;
+
+                default:
+                    break;
+            }
+        };
+        var chbAgree = new ccui.CheckBox();
+        chbAgree.setTouchEnabled(true);
+        chbAgree.setSwallowTouches(false);
+        chbAgree.loadTextures("res/ccs-res/cocosui/check_box_normal.png", "res/ccs-res/cocosui/check_box_normal_press.png", "res/ccs-res/cocosui/check_box_active.png", "res/ccs-res/cocosui/check_box_normal_disable.png", "res/ccs-res/cocosui/check_box_active_disable.png");
+        chbAgree.setAnchorPoint(cc.p(0.0, 1.0));
+        chbAgree.setPosition(cc.p(1 * size.width / 8, 3 * size.height / 8));
+        chbAgree.setSelected(cc.sys.localStorage.content === "true");
+        chbAgree.addEventListener(selectedStateEvent, this);
+
+        var lblAgreeTerms = new ccui.Text("I agree to participate in this research project, and understand my gameplay data will be recorded anonymously.", FONT_FACE_BODY, 20);
+        lblAgreeTerms.ignoreContentAdaptWithSize(false);
+        lblAgreeTerms.setPosition(cc.p(40 + 1 * size.width / 8, 3 * size.height / 8));
+        lblAgreeTerms.setAnchorPoint(cc.p(0.0, 1.0));
+        lblAgreeTerms.setContentSize(cc.size(6 * size.width / 8, size.height / 8));
+        layer.addChild(chbAgree, 101);
+        layer.addChild(lblAgreeTerms, 101);
 
         var btnAutomate1 = new ccui.Button();
         btnAutomate1.setContentSize(cc.size(80, 80));
@@ -2778,8 +2825,11 @@ var LoadingScene = cc.Scene.extend({
             cc.director.runScene(new WorldScene(5));
         };
         var playHandler = function playHandler() {
-            cc.director.runScene(new WorldScene());
-            // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
+            if (cc.sys.localStorage.content === "true") {
+
+                cc.director.runScene(new WorldScene());
+                // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
+            }
         };
         var learnMoreHandler = function learnMoreHandler() {
             cc.sys.openURL("https://antarctic-cities.org/the-game/");

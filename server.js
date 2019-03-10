@@ -11,7 +11,6 @@ app.use(express.static('./'))
 var stream = fs.createWriteStream("results.json", {flags:'a'});
 
 app.post('/game_data', (req, res) => { 
-    console.log(req.body)
     req.body.ip = req.ip;
     stream.write(JSON.stringify(req.body) + "\n");
     res.send('Thanks for the data!')
