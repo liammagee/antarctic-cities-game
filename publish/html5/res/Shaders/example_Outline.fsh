@@ -139,7 +139,7 @@ void main()
     accum1.rgb = u_outlineColor1 * accum1.a;
     accum1 *= accum1 * dotMask1; 
     accum1 *= f1;
-    accum1 *= (u_fill1 / 100.) * (u_fill1 / 100.);
+    accum1 *= (0.1 + u_fill1 / 100. * 0.9) * (0.1 + u_fill1 / 100. * 0.9);
     
     accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     //accum2 *= 0.1 + u_fill2 / 100. * 0.9 ;

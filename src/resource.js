@@ -1,5 +1,6 @@
 
 var res = {
+    version : "Build: 1000",
     world_png : "res/world-stereographic-perspective.png",
     dot_png : "res/Images/dot.png",
     grat_png : "res/graticule-stereographic-perspective.png",

@@ -2890,6 +2890,13 @@ var LoadingScene = cc.Scene.extend({
         layer.addChild(chbAgree, 101);
         layer.addChild(lblAgreeTerms, 101);
 
+        var lblVersion = new ccui.Text(res.version, FONT_FACE_BODY, 14);
+        lblVersion.setAnchorPoint(cc.p(1.0,0.0));
+        lblVersion.setColor(COLOR_POLICY_POINTS);
+        lblVersion.ignoreContentAdaptWithSize(false);
+        lblVersion.setPosition(cc.p(size.width, 10));
+        lblVersion.setContentSize(cc.size(100, 20));
+        layer.addChild(lblVersion, 101);
         
         var btnAutomate1 = new ccui.Button();
         btnAutomate1.setContentSize(cc.size(80, 80));
