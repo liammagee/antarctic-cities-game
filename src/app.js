@@ -1154,7 +1154,14 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
-        this.btnDevelopPolicy = new ccui.Button();
+
+        this.statusLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        this.statusLayout.setAnchorPoint(new cc.p(0,0));
+        this.statusLayout.setPosition(cc.p(0, 0));
+        this.statusLayout.setContentSize(cc.size(cc.winSize.width, Y_OFFSET));
+        layout.addChild(this.statusLayout);
+
+        this.btnDevelopPolicy = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnDevelopPolicy.setTouchEnabled(true);
         this.btnDevelopPolicy.setSwallowTouches(false);
         this.btnDevelopPolicy.setTitleText("POLICY");
@@ -1163,16 +1170,15 @@ var WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
         this.btnDevelopPolicy.setAnchorPoint(new cc.p(0,0));
         this.btnDevelopPolicy.setContentSize(cc.size(60, Y_OFFSET));
-        this.btnDevelopPolicy.attr({ x: 20, y: 10 });
-        layout.addChild(this.btnDevelopPolicy);
+        this.btnDevelopPolicy.setPosition(cc.p(0, 0));
+        this.statusLayout.addChild(this.btnDevelopPolicy);
 
     
-        // var countryDetailLayout = new cc.Layer();
-        var countryDetailLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        var countryDetailLayout = new cc.Layer();
         countryDetailLayout.setAnchorPoint(new cc.p(0,0));
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
         countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });        
-        layout.addChild(countryDetailLayout);
+        this.statusLayout.addChild(countryDetailLayout);
         var fontSize = 20;
         var labelOffsetY = Y_OFFSET / 2;// - fontSize / 2;
 
@@ -1242,7 +1248,7 @@ var WorldLayer = cc.Layer.extend({
         countryDetailLayout.addChild(this.countryPreparedProgress, 101);
     
         // Stats button
-        this.btnStats = new ccui.Button();
+        this.btnStats = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnStats.setTouchEnabled(true);
         this.btnStats.setSwallowTouches(false);
         this.btnStats.setTitleText("STATS");
@@ -1251,8 +1257,8 @@ var WorldLayer = cc.Layer.extend({
         this.btnStats.setTitleColor(COLOR_ICE);
         this.btnStats.setContentSize(cc.size(120, 80));
         this.btnStats.setAnchorPoint(new cc.p(0,0));
-        this.btnStats.attr({ x: this.width - 120 - 20, y: 10 });
-        layout.addChild(this.btnStats);
+        this.btnStats.setPosition(cc.p(this.width - 217, 0));
+        this.statusLayout.addChild(this.btnStats);
 
         handleMouseTouchEvent(this.btnDevelopPolicy, function(){
             gameParams.state = gameStates.PAUSED;
