@@ -27,8 +27,11 @@ if (typeof(args[1]) !== 'undefined') {
 }
 
 // Colours
-var COUNTRY_GREY = '#D8E1E3';
-  
+const COUNTRY_GREY = '#D8E1E3';
+const decimalFactor = 10;
+const precisionLevel = 0.1;
+const coordCutoff = 4;
+const mainlandCoordCutoff = 6;
 
 
 var Image = Canvas.Image, canvas = new Canvas(width, height), context = canvas.getContext('2d');
@@ -46,8 +49,9 @@ var data = JSON.parse(fs.readFileSync("./world/" + jsonFile, 'utf8'));
 var tracts = topojson.feature(data, data.objects.tracts);
 
 // Simplify the data
-//var data_sim = topojson.simplify(topojson.presimplify(data), 0.9);
-var tracts_sim = tracts; //topojson.feature(data_sim, data_sim.objects.tracts);
+var data_sim = topojson.simplify(topojson.presimplify(data), precisionLevel);
+var tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
+// var tracts_sim = tracts;
 // var land = topojson.feature(data, data.objects.land);
 // var countries = topojson.feature(data, data.objects.countries);
 
@@ -345,10 +349,11 @@ function writeProj(proj, file) {
     tmx_frag = "";
     var internalCounter = 0;
   
+  
     // Parses the SVG comma-delimited pairs to builds an array of arrays of coordinate pairs
     var coords = zones.map(z => {
       s = z.split(/[ML]/). 
-        map((p) => { p = p.split(','); return [Math.round((parseFloat(p[0]) + translatex) * scalex * 1000) / 1000, Math.round((parseFloat(p[1]) + translatey) * scaley * 1000) / 1000].join(',') }).
+        map((p) => { p = p.split(','); return [Math.round((parseFloat(p[0]) + translatex) * scalex * decimalFactor) / decimalFactor, Math.round((parseFloat(p[1]) + translatey) * scaley * decimalFactor) / decimalFactor].join(',') }).
         filter((p) => { return p != "NaN,NaN"; });
 
       // Remove non-unique points 
@@ -384,9 +389,14 @@ function writeProj(proj, file) {
         }
       })
     });
-    // For each element in the array, i.e. land mass, construct a TMX object
-    coords.forEach(s => {
-      s = s.join(' ');
+    // coords.forEach(s => {
+      // s = s.join(' ');
+    for (let j = 0; j < coords.length; j++) {
+      coord = coords[j];
+      if (coord.length < coordCutoff)
+        continue;
+    // coords.forEach(s => {
+      s = coord.join(' ');
 
       /*
       s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
@@ -413,9 +423,9 @@ function writeProj(proj, file) {
       }
       tmx_frag += "\t\t</properties>\n";
       tmx_frag += '\t</object>\n';
-    });
+    };
 
-    if (mainland_coords.length > 20) {
+    if (mainland_coords.length > mainlandCoordCutoff) {
       countries.push(country);
       iso_a3s.push(country.iso_a3);
       country_files.push(country_file);

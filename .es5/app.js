@@ -916,7 +916,8 @@ var WorldLayer = cc.Layer.extend({
                     // Calculate margins adjusted for size
                     var marginX = node.width / (2 / (1e-06 + scale - 1));
                     var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
-                    if (node.x + event.getDeltaX() < marginX && node.x + event.getDeltaX() > -marginX && node.y + event.getDeltaY() < marginY && node.y + event.getDeltaY() > -marginY) {
+                    var allowance = 200;
+                    if (node.x + event.getDeltaX() < marginX + allowance && node.x + event.getDeltaX() > -marginX - allowance && node.y + event.getDeltaY() < marginY + allowance && node.y + event.getDeltaY() > -marginY - allowance) {
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
                     }
@@ -933,7 +934,8 @@ var WorldLayer = cc.Layer.extend({
                 // Calculate margins adjusted for size
                 var marginX = node.width / (2 / (1e-06 + newScale - 1));
                 var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
-                if (newScale <= 10.0 && newScale >= 1.0 && node.x < marginX && node.x > -marginX) {
+                var allowance = 200;
+                if (newScale <= 10.0 && newScale >= 0.9 && node.x < marginX + allowance && node.x > -marginX - allowance) {
                     node.setScale(newScale);
                 }
             }
