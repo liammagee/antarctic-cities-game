@@ -2,7 +2,7 @@ const fs = require("fs");
 const express = require('express')
 const app = express()
 const args = require('minimist')(process.argv.slice(2))
-let port = args[port] || 8000
+let port = args['port'] || 8000
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
