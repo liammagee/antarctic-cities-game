@@ -1707,8 +1707,8 @@ var WorldLayer = cc.Layer.extend({
 
                 // After the third crisis, add notifications to the news feed
                 let message = "A " + crisis.name + " is taking place in " + country.name + "."; 
-                btnCrisis.setTitleColor(COLOR_LICORICE);
-                btnCrisis.setTitleText(crisis.name);
+                // btnCrisis.setTitleColor(COLOR_LICORICE);
+                // btnCrisis.setTitleText(crisis.name);
 
                 if (gameParams.crisisCount < 4) {
 
