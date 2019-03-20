@@ -2650,8 +2650,8 @@ var LoadingScene = cc.Scene.extend({
 
         var layout = new ccui.Layout();
         layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        layout.setBackGroundColor(COLOR_BACKGROUND);
-        layout.setContentSize(cc.size(size.width, size.height / 2));
+        layout.setBackGroundColor(COLOR_LICORICE);
+        layout.setContentSize(cc.size(size.width, size.height));
         var layoutSize = layout.getContentSize();
         layout.setLayoutType(ccui.Layout.RELATIVE);
         layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
@@ -2673,7 +2673,7 @@ var LoadingScene = cc.Scene.extend({
         var lp0 = new ccui.RelativeLayoutParameter();
         lp0.setMargin(margin);
         lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-        var lblWelcome = new ccui.Text("Welcome to Antarctica 2048!", FONT_FACE_BODY, 36);
+        var lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5, 0.5));
         lblWelcome.setPosition(cc.p(size.width / 2, 5 * size.height / 8));
@@ -2746,6 +2746,7 @@ var LoadingScene = cc.Scene.extend({
             }
         };
         var chbAgree = new ccui.CheckBox();
+        chbAgree.setColor(COLOR_WHITE);
         chbAgree.setTouchEnabled(true);
         chbAgree.setSwallowTouches(false);
         chbAgree.loadTextures("res/ccs-res/cocosui/check_box_normal.png", "res/ccs-res/cocosui/check_box_normal_press.png", "res/ccs-res/cocosui/check_box_active.png", "res/ccs-res/cocosui/check_box_normal_disable.png", "res/ccs-res/cocosui/check_box_active_disable.png");
