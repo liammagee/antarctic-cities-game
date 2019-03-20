@@ -101,7 +101,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
             mouseY = -1.0;
         if (world.mouse.x > this.node.x && world.mouse.x < this.node.x + this.node.width && world.mouse.y > this.node.y && world.mouse.y < this.node.y + this.node.height) {
             mouseX = (world.mouse.x - this.node.x) / this.node.width;
-            mouseY = (world.mouse.y - Y_OFFSET - this.node.y) / this.node.height;
+            mouseY = (world.mouse.y - 2 * Y_OFFSET - this.node.y) / this.node.height;
         }
         // if (this.country.iso_a3 == "AUS") {
         //     console.log(mouseX, mouseY)
@@ -894,9 +894,9 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(layout, 2);
 
         // add "World" background layer
-        this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - Y_OFFSET);
+        this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - 2 * Y_OFFSET);
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
-        this.worldBackground.setContentSize(size);
+        this.worldBackground.setContentSize(cc.size(cc.winSize.width, cc.winSize.height - 2 * Y_OFFSET));
         this.addChild(this.worldBackground, 1);
 
         // Interaction handling
@@ -969,7 +969,7 @@ var WorldLayer = cc.Layer.extend({
 
             var sprite = new cc.Sprite(l.tileset.sourceImage);
 
-            sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - Y_OFFSET - country.offsetY)));
+            sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - 2 * Y_OFFSET - country.offsetY)));
             sprite.setAnchorPoint(cc.p(0., 0.));
             world.worldBackground.addChild(sprite, 3);
 
@@ -983,11 +983,18 @@ var WorldLayer = cc.Layer.extend({
             world.worldBackground.addChild(shaderNode, 3);
         }
 
+        // TOP BAR  
+        this.topBarLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        this.topBarLayout.setAnchorPoint(new cc.p(0, 0));
+        this.topBarLayout.setPosition(cc.p(0, cc.winSize.height - Y_OFFSET));
+        this.topBarLayout.setContentSize(cc.size(cc.winSize.width, Y_OFFSET));
+        layout.addChild(this.topBarLayout);
+
         // Add controls
         this.controlsBackground = new cc.Layer();
         this.controlsBackground.setAnchorPoint(cc.p(0.5, 0.5));
         this.controlsBackground.x = size.width - 138;
-        this.controlsBackground.y = size.height - 84;
+        this.controlsBackground.y = 0;
         this.controlsBackground.setContentSize(cc.size(126, 72));
         var controlsBackgroundSprite = new cc.Sprite(res.ctrls_background);
         controlsBackgroundSprite.setAnchorPoint(new cc.p(0.0, 0.0));
@@ -995,7 +1002,7 @@ var WorldLayer = cc.Layer.extend({
         controlsBackgroundSprite.setPosition(cc.p(0, 0));
         controlsBackgroundSprite.setOpacity(200);
         this.controlsBackground.addChild(controlsBackgroundSprite, 1);
-        layout.addChild(this.controlsBackground, 1);
+        this.topBarLayout.addChild(this.controlsBackground, 1);
 
         // this.dateBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 30);
         this.dateBackground = new cc.Layer();
@@ -1031,10 +1038,10 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.setSwallowTouches(false);
         this.btnQuit.setScale9Enabled(true);
         this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_on_png);
-        this.btnQuit.attr({ x: 21, y: size.height - 63 });
+        this.btnQuit.attr({ x: 0, y: 0 });
         this.btnQuit.setContentSize(cc.size(105, 105));
         this.btnQuit.setScale(0.4);
-        this.addChild(this.btnQuit, 102);
+        this.topBarLayout.addChild(this.btnQuit, 102);
 
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setSwallowTouches(false);
@@ -1075,15 +1082,15 @@ var WorldLayer = cc.Layer.extend({
         // Add tweet area
         this.tweetBackground = new cc.ClippingNode();
         this.tweetBackground.setColor(COLOR_BACKGROUND_TRANS);
-        this.tweetBackground.attr({ width: WINDOW_WIDTH * 0.66, height: 36, x: WINDOW_WIDTH / 6, y: size.height - 48 });
-        this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH * 0.66, 36));
+        this.tweetBackground.attr({ width: WINDOW_WIDTH * 0.66, height: Y_OFFSET, x: WINDOW_WIDTH / 6, y: 0 });
+        this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH * 0.66, Y_OFFSET));
         var stencil = new cc.DrawNode();
         var rectangle = [cc.p(0, 0), cc.p(this.tweetBackground.width, 0), cc.p(this.tweetBackground.width, this.tweetBackground.height), cc.p(0, this.tweetBackground.height)];
 
         var darkGrey = new cc.Color(42, 54, 68, 255);
         stencil.drawPoly(rectangle, darkGrey, 1, darkGrey);
         this.tweetBackground.stencil = stencil;
-        this.addChild(this.tweetBackground, 110);
+        this.topBarLayout.addChild(this.tweetBackground, 110);
 
         this.tweetBackgroundLayer = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
         this.tweetBackgroundLayer.attr({ width: this.tweetBackground.width, height: this.tweetBackground.height, x: 0, y: 0 });
@@ -1092,7 +1099,7 @@ var WorldLayer = cc.Layer.extend({
         this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE_BODY, 18);
         this.tweetLabel.setAnchorPoint(cc.p(0, 0.5));
         this.tweetLabel.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-        this.tweetLabel.attr({ x: this.tweetBackground.width / 2, y: 18, width: this.tweetBackground.width });
+        this.tweetLabel.attr({ x: this.tweetBackground.width / 2, y: Y_OFFSET / 2, width: this.tweetBackground.width, height: this.tweetBackground.height });
         this.tweetLabel.color = COLOR_ICE;
         this.tweetBackground.addChild(this.tweetLabel, 101);
         this.tweetAlertLabel = new cc.LabelTTF("ALERT!", FONT_FACE_BODY, 18);
@@ -1122,6 +1129,7 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
+        // BOTTOM BAR  
         this.statusLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
         this.statusLayout.setAnchorPoint(new cc.p(0, 0));
         this.statusLayout.setPosition(cc.p(0, 0));
@@ -1558,7 +1566,7 @@ var WorldLayer = cc.Layer.extend({
                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                 var pt = countryRand.centroid;
-                btnRes.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
+                btnRes.attr({ x: pt.x, y: size.height - 2 * Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnRes.setColor(COLOR_RESOURCE);
                 btnRes.placedAt = gameParams.counter;
@@ -1657,7 +1665,8 @@ var WorldLayer = cc.Layer.extend({
                 btnCrisis.setScale9Enabled(true);
                 btnCrisis.loadTextures(crisis.image, "", "");
                 var pt = country.centroid;
-                btnCrisis.attr({ x: pt.x, y: size.height - Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
+                console.log(country.name, pt.y);
+                btnCrisis.attr({ x: pt.x, y: size.height - 2 * Y_OFFSET - pt.y + RESOURCE_SIZE_H / 2 });
                 btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                 btnCrisis.placedAt = gameParams.counter;
@@ -2461,7 +2470,7 @@ var WorldLayer = cc.Layer.extend({
             for (var j = start; j < end; j++) {
                 var poly = world.sortedObjs[j];
                 // var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
-                var mousePoint = new cc.p(locationInNode.x, size.height - locationInNode.y - Y_OFFSET);
+                var mousePoint = new cc.p(locationInNode.x, size.height - locationInNode.y - 2 * Y_OFFSET);
                 var cd = world.collisionDetection(poly.points, mousePoint);
                 if (cd) {
                     lastLayerID = j;

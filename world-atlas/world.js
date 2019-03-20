@@ -10,7 +10,7 @@ var d3 = Object.assign({}, require('d3'), require('d3-geo'), require('d3-geo-pro
 var topojson = Object.assign({}, require('topojson-client'), require('topojson-simplify'));
 
 // Global parameters
-var width = 1334, height = 750;
+var width = 1334, height = 650;
 var xmlOnly = false, jsonOnly = false;
 
 // Revise parameters, based on command-line arguments
@@ -74,8 +74,17 @@ var projection3 = d3
       .rotate([240,90,0]);
 
 var projection4 = d3.geoPatterson().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
-var projection5 = d3.geoStereographic().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
+var projection5 = d3
+      .geoStereographic()
+      .precision(0.1).rotate([0,90,0])
+      .fitExtent([[0, 0], [width, height]], tracts)
+      // .translate([-width/10, -height / 10]);
 var projection6 = d3.geoGuyou().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
+var projection7 = d3
+      .geoEqualEarth()
+      .precision(0.1).rotate([300,90,0])
+      .fitExtent([[0, 0], [width, height]], tracts)
+      // .translate([-width/10, -height / 10]);
 
 
 /**
@@ -103,6 +112,7 @@ function makeContext(canvas, proj) {
   return { path: path, context: context };
 }
 
+const SCALE_FACTOR = 1.0;
 /**
  * Writes out a complete projection to a tilemap
  * @param {} proj 
@@ -129,57 +139,62 @@ function writeProj(proj, file) {
   var bounds = path.bounds(topojson.mesh(data)),
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
-        x = (bounds[0][0] + bounds[1][0]) / 2,
-        y = (bounds[0][1] + bounds[1][1]) / 2,
+        x = dx / 2,
+        y = dy / 2,
         scale = .9 / Math.max(dx / width, dy / height),
-        scalex = width / dx, 
-        scaley = height  / dy,
+        scalex = SCALE_FACTOR * width / dx, 
+        scaley = SCALE_FACTOR * height  / dy,
         translate = [-bounds[0][0], -bounds[0][1]];
-        // translate = [width / 2 - scale * x, height / 2 - scale * y];
 
   context.scale(scalex, scaley);
-  context.translate(translate[0], translate[1]);
+  context.translate(width/2 * (1/ scalex)-width/2, height/2 * (1/ scaley)- height/2);
+
+  var graticule = d3.geoGraticule();
+
+
+  var sphere = new Object({type: "Sphere"});
+  context.beginPath();
+  context.fillStyle = "rgba(69,168,226, 0.5)";
+  path(sphere);
+  context.fill();
+  context.closePath();
 
   context.strokeStyle = '#fff';
-  context.lineWidth = 2.0;
-  context.fillStyle = COUNTRY_GREY;
+  context.lineWidth = 0.5;
+  // context.fillStyle = COUNTRY_GREY;
 
-  context.beginPath();
-  path(topojson.mesh(data));
-  context.stroke();
-
-/*
-  tracts.features.forEach((feature, index) => { 
-
+  for (let i = 0; i < tracts.features.length; i++) {
+    let index = i;
     var props = tracts.features[index].properties;
     var col = (100 + parseInt(props.MAPCOLOR7) * 20);
     if (col > 255)
       col = 255;
     context.fillStyle = '#' + col.toString(16)  + 'AA00';
-    console.log(props.MAPCOLOR7 +":"+ col +":"+context.fillStyle);
-    console.log(path.bounds(tracts.features[index]))
     context.beginPath();
-    ///path(tracts.features[index]);
+    path(tracts.features[index]);
     context.fill();
-    context.stroke();
+    // context.stroke();
     context.closePath();
-  } );
-  */
 
-  context.beginPath();
-  path(tracts);
-  context.fill();
+  }
+  
+  
+  // context.beginPath();
+  // path(tracts);
+  // context.fill();
 
-  context.beginPath();
-  path(tracts);
-  context.stroke();
+  // context.beginPath();
+  // path(tracts);
+  // context.stroke();
 
   // Graticule
-  var graticule = d3.geoGraticule();
   context.beginPath();
+  context.lineWidth = 0.5;
   context.strokeStyle = '#ccc';
   path(graticule());
   context.stroke();
+  context.fillStyle = "#00f", 
+  context.closePath();
 
 
   // d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
@@ -199,7 +214,6 @@ function writeProj(proj, file) {
   stream.on('end', function(){
     console.log('saved png');
   });
-
   
 
   // ADD COUNTRIES
@@ -252,6 +266,13 @@ function writeProj(proj, file) {
             scaley_country = height / width,
             translate_country = [-bounds_country[0][0], -bounds_country[0][1]];
 
+      let index = i;
+      var props = tracts.features[index].properties;
+      var col = (100 + parseInt(props.MAPCOLOR7) * 20);
+      if (col > 255)
+        col = 255;
+      context.fillStyle = '#' + col.toString(16)  + 'AA00';
+
       var canvasCountry = new Canvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
       // var canvasCountry = new Canvas(width / 2, height / 2);
       var contextCountry = canvasCountry.getContext('2d');
@@ -275,7 +296,8 @@ function writeProj(proj, file) {
       contextCountry.lineWidth = 3.0;
       
       // contextCountry.fillStyle = '#F00';
-      contextCountry.fillStyle = COUNTRY_GREY;
+      // contextCountry.fillStyle = COUNTRY_GREY;
+      contextCountry.fillStyle = '#' + col.toString(16)  + 'AA00';
 
       contextCountry.beginPath();
       pathCountry(tracts.features[i]);
@@ -345,7 +367,7 @@ function writeProj(proj, file) {
     // When there are multiple polygons, i.e. land masses
     if (coords.length > 1)
       mainland_coords = orig_coords[0][0];
-    console.log("len: ",country.iso_a3, mainland_coords.length)
+    //console.log("len: ",country.iso_a3, mainland_coords.length)
     var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
     var meanLongitudes = sumOfLongitudes / mainland_coords.length;
     var minX = 0, maxY = 0;
@@ -408,26 +430,25 @@ function writeProj(proj, file) {
 
   var counter = 0;
   tracts.features.forEach((feature, index) => { 
-    console.log(counter);
-    // if (index == 16)
+    // console.log(counter);
       counter = featureGenerator(index, counter);
   } );
 
   obj_id = 1;
   xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-  xml += '<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="1334" tileheight="750" infinite="0" nextobjectid="16">\n'
-  xml += '   <tileset firstgid="' + (obj_id++) + '" name="background" tilewidth="1334" tileheight="750" tilecount="1" columns="1">\n'
-  xml += '    <image source="' + background + '" trans="ff00ff" width="1334" height="750"/>\n'
+  xml += '<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="' + width + '" tileheight="' + height + '" infinite="0" nextobjectid="16">\n'
+  xml += '   <tileset firstgid="' + (obj_id++) + '" name="background" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
+  xml += '    <image source="' + background + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
   xml += '   </tileset>\n'
-  xml += '   <tileset firstgid="' + (obj_id++) + '" name="foreground" tilewidth="1334" tileheight="750" tilecount="1" columns="1">\n'
-  xml += '    <image source="' + foreground + '" trans="ff00ff" width="1334" height="750"/>\n'
+  xml += '   <tileset firstgid="' + (obj_id++) + '" name="foreground" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
+  xml += '    <image source="' + foreground + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
   xml += '   </tileset>\n'
 
   for (var i = 0; i < country_files.length; i++) {
     country_file = country_files[i]
     country = countries[i]
-    xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + country.iso_a3 + '" tilewidth="1334" tileheight="750" tilecount="1" columns="1">\n'
-    xml += '    <image source="countries/' + country_file + '" trans="ff00ff" width="1334" height="750"/>\n'
+    xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + country.iso_a3 + '" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
+    xml += '    <image source="countries/' + country_file + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
     xml += '   </tileset>\n'
   }
 
@@ -549,6 +570,6 @@ for (var i in res) {
 // writeProj(projection2, 'equirectangular');
 // writeProj(projection3, 'peirce');
 // writeProj(projection4, 'patterson');
-writeProj(projection5, 'stereographic');
+writeProj(projection7, 'stereographic');
 // writeProj(projection6, 'guyou');
 
