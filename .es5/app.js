@@ -744,6 +744,7 @@ var gameOver = function gameOver(parent, message, prompt) {
         x: layerBackground.width / 2,
         y: layerBackground.height * 0.1
     });
+
     handleMouseTouchEvent(btnOK, function () {
 
         initGameParams(world.scenarioData);
@@ -756,6 +757,7 @@ var gameOver = function gameOver(parent, message, prompt) {
 
         cc.director.runScene(new LoadingScene());
     });
+
     menu.addChild(btnOK);
 };
 
@@ -1668,6 +1670,9 @@ var WorldLayer = cc.Layer.extend({
 
                 // After the third crisis, add notifications to the news feed
                 var message = "A " + crisis.name + " is taking place in " + country.name + ".";
+                btnCrisis.setTitleColor(COLOR_LICORICE);
+                btnCrisis.setTitleText(crisis.name);
+
                 if (gameParams.crisisCount < 4) {
 
                     gameParams.state = gameStates.PAUSED;
@@ -1684,7 +1689,9 @@ var WorldLayer = cc.Layer.extend({
                     }
                 } else {
 
-                    if (gameParams.messageOverride == null) gameParams.messageOverride = message;
+                    // if (gameParams.messageOverride == null)
+                    //     gameParams.messageOverride = message;
+
                 }
 
                 gameParams.lastCrisis = gameParams.counter;
@@ -2341,34 +2348,42 @@ var WorldLayer = cc.Layer.extend({
 
                 // Scroll text
                 if (world.tweetLabel.x < -300 || gameParams.messageOverride != null) {
+
                     var message = gameParams.scenarioName,
                         messageIndex = -1;
                     world.tweetLabel.color = COLOR_ICE;
+
                     if (gameParams.messageOverride != null) {
+
                         message = gameParams.messageOverride;
                         gameParams.messageOverride = null;
                         world.tweetAlertLabel.setVisible(true);
                     }
                     // Change label
                     else if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
+
                             var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
                             if (Math.random() < weight) {
+
                                 messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
                                 message = gameParams.messagesNegative[messageIndex];
                             } else {
+
                                 messageIndex = Math.floor(Math.random() * gameParams.messagesPositive.length);
                                 message = gameParams.messagesPositive[messageIndex];
                             }
+
                             world.tweetAlertLabel.setVisible(false);
                         }
+
                     world.tweetLabel.setString(message);
                     world.tweetLabel.setPositionX(world.tweetBackground.width * 1.2);
                     world.tweetAlertLabel.setPositionX(world.tweetLabel.x - 100);
                 } else {
+
                     var adjustSpeed = Math.round(20 / gameParams.timeInterval);
                     world.tweetLabel.setPositionX(world.tweetLabel.x - adjustSpeed);
                     world.tweetAlertLabel.setPositionX(world.tweetLabel.x - 100);
-                    //world.tweetAlertLabel.setVisible(false);
                 }
 
                 // Game over                        
