@@ -884,17 +884,17 @@ var WorldLayer = cc.Layer.extend({
         var WINDOW_WIDTH = cc.winSize.width;
         var WINDOW_HEIGHT = cc.winSize.height;
 
-        var layerBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height);
+        var layerBackground = new cc.LayerColor(COLOR_LICORICE, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
-        layout = new cc.LayerColor(COLOR_BACKGROUND_TRANS, size.width, Y_OFFSET);
+        layout = new cc.LayerColor(COLOR_LICORICE, size.width, Y_OFFSET);
         layout.setAnchorPoint(new cc.p(0, 0));
         layout.attr({ x: 0, y: 0 });
         this.addChild(layout, 2);
 
         // add "World" background layer
-        this.worldBackground = new cc.LayerColor(cc.color.WHITE, size.width, size.height - 2 * Y_OFFSET);
+        this.worldBackground = new cc.LayerColor(COLOR_LICORICE, size.width, size.height - 2 * Y_OFFSET);
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.worldBackground.setContentSize(cc.size(cc.winSize.width, cc.winSize.height - 2 * Y_OFFSET));
         this.addChild(this.worldBackground, 1);
@@ -994,38 +994,37 @@ var WorldLayer = cc.Layer.extend({
 
         // Add controls
         this.controlsBackground = new cc.Layer();
-        this.controlsBackground.setAnchorPoint(cc.p(0.5, 0.5));
-        this.controlsBackground.x = size.width - 138;
+        this.controlsBackground.setAnchorPoint(cc.p(0.0, 0.0));
+        this.controlsBackground.x = cc.winSize.width * 5 / 6;
         this.controlsBackground.y = 0;
-        this.controlsBackground.setContentSize(cc.size(126, 72));
+        this.controlsBackground.setContentSize(cc.size(cc.winSize.width * 6, Y_OFFSET));
         var controlsBackgroundSprite = new cc.Sprite(res.ctrls_background);
         controlsBackgroundSprite.setAnchorPoint(new cc.p(0.0, 0.0));
-        controlsBackgroundSprite.setContentSize(cc.size(126, 72));
+        controlsBackgroundSprite.setContentSize(cc.size(cc.winSize.width * 6, Y_OFFSET));
         controlsBackgroundSprite.setPosition(cc.p(0, 0));
         controlsBackgroundSprite.setOpacity(200);
-        this.controlsBackground.addChild(controlsBackgroundSprite, 1);
+        // this.controlsBackground.addChild(controlsBackgroundSprite, 1); 
         this.topBarLayout.addChild(this.controlsBackground, 1);
 
         // this.dateBackground = new cc.LayerColor(COLOR_BACKGROUND_TRANS, 126, 30);
         this.dateBackground = new cc.Layer();
         this.dateBackground.setAnchorPoint(cc.p(0, 0));
-        this.dateBackground.attr({ x: 0, y: 42 });
+        this.dateBackground.attr({ x: 0, y: 0 });
         this.dateBackground.setContentSize(cc.size(126, 30));
         this.dateBackground.setColor(COLOR_BACKGROUND_TRANS);
-        this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
+        this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, 24);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
-        this.dayLabel.attr({ x: 14, y: 48 });
-        this.dayLabel.color = COLOR_FOREGROUND;
-        this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
+        this.dayLabel.attr({ x: 0, y: 10 });
+        this.dayLabel.color = COLOR_WHITE;
+        this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, 24);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
-        this.monthLabel.attr({ x: 30, y: 48 });
-        this.monthLabel.color = COLOR_FOREGROUND;
-        this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, 18);
+        this.monthLabel.attr({ x: 10, y: 10 });
+        this.monthLabel.color = COLOR_WHITE;
+        this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, 24);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
-        this.yearLabel.attr({ x: 54, y: 48 });
-        this.yearLabel.color = COLOR_FOREGROUND;
+        this.yearLabel.attr({ x: 34, y: 10 });
+        this.yearLabel.color = COLOR_WHITE;
         // this.controlsBackground.addChild(this.dayLabel, 1);
-
         this.controlsBackground.addChild(this.monthLabel, 2);
         this.controlsBackground.addChild(this.yearLabel, 2);
         this.controlsBackground.addChild(this.dateBackground, 2);
@@ -1042,7 +1041,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_on_png);
         this.btnQuit.attr({ x: 0, y: 0 });
         this.btnQuit.setContentSize(cc.size(105, 105));
-        this.btnQuit.setScale(0.4);
+        this.btnQuit.setScale(0.48);
         this.topBarLayout.addChild(this.btnQuit, 102);
 
         this.btnPause.setTouchEnabled(true);
@@ -1050,9 +1049,9 @@ var WorldLayer = cc.Layer.extend({
         this.btnPause.setScale9Enabled(true);
         this.btnPause.loadTextures(res.pause_off_png, "", res.pause_on_png);
         this.btnPause.setAnchorPoint(cc.p(0.0, 0.0));
-        this.btnPause.attr({ x: 0, y: 0 });
+        this.btnPause.attr({ x: 90, y: 0 });
         this.btnPause.setContentSize(cc.size(105, 105));
-        this.btnPause.setScale(0.4);
+        this.btnPause.setScale(0.48);
         this.controlsBackground.addChild(this.btnPause, 2, "pause");
 
         this.btnPlay.setTouchEnabled(true);
@@ -1060,9 +1059,9 @@ var WorldLayer = cc.Layer.extend({
         this.btnPlay.setScale9Enabled(true);
         this.btnPlay.loadTextures(res.play_off_png, "", res.play_on_png);
         this.btnPlay.setAnchorPoint(cc.p(0.0, 0.0));
-        this.btnPlay.attr({ x: 42, y: 0 });
+        this.btnPlay.attr({ x: 132, y: 0 });
         this.btnPlay.setContentSize(cc.size(105, 105));
-        this.btnPlay.setScale(0.4);
+        this.btnPlay.setScale(0.48);
         this.controlsBackground.addChild(this.btnPlay, 2, "play");
 
         this.btnFF.setTouchEnabled(true);
@@ -1070,9 +1069,9 @@ var WorldLayer = cc.Layer.extend({
         this.btnFF.setScale9Enabled(true);
         this.btnFF.loadTextures(res.playfast_off_png, "", res.playfast_on_png);
         this.btnFF.setAnchorPoint(cc.p(0.0, 0.0));
-        this.btnFF.attr({ x: 84, y: 0 });
+        this.btnFF.attr({ x: 174, y: 0 });
         this.btnFF.setContentSize(cc.size(105, 105));
-        this.btnFF.setScale(0.4);
+        this.btnFF.setScale(0.48);
         this.controlsBackground.addChild(this.btnFF, 2, "fast");
 
         this.initControls();
@@ -1558,13 +1557,109 @@ var WorldLayer = cc.Layer.extend({
             startGameParams();
             refreshDate(world);
 
+            var generateWeightedResourceIndex = function generateWeightedResourceIndex(r) {
+
+                var dists = [];
+                var total = 0;
+
+                for (var i = 0; i < 16; i++) {
+
+                    var weight = 1;
+                    if (gameParams.policies[i] !== undefined) weight += gameParams.policies[i];
+
+                    total += weight;
+                    dists.push(weight);
+                }
+
+                var counter = 0;
+                var chosenPolicy = 0;
+
+                for (var _i = 0; _i < dists.length; _i++) {
+
+                    var prob = dists[_i];
+                    prob /= total;
+                    counter += prob;
+
+                    if (counter > r) {
+
+                        chosenPolicy = _i;
+                        break;
+                    }
+                }
+
+                return chosenPolicy;
+            };
+
+            var generatePolicyIcon = function generatePolicyIcon() {
+
+                var policyIndex = generateWeightedResourceIndex(Math.random());
+                var icon = "";
+
+                switch (policyIndex) {
+                    case 0:
+                        icon = res.resource_economy_1;
+                        break;
+                    case 1:
+                        icon = res.resource_economy_2;
+                        break;
+                    case 2:
+                        icon = res.resource_economy_3;
+                        break;
+                    case 3:
+                        icon = res.resource_economy_4;
+                        break;
+                    case 4:
+                        icon = res.resource_politics_1;;
+                        break;
+                    case 5:
+                        icon = res.resource_politics_2;;
+                        break;
+                    case 6:
+                        icon = res.resource_politics_3;;
+                        break;
+                    case 7:
+                        icon = res.resource_politics_4;;
+                        break;
+                    case 8:
+                        icon = res.resource_culture_1;;
+                        break;
+                    case 9:
+                        icon = res.resource_culture_2;;
+                        break;
+                    case 10:
+                        icon = res.resource_culture_3;;
+                        break;
+                    case 11:
+                        icon = res.resource_culture_4;;
+                        break;
+                    case 12:
+                        icon = res.resource_ecology_1;;
+                        break;
+                    case 13:
+                        icon = res.resource_ecology_2;;
+                        break;
+                    case 14:
+                        icon = res.resource_ecology_3;;
+                        break;
+                    case 15:
+                        icon = res.resource_ecology_4;;
+                        break;
+                }
+
+                return icon;
+            };
+
             // Add chance of new resource
             var addResource = function addResource() {
+
                 var btnRes = new ccui.Button();
                 btnRes.setTouchEnabled(true);
                 btnRes.setSwallowTouches(false);
                 btnRes.setScale9Enabled(true);
-                btnRes.loadTextures(res.resource_icon, "", "");
+
+                var policyIcon = generatePolicyIcon();
+                btnRes.loadTextures(policyIcon, "", "");
+
                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
                 var countryRand = world.countries[Object.keys(world.countries)[ind]];
                 var pt = countryRand.centroid;
@@ -1604,41 +1699,57 @@ var WorldLayer = cc.Layer.extend({
              * Calculate the probability distribution of crisis & country
              */
             world.crisisProbDistribution = function () {
+
                 var probs = [];
                 var crisisKeys = Object.keys(CRISES);
                 var countryKeys = Object.keys(world.countries);
                 var denom = 0;
+
                 crisisKeys.forEach(function (ck) {
+
                     var crisis = CRISES[ck];
+
                     countryKeys.forEach(function (yk) {
+
                         var country = world.countries[yk];
                         var lossProp = country.loss / gameParams.totalLoss;
                         var preparedProp = country.pop_prepared_percent / gameParams.populationPreparedPercent;
                         var totalInfluence = 1.0;
                         totalInfluence += lossProp * crisis.influence_of_environmental_loss;
                         totalInfluence += preparedProp * crisis.influence_of_preparedness;
+
                         if (isNaN(totalInfluence)) totalInfluence = 0.0;
+
                         if (totalInfluence > 0) {
+
                             denom += totalInfluence;
                             probs.push(totalInfluence);
                         }
                     });
                 });
+
                 for (var i = 0; i < probs.length; i++) {
+
                     probs[i] /= denom;
                 }
+
                 return probs;
             };
 
             world.crisisProbLocation = function (r) {
+
                 var probs = world.crisisProbDistribution();
                 var crisisKeys = Object.keys(CRISES);
                 var countryKeys = Object.keys(world.countries);
                 var crisisCountry = {};
                 var counter = 0;
+
                 for (var i = 0; i < probs.length; i++) {
+
                     counter += probs[i];
+
                     if (r < counter) {
+
                         var crisisID = Math.floor(crisisKeys.length * i / probs.length);
                         var countryID = i % countryKeys.length;
                         crisisCountry.crisis = crisisKeys[crisisID];
@@ -1789,6 +1900,7 @@ var WorldLayer = cc.Layer.extend({
              * @param {*} Calculates transmission of policies from 
              */
             var transmitFrom = function transmitFrom(country) {
+
                 var neighbours = country.neighbours;
                 var sharedBorder = country.shared_border_percentage;
                 var transmissionLand = world.scenarioData.threat_details.transmission.transmission_land;
@@ -1817,17 +1929,24 @@ var WorldLayer = cc.Layer.extend({
 
                 // Start with land
                 if (Math.random() < landProb && neighbours.length > 0) {
+
                     var neighbourIndex = Math.floor(Math.random() * neighbours.length);
                     var neighbour = world.countries[neighbours[neighbourIndex]];
                     if (neighbour.policy == 0) {
+
                         candidateCountry = neighbour;
                     }
                 } else if (Math.random() < seaProb) {
+
                     var countriesShuffled = shuffleArray(Object.keys(world.countries));
                     var countryChance = Math.random();
+
                     for (var i = 0; i < countriesShuffled.length; i++) {
+
                         var countryCheck = world.countries[countriesShuffled[i]];
+
                         if (countryChance < 1 - countryCheck.shared_border_percentage && countryCheck.policy == 0) {
+
                             candidateCountry = countryCheck;
                             break;
                         }
@@ -1835,25 +1954,33 @@ var WorldLayer = cc.Layer.extend({
                 } else if (Math.random() < airProb) {
                     var countriesShuffled = shuffleArray(Object.keys(world.countries));
                     var countryChance = Math.random();
+
                     for (var i = 0; i < countriesShuffled.length; i++) {
+
                         var countryCheck = world.countries[countriesShuffled[i]];
                         var incomeCheck = countryCheck.income_grp;
                         var incomeValCheck = parseFloat(incomeCheck.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
+
                         if (countryChance < 1 - incomeValCheck && countryCheck.policy == 0) {
+
                             candidateCountry = countryCheck;
                             break;
                         }
                     }
                 }
                 if (candidateCountry != null) {
+
                     candidateCountry.affected_chance = 0.1;
+
                     if (country.affected_chance < 1.0) country.affected_chance *= 0.1;
+
                     candidateCountry.policy = 1.0;
                     candidateCountry.pop_aware = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
                 }
             };
 
             var infectWithin = function infectWithin(country) {
+
                 if (country.affected_chance == 0) return;
 
                 if (country.pop_aware >= parseInt(country.pop_est)) return;
@@ -2123,12 +2250,14 @@ var WorldLayer = cc.Layer.extend({
 
                 // Handle automation here
                 if (gameParams.automateMode) {
-                    var _loop = function _loop(_i) {
+                    var _loop = function _loop(_i2) {
 
-                        var pe = gameParams.automateScript.policyEvents[_i];
+                        var pe = gameParams.automateScript.policyEvents[_i2];
+
                         if (gameParams.counter == pe.counter / MONTH_INTERVAL) {
 
                             fireClickOnTarget(world.btnDevelopPolicy, function () {
+
                                 var resNames = Object.values(RESOURCES).map(function (res) {
                                     return res.name;
                                 });
@@ -2152,16 +2281,17 @@ var WorldLayer = cc.Layer.extend({
                     };
 
                     // Select resources
-                    for (var _i = 0; _i < gameParams.automateScript.policyEvents.length; _i++) {
-                        var _ret = _loop(_i);
+                    for (var _i2 = 0; _i2 < gameParams.automateScript.policyEvents.length; _i2++) {
+                        var _ret = _loop(_i2);
 
                         if (_ret === "break") break;
                     };
 
                     // Select crisis
-                    for (var _i2 = 0; _i2 < gameParams.crises.length; _i2++) {
+                    for (var _i3 = 0; _i3 < gameParams.crises.length; _i3++) {
 
-                        var crisisInCountry = gameParams.crises[_i2];
+                        var crisisInCountry = gameParams.crises[_i3];
+
                         if (gameParams.counter == crisisInCountry.counter + gameParams.automateScript.crisisDuration) {
 
                             var target = world.worldBackground.getChildByName("crisis" + crisisInCountry.id);
@@ -2199,9 +2329,13 @@ var WorldLayer = cc.Layer.extend({
                         switch (currentYear) {
                             case 2048:
                                 showDialog = true;
+
                                 for (var i = 0; i < narratives.length; i++) {
+
                                     var n = narratives[i];
+
                                     if (gameParams.totalLoss > n.loss) {
+
                                         var index = Math.floor(Math.random() * n.messages.length);
                                         message = n.messages[index];
                                         break;
@@ -3120,8 +3254,8 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         var layer = this;
         var size = cc.winSize;
-        var resourceSelected = null;
-        var resourceSelectedButton = null;
+        var policySelected = null;
+        var policySelectedButton = null;
 
         // For automation
         layer.policyButtons = [];
@@ -3196,33 +3330,33 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         handleMouseTouchEvent(btnPolicyInvest, function () {
 
-            var cost = resourceSelected.cost_1;
-            if (gameParams.resources - resourceSelected.cost_1 >= 0 && typeof gameParams.policies[resourceSelected.id] === "undefined") {
+            var cost = policySelected.cost_1;
+            if (gameParams.resources - policySelected.cost_1 >= 0 && typeof gameParams.policies[policySelected.id] === "undefined") {
 
-                gameParams.resources -= resourceSelected.cost_1;
-                cost = resourceSelected.cost_2;
-                gameParams.policies[resourceSelected.id] = 1;
-                resourceSelectedButton.enabled = false;
+                gameParams.resources -= policySelected.cost_1;
+                cost = policySelected.cost_2;
+                gameParams.policies[policySelected.id] = 1;
+                policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
-                levelButtons[resourceSelected.id * 100 + 1].texture = res.policy_dot_on_png;
-            } else if (gameParams.resources - resourceSelected.cost_2 >= 0 && gameParams.policies[resourceSelected.id] === 1) {
+                levelButtons[policySelected.id * 100 + 1].texture = res.policy_dot_on_png;
+            } else if (gameParams.resources - policySelected.cost_2 >= 0 && gameParams.policies[policySelected.id] === 1) {
 
-                gameParams.resources -= resourceSelected.cost_2;
-                cost = resourceSelected.cost_3;
-                gameParams.policies[resourceSelected.id] = 2;
-                resourceSelectedButton.enabled = false;
+                gameParams.resources -= policySelected.cost_2;
+                cost = policySelected.cost_3;
+                gameParams.policies[policySelected.id] = 2;
+                policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
-                levelButtons[resourceSelected.id * 100 + 2].texture = res.policy_dot_on_png;
-            } else if (gameParams.resources - resourceSelected.cost_3 >= 0 && gameParams.policies[resourceSelected.id] == 2) {
+                levelButtons[policySelected.id * 100 + 2].texture = res.policy_dot_on_png;
+            } else if (gameParams.resources - policySelected.cost_3 >= 0 && gameParams.policies[policySelected.id] == 2) {
 
-                gameParams.resources -= resourceSelected.cost_3;
-                gameParams.policies[resourceSelected.id] = 3;
-                resourceSelectedButton.enabled = false;
+                gameParams.resources -= policySelected.cost_3;
+                gameParams.policies[policySelected.id] = 3;
+                policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
-                levelButtons[resourceSelected.id * 100 + 3].texture = res.policy_dot_on_png;
+                levelButtons[policySelected.id * 100 + 3].texture = res.policy_dot_on_png;
             }
 
-            if (gameParams.policies[resourceSelected.id] == 3) {
+            if (gameParams.policies[policySelected.id] == 3) {
 
                 btnPolicyInvest.setBright(false);
                 btnPolicyInvest.setEnabled(false);
@@ -3250,6 +3384,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         var levelButtons = {};
 
         for (var i = 0; i < pageCount; ++i) {
+
             var layout = new ccui.Layout();
             layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
 
@@ -3267,7 +3402,9 @@ var DesignPolicyLayer = cc.Layer.extend({
                 case 3:
                     resourceGrp = RESOURCES.ecology;
                     break;
+
             }
+
             var label = new ccui.Text(resourceGrp.labelText, FONT_FACE_BODY, 30);
             label.setColor(COLOR_ICE);
             label.setAnchorPoint(cc.p(0, 0));
@@ -3316,18 +3453,22 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 var btnLvl1, btnLvl2, btnLvl3;
                 if (typeof gameParams.policies[opt.id] === "undefined") {
+
                     btnLvl1 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
                 } else if (gameParams.policies[opt.id] === 1) {
+
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
                 } else if (gameParams.policies[opt.id] === 2) {
+
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_off_png);
                 } else if (gameParams.policies[opt.id] === 3) {
+
                     btnLvl1 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_on_png);
                     btnLvl3 = new cc.Sprite(res.policy_dot_on_png);
@@ -3348,11 +3489,13 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 var policySelector = function policySelector(target) {
 
-                    resourceSelected = target.option;
-                    policyLabel.setString(resourceSelected.text_long);
-                    policyDescription.setString(resourceSelected.description);
-                    var cost = resourceSelected.cost_1;
-                    if (gameParams.policies[opt.id] == 1) cost = resourceSelected.cost_2;else if (gameParams.policies[opt.id] == 2) cost = resourceSelected.cost_3;else if (gameParams.policies[opt.id] == 3) cost = 0;
+                    policySelected = target.option;
+                    policyLabel.setString(policySelected.text_long);
+                    policyDescription.setString(policySelected.description);
+
+                    var cost = policySelected.cost_1;
+                    if (gameParams.policies[opt.id] == 1) cost = policySelected.cost_2;else if (gameParams.policies[opt.id] == 2) cost = policySelected.cost_3;else if (gameParams.policies[opt.id] == 3) cost = 0;
+
                     policyCostLabel.setString("Cost: " + cost.toString());
 
                     if (gameParams.policies[opt.id] == 3) {
@@ -3372,7 +3515,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                         btnPolicyInvest.setTitleText("You need more resources!");
                     }
 
-                    resourceSelectedButton = target;
+                    policySelectedButton = target;
 
                     policyLabel.setVisible(true);
                     policyCostLabel.setVisible(true);
@@ -3387,9 +3530,10 @@ var DesignPolicyLayer = cc.Layer.extend({
         layer.addChild(pageView, 100);
         pageView.setCurrentPageIndex(0);
 
-        //add buttons to jump to specific page
+        // Add buttons to jump to specific page
         var prevButton = null;
         var makeButton = function makeButton(text, point, index) {
+
             var btn = new ccui.Button();
             btn.setTouchEnabled(true);
             btn.setSwallowTouches(false);
@@ -3400,9 +3544,10 @@ var DesignPolicyLayer = cc.Layer.extend({
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
             btn.setTitleFontName(FONT_FACE_TITLE);
+
             handleMouseTouchEvent(btn, function () {
 
-                resourceSelected = null;
+                policySelected = null;
                 pageView.setCurrentPageIndex(index);
                 btn.setBright(false);
                 btn.enabled = false;
@@ -3425,15 +3570,18 @@ var DesignPolicyLayer = cc.Layer.extend({
 
             // Select the first button only
             if (index == 0) {
+
                 btn.setBright(false);
                 btn.enabled = false;
                 btn.setColor(COLOR_OAK);
                 prevButton = btn;
             }
+
             layer.addChild(btn, 100);
         };
 
         Object.values(RESOURCES).forEach(function (res, index) {
+
             makeButton(res.name, cc.p(300 + 200 * index, 80), index);
         });
 

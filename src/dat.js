@@ -30,8 +30,8 @@ RESOURCES = {
             text_long: "Free Trade Agreements", 
             description: "This policy may produce additional resources in lower-income countries.",
             location: {x: 300, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_1_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECONOMY_1_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECONOMY_1_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -53,8 +53,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 2, 
@@ -63,8 +63,8 @@ RESOURCES = {
             text_long: "Automate Industry", 
             description: "This policy reduces the carbon footprint of wealthy nations and it may produce additional resources in middle-income countries.",
             location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_2_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECONOMY_2_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECONOMY_2_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -86,8 +86,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 3,
@@ -96,8 +96,8 @@ RESOURCES = {
             text_long: "Reduce Inequality", 
             description: "This policy may produce additional resources in lower-income countries.",
             location: {x: 300, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_3_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECONOMY_3_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECONOMY_3_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -119,8 +119,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 4,
@@ -129,8 +129,8 @@ RESOURCES = {
             text_long: "Remove Regulations", 
             description: "This policy is highly effective in producing additional resources but may worsen carbon footprint globally.",
             location: {x: 600, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECONOMY_4_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECONOMY_4_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECONOMY_4_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -152,8 +152,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         } ]
     },
     politics: {        
@@ -167,8 +167,8 @@ RESOURCES = {
             text_long: "Diplomacy", 
             description: "This policy may allow the renegotiations of climate accords with better targets and stricter conditions.",
             location: {x: 300, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_1_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_POLITCS_1_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_POLITCS_1_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -190,8 +190,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 6,
@@ -200,8 +200,8 @@ RESOURCES = {
             text_long: "Promote Democracy", 
             description: "Democratic institutions may improve the effectiveness of cultural policies.",
             location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_2_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_POLITCS_2_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_POLITCS_2_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -223,8 +223,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 7,
@@ -233,8 +233,8 @@ RESOURCES = {
             text_long: "Global Treaties", 
             description: "This policy allows the creation of global alliances in the reduction of greenhouse emissions.",
             location: {x: 300, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_3_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_POLITCS_3_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_POLITCS_3_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -256,8 +256,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 8,
@@ -266,8 +266,8 @@ RESOURCES = {
             text_long: "Boost Military", 
             description: "This policy may produce additional resources and improve the effectiveness of top-down ecological transitions.",
             location: {x: 600, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_POLITCS_4_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_POLITCS_4_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_POLITCS_4_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -289,8 +289,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         } ]
     },
     cultural: {
@@ -304,8 +304,8 @@ RESOURCES = {
             text_long: "Social Media", 
             description: "Through social media, some ecological and political strategies may increase their effectiveness.",
             location: {x: 300, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_1_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_CULTURE_1_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_CULTURE_1_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -327,8 +327,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 10,
@@ -337,8 +337,8 @@ RESOURCES = {
             text_long: "Global Festivals", 
             description: "Global festivals generate consensus and may add resources to spend on other cultural strategies.",
             location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_2_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_CULTURE_2_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_CULTURE_2_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -360,8 +360,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 11,
@@ -370,8 +370,8 @@ RESOURCES = {
             text_long: "Global Education", 
             description: "Education strategies may improve climate change awareness as well as resource production in lower and middle-income countries.",
             location: {x: 300, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_3_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_CULTURE_3_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_CULTURE_3_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -393,8 +393,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 12,
@@ -403,8 +403,8 @@ RESOURCES = {
             text_long: "Celebrity Endorsements", 
             description: "This policy uses film and music stars to raise awareness. Combined with ecological strategies, it may improve their effectiveness.",
             location: {x: 600, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_CULTURE_4_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_CULTURE_4_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_CULTURE_4_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -426,8 +426,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         } ]
     },
     ecology: {
@@ -441,8 +441,8 @@ RESOURCES = {
             text_long: "Fund Renewable Energy", 
             description: "This policy is potentially very effective in highly industrialised countries.",
             location: {x: 300, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_1_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECOLOGY_1_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECOLOGY_1_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -464,8 +464,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 14,
@@ -474,8 +474,8 @@ RESOURCES = {
             text_long: "Public Transport", 
             description: "This policy targets the reduction on greenhouse emissions globally. Particularly effective in urbanised countries.",
             location: {x: 600, y: 500},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_2_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECOLOGY_2_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECOLOGY_2_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -497,8 +497,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 15,
@@ -507,8 +507,8 @@ RESOURCES = {
             text_long: "Green Cities", 
             description: "This policy involves the reduction of urban carbon footiprint but does not address inequalities.",
             location: {x: 300, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_3_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECOLOGY_3_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECOLOGY_3_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -530,8 +530,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         },
         {
             id: 16,
@@ -540,8 +540,8 @@ RESOURCES = {
             text_long: "Global Heritage Trust", 
             description: "This policy boots the creation of national parks and produces better awareness about endangered species.",
             location: {x: 600, y: 200},
-            img_normal: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_NORMAL.png",
-            img_on: "res/andrea_png/POLICY_ICONS/POLICY_ECOLOGY_4_ON.png",
+            img_normal: "res/andrea_png/niab/POLICY_ECOLOGY_4_NORMAL.png",
+            img_on: "res/andrea_png/niab/POLICY_ECOLOGY_4_ON.png",
             levels: 3,
             effect_on_transmissability: 0,
             effect_on_infectivity: 0,
@@ -563,8 +563,8 @@ RESOURCES = {
             effect_on_area_medium: 0,
             effect_on_area_small: 0,
             cost_1: 3,
-            cost_2: 3,
-            cost_3: 3
+            cost_2: 4,
+            cost_3: 5
         } ]
     }
 };

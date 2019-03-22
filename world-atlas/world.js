@@ -136,8 +136,8 @@ function writeProj(proj, file) {
   var context = canvas.getContext('2d');
   context.clearRect();
 
-  context.fillStyle = '#fff';
-  context.fillRect(0, 0, width, height);
+  // context.fillStyle = '#fff';
+  // context.fillRect(0, 0, width, height);
 
   var path = d3.geoPath(proj, context);
   var bounds = path.bounds(topojson.mesh(data)),
