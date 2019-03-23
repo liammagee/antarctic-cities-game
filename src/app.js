@@ -1578,6 +1578,34 @@ var WorldLayer = cc.Layer.extend({
             world.countryPreparedProgress.setPercent(preparedPercent);
         };
 
+        world.generateResourceDistribution = function() {
+
+            let dists = [];
+            let total = 0;
+
+            for (let i = 0; i < 16; i++) {
+
+                let weight = 1;
+                if (gameParams.policies[i + 1] !== undefined) 
+                    weight += gameParams.policies[i + 1];
+                
+                total += weight;
+                dists.push(weight);
+
+            }
+
+            let counter = 0;
+
+            for (let i = 0; i < dists.length; i++) {
+
+                dists[i] /= total;
+
+            }
+
+            return dists;
+
+        };
+
         var doSim =function() {
             if (gameParams.startCountry === null || gameParams.state !== gameStates.PREPARED)
                 return;
@@ -1593,29 +1621,16 @@ var WorldLayer = cc.Layer.extend({
             startGameParams();
             refreshDate(world);
 
+
             var generateWeightedResourceIndex = function(r) {
 
-                let dists = [];
-                let total = 0;
-
-                for (let i = 0; i < 16; i++) {
-
-                    let weight = 1;
-                    if (gameParams.policies[i] !== undefined) 
-                        weight += gameParams.policies[i];
-                    
-                    total += weight;
-                    dists.push(weight);
-
-                }
-
+                let dists = world.generateResourceDistribution();
                 let counter = 0;
                 let chosenPolicy = 0;
 
                 for (let i = 0; i < dists.length; i++) {
 
                     let prob = dists[i];
-                    prob /= total;
                     counter += prob;
 
                     if (counter > r) {
@@ -1699,6 +1714,7 @@ var WorldLayer = cc.Layer.extend({
                 btnRes.setScale9Enabled(true);
                 
                 let policyIcon = generatePolicyIcon();
+                console.log(policyIcon)
                 btnRes.loadTextures(policyIcon, "", "");
 
                 var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
@@ -3510,42 +3526,93 @@ var DesignPolicyLayer = cc.Layer.extend({
         // For automation
         layer.investButton = btnPolicyInvest;
 
+        const costCalculation = (policySelected) => {
+            
+            let policyLevel = gameParams.policies[policySelected.id];
+            let cost = policySelected.cost_1;
+
+            if (policyLevel !== undefined) {
+
+                switch(policyLevel) {
+                    case 1:
+                        cost = policySelected.cost_2;
+                        break;
+                    case 2:
+                        cost = policySelected.cost_3;
+                        break;
+                    case 3:
+                        cost = 0;
+                        break;
+                }
+
+            }
+
+            let dists = world.generateResourceDistribution();
+            let policyCategory = Math.floor((policySelected.id - 1) / 4);
+            let weights = [];
+
+            for (let i = 0; i < dists.length; i++) {
+
+                if (i % 4 == 0) {
+
+                    weights.push(dists[i] * 4);
+                    
+                }
+                else {
+
+                    let wi = Math.floor(i / 4);
+                    weights[wi] += dists[i] * 4;
+
+                }
+
+            }
+
+            if (weights[policyCategory] > 1)
+                cost *= weights[policyCategory];
+            
+            cost = Math.round(cost);
+
+            return cost;
+
+        };
 
         handleMouseTouchEvent(btnPolicyInvest, function(){
 
-            var cost = policySelected.cost_1;
-            if (gameParams.resources - policySelected.cost_1 >= 0 && 
-                typeof(gameParams.policies[policySelected.id]) === "undefined") {
+            var cost = costCalculation(policySelected);
+            
+            if (gameParams.resources - cost >= 0 && 
+                gameParams.policies[policySelected.id] === undefined) {
 
-                gameParams.resources -= policySelected.cost_1;  
-                cost = policySelected.cost_2;
+                gameParams.resources -= cost;  
                 gameParams.policies[policySelected.id] = 1;
                 policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[policySelected.id * 100 + 1].texture = res.policy_dot_on_png;
 
             }
-            else if (gameParams.resources - policySelected.cost_2 >= 0 && 
+            else if (gameParams.resources - cost >= 0 && 
                 gameParams.policies[policySelected.id] === 1) {
 
-                gameParams.resources -= policySelected.cost_2;  
-                cost = policySelected.cost_3;
+                gameParams.resources -= cost;  
                 gameParams.policies[policySelected.id] = 2;
                 policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[policySelected.id * 100 + 2].texture = res.policy_dot_on_png;
 
             }
-            else if (gameParams.resources - policySelected.cost_3 >= 0 && 
+            else if (gameParams.resources - cost >= 0 && 
                 gameParams.policies[policySelected.id] == 2) {
 
-                gameParams.resources -= policySelected.cost_3;  
+                gameParams.resources -= cost;  
                 gameParams.policies[policySelected.id] = 3;
                 policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[policySelected.id * 100 + 3].texture = res.policy_dot_on_png;
 
             }
+
+            let newCost = costCalculation(policySelected);
+            policyCostLabel.setString("Cost: " + newCost.toString());
 
             if (gameParams.policies[policySelected.id] == 3) {
 
@@ -3697,14 +3764,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                     policyLabel.setString(policySelected.text_long);
                     policyDescription.setString(policySelected.description);
                     
-                    var cost = policySelected.cost_1;
-                    if (gameParams.policies[opt.id] == 1)
-                        cost = policySelected.cost_2;
-                    else if (gameParams.policies[opt.id] == 2)
-                        cost = policySelected.cost_3;
-                    else if (gameParams.policies[opt.id] == 3)
-                        cost = 0;
-                    
+                    var cost = costCalculation(policySelected);
                     policyCostLabel.setString("Cost: " + cost.toString());
 
                     if (gameParams.policies[opt.id] == 3) {
