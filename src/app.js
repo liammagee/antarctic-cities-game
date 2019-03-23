@@ -3473,17 +3473,17 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsBackground.setPosition(cc.p(800, 200));
         layer.addChild(policyDetailsBackground, 110);
 
-        var policyLabel = new ccui.Text("", FONT_FACE_BODY, 30);
+        var policyLabel = new ccui.Text("", FONT_FACE_TITLE, 30);
         policyLabel.setColor(COLOR_ICE);
         policyLabel.setAnchorPoint(cc.p(0, 0));
-        policyLabel.setPosition(cc.p(20, 340));
+        policyLabel.setPosition(cc.p(20, 310));
         policyDetailsBackground.addChild(policyLabel);
 
-        var policyGeneralLabel = "<<< Select one of the policies to invest in it!";
-        var policyDescription = new ccui.Text("", FONT_FACE_BODY, 20);
+        var policyGeneralLabel = "<<< Select one of these policies to invest in it!";
+        var policyDescription = new ccui.Text("", FONT_FACE_BODY, 24);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
-        policyDescription.setContentSize(cc.size(360,200));
+        policyDescription.setContentSize(cc.size(360,170));
         policyDescription.setPosition(cc.p(20, 120));
         policyDescription.setColor(COLOR_ICE);
         policyDescription.setString(policyGeneralLabel);
@@ -3611,7 +3611,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             resourceGrp.policyOptions.forEach(function(opt) {
 
                 xLoc = (1 + policyOptionCounter % 2) * 300 - 52;
-                yLoc = (1 - Math.floor(policyOptionCounter / 2)) * 300 + 200 - 26;
+                yLoc = (1 - Math.floor(policyOptionCounter / 2)) * 200 + 140;
                 policyOptionCounter++;
 
                 var btnLayer = new cc.Layer();
@@ -3676,6 +3676,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                     btnLvl3 = new cc.Sprite(res.policy_dot_on_png);
 
                 }
+                
                 btnLvl1.attr({ x: 0 , y: 52 });
                 btnLvl1.setAnchorPoint(cc.p(0.0, 0.0));
                 btnLvl2.attr({ x: 0 , y: btnLvl1.y + 35 })
