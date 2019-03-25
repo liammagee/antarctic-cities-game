@@ -884,7 +884,7 @@ var WorldLayer = cc.Layer.extend({
         var WINDOW_WIDTH = cc.winSize.width;
         var WINDOW_HEIGHT = cc.winSize.height;
 
-        var layerBackground = new cc.LayerColor(COLOR_LICORICE, size.width, size.height);
+        var layerBackground = new cc.LayerColor(COLOR_ICE, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
@@ -894,7 +894,7 @@ var WorldLayer = cc.Layer.extend({
         this.addChild(layout, 2);
 
         // add "World" background layer
-        this.worldBackground = new cc.LayerColor(COLOR_LICORICE, size.width, size.height - 2 * Y_OFFSET);
+        this.worldBackground = new cc.LayerColor(COLOR_ICE, size.width, size.height - 2 * Y_OFFSET);
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.worldBackground.setContentSize(cc.size(cc.winSize.width, cc.winSize.height - 2 * Y_OFFSET));
         this.addChild(this.worldBackground, 1);
@@ -986,7 +986,7 @@ var WorldLayer = cc.Layer.extend({
         }
 
         // TOP BAR  
-        this.topBarLayout = new cc.LayerColor(COLOR_BACKGROUND_TRANS);
+        this.topBarLayout = new cc.LayerColor(COLOR_ZINC);
         this.topBarLayout.setAnchorPoint(new cc.p(0, 0));
         this.topBarLayout.setPosition(cc.p(0, cc.winSize.height - Y_OFFSET));
         this.topBarLayout.setContentSize(cc.size(cc.winSize.width, Y_OFFSET));
