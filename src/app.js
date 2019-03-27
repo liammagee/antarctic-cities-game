@@ -1,30 +1,30 @@
 // Global parameters
-var X_OFFSET = 0, Y_OFFSET = 50;
-var FONT_FACE_TITLE = "ArvoFont";
-var FONT_FACE_BODY = "JosefinSansFont";
+const X_OFFSET = 0, Y_OFFSET = 50;
+const FONT_FACE_TITLE = "ArvoFont";
+const FONT_FACE_BODY = "JosefinSansFont";
 
-var MONTH_INTERVAL = 20;
-var RESOURCE_CHANCE = 0.1;
-var CRISIS_CHANCE = 0.05;
-var RESOURCE_SIZE_W = 64; 
-var RESOURCE_SIZE_H = 72; 
-var TAG_SPRITE_BATCH_NODE = 1;
-var TUTORIAL_INTERVAL_MULTIPLIER = 6; 
-var RESOURCE_INTERVAL_MULTIPLIER = 10; 
-var CRISIS_INTERVAL_MULTIPLIER = 20; 
-var RESOURCE_DURATION = 300;
-
-
-// Game variables
-var gameParams = {};
-var automateScripts = [];
-var gameStates = {
+const MONTH_INTERVAL = 20;
+const RESOURCE_CHANCE = 0.1;
+const CRISIS_CHANCE = 0.05;
+const RESOURCE_SIZE_W = 64; 
+const RESOURCE_SIZE_H = 72; 
+const TAG_SPRITE_BATCH_NODE = 1;
+const TUTORIAL_INTERVAL_MULTIPLIER = 6; 
+const RESOURCE_INTERVAL_MULTIPLIER = 10; 
+const CRISIS_INTERVAL_MULTIPLIER = 20; 
+const RESOURCE_DURATION = 300;
+const GAME_STATES = {
     INITIALISED: 0,
     PREPARED: 1,
     STARTED: 2,
     PAUSED: 3,
     GAME_OVER: 5
 };
+
+// Game variables
+let gameParams = {};
+let automateScripts = [];
+
 
 
 
@@ -96,7 +96,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
     },
     update:function(dt) {  
 
-        // if (gameParams.state != gameStates.STARTED || gameParams.state != gameStates.PAUSED)
+        // if (gameParams.state != GAME_STATES.STARTED || gameParams.state != GAME_STATES.PAUSED)
         //     return;
         var mouseX = -1.0, mouseY = -1.0;
         if (world.mouse.x > this.node.x && world.mouse.x < this.node.x + this.node.width &&
@@ -366,7 +366,7 @@ var initCountries = function() {
  */
 var initGameParams = function(scenarioData) {
     gameParams = {};
-    gameParams.state = gameStates.INITIALISED;
+    gameParams.state = GAME_STATES.INITIALISED;
     gameParams.modal = false;
     gameParams.startDate = new Date(Date.now());
     gameParams.startDate.setDate(1);
@@ -513,7 +513,7 @@ var calculatePolicyConnections = function() {
  */
 var startGameParams = function() {
     
-    gameParams.state = gameStates.STARTED;
+    gameParams.state = GAME_STATES.STARTED;
 
 };
 
@@ -716,7 +716,7 @@ var gameOver = function(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
-    gameParams.state = gameStates.PAUSED;
+    gameParams.state = GAME_STATES.PAUSED;
 
     var layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH * 0.66, WINDOW_HEIGHT * 0.66);
     layerBackground.attr({ 
@@ -758,7 +758,7 @@ var gameOver = function(parent, message, prompt) {
     handleMouseTouchEvent(btnOK, function() {
 
         initGameParams(world.scenarioData);
-        gameParams.state = gameStates.GAME_OVER;
+        gameParams.state = GAME_STATES.GAME_OVER;
         gameParams.startCountry = null;
         gameParams.policies = {};
         world.tweetLabel.setString(gameParams.scenarioName);
@@ -843,23 +843,23 @@ var WorldLayer = cc.Layer.extend({
         var controlHandler = function(target) {
 
             if (target == world.btnQuit) {  // Pause
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 showMessageBoxOK(world, "Options", "", 
                 "QUIT GAME", function() {
                     
                     postResultsToServer();
 
-                    gameParams.state = gameStates.GAME_OVER;
+                    gameParams.state = GAME_STATES.GAME_OVER;
                     cc.director.runScene(new LoadingScene());
 
                 }, 
                 "RETURN TO GAME", function() {
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 });
             }
             else if (target == world.btnPause) {  // Pause
 
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 world.btnPause.enabled = false;
                 world.btnPlay.enabled = true;
                 world.btnFF.enabled = true;
@@ -868,7 +868,7 @@ var WorldLayer = cc.Layer.extend({
             else if (target == world.btnPlay) {  // Play
 
                 updateTimeVars(MONTH_INTERVAL);
-                gameParams.state = gameStates.STARTED;
+                gameParams.state = GAME_STATES.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = false;
                 world.btnFF.enabled = true;
@@ -877,7 +877,7 @@ var WorldLayer = cc.Layer.extend({
             else if (target == world.btnFF) {  // Fast Forward
 
                 updateTimeVars(MONTH_INTERVAL / 10);
-                gameParams.state = gameStates.STARTED;
+                gameParams.state = GAME_STATES.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
                 world.btnFF.enabled = false;
@@ -1275,14 +1275,14 @@ var WorldLayer = cc.Layer.extend({
         this.statusLayout.addChild(this.btnStats);
 
         handleMouseTouchEvent(this.btnDevelopPolicy, function(){
-            gameParams.state = gameStates.PAUSED;
+            gameParams.state = GAME_STATES.PAUSED;
             layer = new DesignPolicyLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
             gameParams.modal = true;
         });
         handleMouseTouchEvent(this.btnStats, function(){
-            gameParams.state = gameStates.PAUSED;
+            gameParams.state = GAME_STATES.PAUSED;
             layer = new StatsLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
@@ -1323,16 +1323,16 @@ var WorldLayer = cc.Layer.extend({
             gameParams.resources += res;
             target.removeFromParent();
             if (!gameParams.resourcesAdded) {
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 gameParams.resourcesAdded = true;
                 if (gameParams.tutorialMode) {
                     showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function() {
                         gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = GAME_STATES.STARTED;
                     });
                 }
                 else {
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 }
             }
 
@@ -1352,10 +1352,10 @@ var WorldLayer = cc.Layer.extend({
             }
             target.removeFromParent();
             if (!gameParams.alertCrisis && gameParams.tutorialMode) {
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
                 showMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function() {
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 });
             }
 
@@ -1607,7 +1607,7 @@ var WorldLayer = cc.Layer.extend({
         };
 
         var doSim =function() {
-            if (gameParams.startCountry === null || gameParams.state !== gameStates.PREPARED)
+            if (gameParams.startCountry === null || gameParams.state !== GAME_STATES.PREPARED)
                 return;
 
             var country = world.countries[gameParams.startCountry];
@@ -1744,11 +1744,11 @@ var WorldLayer = cc.Layer.extend({
 
                 if (!gameParams.alertResources) {
                     if (gameParams.tutorialMode) {
-                        gameParams.state = gameStates.PAUSED;
+                        gameParams.state = GAME_STATES.PAUSED;
                         gameParams.alertResources = true;
                         showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function(that) {
                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
-                            gameParams.state = gameStates.STARTED;
+                            gameParams.state = GAME_STATES.STARTED;
                         });
                     }
                 }
@@ -1866,12 +1866,12 @@ var WorldLayer = cc.Layer.extend({
 
                 if (gameParams.crisisCount < 4) {
 
-                    gameParams.state = gameStates.PAUSED;
+                    gameParams.state = GAME_STATES.PAUSED;
                     message += " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.";
 
                     let buttons = showMessageBoxOK(world, "Crisis alert!", message, "OK!", function(that) {
 
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = GAME_STATES.STARTED;
 
                     });
 
@@ -1896,7 +1896,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.tutorialHints.length < 2 || gameParams.tutorialHints.length >= 6)
                     return;
 
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 var message = null;
                 switch(gameParams.tutorialHints.length) {
                     case 2:
@@ -1916,7 +1916,7 @@ var WorldLayer = cc.Layer.extend({
 
                 showMessageBoxOK(world, "HINT:", message, "OK", function() {
                     gameParams.tutorialHints.push(message);
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 });
             };
 
@@ -2356,7 +2356,7 @@ var WorldLayer = cc.Layer.extend({
              */
             var updateTime = function() {
 
-                if (gameParams.state !== gameStates.STARTED) {
+                if (gameParams.state !== GAME_STATES.STARTED) {
 
                     // Refresh the timeout
                     gameParams.timeoutID = setTimeout(updateTime, 20);
@@ -2465,11 +2465,11 @@ var WorldLayer = cc.Layer.extend({
                             
                         if (showDialog) {
 
-                            gameParams.state = gameStates.PAUSED;
+                            gameParams.state = GAME_STATES.PAUSED;
                             let buttons = showMessageBoxOK(world, 
                                 "Antarctic Bulletin, year " + currentYear, 
                                 message, "OK", function() {
-                                    gameParams.state = gameStates.STARTED;
+                                    gameParams.state = GAME_STATES.STARTED;
                                 });
 
                             if (gameParams.automateMode) {
@@ -2720,7 +2720,7 @@ var WorldLayer = cc.Layer.extend({
 
         var selectCountry = function(event, location) {
 
-            if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED)
+            if (gameParams.state !== GAME_STATES.PREPARED && gameParams.state !== GAME_STATES.STARTED && gameParams.state !== GAME_STATES.PAUSED)
                 return;
             
             var target = event.getCurrentTarget();
@@ -2872,7 +2872,7 @@ var WorldLayer = cc.Layer.extend({
 
         var beginSim = function() {
 
-            gameParams.state = gameStates.PREPARED;
+            gameParams.state = GAME_STATES.PREPARED;
 
             world.btnPause.setBright(true);
             world.btnPlay.setBright(false);
@@ -2927,7 +2927,7 @@ var WorldLayer = cc.Layer.extend({
                     if (gameParams.automateScript.fastForward) {
 
                         updateTimeVars(MONTH_INTERVAL / 20);
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = GAME_STATES.STARTED;
                         world.btnPause.enabled = true;
                         world.btnPlay.enabled = true;
                         world.btnFF.enabled = false;
@@ -3477,7 +3477,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             
             world.setVisible(true);
             layer.removeFromParent();
-            gameParams.state = gameStates.STARTED;
+            gameParams.state = GAME_STATES.STARTED;
             gameParams.modal = false;
 
         });
@@ -4327,7 +4327,7 @@ var StatsLayer = cc.Layer.extend({
         
             world.setVisible(true);
             layer.removeFromParent();
-            gameParams.state = gameStates.STARTED;
+            gameParams.state = GAME_STATES.STARTED;
             gameParams.modal = false;
         
         });

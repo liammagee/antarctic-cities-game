@@ -16,17 +16,17 @@ var TUTORIAL_INTERVAL_MULTIPLIER = 6;
 var RESOURCE_INTERVAL_MULTIPLIER = 10;
 var CRISIS_INTERVAL_MULTIPLIER = 20;
 var RESOURCE_DURATION = 300;
-
-// Game variables
-var gameParams = {};
-var automateScripts = [];
-var gameStates = {
+var GAME_STATES = {
     INITIALISED: 0,
     PREPARED: 1,
     STARTED: 2,
     PAUSED: 3,
     GAME_OVER: 5
 };
+
+// Game variables
+var gameParams = {};
+var automateScripts = [];
 
 //------------------------------------------------------------------
 //
@@ -95,7 +95,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
     },
     update: function update(dt) {
 
-        // if (gameParams.state != gameStates.STARTED || gameParams.state != gameStates.PAUSED)
+        // if (gameParams.state != GAME_STATES.STARTED || gameParams.state != GAME_STATES.PAUSED)
         //     return;
         var mouseX = -1.0,
             mouseY = -1.0;
@@ -368,7 +368,7 @@ var initCountries = function initCountries() {
  */
 var initGameParams = function initGameParams(scenarioData) {
     gameParams = {};
-    gameParams.state = gameStates.INITIALISED;
+    gameParams.state = GAME_STATES.INITIALISED;
     gameParams.modal = false;
     gameParams.startDate = new Date(Date.now());
     gameParams.startDate.setDate(1);
@@ -507,7 +507,7 @@ var calculatePolicyConnections = function calculatePolicyConnections() {
  */
 var startGameParams = function startGameParams() {
 
-    gameParams.state = gameStates.STARTED;
+    gameParams.state = GAME_STATES.STARTED;
 };
 
 /**
@@ -706,7 +706,7 @@ var gameOver = function gameOver(parent, message, prompt) {
     var WINDOW_HEIGHT = cc.winSize.height;
     parent.pause();
     window.clearTimeout(gameParams.timeoutID);
-    gameParams.state = gameStates.PAUSED;
+    gameParams.state = GAME_STATES.PAUSED;
 
     var layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH * 0.66, WINDOW_HEIGHT * 0.66);
     layerBackground.attr({
@@ -748,7 +748,7 @@ var gameOver = function gameOver(parent, message, prompt) {
     handleMouseTouchEvent(btnOK, function () {
 
         initGameParams(world.scenarioData);
-        gameParams.state = gameStates.GAME_OVER;
+        gameParams.state = GAME_STATES.GAME_OVER;
         gameParams.startCountry = null;
         gameParams.policies = {};
         world.tweetLabel.setString(gameParams.scenarioName);
@@ -827,20 +827,20 @@ var WorldLayer = cc.Layer.extend({
 
             if (target == world.btnQuit) {
                 // Pause
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 showMessageBoxOK(world, "Options", "", "QUIT GAME", function () {
 
                     postResultsToServer();
 
-                    gameParams.state = gameStates.GAME_OVER;
+                    gameParams.state = GAME_STATES.GAME_OVER;
                     cc.director.runScene(new LoadingScene());
                 }, "RETURN TO GAME", function () {
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 });
             } else if (target == world.btnPause) {
                 // Pause
 
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 world.btnPause.enabled = false;
                 world.btnPlay.enabled = true;
                 world.btnFF.enabled = true;
@@ -848,7 +848,7 @@ var WorldLayer = cc.Layer.extend({
                 // Play
 
                 updateTimeVars(MONTH_INTERVAL);
-                gameParams.state = gameStates.STARTED;
+                gameParams.state = GAME_STATES.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = false;
                 world.btnFF.enabled = true;
@@ -856,7 +856,7 @@ var WorldLayer = cc.Layer.extend({
                 // Fast Forward
 
                 updateTimeVars(MONTH_INTERVAL / 10);
-                gameParams.state = gameStates.STARTED;
+                gameParams.state = GAME_STATES.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
                 world.btnFF.enabled = false;
@@ -1236,14 +1236,14 @@ var WorldLayer = cc.Layer.extend({
         this.statusLayout.addChild(this.btnStats);
 
         handleMouseTouchEvent(this.btnDevelopPolicy, function () {
-            gameParams.state = gameStates.PAUSED;
+            gameParams.state = GAME_STATES.PAUSED;
             layer = new DesignPolicyLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
             gameParams.modal = true;
         });
         handleMouseTouchEvent(this.btnStats, function () {
-            gameParams.state = gameStates.PAUSED;
+            gameParams.state = GAME_STATES.PAUSED;
             layer = new StatsLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
@@ -1282,15 +1282,15 @@ var WorldLayer = cc.Layer.extend({
             gameParams.resources += res;
             target.removeFromParent();
             if (!gameParams.resourcesAdded) {
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 gameParams.resourcesAdded = true;
                 if (gameParams.tutorialMode) {
                     showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function () {
                         gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = GAME_STATES.STARTED;
                     });
                 } else {
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 }
             }
         };
@@ -1309,10 +1309,10 @@ var WorldLayer = cc.Layer.extend({
             }
             target.removeFromParent();
             if (!gameParams.alertCrisis && gameParams.tutorialMode) {
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
                 showMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function () {
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 });
             }
         };
@@ -1564,7 +1564,7 @@ var WorldLayer = cc.Layer.extend({
         };
 
         var doSim = function doSim() {
-            if (gameParams.startCountry === null || gameParams.state !== gameStates.PREPARED) return;
+            if (gameParams.startCountry === null || gameParams.state !== GAME_STATES.PREPARED) return;
 
             var country = world.countries[gameParams.startCountry];
             country.policy = 1.0;
@@ -1697,11 +1697,11 @@ var WorldLayer = cc.Layer.extend({
 
                 if (!gameParams.alertResources) {
                     if (gameParams.tutorialMode) {
-                        gameParams.state = gameStates.PAUSED;
+                        gameParams.state = GAME_STATES.PAUSED;
                         gameParams.alertResources = true;
                         showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function (that) {
                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
-                            gameParams.state = gameStates.STARTED;
+                            gameParams.state = GAME_STATES.STARTED;
                         });
                     }
                 }
@@ -1810,12 +1810,12 @@ var WorldLayer = cc.Layer.extend({
 
                 if (gameParams.crisisCount < 4) {
 
-                    gameParams.state = gameStates.PAUSED;
+                    gameParams.state = GAME_STATES.PAUSED;
                     message += " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.";
 
                     var _buttons = showMessageBoxOK(world, "Crisis alert!", message, "OK!", function (that) {
 
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = GAME_STATES.STARTED;
                     });
 
                     if (gameParams.automateMode) {
@@ -1835,7 +1835,7 @@ var WorldLayer = cc.Layer.extend({
             var addTutorial = function addTutorial() {
                 if (gameParams.tutorialHints.length < 2 || gameParams.tutorialHints.length >= 6) return;
 
-                gameParams.state = gameStates.PAUSED;
+                gameParams.state = GAME_STATES.PAUSED;
                 var message = null;
                 switch (gameParams.tutorialHints.length) {
                     case 2:
@@ -1855,7 +1855,7 @@ var WorldLayer = cc.Layer.extend({
 
                 showMessageBoxOK(world, "HINT:", message, "OK", function () {
                     gameParams.tutorialHints.push(message);
-                    gameParams.state = gameStates.STARTED;
+                    gameParams.state = GAME_STATES.STARTED;
                 });
             };
 
@@ -2252,7 +2252,7 @@ var WorldLayer = cc.Layer.extend({
              */
             var updateTime = function updateTime() {
 
-                if (gameParams.state !== gameStates.STARTED) {
+                if (gameParams.state !== GAME_STATES.STARTED) {
 
                     // Refresh the timeout
                     gameParams.timeoutID = setTimeout(updateTime, 20);
@@ -2361,9 +2361,9 @@ var WorldLayer = cc.Layer.extend({
 
                         if (showDialog) {
 
-                            gameParams.state = gameStates.PAUSED;
+                            gameParams.state = GAME_STATES.PAUSED;
                             var _buttons2 = showMessageBoxOK(world, "Antarctic Bulletin, year " + currentYear, message, "OK", function () {
-                                gameParams.state = gameStates.STARTED;
+                                gameParams.state = GAME_STATES.STARTED;
                             });
 
                             if (gameParams.automateMode) {
@@ -2592,7 +2592,7 @@ var WorldLayer = cc.Layer.extend({
 
         var selectCountry = function selectCountry(event, location) {
 
-            if (gameParams.state !== gameStates.PREPARED && gameParams.state !== gameStates.STARTED && gameParams.state !== gameStates.PAUSED) return;
+            if (gameParams.state !== GAME_STATES.PREPARED && gameParams.state !== GAME_STATES.STARTED && gameParams.state !== GAME_STATES.PAUSED) return;
 
             var target = event.getCurrentTarget();
             var locationInNode = target.convertToNodeSpace(location);
@@ -2729,7 +2729,7 @@ var WorldLayer = cc.Layer.extend({
 
         var beginSim = function beginSim() {
 
-            gameParams.state = gameStates.PREPARED;
+            gameParams.state = GAME_STATES.PREPARED;
 
             world.btnPause.setBright(true);
             world.btnPlay.setBright(false);
@@ -2776,7 +2776,7 @@ var WorldLayer = cc.Layer.extend({
                     if (gameParams.automateScript.fastForward) {
 
                         updateTimeVars(MONTH_INTERVAL / 20);
-                        gameParams.state = gameStates.STARTED;
+                        gameParams.state = GAME_STATES.STARTED;
                         world.btnPause.enabled = true;
                         world.btnPlay.enabled = true;
                         world.btnFF.enabled = false;
@@ -3293,7 +3293,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
             world.setVisible(true);
             layer.removeFromParent();
-            gameParams.state = gameStates.STARTED;
+            gameParams.state = GAME_STATES.STARTED;
             gameParams.modal = false;
         });
         layer.btnExit = btnExit;
@@ -4079,7 +4079,7 @@ var StatsLayer = cc.Layer.extend({
 
             world.setVisible(true);
             layer.removeFromParent();
-            gameParams.state = gameStates.STARTED;
+            gameParams.state = GAME_STATES.STARTED;
             gameParams.modal = false;
         });
 
