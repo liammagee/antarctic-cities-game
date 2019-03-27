@@ -1,24 +1,24 @@
 // Colours
-COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
-COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
-COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
-COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
-COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
-COLOR_BLACK = new cc.Color(0, 0, 0, 255); // Black
-COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
+var COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
+var COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
+var COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
+var COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
+var COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
+var COLOR_BLACK = new cc.Color(0, 0, 0, 255); // Black
+var COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
 
 
 // ANTARCTIC CITIES THEME
-COLOR_BACKGROUND = COLOR_BLACK;
-COLOR_FOREGROUND = COLOR_ICE;
-COLOR_HIGHLIGHT = COLOR_OAK;
-COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transparency; COLOR_UMBER; 
-COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
-COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
+var COLOR_BACKGROUND = COLOR_BLACK;
+var COLOR_FOREGROUND = COLOR_ICE;
+var COLOR_HIGHLIGHT = COLOR_OAK;
+var COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transparency; COLOR_UMBER; 
+var COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
+var COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
+var COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
 
 // RESOURCES
-RESOURCES = {
+var RESOURCES = {
     economic: {
         labelText: "Design your Economic Policy",
         name: "Economy",
@@ -553,11 +553,11 @@ RESOURCES = {
     }
 };
 
-RESOURCE_MATRIX = [[0], [0, 0], [0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+var RESOURCE_MATRIX = [[0], [0, 0], [0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
-RESOURCE_RELATIONS = [[0], [0, 0], [0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+var RESOURCE_RELATIONS = [[0], [0, 0], [0, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
-CRISES = {
+var CRISES = {
     WATER_SHORTAGE: {
         name: "Water shortage",
         image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WATER_SHORTAGE.png",
@@ -659,7 +659,7 @@ TUTORIAL_MESSAGES = {
     }
 };
 
-NARATIVES = {
+var NARRATIVES = {
     n2048: {
         BAD: {
             loss: 20,

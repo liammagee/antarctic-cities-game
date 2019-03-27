@@ -2335,7 +2335,7 @@ var WorldLayer = cc.Layer.extend({
                         var showDialog = false;
 
                         // Sort narratives by loss for comparison
-                        var narratives = Object.values(NARATIVES.n2048).sort(function (o1, o2) {
+                        var narratives = Object.values(NARRATIVES.n2048).sort(function (o1, o2) {
                             return o2.loss - o1.loss;
                         });
 
@@ -2548,7 +2548,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.totalLoss >= 100) {
 
                     // Sort narratives by loss for comparison
-                    var narratives = Object.values(NARATIVES.n2070).sort(function (o1, o2) {
+                    var narratives = Object.values(NARRATIVES.n2070).sort(function (o1, o2) {
                         return o2.loss - o1.loss;
                     });
                     var n = narratives[0];
@@ -2561,7 +2561,7 @@ var WorldLayer = cc.Layer.extend({
 
                         var message = "";
                         // Sort narratives by loss for comparison
-                        var narratives = Object.values(NARATIVES.n2070).sort(function (o1, o2) {
+                        var narratives = Object.values(NARRATIVES.n2070).sort(function (o1, o2) {
                             return o2.loss - o1.loss;
                         });
                         for (var i = 0; i < narratives.length; i++) {

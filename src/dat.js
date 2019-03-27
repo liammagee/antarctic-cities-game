@@ -1,24 +1,24 @@
 // Colours
-COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
-COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
-COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
-COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
-COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
-COLOR_BLACK = new cc.Color(0, 0, 0, 255); // Black
-COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
+const COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
+const COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
+const COLOR_ICE = new cc.Color(214, 225, 227, 255); // Light Grey
+const COLOR_OAK = new cc.Color(243, 226, 206, 255); // Beige
+const COLOR_UMBER = new cc.Color(154, 136, 124, 255); // Brown
+const COLOR_BLACK = new cc.Color(0, 0, 0, 255); // Black
+const COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
 
 
 // ANTARCTIC CITIES THEME
-COLOR_BACKGROUND = COLOR_BLACK; 
-COLOR_FOREGROUND = COLOR_ICE; 
-COLOR_HIGHLIGHT = COLOR_OAK; 
-COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transparency; COLOR_UMBER; 
-COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
-COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
-COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
+const COLOR_BACKGROUND = COLOR_BLACK; 
+const COLOR_FOREGROUND = COLOR_ICE; 
+const COLOR_HIGHLIGHT = COLOR_OAK; 
+const COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transparency; COLOR_UMBER; 
+const COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
+const COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
+const COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
 
 // RESOURCES
-RESOURCES = {
+const RESOURCES = {
     economic: {
         labelText: "Design your Economic Policy",
         name: "Economy",
@@ -570,7 +570,7 @@ RESOURCES = {
 };
 
 
-RESOURCE_MATRIX = [
+const RESOURCE_MATRIX = [
     [ 0		                                                                ],
     [ 0 	,0	                                                            ],
     [ 0     ,0	,0						 ],
@@ -589,7 +589,7 @@ RESOURCE_MATRIX = [
     [ 0 	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0   ]
 ];
 
-RESOURCE_RELATIONS = [
+const RESOURCE_RELATIONS = [
     [0															],
     [0	,0														],
     [0	,0	,0													],
@@ -608,7 +608,7 @@ RESOURCE_RELATIONS = [
     [0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0	,0]
 ];
 
-CRISES = {
+const CRISES = {
     WATER_SHORTAGE: {
         name: "Water shortage",
         image: "res/andrea_png/NEW_ICONS/ICON_CRISIS_WATER_SHORTAGE.png",
@@ -710,7 +710,7 @@ TUTORIAL_MESSAGES = {
     },
 };
 
-NARATIVES = {
+const NARRATIVES = {
     n2048: {
         BAD: {
             loss: 20,

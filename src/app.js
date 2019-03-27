@@ -2440,7 +2440,7 @@ var WorldLayer = cc.Layer.extend({
                         var showDialog = false;
 
                         // Sort narratives by loss for comparison
-                        var narratives = Object.values(NARATIVES.n2048).sort((o1, o2) => {return o2.loss - o1.loss});
+                        var narratives = Object.values(NARRATIVES.n2048).sort((o1, o2) => {return o2.loss - o1.loss});
 
                         switch (currentYear) {
                             case 2048:
@@ -2675,7 +2675,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.totalLoss >= 100) {
 
                     // Sort narratives by loss for comparison
-                    var narratives = Object.values(NARATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
+                    var narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
                     var n = narratives[0];
                     var index = Math.floor(Math.random() * n.messages.length);
                     var message = n.messages[index];
@@ -2687,7 +2687,7 @@ var WorldLayer = cc.Layer.extend({
 
                     var message = "";
                     // Sort narratives by loss for comparison
-                    var narratives = Object.values(NARATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
+                    var narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
                     for (var i = 0; i < narratives.length; i++) {
                         var n = narratives[i];
                         if (gameParams.totalLoss > n.loss) {
