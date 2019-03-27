@@ -1,7 +1,10 @@
-// Global parameters
-const X_OFFSET = 0, Y_OFFSET = 50;
+// Global constants
+const VERSION_ANTARCTIC_FUTURES = "Build: 1003";
+
 const FONT_FACE_TITLE = "ArvoFont";
 const FONT_FACE_BODY = "JosefinSansFont";
+
+const X_OFFSET = 0, Y_OFFSET = 50;
 
 const MONTH_INTERVAL = 20;
 const RESOURCE_CHANCE = 0.1;
@@ -26,8 +29,6 @@ let gameParams = {};
 let automateScripts = [];
 
 
-
-
 //------------------------------------------------------------------
 //
 // ShaderOutline
@@ -36,8 +37,10 @@ let automateScripts = [];
 //FIX ME:
 //The renderers of webgl and opengl is quite different now, so we have to use different shader and different js code
 //This is a bug, need to be fixed in the future
-var ShaderOutlineEffect = cc.LayerGradient.extend({
-    ctor:function(node, country, loss) {
+const ShaderOutlineEffect = cc.LayerGradient.extend({
+
+    ctor: function(node, country, loss) {
+
         this._super();
 
         this.node = node;
@@ -45,14 +48,19 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
         this.loss = loss;
         this.timeCounter = 0;
 
-        var ccbjs = "res/";
+        const ccbjs = "res/";
+
         if( 'opengl' in cc.sys.capabilities ) {
+
             if(cc.sys.isNative){
+
                 this.shader = new cc.GLProgram(res.shader_outline_vertex_nomvp, res.shader_outline_fragment);
                 this.shader.link();
                 this.shader.updateUniforms();
+
             }
-            else{
+            else {
+
                 this.shader = new cc.GLProgram(res.shader_outline_vertex_nomvp, res.shader_outline_fragment);
                 this.shader.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);
                 this.shader.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);
@@ -68,15 +76,17 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor1'), 255 / 255, 0 / 255, 0 / 255);
                 this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor2'), 0 / 255, 255 / 255, 0 / 255);
 
-                var program = this.shader.getProgram();
+                const program = this.shader.getProgram();
                 this.uniformResolution = gl.getUniformLocation( program, "resolution");
                 this.shader.setUniformLocationF32( this.uniformResolution, 256, 256);
+            
             }
 
             // this.sprite.runAction(cc.sequence(cc.rotateTo(1.0, 10), cc.rotateTo(1.0, -10)).repeatForever());
 
-            if(cc.sys.isNative){
-                var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this.shader);
+            if (cc.sys.isNative){
+
+                const glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this.shader);
                 glProgram_state.setUniformFloat("u_threshold", 1.75);
                 glProgram_state.setUniformFloat("u_zoom", 1.0);
                 glProgram_state.setUniformFloat("u_selected", 0.0);
@@ -87,37 +97,49 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 glProgram_state.setUniformVec3("u_outlineColor1", {x: 255/255, y: 0/255, z: 0/255});
                 glProgram_state.setUniformVec3("u_outlineColor2", {x: 0/255, y: 255/255, z: 0/255});
                 node.setGLProgramState(glProgram_state);
-            }else{
+
+            }
+            else {
+
                 node.shaderProgram = this.shader;
+
             }
 
             this.scheduleUpdate();
+
         }
     },
-    update:function(dt) {  
+
+    update: function(dt) {  
 
         // if (gameParams.state != GAME_STATES.STARTED || gameParams.state != GAME_STATES.PAUSED)
         //     return;
-        var mouseX = -1.0, mouseY = -1.0;
+        let mouseX = -1.0, mouseY = -1.0;
+
         if (world.mouse.x > this.node.x && world.mouse.x < this.node.x + this.node.width &&
             world.mouse.y > this.node.y && world.mouse.y < this.node.y + this.node.height) {
+
             mouseX = ((world.mouse.x - this.node.x) / this.node.width );
             mouseY = ((world.mouse.y - (2 * Y_OFFSET) - this.node.y) / this.node.height );
+
         }
-        // if (this.country.iso_a3 == "AUS") {
-        //     console.log(mouseX, mouseY)
-        // }
-        var selected = this.country.selected ? 1.0 : 0.0;
-        if( 'opengl' in cc.sys.capabilities ) {
-            if(cc.sys.isNative){
+
+        let selected = this.country.selected ? 1.0 : 0.0;
+
+        if ('opengl' in cc.sys.capabilities) {
+
+            if (cc.sys.isNative) {
+
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_selected'), selected);
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill1'), (this.country.loss));
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill2'), (this.country.pop_prepared_percent));
                 this.node.getGLProgramState().setUniformVec2(this.shader.getUniformLocationForName('u_mouse'), {x: (mouseX), y: (mouseY)});
                 this.node.getGLProgramState().setUniformFloat("u_radius", Math.abs(this.node.getRotation() / 500));
+            
             }
-            else{
+            else {
+
                 this.shader.use();
                 this.shader.setUniformLocationF32( this.uniformResolution, 256, 256);
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_selected'), selected);
@@ -127,59 +149,93 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_mouse'), (mouseX), (mouseY));
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_radius'), Math.abs(this.node.getRotation() / 500));
                 this.shader.updateUniforms();
+
             }
+
         }
 
     }
+
 });
 
-var initCountries = function() {
+/**
+ * Initialises a set of countries.
+ */
+const initCountries = () => {
 
-        var size = cc.winSize;
+        const size = cc.winSize;
 
-        world.collisionDetection = function(points,test) {
-            var crossed = false;
-            var times = 0;
+        /**
+         * Tests whether a point is inside the points that outline a given geometric shape.
+         */
+        world.collisionDetection = (points,test) => {
+
+            let crossed = false;
+            let times = 0;
             
             // Double check the detection is within the widest bounds
-            var maxx = Math.max(...points.map(p => p.x));
-            for (var i = 0; i < points.length; i++) {
-                var p1 = points[i];
-                var p2 = (i == points.length - 1) ? points[0] : points[i+1];
+            let maxx = Math.max(...points.map(p => p.x));
+
+            for (let i = 0; i < points.length; i++) {
+
+                let p1 = points[i];
+                let p2 = (i == points.length - 1) ? points[0] : points[i+1];
 
                 // Make floating, and jitter to avoid boundary issues with integers.
-                var x1 = parseFloat(p1.x) + 0.001, y1 = parseFloat(p1.y) - 0.001, 
+                let x1 = parseFloat(p1.x) + 0.001, y1 = parseFloat(p1.y) - 0.001, 
                     x2 = parseFloat(p2.x) + 0.001, y2 = parseFloat(p2.y) - 0.001;
                 
                 if ((y1 < test.y && y2 >= test.y) || (y1 > test.y && y2 <= test.y)) {
+
                     if ((x1 + x2) / 2.0 < test.x && test.x < maxx) {
+
                         times++;
                         crossed = !crossed;
+
                     }
+
                 }
+
             }
+
             return crossed;
+
         };
 
+        /**
+         * Sorts objects by their relative screen position, to avoid overlapping tiles.
+         */
+        world.sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort((a, b) => { 
 
-        // Sorts objects by their relative screen position, to avoid overlapping tiles
-        world.sortedObjs = world.map.objectGroups[0].getObjects().slice(0).sort(function(a, b) { 
             return (a.points[0].y * size.height + a.points[0].x) > (b.points[0].y * size.height + b.points[0].x);  
+
         });
 
-        var pointArray = function(name) {
+        /**
+         * Returns an array of points associated with a country.
+         */
+        const pointArray = (name) => {
+
             return world.sortedObjs.filter(so => so.name == name).map(so => so.points);
+
         };
 
-        // Generates min, max coordinates
-        var extremes = function(name) {
+        /**
+         * Generates min, max coordinates
+         */
+        const extremes = (name) => {
+            
             let pa = pointArray(name);
             let extremes = [];
+            
             for (let i = 0; i < pa.length; i++) {
+
                 let p = pa[i];
                 let minx = 0, miny = 0, maxx = 0, maxy = 0;
+                
                 for (let j = 0; j < p.length; j++) {
-                    var point = p[j];
+
+                    let point = p[j];
                     if (minx == 0 || minx > parseInt(point.x)) 
                         minx = parseInt(point.x);
                     if (miny == 0 || miny > parseInt(point.y)) 
@@ -188,64 +244,101 @@ var initCountries = function() {
                         maxx = parseInt(point.x);
                     if (maxy < parseInt(point.y)) 
                         maxy = parseInt(point.y);
+                
                 }
+                
                 extremes.push({ minx: minx, miny: miny, maxx: maxx, maxy: maxy });
+
             }
+
             return extremes;
+
         };
 
 
-        var regionalArea = function(points) {
+        const regionalArea = (points) => {
+            
             let area = 0;
+
             for (let j = 0; j < points.length - 1; j++) {
-                var pt1 = points[j];
-                var pt2 = points[j + 1];
-                var xy1 = pt1.x * pt2.y;
-                var xy2 = pt1.y * pt2.x;
+
+                let pt1 = points[j];
+                let pt2 = points[j + 1];
+                let xy1 = pt1.x * pt2.y;
+                let xy2 = pt1.y * pt2.x;
                 area += Math.abs(xy1 - xy2);
+
             }
+
             return area / 2;
+
         };
 
-        // Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
-        var areas = function(name) { 
+        /*
+         * Gauss shoelace algorithm - https://gamedev.stackexchange.com/questions/151034/how-to-compute-the-area-of-an-irregular-shape
+         */
+        const areas = (name) => { 
+
             let pa = pointArray(name);
-            var area = 0;
+            let area = 0;
+            
             for (let i = 0; i < pa.length; i++) {
+
                 let p = pa[i];
                 area += regionalArea(p);
+
             }
+
             return area;
+
         };
 
-        // Create country centroids
-        var centroids = function(name) { 
+        /**
+         * Create country centroids.
+         */
+        const centroids = (name) => { 
+
             let pa = pointArray(name);
             let lastArea = 0, thisArea = 0;
             let regionID = -1;
+
             for (let i = 0; i < pa.length; i++) {
+            
                 let p = pa[i];
                 thisArea = regionalArea(p);
+            
                 if (thisArea > lastArea) {
+
                     regionID = i;
                     lastArea = thisArea;
+                
                 }
+            
             }
+            
             if (regionID == -1)
                 return;
             
             let points = pa[regionID];
             let totalX = 0, totalY = 0;
-            points.forEach(function(pt) {
+            
+            points.forEach( (pt) => {
+            
                 totalX += parseFloat(pt.x);
                 totalY += parseFloat(pt.y);
+            
             });
+
             return { x: totalX / points.length, y: totalY / points.length }
+
         };
 
         world.countries = world.map.objectGroups[0].getObjects().reduce((map, obj) => {  
+
             if (!map[obj.name]) {
+
                 map[obj.name] = {
+
                     name: obj.NAME,
                     points: pointArray(obj.name),
                     extremes: extremes(obj.name),
@@ -284,77 +377,124 @@ var initCountries = function() {
                     destructionDots: [] ,
                     selected: false   
                 };
+
             } 
+
             return map; 
+
         }, {});
 
         // Add proportion of main land mass with shared borders
         world.countryKeys = Object.keys(world.countries);
-        var allPoints = {};
+        let allPoints = {};
+        
         world.countryKeys.forEach(k => {
-            var c = world.countries[k];
+            
+            const c = world.countries[k];
+            
             c.points.forEach(p => {
-                var pStr = p.x +"-"+p.y;
+            
+                const pStr = p.x +"-"+p.y;
+
                 if (allPoints[pStr]) {
+            
                     allPoints[pStr].push(c.iso_a3);
+            
                 }
                 else {
+            
                     allPoints[pStr] = [c.iso_a3];
+            
                 }
+            
             });
+
         });
 
                 
         Object.keys(allPoints).forEach(k => {
-            var countries = allPoints[k];
+
+            let countries = allPoints[k];
+
             countries.forEach(c1 => {
-                var country = world.countries[c1];
+
+                const country = world.countries[c1];
                 countries.forEach(c2 => {
+
                     if (c1 != c2) {
+                    
                         if (country.neighbours.indexOf(c2) == -1) {
+                    
                             country.neighbours.push(c2);
+                    
                         }
                         country.points_shared += 1;
+
                     }
+
                 });
+
                 country.points_total += 1;
+
             });
+
         });
+
+
         Object.keys(world.countries).forEach(c => {
-            var country = world.countries[c];
+        
+            let country = world.countries[c];
             country.shared_border_percentage = country.points_shared / country.points_total;
+
             if (country.shared_border_percentage > 1.0)
                 country.shared_border_percentage = 1.0;
+
         });
         
 
         // Add population density
         Object.keys(world.countries).forEach(c => { 
-            var country = world.countries[c];
+        
+            const country = world.countries[c];
             country.density = country.pop_est / country.area;
+
         } );
+
         world.areaMin = 0, world.areaMax = 0, world.areaMean = 0;
         world.areaMinCountry = "", world.areaMaxCountry = "";
-        Object.keys(world.countries).forEach(function(c) {
-            var country = world.countries[c];
+        
+        Object.keys(world.countries).forEach((c) => {
+
+            const country = world.countries[c];
+            
             if (world.areaMin == 0 || world.areaMin > country.area) {
+            
                 world.areaMin = country.area;
                 world.areaMinCountry = c;
+            
             }
+
             if (world.areaMax < country.area) {
+            
                 world.areaMax = country.area;
                 world.areaMaxCountry = c; 
+            
             }
+            
             world.areaMean += country.area;
+
         });
+
         world.areaMean /= Object.keys(world.countries).length;
         world.areaRatio = Math.floor(Math.log2(world.areaMax / world.areaMin));
-        Object.keys(world.countries).forEach(function(c) {
-            var country = world.countries[c];
+
+        Object.keys(world.countries).forEach((c) => {
+
+            const country = world.countries[c];
             // Change the power for more or less points
             country.numPoints = Math.ceil(Math.pow(country.area / world.areaMean, 2));
+
         });
-        // Object.values(world.countries).forEach(c => c.numPoints = c.points.reduce((a, pa) => a + pa.length, 0))
 
         // Add world populations
         gameParams.populationWorld = Object.keys(world.countries).map(c => { return world.countries[c].pop_est; }).reduce((a, c) => {return a + parseInt(c);}, 0);
@@ -364,7 +504,8 @@ var initCountries = function() {
 /**
  * Initialises the game parameters.
  */
-var initGameParams = function(scenarioData) {
+const initGameParams = (scenarioData) => {
+
     gameParams = {};
     gameParams.state = GAME_STATES.INITIALISED;
     gameParams.modal = false;
@@ -410,6 +551,7 @@ var initGameParams = function(scenarioData) {
 
     // Obtain automation setting from parent
     if (world.automateID > -1) {
+
         gameParams.automateMode = true;
         gameParams.automateScript = automateScripts[world.automateID - 1];
         console.log("Running " + gameParams.automateScript.name);
@@ -418,26 +560,33 @@ var initGameParams = function(scenarioData) {
 
     updateTimeVars(MONTH_INTERVAL);
     calculatePolicyConnections();
+    
 };
 
 /**
  * Fire click on target
  */
-var fireClickOnTarget = function(target, callback) {
+const fireClickOnTarget = (target, callback) => {
     
-    setTimeout(function() {
+    /**
+     * Allow a small wait before calling the callback.
+     */
+    setTimeout(() => {
 
         // Assume no more than 4 parents
         let x = target.getPosition().x;
         let y = target.getPosition().y;
         
+        // Adjust for up to the great-grandparent's position offset
         if (target.parent != null) {
 
             x += target.parent.getPosition().x;
             y += target.parent.getPosition().y;
+    
             if (target.parent.parent != null) {
                 x += target.parent.parent.getPosition().x;
                 y += target.parent.parent.getPosition().y;
+                
                 if (target.parent.parent.parent != null) {
 
                     x += target.parent.parent.parent.getPosition().x;
@@ -450,24 +599,11 @@ var fireClickOnTarget = function(target, callback) {
         x += target.getContentSize().width / 2;
         y += target.getContentSize().height / 2;
 
-        var e = new cc.EventMouse(cc.EventMouse.UP);
+        const e = new cc.EventMouse(cc.EventMouse.UP);
         e.setLocation(x, y);
         cc.eventManager.dispatchEvent(e);
-        /*
-        var touches = [];
-        var touch = new cc.Touch(x, y);
-        touch._setPrevPoint(x, y);
-        touch._startPoint = cc.p(x, y);
-        touches.push(touch)
-        var es = new cc.EventTouch(touches);
-        es._eventCode = cc.EventTouch.BEGAN;
-        var ee = new cc.EventTouch(touches);
-        ee._eventCode = cc.EventTouch.ENDED;
-        cc.eventManager.dispatchEvent(es);
-        cc.eventManager.dispatchEvent(ee);
-        */
 
-        if (typeof(callback) !== "undefined")
+        if (callback !== undefined) 
             callback();
 
     }, 100);
@@ -477,33 +613,47 @@ var fireClickOnTarget = function(target, callback) {
 /**
  * Sets up game parameters at the start of play
  */
-var calculatePolicyConnections = function() {
+const calculatePolicyConnections = () => {
 
     gameParams.policyOptions = {};
-    var policyLen = 0;
+    let policyLen = 0;
+
     Object.keys(RESOURCES).forEach(key => {
+
         RESOURCES[key].policyOptions.forEach(pol => {
+
             gameParams.policyOptions[pol.id] = pol;
             if (policyLen < pol.id)
                 policyLen = pol.id;
+
         });
     });
     
     gameParams.policyRelations = {};
-    for (var i = 0; i < policyLen; i++){
-        var source = gameParams.policyOptions[i+1];
+    
+    for (let i = 0; i < policyLen; i++){
+
+        const source = gameParams.policyOptions[i+1];
         gameParams.policyRelations[source.id] = {};
-        for (var j = i + 1; j < policyLen; j++){
-            var target = gameParams.policyOptions[j+1];
-            if (typeof(gameParams.policyRelations[target.id]) === "undefined")
+
+        for (let j = i + 1; j < policyLen; j++){
+
+            const target = gameParams.policyOptions[j+1];
+            if (gameParams.policyRelations[target.id] === undefined)
                 gameParams.policyRelations[target.id] = {};
-            var val = RESOURCE_MATRIX[j][i];
-            var rel = RESOURCE_RELATIONS[j][i];
+            
+            const val = RESOURCE_MATRIX[j][i];
+            const rel = RESOURCE_RELATIONS[j][i];
             gameParams.policyRelations[source.id][target.id] = val;
+            
             if (rel == 1) {
+
                 gameParams.policyRelations[target.id][source.id] = val;
+
             }
+
         }
+
     }
 
 };
@@ -511,7 +661,7 @@ var calculatePolicyConnections = function() {
 /**
  * Sets up game parameters at the start of play
  */
-var startGameParams = function() {
+const startGameParams = () => {
     
     gameParams.state = GAME_STATES.STARTED;
 
@@ -521,7 +671,7 @@ var startGameParams = function() {
 /**
  * Update time variables.
  */
-var updateTimeVars = function(interval) {
+const updateTimeVars = (interval) => {
 
     gameParams.timeInterval = interval;
     gameParams.tutorialInterval = gameParams.timeInterval * TUTORIAL_INTERVAL_MULTIPLIER;
@@ -534,11 +684,16 @@ var updateTimeVars = function(interval) {
  * Load external data sources
  * Reference: https://github.com/toddmotto/public-apis#transportation
  */
-var loadDataSets = function() {
-    cc.loader.loadJson("https://api.openaq.org/v1/cities",function(error, data){
+const loadDataSets = () => {
+  
+    cc.loader.loadJson("https://api.openaq.org/v1/cities", (error, data) => {
+
         cc.log(data);
-    });   
+
+    }); 
+
 };
+
 
 /**
  * Message box
@@ -548,35 +703,47 @@ var loadDataSets = function() {
  * @param {*} prompt 
  * @param {*} callback 
  */
-var showMessageBoxOK = function(parent, title, message, prompt1, callback1, prompt2, callback2){
+const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, callback2) => {
 
     parent.pause(); 
 
-    var winWidth = cc.winSize.width, winHeight = cc.winSize.height;
-    var btn1Offset = 0.1, btn2Offset = 0.0;
+    let winWidth = cc.winSize.width, 
+        winHeight = cc.winSize.height;
+    let btn1Offset = 0.1, btn2Offset = 0.0;
+
     if (message === null || typeof(message) === "undefined" || message === "") {
-        if (typeof(prompt2) !== "undefined") {
+    
+        if (prompt2 !== undefined) {
+
             btn1Offset = 0.5;
             btn2Offset = 0.3;
+
         }
         else {
+
             btn1Offset = 0.4;
+
         }
     }
     else {
-        if (typeof(prompt2) !== "undefined") {
+
+        if (prompt2 !== undefined) {
+
             btn1Offset = 0.2;
             btn2Offset = 0.1;
-        }
-    }
 
-    var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.66, winHeight * 0.66);
+        }
+
+    }
+    
+    let layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.66, winHeight * 0.66);
     layerBackground.attr({ 
+        
         x: winWidth / 2 - layerBackground.width / 2, 
         y: winHeight / 2 - layerBackground.height / 2});
     parent.addChild(layerBackground, 1);
 
-    var titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
+    let titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0.5, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
@@ -586,7 +753,7 @@ var showMessageBoxOK = function(parent, title, message, prompt1, callback1, prom
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
+    let contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
@@ -607,14 +774,16 @@ var showMessageBoxOK = function(parent, title, message, prompt1, callback1, prom
     btn1.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn1Offset });
     layerBackground.addChild(btn1);
 
-    handleMouseTouchEvent(btn1, function() {
+    handleMouseTouchEvent(btn1, () => {
+
         layerBackground.removeAllChildren(true);
         layerBackground.removeFromParent(true);
         parent.resume(); 
         callback1();
+
     });
 
-    if (typeof(prompt2) !== "undefined") {
+    if (prompt2 !== undefined) {
 
         btn2 = new ccui.Button();
         btn2.setTouchEnabled(true);
@@ -626,20 +795,24 @@ var showMessageBoxOK = function(parent, title, message, prompt1, callback1, prom
         btn2.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn2Offset });
         layerBackground.addChild(btn2);  
 
-        handleMouseTouchEvent(btn2, function() {
+        handleMouseTouchEvent(btn2, () => {
+            
             layerBackground.removeAllChildren(true);
             layerBackground.removeFromParent(true);
             parent.resume(); 
             callback2();
+
         });
 
     }
 
     buttons.push(btn1);
-    if (typeof(btn2) !== "undefined")
+    
+    if (btn2 !== undefined)
         buttons.push(btn2);
 
     return buttons;
+
 };
 
 /**
@@ -648,16 +821,18 @@ var showMessageBoxOK = function(parent, title, message, prompt1, callback1, prom
  * @param {*} message 
  * @param {*} prompt 
  */
-var postResultsToServer = function() {
+const postResultsToServer = () => {
+
     // Test posting data
-    var xhr = cc.loader.getXMLHttpRequest();
+    const xhr = cc.loader.getXMLHttpRequest();
 
     xhr.open("POST", "http://43.240.98.94/game_data");
     // xhr.open("POST", "http://localhost:8000/game_data");
 
-    //set Content-type "text/plain;charset=UTF-8" to post plain text
+    // Set Content-type "text/plain;charset=UTF-8" to post plain text
     xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
     const gameLog = Object.assign({}, gameParams, { 
+
         policyOptions: undefined,
         policyRelations: undefined,
         messagesNegative: undefined,
@@ -665,40 +840,45 @@ var postResultsToServer = function() {
         timeoutID: undefined,
         tutorialHints: undefined,
         tutorialInterval: undefined,
-        });
+
+    });
+
     let countries = {};
-    Object.values(world.countries).forEach(c => { countries[c.iso_a3] = Object.assign({}, c, {
+    Object.values(world.countries).forEach(c => { 
+        countries[c.iso_a3] = Object.assign({}, c, {
         
-        points: undefined, 
-        points_shared: undefined, 
-        points_total: undefined, 
-        selected: undefined, 
-        shared_border_percentage: undefined, 
-        subregion: undefined, 
-        destructionPoints: undefined, 
-        destructionDots: undefined, 
-        policyPoints: undefined, 
-        policyDots: undefined, 
-        offsetX: undefined, 
-        offsetY: undefined, 
-        neighbours: undefined, 
-        income_grp: undefined, 
-        income_grp_num: undefined, 
-        iso_a2: undefined, 
-        gid: undefined, 
-        gdp: undefined, 
-        extremes: undefined, 
-        equator_dist: undefined, 
-        centroid: undefined, 
-        area: undefined, 
-        density: undefined, 
-        economy: undefined
+            points: undefined, 
+            points_shared: undefined, 
+            points_total: undefined, 
+            selected: undefined, 
+            shared_border_percentage: undefined, 
+            subregion: undefined, 
+            destructionPoints: undefined, 
+            destructionDots: undefined, 
+            policyPoints: undefined, 
+            policyDots: undefined, 
+            offsetX: undefined, 
+            offsetY: undefined, 
+            neighbours: undefined, 
+            income_grp: undefined, 
+            income_grp_num: undefined, 
+            iso_a2: undefined, 
+            gid: undefined, 
+            gdp: undefined, 
+            extremes: undefined, 
+            equator_dist: undefined, 
+            centroid: undefined, 
+            area: undefined, 
+            density: undefined, 
+            economy: undefined
  
     }) });
+    
     gameLog.countries = countries;
     
     cc.log(JSON.stringify(gameLog))
     xhr.send(JSON.stringify(gameLog));
+
 };
 
 
@@ -708,24 +888,24 @@ var postResultsToServer = function() {
  * @param {*} message 
  * @param {*} prompt 
  */
-var gameOver = function(parent, message, prompt) {
+const gameOver = (parent, message, prompt) => {
     
     postResultsToServer();
 
-    var WINDOW_WIDTH = cc.winSize.width;
-    var WINDOW_HEIGHT = cc.winSize.height;
+    const WINDOW_WIDTH = cc.winSize.width;
+    const WINDOW_HEIGHT = cc.winSize.height;
     parent.pause(); 
     window.clearTimeout(gameParams.timeoutID );
     gameParams.state = GAME_STATES.PAUSED;
 
-    var layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH * 0.66, WINDOW_HEIGHT * 0.66);
+    const layerBackground = new cc.LayerColor(COLOR_LICORICE, WINDOW_WIDTH * 0.66, WINDOW_HEIGHT * 0.66);
     layerBackground.attr({ 
         x: WINDOW_WIDTH / 2 - layerBackground.width / 2, 
         y: WINDOW_HEIGHT / 2 - layerBackground.height / 2
     });
     parent.addChild(layerBackground, 1);
 
-    var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, 36);
+    const titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, 36);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
@@ -735,7 +915,7 @@ var gameOver = function(parent, message, prompt) {
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
+    const contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
@@ -745,17 +925,17 @@ var gameOver = function(parent, message, prompt) {
     contentText.setColor(COLOR_WHITE);
     layerBackground.addChild(contentText, 2);
 
-    var menu = this._menu = cc.Menu.create();
+    const menu = this._menu = cc.Menu.create();
     menu.setPosition(cc.p(0, 0));
     layerBackground.addChild(this._menu, 3);
 
-    var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 36));
+    const btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 36));
     btnOK.attr({
         x: layerBackground.width / 2,
         y: (layerBackground.height * 0.1) 
     });
 
-    handleMouseTouchEvent(btnOK, function() {
+    handleMouseTouchEvent(btnOK, () => {
 
         initGameParams(world.scenarioData);
         gameParams.state = GAME_STATES.GAME_OVER;
@@ -777,57 +957,82 @@ var gameOver = function(parent, message, prompt) {
 /**
  * A common function for adding mouse/touch events.
  */
-var handleMouseTouchEvent = function(target, callback) {
+const handleMouseTouchEvent = (target, callback) => {
     
-    var listenerMouse = cc.EventListener.create({
+    const listenerMouse = cc.EventListener.create({
+
         event: cc.EventListener.MOUSE,
-        onMouseUp : function(event) {
-            var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(event.getLocation());    
-            var s = target.getContentSize();
-            var rect = cc.rect(0, 0, s.width, s.height);
+
+        onMouseUp : (event) => {
+
+            const target = event.getCurrentTarget();
+            const locationInNode = target.convertToNodeSpace(event.getLocation());    
+            const s = target.getContentSize();
+            const rect = cc.rect(0, 0, s.width, s.height);
+
             if (cc.rectContainsPoint(rect, locationInNode)) {  
+
                 callback(target);
                 event.stopPropagation();
                 return true;
+
             }
+
             return false;
+
         }
+
     });
 
-    var listenerTouch = cc.EventListener.create({
+    const listenerTouch = cc.EventListener.create({
+
         event: cc.EventListener.TOUCH_ONE_BY_ONE,
         swallowTouches: true,
-        onTouchBegan : function(touch, event) {
+        
+        onTouchBegan: (touch, event) => {
 
-            var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(touch.getLocation());
-            var s = target.getContentSize();
-            var rect = cc.rect(0, 0, s.width, s.height);
+            const target = event.getCurrentTarget();
+            const locationInNode = target.convertToNodeSpace(touch.getLocation());
+            const s = target.getContentSize();
+            const rect = cc.rect(0, 0, s.width, s.height);
+
             if (cc.rectContainsPoint(rect, locationInNode)) {  
+
                 target.TOUCHED = true;
                 return true;
+
             }
+
             return false;
 
         },
-        onTouchEnded : function(touch, event) {
 
-            var target = event.getCurrentTarget();
+        onTouchEnded : (touch, event) => {
+
+            const target = event.getCurrentTarget();
+
             if (target.TOUCHED) {
+
                 target.TOUCHED = false;
                 callback(target);
+
             }
+
             return true;
 
         }
+
     });
 
     if (gameParams.automateMode) {
+
         cc.eventManager.addListener(listenerMouse, target); 
+
     }
     else {
+
         cc.eventManager.addListener(listenerTouch, target);    
+
     }
 
 };
@@ -835,26 +1040,30 @@ var handleMouseTouchEvent = function(target, callback) {
 /**
  * Main screen - shows the world, and various controls for interaction.
  */
-var WorldLayer = cc.Layer.extend({
+const WorldLayer = cc.Layer.extend({
+
     sprite:null,
 
-    initControls:function() {
+    initControls: () => {
 
-        var controlHandler = function(target) {
+        const controlHandler = (target) => {
 
             if (target == world.btnQuit) {  // Pause
+
                 gameParams.state = GAME_STATES.PAUSED;
                 showMessageBoxOK(world, "Options", "", 
-                "QUIT GAME", function() {
+                    "QUIT GAME", () => {
                     
-                    postResultsToServer();
+                        postResultsToServer();
 
-                    gameParams.state = GAME_STATES.GAME_OVER;
-                    cc.director.runScene(new LoadingScene());
+                        gameParams.state = GAME_STATES.GAME_OVER;
+                        cc.director.runScene(new LoadingScene());
 
                 }, 
-                "RETURN TO GAME", function() {
+                "RETURN TO GAME", () => {
+
                     gameParams.state = GAME_STATES.STARTED;
+
                 });
             }
             else if (target == world.btnPause) {  // Pause
@@ -883,6 +1092,7 @@ var WorldLayer = cc.Layer.extend({
                 world.btnFF.enabled = false;
 
             }
+
         };
 
         handleMouseTouchEvent(world.btnQuit, controlHandler);
@@ -892,7 +1102,8 @@ var WorldLayer = cc.Layer.extend({
 
     },
 
-    ctor:function (scenarioData, automateID) {
+    ctor: function(scenarioData, automateID) {
+
         this._super();
 
         // Add to global variables to maintain state
@@ -903,11 +1114,11 @@ var WorldLayer = cc.Layer.extend({
 
         initGameParams(scenarioData);     
 
-        var size = cc.winSize;
-        var WINDOW_WIDTH = cc.winSize.width;
-        var WINDOW_HEIGHT = cc.winSize.height;
+        const size = cc.winSize;
+        const WINDOW_WIDTH = cc.winSize.width;
+        const WINDOW_HEIGHT = cc.winSize.height;
     
-        var layerBackground = new cc.LayerColor(COLOR_ICE, size.width, size.height);
+        const layerBackground = new cc.LayerColor(COLOR_ICE, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         this.addChild(layerBackground, 0);
 
@@ -924,51 +1135,62 @@ var WorldLayer = cc.Layer.extend({
 
         // Interaction handling
         cc.eventManager.addListener({
+
             event: cc.EventListener.MOUSE,
             // Pan handling
-            onMouseMove: function(event){
+            onMouseMove: (event) => {
 
                 if (gameParams.modal)
                     return false;
 
                 if(event.getButton() == cc.EventMouse.BUTTON_LEFT){
-                    var node = event.getCurrentTarget(); 
-                    var scale = node.getScale();
-                    var size = node.getContentSize();
-                    var scaledX = scale * size.width;
-                    var scaledY = scale * size.height;
+                    const node = event.getCurrentTarget(); 
+                    const scale = node.getScale();
+                    const size = node.getContentSize();
+                    const scaledX = scale * size.width;
+                    const scaledY = scale * size.height;
                     // Calculate margins adjusted for size
-                    var marginX = node.width / (2 / (1e-06 + scale - 1));
-                    var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
-                    let allowance = 200;
+                    const marginX = node.width / (2 / (1e-06 + scale - 1));
+                    const marginY = -Y_OFFSET + node.height / (2 / (1e-06 + scale - 1));
+                    const allowance = 200;
+
                     if (node.x + event.getDeltaX() < (marginX + allowance)  && 
                         node.x + event.getDeltaX() > (-marginX - allowance) &&
                         node.y + event.getDeltaY() < (marginY + allowance) && 
                         node.y + event.getDeltaY() > (-marginY - allowance) ) {
+
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
+
                     }
+
                 }
+
             },
             // Zoom handling
-            onMouseScroll: function(event){
+            onMouseScroll: (event) => {
 
                 if (gameParams.modal)
                     return false;
 
-                var node = event.getCurrentTarget(); 
-                var delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
-                var newScale = node.getScale() * (1 + delta / 1000.0);
+                const node = event.getCurrentTarget(); 
+                const delta = cc.sys.isNative ? event.getScrollY() * 6 : -event.getScrollY();
+                const newScale = node.getScale() * (1 + delta / 1000.0);
                 // Calculate margins adjusted for size
-                var marginX = node.width / (2 / (1e-06 + newScale - 1));
-                var marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
-                let allowance = 200;
+                const marginX = node.width / (2 / (1e-06 + newScale - 1));
+                const marginY = -Y_OFFSET + node.height / (2 / (1e-06 + newScale - 1));
+                const allowance = 200;
+            
                 if (newScale <= 10.0 && newScale >= 0.9 && 
                     node.x < (marginX + allowance) && 
                     node.x > (-marginX - allowance)) {
+                    
                     node.setScale(newScale);
+
                 }
+
             }
+
         }, this.worldBackground);
 
         // Add map
@@ -980,25 +1202,26 @@ var WorldLayer = cc.Layer.extend({
 
         initCountries();
 
-        // for (var i = 0; i < 177; i++) {
+        // for (let i = 0; i < 177; i++) {
         // Peirce projection
-        // for (var i = 0; i < 169; i++) {
+        // for (let i = 0; i < 169; i++) {
         // Stereographic projection - 0.9
-        // for (var i = 0; i < 160; i++) {
+        // for (let i = 0; i < 160; i++) {
         // Stereographic projection - 0.1
-        // for (var i = 0; i < 166; i++) {
+        // for (let i = 0; i < 166; i++) {
         // 50m Stereographic projection - 0.0
         world.spriteCountries = {};
-        // for (var i = 0; i < 225; i++) {
-        for (var i = 0; i < 168; i++) {
-            var gid = (i + 3);
-            var l = this.map.getLayer("Tile Layer " + gid);
-            var arr = Object.values(world.countries).filter(c => c.gid == gid);
+        
+        for (let i = 0; i < 168; i++) {
+
+            const gid = (i + 3);
+            const l = this.map.getLayer("Tile Layer " + gid);
+            const arr = Object.values(world.countries).filter(c => c.gid == gid);
             if (arr.length == 0)
                 continue;
-            var country = arr[0];
+            const country = arr[0];
 
-            var sprite = new cc.Sprite(l.tileset.sourceImage);
+            const sprite = new cc.Sprite(l.tileset.sourceImage);
 
             sprite.setPosition(cc.p(parseInt(country.offsetX), 
                 parseInt(cc.winSize.height - ( 2 * Y_OFFSET ) - country.offsetY)));
@@ -1007,7 +1230,7 @@ var WorldLayer = cc.Layer.extend({
 
             world.spriteCountries[country.iso_a3] = sprite;
 
-            var shaderNode = new ShaderOutlineEffect(sprite, country, false);
+            const shaderNode = new ShaderOutlineEffect(sprite, country, false);
             shaderNode.width = 1;
             shaderNode.height = 1;
             shaderNode.x = this.width;
@@ -1029,7 +1252,7 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.x = cc.winSize.width * 5 / 6;
         this.controlsBackground.y = 0;
         this.controlsBackground.setContentSize(cc.size(cc.winSize.width * 6,Y_OFFSET));
-        var controlsBackgroundSprite = new cc.Sprite(res.ctrls_background);
+        const controlsBackgroundSprite = new cc.Sprite(res.ctrls_background);
         controlsBackgroundSprite.setAnchorPoint(new cc.p(0.0, 0.0));
         controlsBackgroundSprite.setContentSize(cc.size(cc.winSize.width * 6,Y_OFFSET));
         controlsBackgroundSprite.setPosition(cc.p(0, 0));
@@ -1116,12 +1339,12 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.setColor(COLOR_BACKGROUND_TRANS);
         this.tweetBackground.attr({ width: WINDOW_WIDTH * 0.66, height: Y_OFFSET, x: (WINDOW_WIDTH / 6), y: 0 });
         this.tweetBackground.setContentSize(cc.size(WINDOW_WIDTH * 0.66, Y_OFFSET));
-        var stencil = new cc.DrawNode();
-        var rectangle = [cc.p(0, 0),cc.p(this.tweetBackground.width, 0),
+        const stencil = new cc.DrawNode();
+        const rectangle = [cc.p(0, 0),cc.p(this.tweetBackground.width, 0),
             cc.p(this.tweetBackground.width, this.tweetBackground.height),
             cc.p(0, this.tweetBackground.height)];
 
-        var darkGrey = new cc.Color(42, 54, 68, 255);
+        const darkGrey = new cc.Color(42, 54, 68, 255);
         stencil.drawPoly(rectangle, darkGrey, 1, darkGrey);
         this.tweetBackground.stencil = stencil;
         this.topBarLayout.addChild(this.tweetBackground, 110);
@@ -1145,16 +1368,13 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackground.addChild(this.tweetAlertLabel, 101);
 
 
-
-
-
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
         this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
         this.addChild(this.resourceScoreBackground, 100);
 
-        var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
+        const antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -1188,13 +1408,13 @@ var WorldLayer = cc.Layer.extend({
         this.statusLayout.addChild(this.btnDevelopPolicy);
 
     
-        var countryDetailLayout = new cc.Layer();
+        const countryDetailLayout = new cc.Layer();
         countryDetailLayout.setAnchorPoint(new cc.p(0,0));
         countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
         countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });        
         this.statusLayout.addChild(countryDetailLayout);
-        var fontSize = 20;
-        var labelOffsetY = Y_OFFSET / 2;// - fontSize / 2;
+        const fontSize = 20;
+        const labelOffsetY = Y_OFFSET / 2;// - fontSize / 2;
 
         this.countryLabel = new cc.LabelTTF("", FONT_FACE_TITLE, fontSize);
         this.countryLabel.setContentSize(cc.size(300, Y_OFFSET));
@@ -1204,7 +1424,7 @@ var WorldLayer = cc.Layer.extend({
         this.countryLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(this.countryLabel);
 
-        var lossLabel = new cc.LabelTTF("Loss", FONT_FACE_TITLE, fontSize);
+        const lossLabel = new cc.LabelTTF("Loss", FONT_FACE_TITLE, fontSize);
         lossLabel.setContentSize(cc.size(50, Y_OFFSET));
         lossLabel.setPosition(cc.p(280, labelOffsetY));
         lossLabel.setColor(COLOR_ICE);
@@ -1232,7 +1452,7 @@ var WorldLayer = cc.Layer.extend({
         countryDetailLayout.addChild(this.countryLossProgressBase, 100);
         countryDetailLayout.addChild(this.countryLossProgress, 101);
 
-        var preparednessLabel = new cc.LabelTTF("Prepared", FONT_FACE_TITLE, fontSize);
+        const preparednessLabel = new cc.LabelTTF("Prepared", FONT_FACE_TITLE, fontSize);
         preparednessLabel.setContentSize(cc.size(100, Y_OFFSET));
         preparednessLabel.setPosition(cc.p(580, labelOffsetY));
         preparednessLabel.setColor(COLOR_ICE);
@@ -1274,22 +1494,28 @@ var WorldLayer = cc.Layer.extend({
         this.btnStats.setPosition(cc.p(this.width - 217, 0));
         this.statusLayout.addChild(this.btnStats);
 
-        handleMouseTouchEvent(this.btnDevelopPolicy, function(){
+        handleMouseTouchEvent(this.btnDevelopPolicy, () => {
+
             gameParams.state = GAME_STATES.PAUSED;
             layer = new DesignPolicyLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
             gameParams.modal = true;
+
         });
-        handleMouseTouchEvent(this.btnStats, function(){
+
+        handleMouseTouchEvent(this.btnStats, () => {
+
             gameParams.state = GAME_STATES.PAUSED;
             layer = new StatsLayer(world);
             world.parent.addChild(layer);
             world.setVisible(false);
             gameParams.modal = true;
+
         });
 
-        var addEmitter = function () {
+        const addEmitter = () => {
+
             world._emitter = new cc.ParticleRain();
             //world.worldBackground.addChild(world._emitter, 110);
     
@@ -1298,65 +1524,88 @@ var WorldLayer = cc.Layer.extend({
             world._emitter.texture = cc.textureCache.addImage(res.fire_texture);
             world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
 
-            var sourcePos = world._emitter.getSourcePosition();
-            if (sourcePos.x === 0 && sourcePos.y === 0)
+            const sourcePos = world._emitter.getSourcePosition();
+            if (sourcePos.x === 0 && sourcePos.y === 0) {
+
                 world._emitter.x = cc.winSize.width / 2;
                 world._emitter.y = cc.winSize.height / 2 - 50;
+
+            }
+
         };
 
         return true;
     },
 
     onEnter:function () {
+
         this._super();
 
-        var size = cc.winSize;
-        var mappedTiles = {};
+        const size = cc.winSize;
+        const mappedTiles = {};
 
-        var oldLayers = [];
-        var lastLayerID = -1;
-
+        let oldLayers = [];
+        let lastLayerID = -1;
         
-        var processResourceSelection = function(target) {
+        const processResourceSelection = (target) => {
             
-            var res = Math.floor(1 + Math.random() * 3);
+            const res = Math.floor(1 + Math.random() * 3);
+
             gameParams.resources += res;
             target.removeFromParent();
+
             if (!gameParams.resourcesAdded) {
+                
                 gameParams.state = GAME_STATES.PAUSED;
                 gameParams.resourcesAdded = true;
+                
                 if (gameParams.tutorialMode) {
+                    
                     showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message, "OK!", function() {
                         gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED.message);
                         gameParams.state = GAME_STATES.STARTED;
                     });
+
                 }
                 else {
+                    
                     gameParams.state = GAME_STATES.STARTED;
+
                 }
             }
 
         };
 
-        var processCrisisSelection = function(target) {
+        const processCrisisSelection = (target) => {
 
             gameParams.crisisCountry = null;
-            var crisis = null;
-            for (var i = 0; i < gameParams.crises.length; i++) {
+            let crisis = null;
+
+            for (let i = 0; i < gameParams.crises.length; i++) {
+
                 if (gameParams.crises[i].id == target.crisisId) {
-                    var crisisInCountry = gameParams.crises[i];
+
+                    const crisisInCountry = gameParams.crises[i];
                     crisis = CRISES[crisisInCountry.crisis];
                     gameParams.crises.splice(i, 1);
                     break;
+
                 }
             }
+
             target.removeFromParent();
+            
             if (!gameParams.alertCrisis && gameParams.tutorialMode) {
+
                 gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
+                
                 showMessageBoxOK(world, "Congratulations!", "You have averted the " + crisis.name + "!", "OK!", function() {
+
                     gameParams.state = GAME_STATES.STARTED;
+
                 });
+
             }
 
         };
@@ -1365,7 +1614,7 @@ var WorldLayer = cc.Layer.extend({
          * Update month / year in the interface
          * @param {*} world 
          */
-        var refreshDate = function(world) {
+        const refreshDate = (world) => {
 
             // world.dayLabel.setString(gameParams.currentDate.getDate());
             world.monthLabel.setString((gameParams.currentDate.getMonth() + 1).toString());
@@ -1373,212 +1622,43 @@ var WorldLayer = cc.Layer.extend({
 
         };
 
-        var generatePoint = function(pointArray, extremes) {
-            var minx = extremes.minx, miny = extremes.miny, maxx = extremes.maxx, maxy = extremes.maxy;
-            var testx = -1, testy = -1, k = 0, maxTries = 3;
-            var cd = false;
-            var p  = null;
-            do {
-                let arrayIndex = 0;
-                let dists = pointArray.map(pa => pa.length / pointArray.reduce((t, pa) => t + pa.length, 0))
-                let r = Math.random(), accum = 0;
-                for (let i = 0; i < dists.length; i++) {
-                    accum += dists[i];
-                    if (r < accum) {
-                        arrayIndex = i;
-                        break;
-                    }
-                }
-                let points = pointArray[arrayIndex];
-                let extreme = extremes[arrayIndex];
-                let minx = extreme.minx, miny = extreme.miny, maxx = extreme.maxx, maxy = extreme.maxy;
-                testx = minx + Math.floor(Math.random() * (maxx - minx));
-                testy = miny + Math.floor(Math.random() * (maxy - miny));
+        /**
+         * Show country-level stats.
+         */
+        const printCountryStats = () => {
 
-                cd = world.collisionDetection(points, cc.p(testx, testy));
-                if (cd)
-                    break;
-
-            } while (! cd && (k++) < maxTries);
-            if (cd) {
-                testy = (size.height - Y_OFFSET) - testy;
-                p = cc.p(testx, testy); 
-            }
-            return p;
-        };
-
-        world.generatePointsForCountry = function(country, policy, min, max) {
-            var batchNode = world.spriteBackground.getChildByTag(TAG_SPRITE_BATCH_NODE);
-            var pointArray = country.points;
-            var extremes = country.extremes;
-            var pointsToDraw = []; //country.policyPoints;
-            var dots = []; //country.policyDots;
-            if (policy) {
-                pointsToDraw = country.policyPoints;
-                dots = country.policyDots;
-            }
-            else {
-                pointsToDraw = country.destructionPoints;
-                dots = country.destructionDots;
-            }
-
-            min = Math.round(min);
-            max = Math.round(max);
-            if (min < 0 || max < 0)
-                return;
-
-            if (min > max) {
-                // Sprite-based dots
-                /*
-                for (var i = max; i < min; i++) {
-                    var sprite = dots[i];
-                    if (sprite != null)
-                        sprite.removeFromParent();
-                }
-                */
-                // pointsToDraw = pointsToDraw.slice(0, max - 1);
-
-                if (policy) {
-                    country.policyPoints = country.policyPoints.slice(0, max);
-                }
-                else {
-                    country.destructionPoints = country.destructionPoints.slice(0, max);
-                }
-            }
-            else {
-                var sqrt = Math.pow(country.area, 0.5);
-                if (pointsToDraw.length + ( max - min) * country.numPoints > sqrt)
-                    return;
-                for (var j = min; j < max; j++) {
-                    var numPoints = country.numPoints;
-                    for (var k  = 0; k < numPoints; k++) {
-                        var p = generatePoint(pointArray, extremes);
-                        if (p != null && pointsToDraw.indexOf(p) === -1) {
-                            /*
-                            // Sprite-based dots
-                            var sprite = new cc.Sprite(batchNode.texture, cc.rect(0, 0, 60, 60));
-                            //sprite.setScale(0.1);
-                            if (policy) {
-                                sprite.setColor(new cc.Color(0, 255, 0));
-                            }
-                            else {
-                                sprite.setColor(new cc.Color(255, 0, 0));
-                            }
-                            // sprite.attr({x: p.x, y: p.y});
-                            sprite.setAnchorPoint(cc.p(0, 0));
-                            sprite.setPosition(p);
-
-                            batchNode.addChild(sprite, 1);
-                            dots.push(sprite);
-                            */
-                            pointsToDraw.push(p);
-                        }
-                    }
-                }
-            }
-            return pointsToDraw;
-        };
-
-        world.generatePoints = function() {
-            for (var i = 0; i < Object.keys(world.countries).length; i++) {
-                var country = world.countries[Object.keys(world.countries)[i]];
-                var existingConvincedPercentage = country.pop_prepared_percent;
-                country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
-                // world.generatePointsForCountry(country, true, parseInt(existingConvincedPercentage), parseInt(country.pop_prepared_percent));
-                // // world.generatePointsForCountry(country, false, 0, country.loss);
-            }
-        };
-        // world.generatePoints();
-
-        var genNormRand = function() {
-            // Produce a random value from a normal distribution with a mean of 120.
-            // var r = (Math.random() - 0.5) * 2.0;
-            // var rr2 = (r * r) / 2.0;
-            // return Math.round(20.0 + 100.0 * (0.5 + (r > 0 ? 1.0 : -1.0) * rr2));
-            return 100.0;
-        };
-        var drawPoints = function() {
-            if (typeof(world.renderer) === "undefined") {
-                var rend = new cc.RenderTexture(size.width, size.height, cc.Texture2D.PIXEL_FORMAT_RGBA4444, gl.DEPTH24_STENCIL8_OES);
-                rend.setPosition(size.width/2,size.height/2);
-                //world.worldBackground.addChild(rend, 99);
-                world.renderer = rend;
-                world.renderer.setOpacity(100);
-            }
-            world.renderer.clear(0, 0, 0, 0);
-
-            var dots = [];
-            var drawNode = new cc.DrawNode();
-            drawNode.setOpacity(genNormRand());
-            for (var i = 0; i < Object.keys(world.countries).length; i++) {
-                var country = world.countries[Object.keys(world.countries)[i]];
-                world.renderer.begin();
-                drawNode.retain();
-                for (var j = 0; j < country.policyPoints.length; j++) {
-                    var p = country.policyPoints[j];
-                    // With dynamic alpha
-                    // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, genNormRand()));
-                    // With static alpha
-                    // drawNode.drawDot(p, 3, cc.color(0.0, 255.0, 0.0, Math.random() * 255));
-                    drawNode.drawDot(p, 2, COLOR_POLICY_POINTS);
-                }
-                for (var j = 0; j < country.destructionPoints.length; j++) {
-                    var p = country.destructionPoints[j];
-                    // With dynamic alpha
-                    // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, genNormRand()));
-                    // With static alpha
-                    // drawNode.drawDot(p, 3, cc.color(255.0, 0.0, 0.0, Math.random() * 255));
-                    drawNode.drawDot(p, 2, COLOR_DESTRUCTION_POINTS);
-                }
-                // dots.push(drawNode);
-                drawNode.visit();
-
-                world.renderer.end();
-                world.renderer.retain();
-                drawNode.release();
-            }
-            // world.renderer.begin();
-            // for (var i = 0; i < dots.length; i++) {
-            //     var dot = dots[i];
-            //     dot.visit();
-            // }
-            // world.renderer.end();
-            // world.renderer.retain();
-        };
-        // drawPoints();
-        world.drawPoints = drawPoints;
-
-        var printCountryStats = function(){
-            var country = world.countries[gameParams.currentCountry];
+            const country = world.countries[gameParams.currentCountry];
             world.countryLabel.setString(country.name);
 
-            var lossPercent = Math.floor(country.loss);
-            var preparedPercent = Math.floor(country.pop_prepared_percent);
+            const lossPercent = Math.floor(country.loss);
+            const preparedPercent = Math.floor(country.pop_prepared_percent);
 
             world.countryLoss.setString(lossPercent + "%" );
             world.countryLossProgress.setPercent(lossPercent);
             world.countryAwarePrepared.setString(preparedPercent + "%");
-            // world.countryAwarePrepared.setString(aware + "M aware / " + prepared + "M prepared");
             world.countryPreparedProgress.setPercent(preparedPercent);
+
         };
 
-        var printWorldStats = function(){
+        /**
+         * Show world-level stats.
+         */
+        const printWorldStats = () => {
+
             world.countryLabel.setString("World");
 
-            var lossPercent = Math.round(gameParams.totalLoss);
-            var preparedPercent = Math.round(gameParams.populationPreparedPercent);
+            const lossPercent = Math.round(gameParams.totalLoss);
+            const preparedPercent = Math.round(gameParams.populationPreparedPercent);
 
             world.countryLoss.setString(lossPercent + "%" );
-            // var aware = (Math.round(gameParams.populationAware / 10000) / 100).toLocaleString()
-            // var prepared = (Math.round(gameParams.populationPrepared / 10000) / 100).toLocaleString()
-            // world.countryAwarePrepared.setString(aware + "M aware / " + prepared + "M prepared");
             world.countryAwarePrepared.setString(preparedPercent + "%");
 
             world.countryLossProgress.setPercent(lossPercent);
             world.countryPreparedProgress.setPercent(preparedPercent);
+
         };
 
-        world.generateResourceDistribution = function() {
+        world.generateResourceDistribution = () => {
 
             let dists = [];
             let total = 0;
@@ -1606,14 +1686,16 @@ var WorldLayer = cc.Layer.extend({
 
         };
 
-        var doSim =function() {
+        const doSim = () => {
+
             if (gameParams.startCountry === null || gameParams.state !== GAME_STATES.PREPARED)
                 return;
 
-            var country = world.countries[gameParams.startCountry];
+            let buttons = [];
+
+            const country = world.countries[gameParams.startCountry];
             country.policy = 1.0;
             country.affected_chance = 1.0;
-            var buttons = [];
 
             // Shuffle from https://gist.github.com/guilhermepontes/17ae0cc71fa2b13ea8c20c94c5c35dc4
             const shuffleArray = a => a.sort(() => Math.random() - 0.5);
@@ -1621,8 +1703,7 @@ var WorldLayer = cc.Layer.extend({
             startGameParams();
             refreshDate(world);
 
-
-            var generateWeightedResourceIndex = function(r) {
+            const generateWeightedPolicyIndex = (r) => {
 
                 let dists = world.generateResourceDistribution();
                 let counter = 0;
@@ -1646,9 +1727,12 @@ var WorldLayer = cc.Layer.extend({
 
             };
 
-            var generatePolicyIcon = function() {
+            /**
+             * Generate a policy icon, based on a weighted average of existing policies.
+             */
+            const generatePolicyIcon = () => {
 
-                let policyIndex = generateWeightedResourceIndex(Math.random());
+                let policyIndex = generateWeightedPolicyIndex(Math.random());
                 let icon = "";
 
                 switch(policyIndex) {
@@ -1706,20 +1790,19 @@ var WorldLayer = cc.Layer.extend({
             };
                                     
             // Add chance of new resource
-            var addResource = function() {
+            const addResource = () => {
 
-                var btnRes = new ccui.Button();
+                const btnRes = new ccui.Button();
                 btnRes.setTouchEnabled(true);
                 btnRes.setSwallowTouches(false);
                 btnRes.setScale9Enabled(true);
                 
-                let policyIcon = generatePolicyIcon();
-                console.log(policyIcon)
+                const policyIcon = generatePolicyIcon();
                 btnRes.loadTextures(policyIcon, "", "");
 
-                var ind = Math.floor(Math.random() * Object.keys(world.countries).length);
-                var countryRand = world.countries[Object.keys(world.countries)[ind]];
-                var pt = countryRand.centroid;
+                const ind = Math.floor(Math.random() * Object.keys(world.countries).length);
+                const countryRand = world.countries[Object.keys(world.countries)[ind]];
+                const pt = countryRand.centroid;
                 btnRes.attr({ x: pt.x, y: (size.height - (2 * Y_OFFSET) ) - pt.y + RESOURCE_SIZE_H / 2 });
                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnRes.setColor(COLOR_RESOURCE);
@@ -1732,7 +1815,7 @@ var WorldLayer = cc.Layer.extend({
 
                 if (gameParams.automateMode) {
                     
-                    let r = Math.random();
+                    const r = Math.random();
                     if (r < parseFloat(gameParams.automateScript.resourcesProb)) {
 
                         fireClickOnTarget(btnRes);
@@ -1740,19 +1823,26 @@ var WorldLayer = cc.Layer.extend({
                     }
 
                 }
-                                
 
                 if (!gameParams.alertResources) {
+
                     if (gameParams.tutorialMode) {
+                        
                         gameParams.state = GAME_STATES.PAUSED;
                         gameParams.alertResources = true;
                         showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message, "OK!", function(that) {
+                        
                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN.message);
                             gameParams.state = GAME_STATES.STARTED;
+
                         });
+
                     }
+
                 }
+
                 gameParams.lastResource = gameParams.counter;
+
             };
                                     
             /**
@@ -1760,21 +1850,22 @@ var WorldLayer = cc.Layer.extend({
              */ 
             world.crisisProbDistribution = function() {
                 
-                var probs = [];
-                var crisisKeys = Object.keys(CRISES);
-                var countryKeys = Object.keys(world.countries);
-                var denom = 0;
+                const probs = [];
+                const crisisKeys = Object.keys(CRISES);
+                const countryKeys = Object.keys(world.countries);
+                let denom = 0;
                 
                 crisisKeys.forEach(ck => {
 
-                    var crisis = CRISES[ck];
+                    const crisis = CRISES[ck];
                     
                     countryKeys.forEach(yk => {
                     
-                        var country = world.countries[yk];
-                        var lossProp = country.loss / gameParams.totalLoss;
-                        var preparedProp = country.pop_prepared_percent / gameParams.populationPreparedPercent;
-                        var totalInfluence = 1.0;
+                        const country = world.countries[yk];
+                        const lossProp = country.loss / gameParams.totalLoss;
+                        const preparedProp = country.pop_prepared_percent / gameParams.populationPreparedPercent;
+                        
+                        let totalInfluence = 1.0;
                         totalInfluence += lossProp * crisis.influence_of_environmental_loss;
                         totalInfluence += preparedProp * crisis.influence_of_preparedness;
                         
@@ -1792,7 +1883,7 @@ var WorldLayer = cc.Layer.extend({
 
                 });
                 
-                for (var i = 0; i < probs.length; i++) {
+                for (let i = 0; i < probs.length; i++) {
                 
                     probs[i] /= denom;
                 
@@ -1804,20 +1895,20 @@ var WorldLayer = cc.Layer.extend({
 
             world.crisisProbLocation = function(r) {
 
-                var probs = world.crisisProbDistribution();
-                var crisisKeys = Object.keys(CRISES);
-                var countryKeys = Object.keys(world.countries);
-                var crisisCountry = {};
-                var counter = 0;
+                const probs = world.crisisProbDistribution();
+                const crisisKeys = Object.keys(CRISES);
+                const countryKeys = Object.keys(world.countries);
+                let crisisCountry = {};
+                let counter = 0;
                 
-                for (var i = 0; i < probs.length; i++) {
+                for (let i = 0; i < probs.length; i++) {
                 
                     counter += probs[i];
 
                     if (r < counter) {
 
-                        var crisisID = Math.floor(crisisKeys.length * i / probs.length);
-                        var countryID = i % countryKeys.length;
+                        const crisisID = Math.floor(crisisKeys.length * i / probs.length);
+                        const countryID = i % countryKeys.length;
                         crisisCountry.crisis = crisisKeys[crisisID];
                         crisisCountry.country = countryKeys[countryID];
                         crisisCountry.id = i;
@@ -1827,33 +1918,37 @@ var WorldLayer = cc.Layer.extend({
                     }
                 
                 }
+
                 return crisisCountry;
 
             };
 
-            var addCrisis = function() {
+            /**
+             * Add a new crisis.
+             */
+            const addCrisis = () => {
 
-                var r2 = Math.random();
-                var crisisInCountry = world.crisisProbLocation(r2);
+                const r2 = Math.random();
+                const crisisInCountry = world.crisisProbLocation(r2);
                 gameParams.crisisCountry = crisisInCountry;
                 gameParams.crises.push(crisisInCountry);
                 gameParams.crisisCount++;
-                var crisis = CRISES[crisisInCountry.crisis];
-                var country = world.countries[crisisInCountry.country];
+                const crisis = CRISES[crisisInCountry.crisis];
+                const country = world.countries[crisisInCountry.country];
 
-                var btnCrisis = new ccui.Button();
+                const btnCrisis = new ccui.Button();
                 btnCrisis.setTouchEnabled(true);
                 btnCrisis.setSwallowTouches(false);
                 btnCrisis.setScale9Enabled(true);
                 btnCrisis.loadTextures(crisis.image, "", "");
-                var pt = country.centroid;
+                const pt = country.centroid;
                 console.log(country.name, pt.y)
                 btnCrisis.attr({ x: pt.x, y: (size.height - (2 * Y_OFFSET) ) - pt.y + RESOURCE_SIZE_H / 2 });
                 btnCrisis.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnCrisis.setColor(COLOR_DESTRUCTION_POINTS);
                 btnCrisis.placedAt = gameParams.counter;
                 btnCrisis.crisisId = crisisInCountry.id;
-                btnCrisis.name = "crisis"+crisisInCountry.id;
+                btnCrisis.name = "crisis" + crisisInCountry.id;
                 
                 handleMouseTouchEvent(btnCrisis, processCrisisSelection);
                 
@@ -1890,14 +1985,19 @@ var WorldLayer = cc.Layer.extend({
                 }
                 
                 gameParams.lastCrisis = gameParams.counter;
+
             };
 
-            var addTutorial = function() {
+            /**
+             * Add tutorial.
+             */
+            const addTutorial = () => {
+
                 if (gameParams.tutorialHints.length < 2 || gameParams.tutorialHints.length >= 6)
                     return;
 
                 gameParams.state = GAME_STATES.PAUSED;
-                var message = null;
+                let message = null;
                 switch(gameParams.tutorialHints.length) {
                     case 2:
                     default:
@@ -1915,15 +2015,19 @@ var WorldLayer = cc.Layer.extend({
                 }
 
                 showMessageBoxOK(world, "HINT:", message, "OK", function() {
+                    
                     gameParams.tutorialHints.push(message);
                     gameParams.state = GAME_STATES.STARTED;
+
                 });
+
             };
 
-            world.sigmoidalPercent = function(percent, inflectionPoint) {
+            world.sigmoidalPercent = (percent, inflectionPoint) => {
 
-                if (typeof(inflectionPoint) === "undefined")
+                if (inflectionPoint === undefined)
                     inflectionPoint = 50;
+
                 // Some value between -1.0 and 1.0
                 let normedPercent = ( percent - inflectionPoint ) / inflectionPoint;
                 let normedPercentWithFactor = normedPercent * 1.0;
@@ -1935,39 +2039,31 @@ var WorldLayer = cc.Layer.extend({
             };
 
             // Evaluates loss
-            world.evaluateLoss = function(country) {
+            world.evaluateLoss = (country) => {
 
-                var lossCurrent = country.loss;
-                var lossNew = country.loss;
+                const lossCurrent = country.loss;
 
                 // Add random amount to default rate of loss
-                var rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
-                var rateOfLossMonthly = rateOfLoss;
-                var rateOfLossFactor = 1 + rateOfLossMonthly;
-
-                
-                // Calculate loss
-                // lossNew = (1 + lossCurrent) * (1 + rateOfLoss / MONTH_INTERVAL) - 1;
+                const rateOfLoss = gameParams.rateOfLoss * (0.5 + Math.random());
+                const rateOfLossMonthly = rateOfLoss;
+                let rateOfLossFactor = 1 + rateOfLossMonthly;
 
                 // Weaken rate of loss by population prepared for good policy
-                var preparednessFactor = 1 + 0.1 * country.pop_prepared_percent / 100.0;
+                const preparednessFactor = 1 + 0.1 * country.pop_prepared_percent / 100.0;
                 rateOfLossFactor /= preparednessFactor;
-                //lossNew /= (1 + preparednessFactor);
 
-                //var crisis = CRISES[gameParams.crises[0].crisis];
+                //let crisis = CRISES[gameParams.crises[0].crisis];
                 gameParams.crises.forEach(crisisInCountry => {
-                    var crisis = CRISES[crisisInCountry.crisis];
+                    
+                    const crisis = CRISES[crisisInCountry.crisis];
                     // Add effects of country / global loss ratio to crisis effect
                     // Take the square root of the ratio of country to world loss, and multiply this by the crisis effect
                     rateOfLossFactor *= (1 + crisis.effect_on_environmental_loss * (Math.pow(lossCurrent / gameParams.totalLoss, 0.5)));
                     
                 });
 
-
-                // Create a 
-                var sigmoidalLossFactor = ( 1 + (rateOfLossFactor - 1) * world.sigmoidalPercent(lossCurrent) );
-                var lossNew = lossCurrent + (sigmoidalLossFactor - 1);
-
+                const sigmoidalLossFactor = ( 1 + (rateOfLossFactor - 1) * world.sigmoidalPercent(lossCurrent) );
+                let lossNew = lossCurrent + (sigmoidalLossFactor - 1);
 
                 if (lossNew > 100)
                     lossNew = 100;
@@ -1979,42 +2075,42 @@ var WorldLayer = cc.Layer.extend({
             };
 
             /**
-             * 
+             * Transmit policy effects from a country
              * @param {*} Calculates transmission of policies from 
              */
-            var transmitFrom = function(country) {
+            const transmitFrom = (country) => {
                 
-                var neighbours = country.neighbours;
-                var sharedBorder = country.shared_border_percentage;
-                var transmissionLand = world.scenarioData.threat_details.transmission.transmission_land;
-                var transmissionSea = world.scenarioData.threat_details.transmission.transmission_sea;
-                var transmissionAir = world.scenarioData.threat_details.transmission.transmission_air;
-                var infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
+                const neighbours = country.neighbours;
+                const sharedBorder = country.shared_border_percentage;
+                const transmissionLand = world.scenarioData.threat_details.transmission.transmission_land;
+                const transmissionSea = world.scenarioData.threat_details.transmission.transmission_sea;
+                const transmissionAir = world.scenarioData.threat_details.transmission.transmission_air;
+                const infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
 
-                var likelihoodOfTransmission = country.affected_chance; //infectivityIncreaseSpeed / 100.0;
+                const likelihoodOfTransmission = country.affected_chance; //infectivityIncreaseSpeed / 100.0;
 
-                var popCountry = country.pop_est;
-                var popWorld = gameParams.populationWorld;
-                var popFactor = Math.log(popCountry) / Math.log(popWorld);
+                const popCountry = country.pop_est;
+                const popWorld = gameParams.populationWorld;
+                const popFactor = Math.log(popCountry) / Math.log(popWorld);
                 
-                var income = country.income_grp;
-                var incomeVal = parseFloat(income.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
+                const income = country.income_grp;
+                const incomeVal = parseFloat(income.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
                 
                 // THE FOLLOWING CODE MAKES USE OF AVAILABLE GEOGRAPHIC INFORMATION TO DEVELOP A PROXY FOR TRANSMISSION
 
-                var landProb = sharedBorder * transmissionLand * likelihoodOfTransmission * popFactor * incomeVal;
+                const landProb = sharedBorder * transmissionLand * likelihoodOfTransmission * popFactor * incomeVal;
                 // Sea probability increases with (a) low shared border and (b) high income and (c) high population
-                var seaProb = (1  - sharedBorder)  * transmissionSea * likelihoodOfTransmission * popFactor * (1 - incomeVal);
+                const seaProb = (1  - sharedBorder)  * transmissionSea * likelihoodOfTransmission * popFactor * (1 - incomeVal);
                 // Air probability increases with (a) low shared border and (b) high income and (c) high population
-                var airProb = sharedBorder * transmissionAir * likelihoodOfTransmission * popFactor * (1 - incomeVal);
+                const airProb = sharedBorder * transmissionAir * likelihoodOfTransmission * popFactor * (1 - incomeVal);
                 
-                var candidateCountry = null;
+                let candidateCountry = null;
 
                 // Start with land
                 if (Math.random() < landProb && neighbours.length > 0) {
                     
-                    var neighbourIndex = Math.floor(Math.random() * neighbours.length);
-                    var neighbour = world.countries[neighbours[neighbourIndex]];
+                    const neighbourIndex = Math.floor(Math.random() * neighbours.length);
+                    const neighbour = world.countries[neighbours[neighbourIndex]];
                     if (neighbour.policy == 0) {
                     
                         candidateCountry = neighbour;
@@ -2024,12 +2120,12 @@ var WorldLayer = cc.Layer.extend({
                 }
                 else if (Math.random() < seaProb) {
                     
-                    var countriesShuffled = shuffleArray(Object.keys(world.countries));
-                    var countryChance = Math.random();
+                    const countriesShuffled = shuffleArray(Object.keys(world.countries));
+                    const countryChance = Math.random();
                     
-                    for (var i = 0; i < countriesShuffled.length; i++) {
+                    for (let i = 0; i < countriesShuffled.length; i++) {
                         
-                        var countryCheck = world.countries[countriesShuffled[i]];
+                        const countryCheck = world.countries[countriesShuffled[i]];
                         
                         if (countryChance < ( 1 - countryCheck.shared_border_percentage ) && countryCheck.policy == 0) {
 
@@ -2042,14 +2138,14 @@ var WorldLayer = cc.Layer.extend({
 
                 }
                 else if (Math.random() < airProb) {
-                    var countriesShuffled = shuffleArray(Object.keys(world.countries));
-                    var countryChance = Math.random();
+                    const countriesShuffled = shuffleArray(Object.keys(world.countries));
+                    const countryChance = Math.random();
                     
-                    for (var i = 0; i < countriesShuffled.length; i++) {
+                    for (let i = 0; i < countriesShuffled.length; i++) {
                     
-                        var countryCheck = world.countries[countriesShuffled[i]];
-                        var incomeCheck = countryCheck.income_grp;
-                        var incomeValCheck = parseFloat(incomeCheck.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
+                        const countryCheck = world.countries[countriesShuffled[i]];
+                        const incomeCheck = countryCheck.income_grp;
+                        const incomeValCheck = parseFloat(incomeCheck.charAt(0)) / 6.0; // 5 income groups + 1, so there are no zeroes
                     
                         if (countryChance < ( 1 - incomeValCheck ) && countryCheck.policy == 0) {
                     
@@ -2070,11 +2166,12 @@ var WorldLayer = cc.Layer.extend({
                 
                     candidateCountry.policy = 1.0;
                     candidateCountry.pop_aware = parseInt(candidateCountry.pop_est) * infectivityMinimumIncrease;
+                
                 }
 
             };
 
-            var infectWithin = function(country) {
+            const infectWithin = (country) => {
                 
                 if (country.affected_chance == 0)
                     return;
@@ -2083,13 +2180,13 @@ var WorldLayer = cc.Layer.extend({
                     return;
 
                 // Calculate infectivity
-                var infectivityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.infectivity_increase_speed;
-                var infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
+                const infectivityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.infectivity_increase_speed;
+                const infectivityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_infectivity_increase;
 
-                var infectivityRate = infectivityIncreaseSpeed;
+                let infectivityRate = infectivityIncreaseSpeed;
 
                 Object.keys(gameParams.policies).forEach(strategy => {
-                    var level = gameParams.policies[strategy];
+                    const level = gameParams.policies[strategy];
                     switch(strategy.id) {
                         case 1:
                             // Increase infectivity when reducing inequality for low income countries
@@ -2152,7 +2249,9 @@ var WorldLayer = cc.Layer.extend({
                         case 16:
                             infectivityRate *= (Math.log(1 + country.income_grp_num));
                             break;
+                    
                     };
+
                 });
 
                 if ((infectivityRate - 1) < infectivityMinimumIncrease)
@@ -2160,19 +2259,20 @@ var WorldLayer = cc.Layer.extend({
                 country.pop_aware = (1 + country.pop_aware) * infectivityRate;
                 if (country.pop_aware > country.pop_est)
                     country.pop_aware = country.pop_est;
+
             };
 
-            world.calculatePolicyBalanceOnPreparedness = function() {
+            world.calculatePolicyBalanceOnPreparedness = () => {
 
-                var strategyCount = Object.values(gameParams.policies).reduce((accum, level) => accum + level, 0);
+                const strategyCount = Object.values(gameParams.policies).reduce((accum, level) => accum + level, 0);
                 if (strategyCount == 0)
                     return 1.0;
 
-                var domainMean = strategyCount / 4;
-                var ecn = 0, pol = 0, cul = 0, eco = 0;
+                const domainMean = strategyCount / 4;
+                let ecn = 0, pol = 0, cul = 0, eco = 0;
                 Object.keys(gameParams.policies).forEach(policyID => {
-                    var policy = gameParams.policyOptions[policyID]
-                    var level = gameParams.policies[policyID];
+                    const policy = gameParams.policyOptions[policyID]
+                    const level = gameParams.policies[policyID];
                     switch (policy.domain) {
                         case 1:
                             ecn += level;
@@ -2189,38 +2289,44 @@ var WorldLayer = cc.Layer.extend({
                     }
                 });
 
-                var variances = Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
+                const variances = Math.pow(ecn - domainMean, 2) + Math.pow(pol - domainMean, 2) + Math.pow(cul - domainMean, 2) + Math.pow(eco - domainMean, 2);
 
                 // Suppress the effect of imbalanced resources
-                var policyBalance = 1 - Math.pow((variances / Math.pow(strategyCount, 2)), 4);
+                const policyBalance = 1 - Math.pow((variances / Math.pow(strategyCount, 2)), 4);
                 
                 return policyBalance;
 
             };
 
 
-            world.calculateSinglePolicyImpactOnPreparedness = function(country, index) {
+            world.calculateSinglePolicyImpactOnPreparedness = (country, index) => {
 
-                var severityEffect = 1.0;
+                let severityEffect = 1.0;
 
-                var policyID = parseInt(Object.keys(gameParams.policies)[index]);
-                var policy = gameParams.policyOptions[policyID];
-                var level = gameParams.policies[policyID];
+                const policyID = parseInt(Object.keys(gameParams.policies)[index]);
+                const policy = gameParams.policyOptions[policyID];
+                const level = gameParams.policies[policyID];
 
                 // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
-                var levelMultiplier = Math.log(level + 1.718);
+                const levelMultiplier = Math.log(level + 1.718);
 
                 // Check population
-                var pop = parseInt(country.pop_est);
+                const pop = parseInt(country.pop_est);
                 // https://content.meteoblue.com/en/meteoscool/general-climate-zones
                 if (pop < 10000000) {
+
                     severityEffect *= (1 + policy.effect_on_pop_low * levelMultiplier);
+
                 }
                 else if (pop < 100000000) {
+
                     severityEffect *= (1 + policy.effect_on_pop_medium * levelMultiplier);
+
                 }
                 else {
+
                     severityEffect *= (1 + policy.effect_on_pop_high * levelMultiplier);
+
                 }
 
                 // Check income
@@ -2241,33 +2347,40 @@ var WorldLayer = cc.Layer.extend({
                 }
 
                 // Check climate zone
-                var latitude = parseFloat(country.equator_dist);
+                const latitude = parseFloat(country.equator_dist);
                 // https://content.meteoblue.com/en/meteoscool/general-climate-zones
                 if (latitude > -23.5 && latitude < 23.5) {
+                    
                     severityEffect *= (1 + policy.effect_on_geo_tropic * levelMultiplier);
+                
                 }
                 else if (latitude > -40 && latitude < 40) {
+
                     severityEffect *= (1 + policy.effect_on_geo_subtropic * levelMultiplier);
+
                 }
                 else if (latitude > -60 && latitude < 60) {
+
                     severityEffect *= (1 + policy.effect_on_geo_temperate * levelMultiplier);
+
                 }
                 else {
+
                     severityEffect *= (1 + policy.effect_on_geo_polar * levelMultiplier);
+
                 }
 
                 // Calculate impact of other strategies
-
-                for (var j = index + 1; j < Object.keys(gameParams.policies).length; j++) {
+                for (let j = index + 1; j < Object.keys(gameParams.policies).length; j++) {
                     // if (i == j)
                     //     continue;
 
-                    var otherPolicyID = parseInt(Object.keys(gameParams.policies)[j]);
-                    var otherLevel = gameParams.policies[otherPolicyID];
+                    const otherPolicyID = parseInt(Object.keys(gameParams.policies)[j]);
+                    const otherLevel = gameParams.policies[otherPolicyID];
                     // Generate a natural log, so that level 1 = 1; level 2 = 1.31; level 3 = 1.55
-                    var otherLevelMultiplier = Math.log(otherLevel + 1.718);
+                    const otherLevelMultiplier = Math.log(otherLevel + 1.718);
 
-                    var relation = gameParams.policyRelations[policyID][otherPolicyID];
+                    const relation = gameParams.policyRelations[policyID][otherPolicyID];
                     
                     if (typeof(relation) !== "undefined") {
                     
@@ -2281,11 +2394,11 @@ var WorldLayer = cc.Layer.extend({
 
             };
 
-            world.calculatePolicyImpactOnPreparedness = function(country) {
+            world.calculatePolicyImpactOnPreparedness = (country) => {
                 
-                var severityEffect = 1.0;
+                let severityEffect = 1.0;
 
-                for (var i = 0; i < Object.keys(gameParams.policies).length; i++) {
+                for (let i = 0; i < Object.keys(gameParams.policies).length; i++) {
 
                     severityEffect *= world.calculateSinglePolicyImpactOnPreparedness(country, i);
 
@@ -2298,22 +2411,22 @@ var WorldLayer = cc.Layer.extend({
 
             };
 
-            world.registerPreparednessWithin = function(country) {
+            world.registerPreparednessWithin = (country) => {
 
                 if (country.affected_chance == 0)
                     return;
 
-                // var popAware = country.pop_aware;
-                var popAware = country.pop_est;
-                var popPrepared = country.pop_prepared;
+                // const popAware = country.pop_aware;
+                const popAware = country.pop_est;
+                let popPrepared = country.pop_prepared;
 
                 // Calculate severity
-                var severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
-                var severityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_severity_increase;
-                var policyBalance =  world.calculatePolicyBalanceOnPreparedness();
-                var policyImpact =  world.calculatePolicyImpactOnPreparedness(country);
-                var policyEffect = policyBalance * policyImpact * severityIncreaseSpeed;
-                var policyEffectNormalised = 1 + ((policyEffect - 1) / (MONTH_INTERVAL));
+                let severityIncreaseSpeed = world.scenarioData.threat_details.advanced_stats.severity_increase_speed;
+                const severityMinimumIncrease = world.scenarioData.threat_details.advanced_stats.minimum_severity_increase;
+                const policyBalance =  world.calculatePolicyBalanceOnPreparedness();
+                const policyImpact =  world.calculatePolicyImpactOnPreparedness(country);
+                const policyEffect = policyBalance * policyImpact * severityIncreaseSpeed;
+                const policyEffectNormalised = 1 + ((policyEffect - 1) / (MONTH_INTERVAL));
 
                 if (severityIncreaseSpeed < severityMinimumIncrease) {
 
@@ -2354,7 +2467,7 @@ var WorldLayer = cc.Layer.extend({
             /**
              * Updates the game state at regular intervals
              */
-            var updateTime = function() {
+            const updateTime = () => {
 
                 if (gameParams.state !== GAME_STATES.STARTED) {
 
@@ -2365,7 +2478,6 @@ var WorldLayer = cc.Layer.extend({
                 }
 
                 gameParams.counter++;
-
 
                 // Handle automation here
                 if (gameParams.automateMode) {
@@ -2424,8 +2536,8 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.currentDate.setDate(gameParams.currentDate.getDate() + 30.417);
 
                     // Show message box for each new decade
-                    var currentYear = gameParams.currentDate.getFullYear();
-                    var previousYear = gameParams.previousDate.getFullYear();
+                    const currentYear = gameParams.currentDate.getFullYear();
+                    const previousYear = gameParams.previousDate.getFullYear();
                     
                     // Change of year
                     if (currentYear > previousYear) {
@@ -2436,27 +2548,28 @@ var WorldLayer = cc.Layer.extend({
                         };
 
                         // Change of decade
-                        var message = "";
-                        var showDialog = false;
+                        let message = "";
+                        let showDialog = false;
 
                         // Sort narratives by loss for comparison
-                        var narratives = Object.values(NARRATIVES.n2048).sort((o1, o2) => {return o2.loss - o1.loss});
+                        const narratives = Object.values(NARRATIVES.n2048).sort((o1, o2) => {return o2.loss - o1.loss});
 
                         switch (currentYear) {
                             case 2048:
                                 showDialog = true;
                                 
-                                for (var i = 0; i < narratives.length; i++) {
+                                for (let i = 0; i < narratives.length; i++) {
                                 
-                                    var n = narratives[i];
+                                    const n = narratives[i];
                                 
                                     if (gameParams.totalLoss > n.loss) {
                                         
-                                        var index = Math.floor(Math.random() * n.messages.length);
+                                        let index = Math.floor(Math.random() * n.messages.length);
                                         message = n.messages[index];
                                         break;
 
                                     }
+
                                 }
                                 break;
                             default:
@@ -2486,30 +2599,18 @@ var WorldLayer = cc.Layer.extend({
 
 
                     // Add policy robustness and loss
-                    var totalPolicy = 0, totalLoss = 0;
-                    var countriedAffected = 0, populationAware = 0, populationPrepared = 0;
+                    let totalPolicy = 0, totalLoss = 0;
+                    let countriedAffected = 0, populationAware = 0, populationPrepared = 0;
                     
                     Object.keys(world.countries).forEach( key => {
 
-                        var country = world.countries[key];
-                        var loss = world.evaluateLoss(country);
-                        if (country.iso_a3 == "USA") {
-                            //console.log(country.previousLoss, loss)
-                        }
-                            
+                        const country = world.countries[key];
+                        const loss = world.evaluateLoss(country);
 
                         if (loss >= 0.1) {
                             country.previousLoss = country.loss;
                             country.loss = loss;
                         }
-
-                        // if (loss != 0 && country.loss <= 100 && country.loss >= 0) {
-
-                        //     country.loss = loss;
-                        //     // world.generatePointsForCountry(country, false, country.previousLoss, country.loss);
-                        //     country.previousLoss = country.loss;
-
-                        // }
 
                         if (country.affected_chance) {
 
@@ -2522,15 +2623,14 @@ var WorldLayer = cc.Layer.extend({
                             populationPrepared += country.pop_prepared;
 
                             country.pop_aware_percent = 100 * country.pop_aware / country.pop_est;
-                            var existingConvincedPercentage = country.pop_prepared_percent;
+                            let existingConvincedPercentage = country.pop_prepared_percent;
                             country.pop_prepared_percent = 100 * country.pop_prepared / country.pop_est;
 
-                            var imin = (existingConvincedPercentage > 0.5) ? parseInt(existingConvincedPercentage) : 0;
-                            var imax = (country.pop_prepared_percent > 0.5) ? parseInt(country.pop_prepared_percent) : 0;
-
-                            // world.generatePointsForCountry(country, true, imin, imax);
+                            let imin = (existingConvincedPercentage > 0.5) ? parseInt(existingConvincedPercentage) : 0;
+                            let imax = (country.pop_prepared_percent > 0.5) ? parseInt(country.pop_prepared_percent) : 0;
 
                         }
+
                         totalPolicy += country.policy;
                         totalLoss += country.loss;
 
@@ -2549,26 +2649,30 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.populationAwarePercent = 100 * gameParams.populationAware / gameParams.populationWorld;
                     gameParams.populationPreparedPercent = 100 * gameParams.populationPrepared / gameParams.populationWorld;
 
-                    drawPoints();
-                    if (gameParams.currentCountry != null)
+                    if (gameParams.currentCountry != null) {
+
                         printCountryStats();
+
+                    }
                     else {
+
                         printWorldStats();
+
                     }
 
                 }
 
 
                 // Various events
-                var ci = gameParams.crisisInterval;
+                let ci = gameParams.crisisInterval;
                 Object.keys(gameParams.policies).forEach(policyID => {
 
-                    var policy = gameParams.policyOptions[policyID];
-                    var policyLevel = gameParams.policies[policyID];
-                    //console.log(policy.text, policy.effect_on_crises, policyLevel)
+                    const policy = gameParams.policyOptions[policyID];
+                    const policyLevel = gameParams.policies[policyID];
                     ci /= 1 + (policy.effect_on_crises * Math.log(policyLevel + 1.718));
                     
-                });                
+                });         
+
                 // Check enough time has elapsed to generate a new resource with some probability (1 / RESOURCE_CHANCE)
                 if (gameParams.counter - gameParams.lastCrisis >= ci  && Math.random() < CRISIS_CHANCE) {
 
@@ -2576,21 +2680,19 @@ var WorldLayer = cc.Layer.extend({
 
                 }
                 
-                var ri = gameParams.resourceInterval;
+                let ri = gameParams.resourceInterval;
                 gameParams.crises.forEach(crisisInCountry => {
                     
-                    var crisis = CRISES[crisisInCountry.crisis];
-                    var country = world.countries[crisisInCountry.country];
-                    // Slow down resource production
-                    //console.log(crisis.name, crisis.effect_on_resources, ri)
+                    let crisis = CRISES[crisisInCountry.crisis];
+                    let country = world.countries[crisisInCountry.country];
                     ri /= (1 + crisis.effect_on_resources);
                     
                 }); 
+
                 Object.keys(gameParams.policies).forEach(policyID => {
 
-                    var policy = gameParams.policyOptions[policyID];
-                    var policyLevel = gameParams.policies[policyID];
-                    //console.log(policy.text, policy.effect_on_resources, policyLevel)
+                    let policy = gameParams.policyOptions[policyID];
+                    let policyLevel = gameParams.policies[policyID];
                     ri /= (1 + (policy.effect_on_resources * Math.log(policyLevel + 1.718)));
                     
                 }); 
@@ -2599,7 +2701,6 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.counter - gameParams.lastResource >= ri) {
 
                     addResource();
-
                     gameParams.resourceInterval *= 1.1;
 
                 }
@@ -2608,15 +2709,16 @@ var WorldLayer = cc.Layer.extend({
                     addTutorial();
                 }
 
-                var newButtons = [];
-                for (var i = 0; i < buttons.length; i++){
-                    var button = buttons[i];
-                    if (gameParams.counter > button.placedAt + RESOURCE_DURATION) {
+                // Add buttons
+                const newButtons = [];
+                for (let i = 0; i < buttons.length; i++) {
+
+                    const button = buttons[i];
+                    if (gameParams.counter > button.placedAt + RESOURCE_DURATION) 
                         button.removeFromParent();
-                    }
-                    else {
+                    else 
                         newButtons.push(button);
-                    }
+
                 }
                 buttons = newButtons;
                 
@@ -2627,7 +2729,8 @@ var WorldLayer = cc.Layer.extend({
                 // Scroll text
                 if (world.tweetLabel.x < -300 || gameParams.messageOverride != null) {
                     
-                    var message = gameParams.scenarioName, messageIndex = -1;
+                    let message = gameParams.scenarioName, 
+                        messageIndex = -1;
                     world.tweetLabel.color = COLOR_ICE;
                     
                     if (gameParams.messageOverride != null) {
@@ -2640,7 +2743,7 @@ var WorldLayer = cc.Layer.extend({
                     // Change label
                     else if (gameParams.totalLoss > 0 || gameParams.populationPreparedPercent > 0) {
                         
-                        var weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
+                        const weight = gameParams.totalLoss / (gameParams.totalLoss + gameParams.populationPreparedPercent);
                         if (Math.random() < weight) {
 
                             messageIndex = Math.floor(Math.random() * gameParams.messagesNegative.length);
@@ -2665,7 +2768,7 @@ var WorldLayer = cc.Layer.extend({
                 }
                 else {
 
-                    var adjustSpeed = Math.round(20 / gameParams.timeInterval);
+                    const adjustSpeed = Math.round(20 / gameParams.timeInterval);
                     world.tweetLabel.setPositionX(world.tweetLabel.x - adjustSpeed);
                     world.tweetAlertLabel.setPositionX(world.tweetLabel.x - 100);
                     
@@ -2675,28 +2778,31 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.totalLoss >= 100) {
 
                     // Sort narratives by loss for comparison
-                    var narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
-                    var n = narratives[0];
-                    var index = Math.floor(Math.random() * n.messages.length);
-                    var message = n.messages[index];
+                    const narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
+                    const n = narratives[0];
+                    const index = Math.floor(Math.random() * n.messages.length);
+                    const message = n.messages[index];
                     gameOver(world, message, "OK");
 
                 }
                 // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
                 else if (gameParams.currentDate >= gameParams.targetDate) {
 
-                    var message = "";
+                    let message = "";
                     // Sort narratives by loss for comparison
-                    var narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
-                    for (var i = 0; i < narratives.length; i++) {
-                        var n = narratives[i];
+                    const narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
+                    
+                    for (let i = 0; i < narratives.length; i++) {
+
+                        const n = narratives[i];
                         if (gameParams.totalLoss > n.loss) {
 
-                            var index = Math.floor(Math.random() * n.messages.length);
+                            const index = Math.floor(Math.random() * n.messages.length);
                             message = n.messages[index];
                             break;
 
                         }
+
                     }
 
                     gameOver(world, message, "OK");
@@ -2718,97 +2824,92 @@ var WorldLayer = cc.Layer.extend({
 
         };
 
-        var selectCountry = function(event, location) {
+        const selectCountry = (event, location) => {
 
             if (gameParams.state !== GAME_STATES.PREPARED && gameParams.state !== GAME_STATES.STARTED && gameParams.state !== GAME_STATES.PAUSED)
                 return;
             
-            var target = event.getCurrentTarget();
-            var locationInNode = target.convertToNodeSpace(location);
-            // var locationInNode = location;
-            var x = 0, y = 0;
+            const target = event.getCurrentTarget();
+            const locationInNode = target.convertToNodeSpace(location);
+            let x = 0, y = 0;
 
-            var layer = target.getLayer("Tile Layer 1");
+            const layer = target.getLayer("Tile Layer 1");
             gid = layer.getTileGIDAt(x, y);
+
             if (typeof(layer._texGrids) !== "undefined" && typeof(layer._texGrids[gid]) === "undefined")
                 return;
 
-            var start = 0, end = world.sortedObjs.length;
+            let start = 0, end = world.sortedObjs.length;
             if (lastLayerID > -1) {
+
                 start = (start < 0) ? 0 : start;
                 end = (end > world.sortedObjs.length) ? world.sortedObjs.length : end;
+
             };
 
-            var ed = function(pt1, pt2) {
+            const ed = (pt1, pt2) => {
                 return Math.sqrt(Math.pow(pt1.x - pt2.x, 2) + Math.pow(pt1.y - pt2.y, 2));
             };
-            var minED = -1, selectedCountry = null;
-            for (var j = start; j < end; j++) {
-                var poly = world.sortedObjs[j];
-                // var mousePoint = new cc.p(locationInNode.x - poly.x, size.height - locationInNode.y - (size.height - poly.y));
-                var mousePoint = new cc.p(locationInNode.x, size.height - locationInNode.y - (2 * Y_OFFSET));
-                var cd = world.collisionDetection(poly.points, mousePoint);
+
+            let minED = -1, selectedCountry = null;
+            for (let j = start; j < end; j++) {
+
+                const poly = world.sortedObjs[j];
+                const mousePoint = new cc.p(locationInNode.x, size.height - locationInNode.y - (2 * Y_OFFSET));
+                const cd = world.collisionDetection(poly.points, mousePoint);
+
                 if (cd) {
+
                     lastLayerID = j;
-                    var countryObj = world.countries[poly.name];
-                    var ced = ed(countryObj.centroid, mousePoint);
+                    const countryObj = world.countries[poly.name];
+                    const ced = ed(countryObj.centroid, mousePoint);
                     if (minED === -1 || ced < minED) {
+
                         minED = ced;
                         selectedCountry = poly.name;
                         selectedCountry.selected = true;
                         break;
+
                     }
+
                 }
+
             }
 
             // Pick the match with the closest centroid ID
-            var currentLayer = null;
+            let currentLayer = null;
             if (selectedCountry != null) {
+
                 if (gameParams.currentCountry != null)
                     world.countries[gameParams.currentCountry].selected = false;
                 gameParams.currentCountry = selectedCountry;
+
                 if (gameParams.currentCountry != null)
                     world.countries[gameParams.currentCountry].selected = true;
                 currentCountry = selectedCountry;
-                // var gid = world.countries[selectedCountry].gid;
-                // currentLayer = target.getLayer("Tile Layer " + gid);
-                // currentLayer.setTileGID((gid),cc.p(0, 0));
+                
                 printCountryStats();
+
             }
             else {
-                // && gameParams.currentCountry != "ZWE"
+                
                 if (gameParams.currentCountry != null)
                     world.countries[gameParams.currentCountry].selected = false;
                 gameParams.currentCountry = null;
+
                 printWorldStats();
+
             }
-
-            oldLayers.forEach(layer => {
-                // var currentGid = -1;
-                // if (typeof(gameParams.currentCountry) !== 'undefined')
-                //     currentGid = parseInt(world.countries[gameParams.currentCountry].gid);
-                // var testGid = layer.getTileGIDAt(cc.p(0,0));
-                // cc.log(testGid, currentGid);
-                // if (testGid > 0 && testGid === currentGid) {
-                //     // Do nothing
-                // }
-                // else 
-
-                // if ((currentLayer === null || layer != currentLayer))
-                //     layer.setTileGID((0),cc.p(0,0));
-            });
-            oldLayers = [];
-            if (currentLayer != null)
-                oldLayers.push(currentLayer);
 
             return true;
         };
 
 
         cc.eventManager.addListener({
+
             event: cc.EventListener.MOUSE,
 
-            onMouseMove : function(event) {
+            onMouseMove: (event) => {
              
                 if (gameParams.modal)
                     return false;
@@ -2817,60 +2918,64 @@ var WorldLayer = cc.Layer.extend({
 
             },
 
-            onMouseUp : function(event) {
+            onMouseUp: (event) => {
              
                 if (gameParams.modal)
                     return false;
              
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());
 
                 gameParams.statsCountry = gameParams.currentCountry;
-                // For debugging point generation
-                // cc.debug(locationInNode);
 
             }
 
         }, this.map);
 
         cc.eventManager.addListener({
+
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
-            onTouchBegan : function(touch, event) {
+            onTouchBegan : (touch, event) => {
 
                 if (gameParams.modal)
                     return false;
 
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(touch.getLocation());
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(touch.getLocation());
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+
                 if (cc.rectContainsPoint(rect, locationInNode)) {  
+
                     target.TOUCHED = true;
                     return true;
+
                 }
+
                 return false;
 
             },
-            onTouchEnded : function(touch, event) {
+            onTouchEnded: (touch, event) => {
 
                 if (gameParams.modal)
                     return false;
 
-                var target = event.getCurrentTarget();
+                const target = event.getCurrentTarget();
                 if (target.TOUCHED) {
 
                     target.TOUCHED = false;
                     selectCountry(event, touch.getLocation());
 
                 }
+
                 return true;
 
             }
         }, this.map);
 
 
-        var beginSim = function() {
+        const beginSim = () => {
 
             gameParams.state = GAME_STATES.PREPARED;
 
@@ -2884,36 +2989,44 @@ var WorldLayer = cc.Layer.extend({
 
         };
 
-        var nestedButtons = null;
-        var keys = Object.keys(world.countries);
+        let nestedButtons = null;
+        let keys = Object.keys(world.countries);
 
         let antCountries = ["NZL", "AUS", "ZAF", "ARG", "CHL"];
         let startCountry = antCountries[Math.floor(Math.random() * antCountries.length)];
         let buttons = showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, 
-            "Start Tutorial", function(that) {
+            "Start Tutorial", (that) => {
+
                 gameParams.tutorialMode = true;
                 gameParams.startCountry = startCountry;
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
                 gameParams.statsCountry = startCountry;
                 gameParams.currentCountry = startCountry;
-                var countryName = world.countries[gameParams.startCountry].name;
+                const countryName = world.countries[gameParams.startCountry].name;
                 nestedButtons = showMessageBoxOK(world, "Prepare the world...", 
                     "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environmental loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
-                    function(that) {
+                    (that) => {
+                    
                     beginSim();
+
                 });
+
             },
-            "Skip Tutorial", function(that) {
+            "Skip Tutorial", (that) => {
+
                 gameParams.tutorialMode = false;
                 gameParams.startCountry = startCountry;
                 // gameParams.startCountry = keys[Math.floor(Math.random() * keys.length)]
                 gameParams.statsCountry = startCountry;
                 gameParams.currentCountry = startCountry;
-                var countryName = world.countries[gameParams.startCountry].name;
+                const countryName = world.countries[gameParams.startCountry].name;
+
                 nestedButtons = showMessageBoxOK(world, "Prepare the world...", 
                     "In 2019, your global policy mission begins in "  + countryName + ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environemntal loss and increase the preparedness of each country.", world.scenarioData.popup_2_title, 
-                    function(that) {
+                    (that) => {
+
                        beginSim();
+
                     });
             }
         );
@@ -2941,9 +3054,11 @@ var WorldLayer = cc.Layer.extend({
         }                    
 
     }
+
 });
 
-var WorldScene = cc.Scene.extend({
+const WorldScene = cc.Scene.extend({
+    
     ctor:function (automateID) {
         this._super();
 
@@ -2956,7 +3071,7 @@ var WorldScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
-        var scene = this;
+        const scene = this;
         
         // Add country data 
         cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
@@ -2966,7 +3081,7 @@ var WorldScene = cc.Scene.extend({
                 
                 automateScripts = data;
 
-                var layer = new WorldLayer(scenarioData, scene.automateID);
+                const layer = new WorldLayer(scenarioData, scene.automateID);
                 scene.addChild(layer);
 
             });
@@ -2977,47 +3092,44 @@ var WorldScene = cc.Scene.extend({
 });
 
 
-var LoadingScene = cc.Scene.extend({
+const LoadingScene = cc.Scene.extend({
+
     onEnter:function () {
         this._super();
 
-        var layer = this;
-        var size = cc.winSize;
+        const layer = this;
+        const size = cc.winSize;
 
-        var layout = new ccui.Layout();
+        const layout = new ccui.Layout();
         layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
         layout.setBackGroundColor(COLOR_LICORICE);
         layout.setContentSize(cc.size(size.width, size.height));
-        var layoutSize = layout.getContentSize();
+        const layoutSize = layout.getContentSize();
         layout.setLayoutType(ccui.Layout.RELATIVE);
         layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
         layer.addChild(layout, 1);
 
-        // layer.setTouchEnabled(true);
-        // layer.setSwallowTouches(false);
         layout.setTouchEnabled(true);
         layout.setSwallowTouches(true);
 
-        var antarcticaSprite = new cc.Sprite(res.antarctica_large_png);
+        const antarcticaSprite = new cc.Sprite(res.antarctica_large_png);
         antarcticaSprite.setAnchorPoint(new cc.p(0.5,0.5));
         antarcticaSprite.setContentSize(cc.size(100, 101));
         antarcticaSprite.setScale(1.5);
         antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
         layer.addChild(antarcticaSprite, 101);
         
-        var margin = new ccui.Margin(0, 0, 0, 0);
-        var lp0 = new ccui.RelativeLayoutParameter();
+        const margin = new ccui.Margin(0, 0, 0, 0);
+        const lp0 = new ccui.RelativeLayoutParameter();
         lp0.setMargin(margin);
         lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-        var lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, 36);
+        const lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5,0.5));
         lblWelcome.setPosition(cc.p(size.width / 2, 5 * size.height / 8));
-        // layout.addChild(lblWelcome);
         layer.addChild(lblWelcome, 101);
 
-
-        var lblAbout = new ccui.Text("This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.", FONT_FACE_BODY, 20);
+        const lblAbout = new ccui.Text("This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.", FONT_FACE_BODY, 20);
         lblAbout.setAnchorPoint(cc.p(0.0,1.0));
         lblAbout.ignoreContentAdaptWithSize(false);
         lblAbout.setPosition(cc.p(1 * size.width / 8, 4 * size.height / 8));
@@ -3025,7 +3137,7 @@ var LoadingScene = cc.Scene.extend({
         layer.addChild(lblAbout, 101);
 
 
-        var btnPlay = new ccui.Button();
+        const btnPlay = new ccui.Button();
         btnPlay.setContentSize(cc.size(320, 80));
         btnPlay.setSwallowTouches(false);
         btnPlay.setPressedActionEnabled(true);
@@ -3051,7 +3163,7 @@ var LoadingScene = cc.Scene.extend({
         }
         layer.addChild(btnPlay, 101);
 
-        var btnLearnMore = new ccui.Button();
+        const btnLearnMore = new ccui.Button();
         btnLearnMore.setContentSize(cc.size(320, 80));
         btnLearnMore.setTouchEnabled(true);
         btnLearnMore.setSwallowTouches(false);
@@ -3066,7 +3178,7 @@ var LoadingScene = cc.Scene.extend({
         btnLearnMore.setPosition(cc.p(5 * size.width / 8, 1 * size.height / 8));
         layer.addChild(btnLearnMore, 101);
         
-        var selectedStateEvent = function (sender, type) {
+        const selectedStateEvent = (sender, type) => {
             switch (type) {
                 case  ccui.CheckBox.EVENT_UNSELECTED:
                     btnPlay.setBright(false);
@@ -3085,7 +3197,8 @@ var LoadingScene = cc.Scene.extend({
                     break;
             }
         }
-        var chbAgree = new ccui.CheckBox();
+
+        const chbAgree = new ccui.CheckBox();
         chbAgree.setColor(COLOR_WHITE);
         chbAgree.setTouchEnabled(true);
         chbAgree.setSwallowTouches(false);
@@ -3099,7 +3212,7 @@ var LoadingScene = cc.Scene.extend({
         chbAgree.setSelected(cc.sys.localStorage.content === "true");
         chbAgree.addEventListener(selectedStateEvent, this);
 
-        var lblAgreeTerms = new ccui.Text("I agree to participate in this research project, and understand my gameplay data will be recorded anonymously.", FONT_FACE_BODY, 20);
+        const lblAgreeTerms = new ccui.Text("I agree to participate in this research project, and understand my gameplay data will be recorded anonymously.", FONT_FACE_BODY, 20);
         lblAgreeTerms.ignoreContentAdaptWithSize(false);
         lblAgreeTerms.setPosition(cc.p(40 + 1 * size.width / 8, 3 * size.height / 8));
         lblAgreeTerms.setAnchorPoint(cc.p(0.0,1.0));
@@ -3107,7 +3220,7 @@ var LoadingScene = cc.Scene.extend({
         layer.addChild(chbAgree, 101);
         layer.addChild(lblAgreeTerms, 101);
 
-        var lblVersion = new ccui.Text(res.version, FONT_FACE_BODY, 14);
+        const lblVersion = new ccui.Text(VERSION_ANTARCTIC_FUTURES, FONT_FACE_BODY, 14);
         lblVersion.setAnchorPoint(cc.p(1.0,0.0));
         lblVersion.setColor(COLOR_POLICY_POINTS);
         lblVersion.ignoreContentAdaptWithSize(false);
@@ -3115,7 +3228,7 @@ var LoadingScene = cc.Scene.extend({
         lblVersion.setContentSize(cc.size(100, 20));
         layer.addChild(lblVersion, 101);
         
-        var btnAutomate1 = new ccui.Button();
+        const btnAutomate1 = new ccui.Button();
         btnAutomate1.setContentSize(cc.size(80, 80));
         btnAutomate1.setTouchEnabled(true);
         btnAutomate1.setSwallowTouches(false);
@@ -3124,7 +3237,7 @@ var LoadingScene = cc.Scene.extend({
         btnAutomate1.setPosition(cc.p(0, 0));
         layer.addChild(btnAutomate1, 100);
 
-        var btnAutomate2 = new ccui.Button();
+        const btnAutomate2 = new ccui.Button();
         btnAutomate2.setContentSize(cc.size(80, 80));
         btnAutomate2.setTouchEnabled(true);
         btnAutomate2.setSwallowTouches(false);
@@ -3133,7 +3246,7 @@ var LoadingScene = cc.Scene.extend({
         btnAutomate2.setPosition(cc.p(100, 0));
         layer.addChild(btnAutomate2, 100);
 
-        var btnAutomate3 = new ccui.Button();
+        const btnAutomate3 = new ccui.Button();
         btnAutomate3.setContentSize(cc.size(80, 80));
         btnAutomate3.setTouchEnabled(true);
         btnAutomate3.setSwallowTouches(false);
@@ -3142,7 +3255,7 @@ var LoadingScene = cc.Scene.extend({
         btnAutomate3.setPosition(cc.p(200, 0));
         layer.addChild(btnAutomate3, 100);
 
-        var btnAutomate4 = new ccui.Button();
+        const btnAutomate4 = new ccui.Button();
         btnAutomate4.setContentSize(cc.size(80, 80));
         btnAutomate4.setTouchEnabled(true);
         btnAutomate4.setSwallowTouches(false);
@@ -3151,7 +3264,7 @@ var LoadingScene = cc.Scene.extend({
         btnAutomate4.setPosition(cc.p(300, 0));
         layer.addChild(btnAutomate4, 100);
 
-        var btnAutomate5 = new ccui.Button();
+        const btnAutomate5 = new ccui.Button();
         btnAutomate5.setContentSize(cc.size(80, 80));
         btnAutomate5.setTouchEnabled(true);
         btnAutomate5.setSwallowTouches(false);
@@ -3160,35 +3273,22 @@ var LoadingScene = cc.Scene.extend({
         btnAutomate5.setPosition(cc.p(400, 0));
         layer.addChild(btnAutomate5, 100);
 
-        /*
-        // Test adding animation effects
-        btnLearnMore.attr({x: size.width / 2, y: 0});
-        layer.addChild(btnLearnMore, 2);
-
-        var move = cc.moveBy(2, cc.p(0, size.height - 80));
-        var move_ease_in = move.clone().easing(cc.easeElasticIn());
-        var seq1 = cc.sequence(move_ease_in);
-
-        var a2 = btnLearnMore.runAction(seq1.repeatForever());
-        a2.tag = 1;
-        */
-
-        var automateHandler1 = function() { 
+        const automateHandler1 = function() { 
             cc.director.runScene(new WorldScene(1)); 
         };
-        var automateHandler2 = function() { 
+        const automateHandler2 = function() { 
             cc.director.runScene(new WorldScene(2)); 
         };
-        var automateHandler3 = function() { 
+        const automateHandler3 = function() { 
             cc.director.runScene(new WorldScene(3)); 
         };
-        var automateHandler4 = function() { 
+        const automateHandler4 = function() { 
             cc.director.runScene(new WorldScene(4)); 
         };
-        var automateHandler5 = function() { 
+        const automateHandler5 = function() { 
             cc.director.runScene(new WorldScene(5)); 
         };
-        var playHandler = function() { 
+        const playHandler = function() { 
             if (cc.sys.localStorage.content === "true") {
 
                 cc.director.runScene(new WorldScene()); 
@@ -3196,22 +3296,27 @@ var LoadingScene = cc.Scene.extend({
 
             }
         };
-        var learnMoreHandler = function() {
+        const learnMoreHandler = function() {
             cc.sys.openURL("https://antarctic-cities.org/the-game/");
         };
 
         if ('keyboard' in cc.sys.capabilities) {
             cc.eventManager.addListener({
                 event: cc.EventListener.KEYBOARD,
-                onKeyPressed:  function(keyCode, event){
-                },
-                onKeyReleased: function(keyCode, event){
-                    var automateID = parseInt(cc.sys.isNative ? that.getNativeKeyName(keyCode) : String.fromCharCode(keyCode)) ;
+                onKeyPressed:  (keyCode, event) => {},
+                onKeyReleased: (keyCode, event) => {
+
+                    const automateID = parseInt(cc.sys.isNative ? that.getNativeKeyName(keyCode) : String.fromCharCode(keyCode)) ;
                     if (!isNaN(automateID) && automateID > 0 && automateID < 7 ) {
+                    
                         cc.director.runScene(new WorldScene(automateID)); 
+
                     }
+
                 }
+            
             }, layer);
+
         }
 
         // handleMouseTouchEvent(antarcticaSprite, automateHandler1);
@@ -3224,213 +3329,267 @@ var LoadingScene = cc.Scene.extend({
         handleMouseTouchEvent(btnLearnMore, learnMoreHandler);
 
     }
+
 });
 
 
-var NewGameScene = cc.Scene.extend({
+const NewGameScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
-        var layer = this;
-        var size = cc.winSize;
+        const layer = this;
+        const size = cc.winSize;
 
-        var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        const layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, 38);
+        const newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-        var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE_BODY, 38);
+        const loadLabel = new cc.LabelTTF("Load Game", FONT_FACE_BODY, 38);
         loadLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(loadLabel);
 
 
-        var listener1 = cc.EventListener.create({
+        const listener1 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+            onMouseUp : (event) => {
+
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());    
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+                
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
+
                     cc.director.runScene(new cc.TransitionMoveInR(1, new SelectChallengeScene()));
                     return true;
+
                 }
+
                 return false;
+
             }
+
         });
 
-        var listener2 = cc.EventListener.create({
+        const listener2 = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+            onMouseUp : (event) => {
+
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());    
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+            
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
+            
                     alert("Not yet implemented.");
                     return true;
+            
                 }
+            
                 return false;
+            
             }
+
         });
 
         cc.eventManager.addListener(listener1, newLabel);
         cc.eventManager.addListener(listener2, loadLabel);
+
     }
+
 });
 
 
-var SelectChallengeScene = cc.Scene.extend({
+const SelectChallengeScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
-        var size = cc.winSize;
+        const size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE_BODY, 38);
+        const newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(newLabel);
 
-        var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE_BODY, 38);
+        const waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE_BODY, 38);
         waterLabel.attr({x: size.width * 0.5, y: size.height * 0.4})
         this.addChild(waterLabel);
 
-        var listener1 = cc.EventListener.create({
+        const listener = cc.EventListener.create({
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+            onMouseUp : (event) => {
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());    
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+                
                 if (cc.rectContainsPoint(rect, locationInNode)) {     
+                
                     cc.log(target)  
                     cc.director.runScene(new cc.TransitionMoveInR(1, new SelectDifficultyScene()));
                     return true;
+                
                 }
+                
                 return false;
+
             }
+
         });
 
-        cc.eventManager.addListener(listener1, waterLabel);
+        cc.eventManager.addListener(listener, waterLabel);
     }
+
 });
 
 
-var SelectDifficultyScene = cc.Scene.extend({
+const SelectDifficultyScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
 
-        var layer = this;
-        var size = cc.winSize;
+        const layer = this;
+        const size = cc.winSize;
 
-        var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        const layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE_BODY, 38);
+        const newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-        var casualLabel = new cc.LabelTTF("Casual", FONT_FACE_BODY, 38);
+        const casualLabel = new cc.LabelTTF("Casual", FONT_FACE_BODY, 38);
         casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5})
         this.addChild(casualLabel);
 
-        var normalLabel = new cc.LabelTTF("Normal", FONT_FACE_BODY, 38);
+        const normalLabel = new cc.LabelTTF("Normal", FONT_FACE_BODY, 38);
         normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(normalLabel);
 
-        var brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE_BODY, 38);
+        const brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE_BODY, 38);
         brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5})
         this.addChild(brutalLabel);
 
-        var listener1 = cc.EventListener.create({
+        const listener = cc.EventListener.create({
+
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+            onMouseUp : (event) => {
+
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());    
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
+
                     gameParams.level = target.getString();
                     cc.director.runScene(new cc.TransitionMoveInR(1, new EnterNameScene()));
                     return true;
+
                 }
+                
                 return false;
+
             }
+
         });
 
-        cc.eventManager.addListener(listener1.clone(), casualLabel);
-        cc.eventManager.addListener(listener1.clone(), normalLabel);
-        cc.eventManager.addListener(listener1.clone(), brutalLabel);
+        cc.eventManager.addListener(listener.clone(), casualLabel);
+        cc.eventManager.addListener(listener.clone(), normalLabel);
+        cc.eventManager.addListener(listener.clone(), brutalLabel);
+
     }
+
 });
 
 
-var EnterNameScene = cc.Scene.extend({
+const EnterNameScene = cc.Scene.extend({
+    
     onEnter:function () {
+
         this._super();
 
-        var size = cc.winSize;
+        const size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE_BODY, 38);
+        const newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8});
         this.addChild(newLabel);
 
-        var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
+        const enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
         enterNameLabel.attr({x: size.width * 0.5, y: size.height * 0.5});
         this.addChild(enterNameLabel);
 
-        var listener1 = cc.EventListener.create({
+        const listener = cc.EventListener.create({
+
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+            onMouseUp : (event) => {
+
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());    
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+                
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
+
                     gameParams.name = target.getString();
                     cc.director.runScene(new cc.TransitionMoveInR(1, new ModifyCodeScene()));
                     return true;
+
                 }
                 return false;
+
             }
+
         });
 
-        cc.eventManager.addListener(listener1.clone(), enterNameLabel);
+        cc.eventManager.addListener(listener.clone(), enterNameLabel);
+    
     }
+
 });
 
 
-var ModifyCodeScene = cc.Scene.extend({
+const ModifyCodeScene = cc.Scene.extend({
+
     onEnter:function () {
         this._super();
 
-        var size = cc.winSize;
+        const size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE_BODY, 38);
+        const newLabel = new cc.LabelTTF("Modify Code", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
         this.addChild(newLabel);
 
-        var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
+        const modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, 38);
         newLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
         this.addChild(modifyCodeLabel);
 
-        var listener1 = cc.EventListener.create({
+        const listener1 = cc.EventListener.create({
+
             event: cc.EventListener.MOUSE,
-            onMouseUp : function(event) {
-                var target = event.getCurrentTarget();
-                var locationInNode = target.convertToNodeSpace(event.getLocation());    
-                var s = target.getContentSize();
-                var rect = cc.rect(0, 0, s.width, s.height);
+            onMouseUp : (event) => {
+                
+                const target = event.getCurrentTarget();
+                const locationInNode = target.convertToNodeSpace(event.getLocation());    
+                const s = target.getContentSize();
+                const rect = cc.rect(0, 0, s.width, s.height);
+
                 if (cc.rectContainsPoint(rect, locationInNode)) {       
+
                     gameParams.code = target.getString();
                     cc.director.runScene(new WorldScene());
                     return true;
+
                 }
+
                 return false;
+
             }
+
         });
 
         cc.eventManager.addListener(listener1.clone(), modifyCodeLabel);
@@ -3438,7 +3597,8 @@ var ModifyCodeScene = cc.Scene.extend({
 });
 
 
-var DesignPolicyLayer = cc.Layer.extend({
+const DesignPolicyLayer = cc.Layer.extend({
+
     ctor:function (world) {
         
         this._super();
@@ -3447,26 +3607,27 @@ var DesignPolicyLayer = cc.Layer.extend({
 
     },
     onEnter:function () {
+
         this._super();
 
-        var layer = this;
-        var size = cc.winSize;
-        var policySelected = null;
-        var policySelectedButton = null;
+        const layer = this;
+        const size = cc.winSize;
+        let policySelected = null;
+        let policySelectedButton = null;
 
         // For automation
         layer.policyButtons = [];
 
-        var layerBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
+        const layerBackground = new cc.LayerColor(COLOR_BLACK, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var heading = new ccui.Text("Build a policy platform", FONT_FACE_BODY, 38);
+        const heading = new ccui.Text("Build a policy platform", FONT_FACE_BODY, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
 
-        var btnExit = new ccui.Button();
+        const btnExit = new ccui.Button();
         btnExit.setTouchEnabled(true);
         btnExit.setSwallowTouches(false);
         btnExit.setPosition(cc.p(size.width * 0.9, size.height * 0.9));
@@ -3484,19 +3645,19 @@ var DesignPolicyLayer = cc.Layer.extend({
         layer.btnExit = btnExit;
         layer.addChild(btnExit, 102);
 
-        var policyDetailsBackground = new cc.LayerColor(COLOR_BLACK, 400, 400);
+        const policyDetailsBackground = new cc.LayerColor(COLOR_BLACK, 400, 400);
         policyDetailsBackground.setAnchorPoint(cc.p(0, 0));
         policyDetailsBackground.setPosition(cc.p(800, 200));
         layer.addChild(policyDetailsBackground, 110);
 
-        var policyLabel = new ccui.Text("", FONT_FACE_TITLE, 30);
+        const policyLabel = new ccui.Text("", FONT_FACE_TITLE, 30);
         policyLabel.setColor(COLOR_ICE);
         policyLabel.setAnchorPoint(cc.p(0, 0));
         policyLabel.setPosition(cc.p(20, 310));
         policyDetailsBackground.addChild(policyLabel);
 
-        var policyGeneralLabel = "<<< Select one of these policies to invest in it!";
-        var policyDescription = new ccui.Text("", FONT_FACE_BODY, 24);
+        const policyGeneralLabel = "<<< Select one of these policies to invest in it!";
+        const policyDescription = new ccui.Text("", FONT_FACE_BODY, 24);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
         policyDescription.setContentSize(cc.size(360,170));
@@ -3505,13 +3666,13 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDescription.setString(policyGeneralLabel);
         policyDetailsBackground.addChild(policyDescription, 2);
 
-        var policyCostLabel = new ccui.Text("", FONT_FACE_BODY, 30);
+        const policyCostLabel = new ccui.Text("", FONT_FACE_BODY, 30);
         policyCostLabel.setColor(COLOR_ICE);
         policyCostLabel.setAnchorPoint(cc.p(0, 0));
         policyCostLabel.setPosition(cc.p(20, 80));
         policyDetailsBackground.addChild(policyCostLabel);
 
-        var btnPolicyInvest = new ccui.Button(res.button_white, "", res.button_grey);
+        const btnPolicyInvest = new ccui.Button(res.button_white, "", res.button_grey);
         btnPolicyInvest.setTouchEnabled(true);
         btnPolicyInvest.setSwallowTouches(false);
         btnPolicyInvest.setSize(cc.size(300, 60));
@@ -3576,9 +3737,9 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         };
 
-        handleMouseTouchEvent(btnPolicyInvest, function(){
+        handleMouseTouchEvent(btnPolicyInvest, () => {
 
-            var cost = costCalculation(policySelected);
+            const cost = costCalculation(policySelected);
             
             if (gameParams.resources - cost >= 0 && 
                 gameParams.policies[policySelected.id] === undefined) {
@@ -3640,19 +3801,19 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         policyDetailsBackground.addChild(btnPolicyInvest, 100);
 
-        var pageView = new ccui.PageView();
+        const pageView = new ccui.PageView();
         pageView.setContentSize(cc.size(size.width, size.height - Y_OFFSET));
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(X_OFFSET, Y_OFFSET));
-        var pageCount = 4;
-        var levelButtons = {};
+        const pageCount = 4;
+        const levelButtons = {};
        
-        for (var i = 0; i < pageCount; ++i) {
+        for (let i = 0; i < pageCount; ++i) {
 
-            var layout = new ccui.Layout();
+            const layout = new ccui.Layout();
             layout.setContentSize(cc.size(layout.getContentSize().width * 0.5, layout.getContentSize().height * 0.5));
 
-            var resourceGrp = {};
+            let resourceGrp = {};
             switch(i) {
                 case 0: 
                     resourceGrp = RESOURCES.economic;
@@ -3669,25 +3830,25 @@ var DesignPolicyLayer = cc.Layer.extend({
             
             }
             
-            var label = new ccui.Text(resourceGrp.labelText, FONT_FACE_BODY, 30);
+            const label = new ccui.Text(resourceGrp.labelText, FONT_FACE_BODY, 30);
             label.setColor(COLOR_ICE);
             label.setAnchorPoint(cc.p(0, 0));
             label.setPosition(cc.p(100, pageView.getContentSize().height * 0.8));
 
-            var xLoc = 0, yLoc = 0, policyOptionCounter = 0; 
+            let xLoc = 0, yLoc = 0, policyOptionCounter = 0; 
             resourceGrp.policyOptions.forEach(function(opt) {
 
                 xLoc = (1 + policyOptionCounter % 2) * 300 - 52;
                 yLoc = (1 - Math.floor(policyOptionCounter / 2)) * 200 + 140;
                 policyOptionCounter++;
 
-                var btnLayer = new cc.Layer();
+                const btnLayer = new cc.Layer();
                 btnLayer.setAnchorPoint(cc.p(0, 0));
                 btnLayer.attr({x: xLoc, y: yLoc});
                 btnLayer.setContentSize(cc.size(200, 200));
                 layout.addChild(btnLayer, 101);
 
-                var btn = new ccui.Button();
+                const btn = new ccui.Button();
                 btn.setName(opt.text);
                 btn.setTouchEnabled(true);
                 btn.setSwallowTouches(false);
@@ -3709,12 +3870,12 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 btnLayer.addChild(btn, 101);
 
-                var btnLabel = new cc.LabelTTF(opt.text, FONT_FACE_TITLE, 20);
+                const btnLabel = new cc.LabelTTF(opt.text, FONT_FACE_TITLE, 20);
                 btnLabel.attr({ x: 78  , y: 0 });
                 btnLabel.setAnchorPoint(cc.p(0.5, 0.0));
                 btnLayer.addChild(btnLabel, 101);
 
-                var btnLvl1, btnLvl2, btnLvl3;
+                let btnLvl1, btnLvl2, btnLvl3;
                 if (typeof(gameParams.policies[opt.id]) === "undefined") {
                     
                     btnLvl1 = new cc.Sprite(res.policy_dot_off_png);
@@ -3758,13 +3919,13 @@ var DesignPolicyLayer = cc.Layer.extend({
                 levelButtons[opt.id * 100 + 2] = btnLvl2;
                 levelButtons[opt.id * 100 + 3] = btnLvl3;
 
-                var policySelector = function(target) {
+                const policySelector = (target) => {
 
                     policySelected = target.option;
                     policyLabel.setString(policySelected.text_long);
                     policyDescription.setString(policySelected.description);
                     
-                    var cost = costCalculation(policySelected);
+                    const cost = costCalculation(policySelected);
                     policyCostLabel.setString("Cost: " + cost.toString());
 
                     if (gameParams.policies[opt.id] == 3) {
@@ -3807,10 +3968,10 @@ var DesignPolicyLayer = cc.Layer.extend({
         pageView.setCurrentPageIndex(0);
 
         // Add buttons to jump to specific page
-        var prevButton = null;
-        var makeButton = function(text, point, index) {
+        let prevButton = null;
+        const makeButton = function(text, point, index) {
 
-            var btn = new ccui.Button();
+            const btn = new ccui.Button();
             btn.setTouchEnabled(true);
             btn.setSwallowTouches(false);
             btn.setAnchorPoint(cc.p(0, 0));
@@ -3872,7 +4033,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
         layer.addChild(this.resourceScoreBackground, 100);
 
-        var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
+        const antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -3890,45 +4051,45 @@ var DesignPolicyLayer = cc.Layer.extend({
 });
 
 
-var StatsLayer = cc.Layer.extend({
+const StatsLayer = cc.Layer.extend({
+
     ctor:function (world) {
+    
         this._super();
         this.world = world;
+    
     },
+
     onEnter:function () {
+
         this._super();
 
-        var layer = this;
-        var size = cc.winSize;
+        const layer = this;
+        const size = cc.winSize;
 
-        var layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
+        const layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var heading = new ccui.Text("Track how the world is doing", FONT_FACE_BODY, 38);
+        const heading = new ccui.Text("Track how the world is doing", FONT_FACE_BODY, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
 
-        var pageView = new ccui.PageView();
+        const pageView = new ccui.PageView();
         pageView.setContentSize(cc.size(size.width, size.height - 80));
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(0, 0));
 
-
-        var layoutWorld = new ccui.Layout();
+        const layoutWorld = new ccui.Layout();
         layoutWorld.setContentSize(size.width * 0.5, size.height * 0.5);
-        // pageView.insertPage(layoutWorld, 0);
 
-        var layoutCountries = new ccui.Layout();
+        const layoutCountries = new ccui.Layout();
         layoutCountries.setContentSize(size.width * 0.5, size.height * 0.5);
-        // pageView.insertPage(layoutCountries, 1);
 
-        var layoutTime = new ccui.Layout();
+        const layoutTime = new ccui.Layout();
         layoutTime.setContentSize(size.width * 0.5, size.height * 0.5);
-        // pageView.insertPage(layoutTime, 2);
 
-        // layer.addChild(pageView, 100);
         layerBackground.addChild(layoutWorld, 100);
         layerBackground.addChild(layoutCountries, 100);
         layerBackground.addChild(layoutTime, 100);
@@ -3936,10 +4097,12 @@ var StatsLayer = cc.Layer.extend({
         layoutCountries.setVisible(false);
         layoutTime.setVisible(false);
 
-        //add buttons to jump to specific page
-        var prevButton = null;
-        var makeButton = function(text, point, index) {
-            var btn = new ccui.Button();
+        // add buttons to jump to specific page
+        let prevButton = null;
+
+        const makeButton = (text, point, index) => {
+            
+            const btn = new ccui.Button();
             btn.setTouchEnabled(true);
             btn.setSwallowTouches(false);
             btn.setAnchorPoint(cc.p(0, 0));
@@ -3949,7 +4112,8 @@ var StatsLayer = cc.Layer.extend({
             btn.setTitleText(text);
             btn.setTitleFontSize(36);
             btn.setTitleFontName(FONT_FACE_TITLE);
-            handleMouseTouchEvent(btn, function(){
+
+            handleMouseTouchEvent(btn, () => {
                 //pageView.setCurrentPageIndex(index);
                 switch(index) {
                     case 0:
@@ -3970,16 +4134,23 @@ var StatsLayer = cc.Layer.extend({
                         break;
             
                 }
+
                 btn.setBright(false);
                 btn.enabled = false;
                 btn.setColor(COLOR_OAK);
+                
                 if (prevButton != null && prevButton != btn) {
+                
                     prevButton.setBright(true);
                     prevButton.enabled = true;
                     prevButton.setColor(COLOR_ICE);
+                
                 }
+                
                 prevButton = btn;
+
             });
+
             // Select the first button only
             if (index == 0) {
                 btn.setBright(false);
@@ -4000,7 +4171,7 @@ var StatsLayer = cc.Layer.extend({
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
         layer.addChild(this.resourceScoreBackground, 100);
 
-        var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
+        const antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
         antarcticaSmallSprite.setContentSize(cc.size(50, 51));
         antarcticaSmallSprite.setScale(0.8);
@@ -4013,7 +4184,7 @@ var StatsLayer = cc.Layer.extend({
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
         this.resourceScoreBackground.addChild(this.resourceScoreLabel, 100);
 
-        var makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
+        const makeString = function(num) { return (Math.round(num * 10) / 10).toString() + '%'; };
 
         // FOR THE WORLD STATISTICS PAGE
 
@@ -4047,75 +4218,6 @@ var StatsLayer = cc.Layer.extend({
         this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
         layoutWorld.addChild(this.policyDescriptionLabel, 100);
 
-
-        // Country details
-        /*
-        var countryTag = gameParams.statsCountry;
-        if (typeof(countryTag) === "undefined" || countryTag === null)
-            countryTag = gameParams.startCountry;
-
-        var country = world.countries[countryTag];
-        this.currentCountryLabel = new cc.LabelTTF("Selected Country: ", FONT_FACE_BODY, 24);
-        this.currentCountryLabel.setAnchorPoint(cc.p(0, 0));
-        this.currentCountryLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.6));
-        layoutWorld.addChild(this.currentCountryLabel, 100);
-
-        this.currentCountryIndicatorLabel = new cc.LabelTTF(country.name, FONT_FACE_BODY, 24);
-        this.currentCountryIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.currentCountryIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.6));
-        layoutWorld.addChild(this.currentCountryIndicatorLabel, 100);
-
-        this.regionLabel = new cc.LabelTTF("Country Destruction (%):", FONT_FACE_BODY, 24);
-        this.regionLabel.setAnchorPoint(cc.p(0, 0));
-        this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.55));
-        layoutWorld.addChild(this.regionLabel, 100);
-
-        this.regionIndicatorLabel = new cc.LabelTTF(makeString(country.loss), FONT_FACE_BODY, 24);
-        this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.55));
-        layoutWorld.addChild(this.regionIndicatorLabel, 100);
-
-        this.regionLabel = new cc.LabelTTF("Country Preparedness (%):", FONT_FACE_BODY, 24);
-        this.regionLabel.setAnchorPoint(cc.p(0, 0));
-        this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.5));
-        layoutWorld.addChild(this.regionLabel, 100);
-
-        this.regionIndicatorLabel = new cc.LabelTTF(makeString(country.pop_prepared_percent), FONT_FACE_BODY, 24);
-        this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.5));
-        layoutWorld.addChild(this.regionIndicatorLabel, 100);
-
-        this.populationLabel = new cc.LabelTTF("Country Population:", FONT_FACE_BODY, 24);
-        this.populationLabel.setAnchorPoint(cc.p(0, 0));
-        this.populationLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.45));
-        layoutWorld.addChild(this.populationLabel, 100);
-
-        this.populationIndicatorLabel = new cc.LabelTTF(country.pop_est, FONT_FACE_BODY, 24);
-        this.populationIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.populationIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.45));
-        layoutWorld.addChild(this.populationIndicatorLabel, 100);
-
-        this.gdpLabel = new cc.LabelTTF("Country Income Group:", FONT_FACE_BODY, 24);
-        this.gdpLabel.setAnchorPoint(cc.p(0, 0));
-        this.gdpLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.4));
-        layoutWorld.addChild(this.gdpLabel, 100);
-
-        this.gdpIndicatorLabel = new cc.LabelTTF(country.income_grp, FONT_FACE_BODY, 24);
-        this.gdpIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.gdpIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.4));
-        layoutWorld.addChild(this.gdpIndicatorLabel, 100);
-
-        this.regionLabel = new cc.LabelTTF("Country Region:", FONT_FACE_BODY, 24);
-        this.regionLabel.setAnchorPoint(cc.p(0, 0));
-        this.regionLabel.setPosition(cc.p(size.width * 0.3, size.height * 0.35));
-        layoutWorld.addChild(this.regionLabel, 100);
-
-        this.regionIndicatorLabel = new cc.LabelTTF(country.subregion, FONT_FACE_BODY, 24);
-        this.regionIndicatorLabel.setAnchorPoint(cc.p(0, 0));
-        this.regionIndicatorLabel.setPosition(cc.p(size.width * 0.6, size.height * 0.35));
-        layoutWorld.addChild(this.regionIndicatorLabel, 100);
-        */
-
         // Country view
         this.tableCountryLabel = new cc.LabelTTF("Country", FONT_FACE_TITLE, 24);
         this.tableLossLabel = new cc.LabelTTF("Environmental Loss", FONT_FACE_TITLE, 24);
@@ -4131,19 +4233,19 @@ var StatsLayer = cc.Layer.extend({
         layoutCountries.addChild(this.tablePreparednessLabel, 100);
 
         // Sort countries
-        var countriesSorted = Object.values(world.countries).sort((a, b) => {
+        const countriesSorted = Object.values(world.countries).sort((a, b) => {
             if(a.name < b.name) { return -1; }
             if(a.name > b.name) { return 1; }
             return 0;            
         });
 
-        var CustomTableViewCell = cc.TableViewCell.extend({
+        const CustomTableViewCell = cc.TableViewCell.extend({
             draw:function (ctx) {
                 this._super(ctx);
             }
         });
 
-        var TableViewCountriesLayer = cc.Layer.extend({
+        const TableViewCountriesLayer = cc.Layer.extend({
 
             ctor:function () {
                 this._super();
@@ -4151,7 +4253,7 @@ var StatsLayer = cc.Layer.extend({
             },
         
             init:function () {
-                var winSize = cc.director.getWinSize();
+                const winSize = cc.director.getWinSize();
         
                 tableView = new cc.TableView(this, cc.size(size.width * 0.5, size.height * 0.5));
                 tableView.setDirection(cc.SCROLLVIEW_DIRECTION_VERTICAL);
@@ -4166,26 +4268,28 @@ var StatsLayer = cc.Layer.extend({
             },
 
         
-            scrollViewDidScroll:function (view) {
-            },
-            scrollViewDidZoom:function (view) {
-            },
+            scrollViewDidScroll: (view) => {},
+            scrollViewDidZoom: (view) => {},
         
-            tableCellTouched:function (table, cell) {
+            tableCellTouched: (table, cell) => {
                 cc.log("cell touched at index: " + cell.getIdx());
             },
         
-            tableCellSizeForIndex:function (table, idx) {
+            tableCellSizeForIndex: (table, idx) => {
+
                 return cc.size(size.width * 0.5, 30);
+
             },
         
-            tableCellAtIndex:function (table, idx) {
+            tableCellAtIndex: (table, idx) => {
+
                 let country = countriesSorted[idx];
                 let color = country.loss > 20 ? COLOR_DESTRUCTION_POINTS : (country.pop_prepared_percent > 20 ? COLOR_POLICY_POINTS : COLOR_ICE);
-                var cell = table.dequeueCell();
-                var labelCountry, labelLoss, labelPreparedness;
+                let cell = table.dequeueCell();
+                let labelCountry, labelLoss, labelPreparedness;
+
                 if (!cell) {
-                // if (true) {
+                
                     cell = new CustomTableViewCell();
 
                     labelCountry = new cc.LabelTTF(country.name, FONT_FACE_BODY, 20.0);
@@ -4215,8 +4319,9 @@ var StatsLayer = cc.Layer.extend({
                     labelPreparedness.tag = 789;
                     cell.addChild(labelPreparedness);
 
+                } 
+                else {
 
-                } else {
                     labelCountry = cell.getChildByTag(123);
                     labelCountry.setString(country.name);
                     labelCountry.color = color;
@@ -4226,31 +4331,34 @@ var StatsLayer = cc.Layer.extend({
 
                     labelPreparedness = cell.getChildByTag(789);
                     labelPreparedness.setString(makeString(country.pop_prepared_percent));
+
                 }
         
                 return cell;
             },
         
-            numberOfCellsInTableView:function (table) {
+            numberOfCellsInTableView: (table) => {
+
                 return Object.keys(world.countries).length;
+
             }
+
         });
         
         let countriesTable = new TableViewCountriesLayer();
         layoutCountries.addChild(countriesTable);
 
-
         // Add graph
-        var graphX = size.width * 0.25;
-        var graphEndX = graphX + size.width * 0.5;
-        var graphY = 200
-        var graphEndY = graphY + size.height * 0.5;
-        var years = gameParams.targetDate.getFullYear() - gameParams.startDate.getFullYear();
-        var graphIncrementX = size.width * 0.5 / years;
-        var graphIncrementY = size.height * 0.5 / 100;
-        var graphOffset = 40;
-        var lblStartYear = cc.LabelTTF.create(gameParams.startDate.getFullYear(), FONT_FACE_BODY, 24);
-        var lblEndYear = cc.LabelTTF.create(gameParams.targetDate.getFullYear(), FONT_FACE_BODY, 24);
+        const graphX = size.width * 0.25;
+        const graphEndX = graphX + size.width * 0.5;
+        const graphY = 200;
+        const graphEndY = graphY + size.height * 0.5;
+        const years = gameParams.targetDate.getFullYear() - gameParams.startDate.getFullYear();
+        const graphIncrementX = size.width * 0.5 / years;
+        const graphIncrementY = size.height * 0.5 / 100;
+        const graphOffset = 40;
+        const lblStartYear = cc.LabelTTF.create(gameParams.startDate.getFullYear(), FONT_FACE_BODY, 24);
+        const lblEndYear = cc.LabelTTF.create(gameParams.targetDate.getFullYear(), FONT_FACE_BODY, 24);
         lblStartYear.attr({ x: graphX, y: graphY});
         lblEndYear.attr({ x: graphEndX, y: graphY});
         lblStartYear.setAnchorPoint(cc.p(0, 0));
@@ -4261,29 +4369,32 @@ var StatsLayer = cc.Layer.extend({
         let drawNode = new cc.DrawNode();
         drawNode.setOpacity(255);
         
-        var x_o, yP_o, yL_o, x, yP, yL;
-        var colorD =  new cc.Color(COLOR_DESTRUCTION_POINTS.r, 
+        let x_o, yP_o, yL_o, x, yP, yL;
+        const colorD =  new cc.Color(COLOR_DESTRUCTION_POINTS.r, 
                                     COLOR_DESTRUCTION_POINTS.g, 
                                     COLOR_DESTRUCTION_POINTS.b, 255);
-        var colorP =  new cc.Color(COLOR_POLICY_POINTS.r, 
+        const colorP =  new cc.Color(COLOR_POLICY_POINTS.r, 
                                     COLOR_POLICY_POINTS.g, 
                                     COLOR_POLICY_POINTS.b, 255);
 
-        var lineOffset = -10;    
+        const lineOffset = -10;    
         drawNode.drawSegment(cc.p(0, graphOffset + lineOffset), cc.p(size.width * 0.5, graphOffset + lineOffset), 2, COLOR_ICE);
         drawNode.drawSegment(cc.p(0, graphOffset + lineOffset), cc.p(0, graphOffset + size.height * 0.5), 2, COLOR_ICE);
 
+        for (let i = gameParams.startDate.getFullYear(); i < gameParams.targetDate.getFullYear(); i++) {
 
-        for (var i = gameParams.startDate.getFullYear(); i < gameParams.targetDate.getFullYear(); i++) {
-            var index = i - gameParams.startDate.getFullYear();
-            var stats = gameParams.stats[i];
-            if (typeof(stats) === "undefined")
+            const index = i - gameParams.startDate.getFullYear();
+            
+            const stats = gameParams.stats[i];
+            if (stats === undefined)
                 continue;
-            var loss = stats.loss;
-            var prepared = stats.prepared;
+
+            const loss = stats.loss;
+            const prepared = stats.prepared;
             x = index * graphIncrementX;
             yL = graphOffset + (100 - Math.round(loss)) * graphIncrementY;
             yP = graphOffset + Math.round(prepared) * graphIncrementY;
+
             if (index > 0) {
 
                 // Line 
@@ -4300,8 +4411,9 @@ var StatsLayer = cc.Layer.extend({
             x_o = x, yL_o = yL, yP_o = yP;
 
         }
-        var lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, 24);
-        var lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 24);
+
+        const lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, 24);
+        const lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, 24);
         lblDestructionScore.color = colorD;
         lblPolicyScore.color = colorP;
         lblDestructionScore.attr({x: 4 + graphX + x, y: graphY + yL});
@@ -4315,7 +4427,7 @@ var StatsLayer = cc.Layer.extend({
         drawNode.y = graphY;
         layoutTime.addChild(drawNode, 100);
 
-        var btnExit = new ccui.Button();
+        const btnExit = new ccui.Button();
         btnExit.setTouchEnabled(true);
         btnExit.setSwallowTouches(false);
         btnExit.setPosition(cc.p(size.width * 0.9, size.height * 0.9));
@@ -4335,5 +4447,6 @@ var StatsLayer = cc.Layer.extend({
         layerBackground.addChild(btnExit, 102);
 
     }
+
 });
 

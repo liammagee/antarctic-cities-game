@@ -1,3 +1,7 @@
+
+// Version
+const VERSION_ANTARCTIC_FUTURES = "Build: 1003";
+
 // Colours
 const COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
 const COLOR_ZINC = new cc.Color(123, 133, 143, 255); // Medium Grey
