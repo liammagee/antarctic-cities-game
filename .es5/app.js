@@ -674,7 +674,6 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
 
     var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.66, winHeight * 0.66);
     layerBackground.attr({
-
         x: winWidth / 2 - layerBackground.width / 2,
         y: winHeight / 2 - layerBackground.height / 2 });
     parent.addChild(layerBackground, 1);
@@ -855,9 +854,9 @@ var gameOver = function gameOver(parent, message, prompt) {
     contentText.setColor(COLOR_WHITE);
     layerBackground.addChild(contentText, 2);
 
-    var menu = undefined._menu = cc.Menu.create();
+    var menu = cc.Menu.create();
     menu.setPosition(cc.p(0, 0));
-    layerBackground.addChild(undefined._menu, 3);
+    layerBackground.addChild(menu, 3);
 
     var btnOK = cc.MenuItemLabel.create(cc.LabelTTF.create(prompt, FONT_FACE_BODY, 36));
     btnOK.attr({
@@ -1175,11 +1174,11 @@ var WorldLayer = cc.Layer.extend({
         this.dayLabel.color = COLOR_WHITE;
         this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, 24);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
-        this.monthLabel.attr({ x: 10, y: 10 });
+        this.monthLabel.attr({ x: 4, y: 10 });
         this.monthLabel.color = COLOR_WHITE;
         this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, 24);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
-        this.yearLabel.attr({ x: 34, y: 10 });
+        this.yearLabel.attr({ x: 30, y: 10 });
         this.yearLabel.color = COLOR_WHITE;
         // this.controlsBackground.addChild(this.dayLabel, 1);
         this.controlsBackground.addChild(this.monthLabel, 2);
@@ -1195,7 +1194,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.setTouchEnabled(true);
         this.btnQuit.setSwallowTouches(false);
         this.btnQuit.setScale9Enabled(true);
-        this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_on_png);
+        this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_off_png);
         this.btnQuit.attr({ x: 0, y: 0 });
         this.btnQuit.setContentSize(cc.size(105, 105));
         this.btnQuit.setScale(0.48);
@@ -1206,7 +1205,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPause.setScale9Enabled(true);
         this.btnPause.loadTextures(res.pause_off_png, "", res.pause_on_png);
         this.btnPause.setAnchorPoint(cc.p(0.0, 0.0));
-        this.btnPause.attr({ x: 90, y: 0 });
+        this.btnPause.attr({ x: 84, y: 0 });
         this.btnPause.setContentSize(cc.size(105, 105));
         this.btnPause.setScale(0.48);
         this.controlsBackground.addChild(this.btnPause, 2, "pause");
@@ -1216,7 +1215,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnPlay.setScale9Enabled(true);
         this.btnPlay.loadTextures(res.play_off_png, "", res.play_on_png);
         this.btnPlay.setAnchorPoint(cc.p(0.0, 0.0));
-        this.btnPlay.attr({ x: 132, y: 0 });
+        this.btnPlay.attr({ x: 126, y: 0 });
         this.btnPlay.setContentSize(cc.size(105, 105));
         this.btnPlay.setScale(0.48);
         this.controlsBackground.addChild(this.btnPlay, 2, "play");
@@ -1226,7 +1225,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnFF.setScale9Enabled(true);
         this.btnFF.loadTextures(res.playfast_off_png, "", res.playfast_on_png);
         this.btnFF.setAnchorPoint(cc.p(0.0, 0.0));
-        this.btnFF.attr({ x: 174, y: 0 });
+        this.btnFF.attr({ x: 168, y: 0 });
         this.btnFF.setContentSize(cc.size(105, 105));
         this.btnFF.setScale(0.48);
         this.controlsBackground.addChild(this.btnFF, 2, "fast");
@@ -1302,17 +1301,17 @@ var WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy.setTitleFontSize(24);
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
         this.btnDevelopPolicy.setAnchorPoint(new cc.p(0, 0));
-        this.btnDevelopPolicy.setContentSize(cc.size(60, Y_OFFSET));
+        this.btnDevelopPolicy.setContentSize(cc.size(Math.ceil(cc.winSize.width * (1 / 6)), Y_OFFSET));
         this.btnDevelopPolicy.setPosition(cc.p(0, 0));
-        this.statusLayout.addChild(this.btnDevelopPolicy);
+        this.statusLayout.addChild(this.btnDevelopPolicy, 1);
 
         var countryDetailLayout = new cc.Layer();
         countryDetailLayout.setAnchorPoint(new cc.p(0, 0));
-        countryDetailLayout.setContentSize(cc.size(900, Y_OFFSET));
-        countryDetailLayout.attr({ x: this.width / 2 - 900 / 2, y: 0 });
+        countryDetailLayout.setContentSize(cc.size(cc.winSize.width * (4 / 6), Y_OFFSET));
+        countryDetailLayout.attr({ x: cc.winSize.width * (1 / 6), y: 0 });
         this.statusLayout.addChild(countryDetailLayout);
         var fontSize = 20;
-        var labelOffsetY = Y_OFFSET / 2; // - fontSize / 2;
+        var labelOffsetY = Y_OFFSET / 2;
 
         this.countryLabel = new cc.LabelTTF("", FONT_FACE_TITLE, fontSize);
         this.countryLabel.setContentSize(cc.size(300, Y_OFFSET));
@@ -1336,6 +1335,7 @@ var WorldLayer = cc.Layer.extend({
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLoss.setAnchorPoint(new cc.p(0, 0.5));
         this.countryLoss.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+        this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryLoss);
 
         this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
@@ -1352,7 +1352,7 @@ var WorldLayer = cc.Layer.extend({
 
         var preparednessLabel = new cc.LabelTTF("Prepared", FONT_FACE_TITLE, fontSize);
         preparednessLabel.setContentSize(cc.size(100, Y_OFFSET));
-        preparednessLabel.setPosition(cc.p(580, labelOffsetY));
+        preparednessLabel.setPosition(cc.p(570, labelOffsetY));
         preparednessLabel.setColor(COLOR_ICE);
         preparednessLabel.setAnchorPoint(new cc.p(0, 0.5));
         preparednessLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
@@ -1361,20 +1361,21 @@ var WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(680, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryAwarePrepared.setAnchorPoint(new cc.p(0, 0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+        this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
         this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryPreparedProgressBase.setContentSize(cc.size(100, 10));
-        this.countryPreparedProgressBase.setPosition(cc.p(720, Y_OFFSET / 2));
+        this.countryPreparedProgressBase.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgressBase.setAnchorPoint(new cc.p(0, 0.5));
         this.countryPreparedProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryPreparedProgress.setColor(COLOR_POLICY_POINTS);
         this.countryPreparedProgress.setContentSize(cc.size(100, 10));
-        this.countryPreparedProgress.setPosition(cc.p(720, Y_OFFSET / 2));
+        this.countryPreparedProgress.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgress.setAnchorPoint(new cc.p(0, 0.5));
         countryDetailLayout.addChild(this.countryPreparedProgressBase, 100);
         countryDetailLayout.addChild(this.countryPreparedProgress, 101);
@@ -1387,9 +1388,9 @@ var WorldLayer = cc.Layer.extend({
         this.btnStats.setTitleFontName(FONT_FACE_BODY);
         this.btnStats.setTitleFontSize(24);
         this.btnStats.setTitleColor(COLOR_ICE);
-        this.btnStats.setContentSize(cc.size(120, 80));
-        this.btnStats.setAnchorPoint(new cc.p(0, 0));
-        this.btnStats.setPosition(cc.p(this.width - 217, 0));
+        this.btnStats.setContentSize(cc.size(Math.ceil(cc.winSize.width * (1 / 6)), Y_OFFSET));
+        this.btnStats.setAnchorPoint(new cc.p(1.0, 0));
+        this.btnStats.setPosition(cc.p(cc.winSize.width, 0));
         this.statusLayout.addChild(this.btnStats);
 
         handleMouseTouchEvent(this.btnDevelopPolicy, function () {
@@ -3332,6 +3333,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         btnExit.setColor(COLOR_ICE);
         btnExit.setTitleFontSize(72);
         btnExit.setTitleText("X");
+
         handleMouseTouchEvent(btnExit, function () {
 
             world.setVisible(true);
@@ -3339,6 +3341,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             gameParams.state = GAME_STATES.STARTED;
             gameParams.modal = false;
         });
+
         layer.btnExit = btnExit;
         layer.addChild(btnExit, 102);
 
@@ -3438,6 +3441,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[policySelected.id * 100 + 1].texture = res.policy_dot_on_png;
+                layer.policyButtons[policySelected.id - 1].enabled = false;
             } else if (gameParams.resources - cost >= 0 && gameParams.policies[policySelected.id] === 1) {
 
                 gameParams.resources -= cost;
@@ -3445,6 +3449,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[policySelected.id * 100 + 2].texture = res.policy_dot_on_png;
+                layer.policyButtons[policySelected.id - 1].enabled = false;
             } else if (gameParams.resources - cost >= 0 && gameParams.policies[policySelected.id] == 2) {
 
                 gameParams.resources -= cost;
@@ -3452,6 +3457,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 policySelectedButton.enabled = false;
                 layer.resourceScoreLabel.setString(gameParams.resources.toString());
                 levelButtons[policySelected.id * 100 + 3].texture = res.policy_dot_on_png;
+                layer.policyButtons[policySelected.id - 1].enabled = false;
             }
 
             var newCost = costCalculation(policySelected);
@@ -3514,6 +3520,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             var xLoc = 0,
                 yLoc = 0,
                 policyOptionCounter = 0;
+
             resourceGrp.policyOptions.forEach(function (opt) {
 
                 xLoc = (1 + policyOptionCounter % 2) * 300 - 52;
@@ -3543,7 +3550,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 btnLayer.option = opt;
                 btn.option = opt;
 
-                if (typeof gameParams.policies[opt.id] !== "undefined") btn.enabled = false;
+                if (gameParams.policies[opt.id] !== undefined) btn.enabled = false;
 
                 btnLayer.addChild(btn, 101);
 
@@ -3555,7 +3562,8 @@ var DesignPolicyLayer = cc.Layer.extend({
                 var btnLvl1 = void 0,
                     btnLvl2 = void 0,
                     btnLvl3 = void 0;
-                if (typeof gameParams.policies[opt.id] === "undefined") {
+
+                if (gameParams.policies[opt.id] === undefined) {
 
                     btnLvl1 = new cc.Sprite(res.policy_dot_off_png);
                     btnLvl2 = new cc.Sprite(res.policy_dot_off_png);
@@ -3657,7 +3665,7 @@ var DesignPolicyLayer = cc.Layer.extend({
                 pageView.setCurrentPageIndex(index);
                 btn.setBright(false);
                 btn.enabled = false;
-                btn.setColor(COLOR_OAK);
+                btn.setColor(COLOR_UMBER);
 
                 if (prevButton != null && prevButton != btn) {
 
@@ -3679,7 +3687,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 btn.setBright(false);
                 btn.enabled = false;
-                btn.setColor(COLOR_OAK);
+                btn.setColor(COLOR_UMBER);
                 prevButton = btn;
             }
 
@@ -3798,7 +3806,7 @@ var StatsLayer = cc.Layer.extend({
 
                 btn.setBright(false);
                 btn.enabled = false;
-                btn.setColor(COLOR_OAK);
+                btn.setColor(COLOR_UMBER);
 
                 if (prevButton != null && prevButton != btn) {
 
@@ -3812,11 +3820,13 @@ var StatsLayer = cc.Layer.extend({
 
             // Select the first button only
             if (index == 0) {
+
                 btn.setBright(false);
                 btn.enabled = false;
-                btn.setColor(COLOR_OAK);
+                btn.setColor(COLOR_UMBER);
                 prevButton = btn;
             }
+
             layer.addChild(btn, 100);
         };
 
