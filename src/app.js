@@ -1,5 +1,5 @@
 // Global constants
-const VERSION_ANTARCTIC_FUTURES = "Build: 1003";
+const VERSION_ANTARCTIC_FUTURES = "Build: 1004";
 
 const FONT_FACE_TITLE = "ArvoFont";
 const FONT_FACE_BODY = "JosefinSansFont";
@@ -1433,11 +1433,11 @@ const WorldLayer = cc.Layer.extend({
 
         this.countryLoss = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryLoss.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryLoss.setPosition(cc.p(340, labelOffsetY));
+        this.countryLoss.setPosition(cc.p(334, labelOffsetY));
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLoss.setAnchorPoint(new cc.p(0,0.5));
         this.countryLoss.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-        this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
+        this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryLoss);
 
         this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
@@ -1463,11 +1463,11 @@ const WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(664, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryAwarePrepared.setAnchorPoint(new cc.p(0,0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-        this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT)
+        this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
         this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);

@@ -1,7 +1,7 @@
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 // Global constants
-var VERSION_ANTARCTIC_FUTURES = "Build: 1003";
+var VERSION_ANTARCTIC_FUTURES = "Build: 1004";
 
 var FONT_FACE_TITLE = "ArvoFont";
 var FONT_FACE_BODY = "JosefinSansFont";
@@ -1331,7 +1331,7 @@ var WorldLayer = cc.Layer.extend({
 
         this.countryLoss = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryLoss.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryLoss.setPosition(cc.p(340, labelOffsetY));
+        this.countryLoss.setPosition(cc.p(334, labelOffsetY));
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLoss.setAnchorPoint(new cc.p(0, 0.5));
         this.countryLoss.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
@@ -1361,7 +1361,7 @@ var WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(664, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryAwarePrepared.setAnchorPoint(new cc.p(0, 0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
