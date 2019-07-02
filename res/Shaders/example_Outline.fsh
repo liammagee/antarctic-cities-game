@@ -130,7 +130,7 @@ void main()
     accum1 *= f1;
     //accum1 *= (0.5 + u_fill1 / 100. * 0.5) * (0.5 + u_fill1 / 100. * 0.5);
     accum1 *= 1.0 - v1;
-    accum1 *= v2;
+    //accum1 *= v2;
     
     accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     //accum2 *= 0.1 + u_fill2 / 100. * 0.9 ;
@@ -138,7 +138,7 @@ void main()
     accum2 *= accum2 * dotMask2; 
     accum2 *= f2;
     accum2 *= 1.0 - v2;
-    accum2 *= v1;
+    //accum2 *= v1;
 
      
     normal = accum1 + accum2;
