@@ -398,6 +398,7 @@ var initCountries = function initCountries() {
 
                         country.neighbours.push(c2);
                     }
+
                     country.points_shared += 1;
                 }
             });
@@ -411,7 +412,10 @@ var initCountries = function initCountries() {
         var country = world.countries[c];
         country.shared_border_percentage = country.points_shared / country.points_total;
 
-        if (country.shared_border_percentage > 1.0) country.shared_border_percentage = 1.0;
+        if (country.shared_border_percentage > 1.0) {
+
+            country.shared_border_percentage = 1.0;
+        }
     });
 
     // Add population density
@@ -1411,22 +1415,45 @@ var WorldLayer = cc.Layer.extend({
             gameParams.modal = true;
         });
 
-        var addEmitter = function addEmitter() {
+        this.addEmitter = function () {
 
             world._emitter = new cc.ParticleRain();
-            //world.worldBackground.addChild(world._emitter, 110);
+            world.worldBackground.addChild(world._emitter, 110);
 
             world._emitter.life = 4;
 
             world._emitter.texture = cc.textureCache.addImage(res.fire_texture);
             world._emitter.shapeType = cc.ParticleSystem.BALL_SHAPE;
+            world._emitter.color = COLOR_DESTRUCTION_POINTS;
+
+            world._emitter.setStartColor(cc.color(179, 0, 0, 255));
+            world._emitter.setStartColorVar(cc.color(0, 0, 0, 0));
+            world._emitter.setEndColor(cc.color(179, 0, 0, 128));
+            world._emitter.setEndColorVar(cc.color(0, 0, 0, 0));
+            world._emitter.setSpeed(0);
+            world._emitter.setSpeedVar(0);
+            world._emitter.setGravity(cc.p(0, 0));
+
+            // Gravity Mode: radial
+            world._emitter.setRadialAccel(0);
+            world._emitter.setRadialAccelVar(0);
+
+            // Gravity Mode: tangential
+            world._emitter.setTangentialAccel(0);
+            world._emitter.setTangentialAccelVar(0);
+            var x = cc.winSize.width * 0.25 + Math.random() * cc.winSize.width * 0.5;
+            var y = cc.winSize.height * 0.25 + Math.random() * cc.winSize.height * 0.5;
+
+            world._emitter.setPosition(cc.winSize.width / 2, cc.winSize.height / 2);
+            world._emitter.setPosVar(cc.p(cc.winSize.width / 2, cc.winSize.height / 2));
 
             var sourcePos = world._emitter.getSourcePosition();
+            /*
             if (sourcePos.x === 0 && sourcePos.y === 0) {
-
-                world._emitter.x = cc.winSize.width / 2;
+                 world._emitter.x = cc.winSize.width / 2;
                 world._emitter.y = cc.winSize.height / 2 - 50;
-            }
+             }
+            */
         };
 
         return true;
@@ -2741,8 +2768,9 @@ var WorldLayer = cc.Layer.extend({
             world.btnFF.setBright(true);
 
             doSim();
+
             // Add particle emitter
-            //addEmitter();
+            // world.addEmitter();
         };
 
         var nestedButtons = null;

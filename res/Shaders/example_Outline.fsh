@@ -19,7 +19,7 @@ uniform vec2 resolution;
 
 
 //change this to whatever you want
-const float DOT_SIZE = 4.0;
+const float DOT_SIZE = 2.0;
 
 
 
@@ -56,30 +56,10 @@ float noise( in vec2 p )
 
 float makeDotMask(vec2 origin) {
     //Just a quick example to look like "https://www.shadertoy.com/view/MtlGRs", change this whatever you like.
-    float rad = 0.5;
-    rad = max(rad, 0.4);
-    float smoothness = 0.1;
-    return smoothstep(rad, rad - smoothness, length(origin));
+    return smoothstep(1.0, 0.75, length(origin));
 }
 
-/*
-void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
-	vec2 uv = fragCoord.xy;// iResolution.xy;
-    
-    
-	vec2 p = fragCoord.xy / iResolution.xy;
-	vec2 uv2 = p*vec2(iResolution.x/iResolution.y,1.0);
-    float f1 = noise( 32.*uv );
-    f1 = 0.5 + 0.5*f1;
-	
-    vec2 grid = fract(uv / DOT_SIZE) * 2.0 - 1.0;
-    vec2 dims = floor(uv2 * 10.);
-    float dotMask = makeDotMask(grid);
-    vec3 color = yourColorCodeHere(p.x, p.y)  * makeDotMask;
-    
-    fragColor = vec4(color,grid);
-}
-*/
+
 
 void main()
 {
@@ -98,7 +78,7 @@ void main()
 
     vec2 st = gl_FragCoord.xy;// / resolution.xy;
 
-	  vec2 p = gl_FragCoord.xy / resolution.xy;
+	vec2 p = gl_FragCoord.xy / resolution.xy;
   	vec2 uv2 = p*vec2(resolution.x/resolution.y,1.0);
 
     float dotSize = DOT_SIZE * u_zoom;
@@ -108,7 +88,9 @@ void main()
     float dotMask2 = makeDotMask(grid2);
     vec2 alphaMask = floor(st / dotSize);
     float f1 = noise( 32. * alphaMask );
-    f1 = 0.5 + 0.5*f1;
+    f1 = 0.5 + 0.5 * f1;
+    float f2 = noise( 16. * alphaMask );
+    f2 = 0.75 + 0.25 * f2;
 
 
     float rnd1 = random1( st );
@@ -134,20 +116,31 @@ void main()
     accum0 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     accum0.rgb *= grey * accum0.a;
 
+    // Fill values
+    float v1 = ( 1.0 - u_fill1 / 100.0 );
+    v1 = v1 * v1 * v1;
+    float v2 = ( 1.0 - u_fill2 / 100.0 );
+    v2 = v2 * v2 * v2;
+
+
     accum1 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     //accum1 *= 0.1 + u_fill1 / 100. * 0.9 ;
     accum1.rgb = u_outlineColor1 * accum1.a;
     accum1 *= accum1 * dotMask1; 
     accum1 *= f1;
-    accum1 *= (0.1 + u_fill1 / 100. * 0.9) * (0.1 + u_fill1 / 100. * 0.9);
+    //accum1 *= (0.5 + u_fill1 / 100. * 0.5) * (0.5 + u_fill1 / 100. * 0.5);
+    accum1 *= 1.0 - v1;
+    accum1 *= v2;
     
     accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     //accum2 *= 0.1 + u_fill2 / 100. * 0.9 ;
     accum2.rgb = u_outlineColor2 * accum2.a;
     accum2 *= accum2 * dotMask2; 
-    accum2 *= f1;
-    accum2 *= (u_fill2 / 100.) * (u_fill2 / 100.);
-            
+    accum2 *= f2;
+    accum2 *= 1.0 - v2;
+    accum2 *= v1;
+
+     
     normal = accum1 + accum2;
     normal = ( accumB * (1.0 - normal.a)) + (normal * normal.a);
     gl_FragColor = normal;

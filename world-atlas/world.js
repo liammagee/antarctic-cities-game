@@ -1,74 +1,66 @@
 
 // Imports
-var fs = require('fs');
-var Canvas = require('canvas');
-var d3 = require('d3');
-var topojson = require('topojson-client');
+let fs = require('fs');
+let Canvas = require('canvas');
 
 // Augment d3 and topojson libraries
-var d3 = Object.assign({}, require('d3'), require('d3-geo'), require('d3-geo-projection'));
-var topojson = Object.assign({}, require('topojson-client'), require('topojson-simplify'));
+let d3 = Object.assign({}, require('d3'), require('d3-geo'), require('d3-geo-projection'));
+let topojson = Object.assign({}, require('topojson-client'), require('topojson-simplify'));
 
 // Global parameters
-var width = 1334, height = 650;
-var xmlOnly = false, jsonOnly = false;
+let width = 1334, height = 650;
+let xmlOnly = false;
 
 // Revise parameters, based on command-line arguments
-args = process.argv.slice(2)
+let args = process.argv.slice(2)
 if (args[0] == 'xml')
   xmlOnly = true;
-else if (args[0] == 'json')
-  jsonOnly = true;
 
-jsonFile = '50m-topo.json';
+let jsonFile = '50m-topo.json';
 if (typeof(args[1]) !== 'undefined') {
   jsonFile = args[1];
   console.log(jsonFile);
 }
 
-// Colours
+// Common variables
 const COUNTRY_GREY = '#D8E1E3';
+const scaleFactor = 1.0;
 const decimalFactor = 10;
 const precisionLevel = 0.1;
 const coordCutoff = 4;
 const mainlandCoordCutoff = 6;
 
 
-var Image = Canvas.Image, canvas = new Canvas(width, height), context = canvas.getContext('2d');
+let canvas = new Canvas(width, height);
 
 
 //  Extract data from the topology file
 // Taken from: https://github.com/topojson/world-atlas
 // https://unpkg.com/world-atlas@1/
 
-// var data = JSON.parse(fs.readFileSync("./world/110m2-topo.json", 'utf8'));
-// var data = JSON.parse(fs.readFileSync("./world/50m.json", 'utf8'));
-var data = JSON.parse(fs.readFileSync("./world/" + jsonFile, 'utf8'));
+let data = JSON.parse(fs.readFileSync("./world/" + jsonFile, 'utf8'));
 
 // Extract features
-var tracts = topojson.feature(data, data.objects.tracts);
+let tracts = topojson.feature(data, data.objects.tracts);
 
 // Simplify the data
-var data_sim = topojson.simplify(topojson.presimplify(data), precisionLevel);
-var tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
-// var tracts_sim = tracts;
-// var land = topojson.feature(data, data.objects.land);
-// var countries = topojson.feature(data, data.objects.countries);
+let data_sim = topojson.simplify(topojson.presimplify(data), precisionLevel);
+let tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
 
 // Create and configure various projections
-var proj = d3.geoPeirceQuincuncial().precision(.01).translate([width  / 2, height / 2]).rotate([240,90,0]);
+let proj = d3.geoPeirceQuincuncial().precision(.01).translate([width  / 2, height / 2]).rotate([240,90,0]);
 
-var projection1 = d3.geoMercator()
+let projection1 = d3.geoMercator()
     .translate([width  / 2, height / 2])
     // .scale(width / 2 / Math.PI)
     .rotate([0, 90]);
 
-var projection2 = d3.geoEquirectangular()
+let projection2 = d3.geoEquirectangular()
     .translate([width  / 2, height / 2])
     .rotate([0, 90])
     // .scale(340);
 
-var projection3 = d3
+let projection3 = d3
       .geoPeirceQuincuncial()
       .precision(.01)
       // // .clipAngle(90 - 1e-3)
@@ -77,14 +69,14 @@ var projection3 = d3
       // // .rotate([100,90,-190])
       .rotate([240,90,0]);
 
-var projection4 = d3.geoPatterson().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
-var projection5 = d3
+let projection4 = d3.geoPatterson().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
+let projection5 = d3
       .geoStereographic()
       .precision(0.1).rotate([0,90,0])
       .fitExtent([[0, 0], [width, height]], tracts)
       // .translate([-width/10, -height / 10]);
-var projection6 = d3.geoGuyou().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
-var projection7 = d3
+let projection6 = d3.geoGuyou().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
+let projection7 = d3
       .geoEqualEarth()
       .precision(0.1).rotate([300,90,0])
       .fitExtent([[0, 0], [width, height]], tracts)
@@ -96,11 +88,12 @@ var projection7 = d3
  * @param {*} canvas 
  * @param {*} proj 
  */
-function makeContext(canvas, proj) {
-  var context = canvas.getContext('2d');
-  var path = d3.geoPath(proj, context);
+const makeContext = function(canvas, proj) {
+  
+  let context = canvas.getContext('2d');
+  let path = d3.geoPath(proj, context);
 
-  var bounds = path.bounds(topojson.mesh(data)),
+  let bounds = path.bounds(topojson.mesh(data)),
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
@@ -114,15 +107,15 @@ function makeContext(canvas, proj) {
   context.scale(scalex, scaley);
   context.translate(translate[0], translate[1]);
   return { path: path, context: context };
+
 }
 
-const SCALE_FACTOR = 1.0;
 /**
  * Writes out a complete projection to a tilemap
  * @param {} proj 
  * @param {*} file 
  */
-function writeProj(proj, file) {  
+var writeProj = function(proj, file) {  
 
   // File names
   var background = 'background-' + file + '.png';
@@ -146,8 +139,8 @@ function writeProj(proj, file) {
         x = dx / 2,
         y = dy / 2,
         scale = .9 / Math.max(dx / width, dy / height),
-        scalex = SCALE_FACTOR * width / dx, 
-        scaley = SCALE_FACTOR * height  / dy,
+        scalex = scaleFactor * width / dx, 
+        scaley = scaleFactor * height  / dy,
         translate = [-bounds[0][0], -bounds[0][1]];
 
   context.scale(scalex, scaley);

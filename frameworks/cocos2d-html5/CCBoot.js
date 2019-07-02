@@ -723,7 +723,6 @@ cc.loader = (function () {
             this.loadJs(args[0], args[1], function (err) {
                 if (err) throw new Error(err);
                 jsLoadingImg.parentNode.removeChild(jsLoadingImg);//remove loading gif
-                console.log("got here 4",args[2]);
                 if (args[2]) args[2]();
             });
         },

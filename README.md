@@ -8,7 +8,7 @@ Change to the world-atlas directory:
 
 Convert shape files from [Natural Earth](http://www.naturalearthdata.com/downloads/110m-cultural-vectors/) to GeoJSON format.
 
-    ogr2ogr -f GeoJSON -t_srs crs:84 110m.json ne_110m_admin_0_countries.shp
+    ogr2ogr -f GeoJSON -t_srs crs:84 110m.json ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
 
 
 Convert to a topology file:
