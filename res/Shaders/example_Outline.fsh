@@ -56,7 +56,7 @@ float noise( in vec2 p )
 
 float makeDotMask(vec2 origin) {
     //Just a quick example to look like "https://www.shadertoy.com/view/MtlGRs", change this whatever you like.
-    return smoothstep(1.0, 0.75, length(origin));
+    return smoothstep(1.0, 0.9, length(origin));
 }
 
 
@@ -85,12 +85,12 @@ void main()
     vec2 grid1 = fract(st / dotSize) * 2.0 - 1.0;
     vec2 grid2 = fract((st + dotSize / 2.) / dotSize) * 2.0 - 1.0;
     float dotMask1 = makeDotMask(grid1);
-    float dotMask2 = makeDotMask(grid2);
+    float dotMask2 = makeDotMask(grid1);
     vec2 alphaMask = floor(st / dotSize);
     float f1 = noise( 32. * alphaMask );
     f1 = 0.5 + 0.5 * f1;
     float f2 = noise( 16. * alphaMask );
-    f2 = 0.75 + 0.25 * f2;
+    f2 = 0.5 + 0.5 * f2;
 
 
     float rnd1 = random1( st );
@@ -123,25 +123,19 @@ void main()
     v2 = v2 * v2 * v2;
 
 
-    accum1 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-    //accum1 *= 0.1 + u_fill1 / 100. * 0.9 ;
-    accum1.rgb = u_outlineColor1 * accum1.a;
+    accum1 = vec4(u_outlineColor1 * accum0.a, accum0.a);
     accum1 *= accum1 * dotMask1; 
     accum1 *= f1;
-    //accum1 *= (0.5 + u_fill1 / 100. * 0.5) * (0.5 + u_fill1 / 100. * 0.5);
     accum1 *= 1.0 - v1;
-    //accum1 *= v2;
+    accum1.a = clamp(accum1.a, 0.0, 1.0);
     
-    accum2 += texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
-    //accum2 *= 0.1 + u_fill2 / 100. * 0.9 ;
-    accum2.rgb = u_outlineColor2 * accum2.a;
+    accum2 = vec4(u_outlineColor2 * accum0.a, accum0.a);
     accum2 *= accum2 * dotMask2; 
     accum2 *= f2;
     accum2 *= 1.0 - v2;
-    //accum2 *= v1;
-
+    accum2.a = clamp(accum2.a, 0.0, 1.0);
      
-    normal = accum1 + accum2;
+    normal = max( accum1, accum2 );
     normal = ( accumB * (1.0 - normal.a)) + (normal * normal.a);
     gl_FragColor = normal;
 
