@@ -137,6 +137,7 @@ void main()
      
     normal = max( accum1, accum2 );
     normal = ( accumB * (1.0 - normal.a)) + (normal * normal.a);
-    gl_FragColor = normal;
+    //gl_FragColor = normal;
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 0.0);
 
 }
