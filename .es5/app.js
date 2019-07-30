@@ -3044,16 +3044,17 @@ var LoadingScene = cc.Scene.extend({
             cc.director.runScene(new WorldScene(5));
         };
         var playHandler = function playHandler() {
-            if (cc.sys.localStorage.content === "true") {
 
-                if (!document.fullscreenElement) {
-                    var el = document.getElementById('gameCanvas');
-                    cc.screen.requestFullScreen(el).catch(function (err) {
-                        alert("Error attempting to enable full-screen mode: " + err.message + " (" + err.name + ")");
-                    });
-                } else {
-                    document.exitFullscreen();
-                }
+            if (!document.fullscreenElement) {
+                var el = document.getElementById('gameCanvas');
+                cc.screen.requestFullScreen(el).catch(function (err) {
+                    alert("Error attempting to enable full-screen mode: " + err.message + " (" + err.name + ")");
+                });
+            } else {
+                document.exitFullscreen();
+            }
+
+            if (cc.sys.localStorage.content === "true") {
 
                 cc.director.runScene(new WorldScene());
                 // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
