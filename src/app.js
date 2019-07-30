@@ -3322,12 +3322,13 @@ const LoadingScene = cc.Scene.extend({
         
             if (cc.sys.localStorage.content === "true") {
 
+                if (cc.sys.platform != cc.sys.IPAD && cc.sys.platform != cc.sys.IPHONE) {
                 // if (cc.sys.os != cc.sys.OS_IOS) {
                     var el = document.getElementById('gameCanvas');
-                    cc.screen.requestFullScreen(el).catch(err => {
+                    cc.screen.requestFullScreen(document.documentElement).catch(err => {
                         //alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
                     });
-                // } 
+                 } 
         
                 cc.director.runScene(new WorldScene()); 
                 // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
