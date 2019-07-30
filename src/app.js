@@ -3319,15 +3319,13 @@ const LoadingScene = cc.Scene.extend({
             cc.director.runScene(new WorldScene(5)); 
         };
         const playHandler = function() { 
-            
-            if (!document.fullscreenElement) {
+        
+            if (sys.os != sys.OS_IOS && !document.fullscreenElement) {
                 var el = document.getElementById('gameCanvas');
                 cc.screen.requestFullScreen(el).catch(err => {
                   alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
                 });
-            } else {
-                document.exitFullscreen();
-            }
+            } 
     
             if (cc.sys.localStorage.content === "true") {
 

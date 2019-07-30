@@ -65,7 +65,6 @@ cc.game.onStart = function(){
     if (sys.isMobile && 
         sys.browserType !== sys.BROWSER_TYPE_BAIDU &&
         sys.browserType !== sys.BROWSER_TYPE_WECHAT) {
-    // if (true) {
         cc.view.enableAutoFullScreen(true);
     }
 
