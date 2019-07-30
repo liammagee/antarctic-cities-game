@@ -3045,12 +3045,12 @@ var LoadingScene = cc.Scene.extend({
         };
         var playHandler = function playHandler() {
 
-            // if (sys.os != sys.OS_IOS && !document.fullscreenElement) {
-            //     var el = document.getElementById('gameCanvas');
-            //     cc.screen.requestFullScreen(el).catch(err => {
-            //       alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-            //     });
-            // } 
+            if (sys.os != sys.OS_IOS) {
+                var el = document.getElementById('gameCanvas');
+                cc.screen.requestFullScreen(el).catch(function (err) {
+                    alert("Error attempting to enable full-screen mode: " + err.message + " (" + err.name + ")");
+                });
+            }
 
             if (cc.sys.localStorage.content === "true") {
 
