@@ -19,7 +19,7 @@ uniform vec2 resolution;
 
 
 //change this to whatever you want
-const float DOT_SIZE = 20.0;
+const float DOT_SIZE = 5.0;
 
 
 
