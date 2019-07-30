@@ -3321,6 +3321,15 @@ const LoadingScene = cc.Scene.extend({
         const playHandler = function() { 
             if (cc.sys.localStorage.content === "true") {
 
+                if (!document.fullscreenElement) {
+                    var el = document.getElementById('gameCanvas');
+                    cc.screen.requestFullScreen(el).catch(err => {
+                      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                } else {
+                document.exitFullscreen();
+                }
+        
                 cc.director.runScene(new WorldScene()); 
                 // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
 
