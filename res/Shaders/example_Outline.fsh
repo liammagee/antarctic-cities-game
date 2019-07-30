@@ -76,7 +76,7 @@ void main()
 
 
 
-    vec2 st = gl_FragCoord.xy / resolution.xy;
+    vec2 st = gl_FragCoord.xy;// / resolution.xy;
 
 	vec2 p = gl_FragCoord.xy / resolution.xy;
   	vec2 uv2 = p*vec2(resolution.x/resolution.y,1.0);
