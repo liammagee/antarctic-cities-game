@@ -19,7 +19,7 @@ uniform vec2 resolution;
 
 
 //change this to whatever you want
-const float DOT_SIZE = 10.0;
+const float DOT_SIZE = 2.0;
 
 
 
@@ -76,7 +76,7 @@ void main()
 
 
 
-    vec2 st = gl_FragCoord.xy;// / resolution.xy;
+    vec2 st = gl_FragCoord.xy / resolution.xy;
 
 	vec2 p = gl_FragCoord.xy / resolution.xy;
   	vec2 uv2 = p*vec2(resolution.x/resolution.y,1.0);
@@ -93,8 +93,8 @@ void main()
     f2 = 0.5 + 0.5 * f2;
 
 
-    float rnd1 = random1( st );
-    float rnd2 = random2( st );
+    //float rnd1 = random1( st );
+    //float rnd2 = random2( st );
 
     normal = texture2D(CC_Texture0, vec2(v_texCoord.x, v_texCoord.y));
     
