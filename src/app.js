@@ -3321,10 +3321,13 @@ const LoadingScene = cc.Scene.extend({
         const playHandler = function() { 
         
             if (sys.os != sys.OS_IOS) {
-                var el = document.getElementById('gameCanvas');
-                cc.screen.requestFullScreen(el).catch(err => {
-                  alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
+                try {
+                    var el = document.getElementById('gameCanvas');
+                    cc.screen.requestFullScreen(el).catch(err => {
+                      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                }
+                catch (e) {}
             } 
     
             if (cc.sys.localStorage.content === "true") {
