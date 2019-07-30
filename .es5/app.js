@@ -3047,8 +3047,8 @@ var LoadingScene = cc.Scene.extend({
 
             if (cc.sys.localStorage.content === "true") {
 
-                if (cc.sys.platform != cc.sys.IPAD && cc.sys.platform != cc.sys.IPHONE) {
-                    // if (cc.sys.os != cc.sys.OS_IOS) {
+                // if (cc.sys.platform != cc.sys.IPAD && cc.sys.platform != cc.sys.IPHONE) {
+                if (cc.sys.os != cc.sys.OS_IOS) {
                     var el = document.getElementById('gameCanvas');
                     cc.screen.requestFullScreen(document.documentElement).catch(function (err) {
                         //alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
