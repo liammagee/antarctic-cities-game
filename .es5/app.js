@@ -3047,12 +3047,12 @@ var LoadingScene = cc.Scene.extend({
 
             if (cc.sys.localStorage.content === "true") {
 
-                // if (sys.os != sys.OS_IOS) {
-                //     var el = document.getElementById('gameCanvas');
-                //     cc.screen.requestFullScreen(el).catch(err => {
-                //         alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                //     });
-                // } 
+                if (cc.sys.os != cc.sys.OS_IOS) {
+                    var el = document.getElementById('gameCanvas');
+                    cc.screen.requestFullScreen(el).catch(function (err) {
+                        alert("Error attempting to enable full-screen mode: " + err.message + " (" + err.name + ")");
+                    });
+                }
 
                 cc.director.runScene(new WorldScene());
                 // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
