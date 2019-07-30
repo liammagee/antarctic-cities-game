@@ -64,18 +64,21 @@ cc.game.onStart = function(){
     if (sys.isMobile && 
         sys.browserType !== sys.BROWSER_TYPE_BAIDU &&
         sys.browserType !== sys.BROWSER_TYPE_WECHAT) {
-        //cc.view.enableAutoFullScreen(true);
+        cc.view.enableAutoFullScreen(true);
     }
 
     // Adjust viewport meta
     cc.view.adjustViewPort(true);
 
     // Uncomment the following line to set a fixed orientation for your game
-    // cc.view.setOrientation(cc.ORIENTATION_PORTRAIT);
+    cc.view.setOrientation(cc.ORIENTATION_LANDSCAPE);
 
     // Setup the resolution policy and design resolution size
     cc.view.setDesignResolutionSize(1334, 750, cc.ResolutionPolicy.SHOW_ALL);
 
+    var el = document.getElementById('game-wrapper');
+    cc.screen.requestFullScreen(el);
+    
     // The game will be resized when browser size change
     cc.view.resizeWithBrowserSize(true);
 
