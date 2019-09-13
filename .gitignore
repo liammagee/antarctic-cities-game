@@ -25,3 +25,9 @@ docs/*
 .babelrc
 package-lock.json
 results.json
+
+# Visual Studio files
+.vscode
+
+# Backups
+backup-*

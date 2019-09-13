@@ -1,5 +1,5 @@
 // Global constants
-const VERSION_ANTARCTIC_FUTURES = "Build: 1004";
+const VERSION_ANTARCTIC_FUTURES = "Build: 1005";
 
 const FONT_FACE_TITLE = "ArvoFont";
 const FONT_FACE_BODY = "JosefinSansFont";
@@ -510,7 +510,14 @@ const initCountries = () => {
  */
 const initGameParams = (scenarioData) => {
 
+    if (cc.sys.localStorage.language === undefined) 
+        cc.sys.localStorage.language = 'ENGLISH';
+    if (cc.sys.localStorage.level === undefined) 
+        cc.sys.localStorage.level = 'EASY';
+
     gameParams = {};
+    gameParams.level = cc.sys.localStorage.level;
+    gameParams.language = cc.sys.localStorage.language;
     gameParams.state = GAME_STATES.INITIALISED;
     gameParams.modal = false;
     gameParams.startDate = new Date(Date.now());
@@ -3089,7 +3096,7 @@ const WorldLayer = cc.Layer.extend({
 
 const WorldScene = cc.Scene.extend({
     
-    ctor:function (automateID) {
+    ctor: function (automateID) {
         this._super();
 
         if (typeof(automateID) !== "undefined")
@@ -3098,7 +3105,7 @@ const WorldScene = cc.Scene.extend({
             this.automateID = -1;
     },
 
-    onEnter:function () {
+    onEnter: function () {
         this._super();
 
         const scene = this;
@@ -3122,6 +3129,176 @@ const WorldScene = cc.Scene.extend({
 });
 
 
+const makeCheckBox = (layer, label, x, y, checked, callback, name, value) => {
+    
+    const size = cc.winSize;
+
+    const chb = new ccui.CheckBox();
+    chb.setColor(COLOR_WHITE);
+    chb.setTouchEnabled(true);
+    chb.setSwallowTouches(false);
+    chb.loadTextures("res/ccs-res/cocosui/check_box_normal.png",
+            "res/ccs-res/cocosui/check_box_normal_press.png",
+            "res/ccs-res/cocosui/check_box_active.png",
+            "res/ccs-res/cocosui/check_box_normal_disable.png",
+            "res/ccs-res/cocosui/check_box_active_disable.png");
+    chb.setAnchorPoint(cc.p(0.0,1.0));
+    chb.setPosition(cc.p(x - 40, y));
+    chb.setSelected(checked);
+    chb[name] = value;
+    chb.addEventListener(callback, this);
+
+
+    const lbl = new ccui.Text(label, FONT_FACE_BODY, 16);
+    lbl.setTouchEnabled(true);
+    lbl.setSwallowTouches(false);
+    lbl.ignoreContentAdaptWithSize(false);
+    lbl.setAnchorPoint(cc.p(0.0,1.0));
+    //lbl.setContentSize(cc.size( 2 * size.width / 8, size.height / 8));
+    
+    const listener = (sender) => { callback(sender); }
+
+    var menuItem = new cc.MenuItemLabel(lbl, listener, layer);
+    menuItem.setPosition(cc.p(x, y - 8));
+    menuItem.setAnchorPoint(cc.p(0.0,1.0));
+    menuItem[name] = value;
+    var menu = new cc.Menu(menuItem);
+    menu.x = 0;
+    menu.y = 0;
+
+    layer.addChild(chb, 101);
+    layer.addChild(menu, 101);
+
+    return { chb: chb, lbl: lbl };
+
+};
+
+const SelectOptionsScene = cc.Scene.extend({
+    onEnter:function () {
+        this._super();
+
+        const layer = this;
+        const size = cc.winSize;
+
+        const layout = new ccui.Layout();
+        layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
+        layout.setBackGroundColor(COLOR_LICORICE);
+        layout.setContentSize(cc.size(size.width, size.height));
+        const layoutSize = layout.getContentSize();
+        layout.setLayoutType(ccui.Layout.RELATIVE);
+        layout.attr({ x: size.width / 2 - layoutSize.width / 2, y: size.height / 2 - layoutSize.height / 2 });
+        layer.addChild(layout, 1);
+
+        layout.setTouchEnabled(true);
+        layout.setSwallowTouches(true);
+
+
+        const antarcticaSprite = new cc.Sprite(res.antarctica_large_png);
+        antarcticaSprite.setAnchorPoint(new cc.p(0.5,0.5));
+        antarcticaSprite.setContentSize(cc.size(100, 101));
+        antarcticaSprite.setScale(1.5);
+        antarcticaSprite.setPosition(cc.p(size.width * 0.5, size.height * 0.875));
+        layer.addChild(antarcticaSprite, 101);
+       
+        const lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, 36);
+        lblWelcome.color = COLOR_FOREGROUND;
+        lblWelcome.setAnchorPoint(new cc.p(0.5,0.5));
+        lblWelcome.setPosition(cc.p(size.width * 0.5, size.height * 0.675));
+        layer.addChild(lblWelcome, 101);
+
+
+        const lblLanguage = new cc.LabelTTF("SELECT LANGUAGE", FONT_FACE_BODY, 18);
+        lblLanguage.attr({x: size.width * 0.5, y: size.height * 0.55})
+        lblLanguage.setColor(COLOR_WHITE);
+        layer.addChild(lblLanguage, 101);
+
+        const listenerLanguage = (sender) => {
+            gameParams.language = sender.language;
+            cc.sys.localStorage.language = sender.language;
+            if (sender.language === "ENGLISH") {
+                engComponent.chb.setSelected(true);
+                espComponent.chb.setSelected(false);
+            }
+            else {
+                engComponent.chb.setSelected(false);
+                espComponent.chb.setSelected(true);
+            }
+
+        }
+
+        const engComponent = makeCheckBox(layer, "ENGLISH", size.width * 0.4, size.height * 0.5, cc.sys.localStorage.language === "ENGLISH", listenerLanguage, 'language', 'ENGLISH');
+        const espComponent = makeCheckBox(layer, "SPANISH", size.width * 0.6, size.height * 0.5, cc.sys.localStorage.language === "SPANISH", listenerLanguage, 'language', 'SPANISH');
+
+
+        const lblDifficulty = new cc.LabelTTF("SELECT DIFFICULTY", FONT_FACE_TITLE, 18);
+        lblDifficulty.attr({x: size.width * 0.5, y: size.height * 0.35})    
+        lblDifficulty.setColor(COLOR_WHITE);
+        layer.addChild(lblDifficulty, 101);
+
+        const listenerLevel = (sender, type) => {
+            gameParams.level = sender.level;
+            cc.sys.localStorage.level = sender.level;
+            if (sender.level === "EASY") {
+                easyComponent.chb.setSelected(true);
+                medComponent.chb.setSelected(false);
+                hardComponent.chb.setSelected(false);
+            }
+            else if (sender.level === "MEDIUM") {
+                easyComponent.chb.setSelected(false);
+                medComponent.chb.setSelected(true);
+                hardComponent.chb.setSelected(false);
+            }
+            else  {
+                easyComponent.chb.setSelected(false);
+                medComponent.chb.setSelected(false);
+                hardComponent.chb.setSelected(true);
+            }
+        }
+
+        const easyComponent = makeCheckBox(layer, "EASY", size.width * 0.35, size.height * 0.3, cc.sys.localStorage.level === "EASY", listenerLevel, 'level', 'EASY');
+        const medComponent = makeCheckBox(layer, "MEDIUM", size.width * 0.5, size.height * 0.3, cc.sys.localStorage.level === "MEDIUM", listenerLevel, 'level', 'MEDIUM');
+        const hardComponent = makeCheckBox(layer, "HARD", size.width * 0.65, size.height * 0.3, cc.sys.localStorage.level === "HARD", listenerLevel, 'level', 'HARD');
+
+
+        const btnPlay = new ccui.Button();
+        btnPlay.setContentSize(cc.size(320, 80));
+        btnPlay.setSwallowTouches(false);
+        btnPlay.setPressedActionEnabled(true);
+        btnPlay.setScale9Enabled(true);
+        btnPlay.loadTextures(res.button_white, res.button_grey, res.button_grey);
+        btnPlay.setTitleText("START GAME");
+        btnPlay.setTitleFontName(FONT_FACE_BODY);
+        btnPlay.setTitleColor(COLOR_BLACK);
+        btnPlay.setTitleFontSize(38);
+        btnPlay.setAnchorPoint(cc.p(0.5,0.5));
+        btnPlay.setPosition(cc.p(size.width * 0.5, size.height * 0.1));
+        btnPlay.setTouchEnabled(true);
+        btnPlay.setBright(true);
+        btnPlay.setEnabled(true);
+
+        layer.addChild(btnPlay, 101);
+
+        const playHandler = function() { 
+        
+            if (cc.sys.os != cc.sys.OS_IOS) {
+                var el = document.getElementById('gameCanvas');
+                cc.screen.requestFullScreen(document.documentElement).catch(err => {
+                    //alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } 
+    
+            cc.director.runScene(new LoadingScene()); 
+
+        };
+
+        handleMouseTouchEvent(btnPlay, playHandler);        
+
+    }
+
+});
+
+
+
 const LoadingScene = cc.Scene.extend({
 
     onEnter:function () {
@@ -3141,6 +3318,11 @@ const LoadingScene = cc.Scene.extend({
 
         layout.setTouchEnabled(true);
         layout.setSwallowTouches(true);
+                
+        // const margin = new ccui.Margin(0, 0, 0, 0);
+        // const lp0 = new ccui.RelativeLayoutParameter();
+        // lp0.setMargin(margin);
+        // lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
 
         const antarcticaSprite = new cc.Sprite(res.antarctica_large_png);
         antarcticaSprite.setAnchorPoint(new cc.p(0.5,0.5));
@@ -3148,11 +3330,7 @@ const LoadingScene = cc.Scene.extend({
         antarcticaSprite.setScale(1.5);
         antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
         layer.addChild(antarcticaSprite, 101);
-        
-        const margin = new ccui.Margin(0, 0, 0, 0);
-        const lp0 = new ccui.RelativeLayoutParameter();
-        lp0.setMargin(margin);
-        lp0.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
+       
         const lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5,0.5));
@@ -3322,15 +3500,7 @@ const LoadingScene = cc.Scene.extend({
         
             if (cc.sys.localStorage.content === "true") {
 
-                // if (cc.sys.platform != cc.sys.IPAD && cc.sys.platform != cc.sys.IPHONE) {
-                if (cc.sys.os != cc.sys.OS_IOS) {
-                    var el = document.getElementById('gameCanvas');
-                    cc.screen.requestFullScreen(document.documentElement).catch(err => {
-                        //alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                    });
-                 } 
-        
-                cc.director.runScene(new WorldScene()); 
+                cc.director.runScene(new SelectOptionsScene()); 
                 // cc.director.runScene(new cc.TransitionMoveInR(1, new NewGameScene()));
 
             }
@@ -3444,6 +3614,7 @@ const NewGameScene = cc.Scene.extend({
 });
 
 
+
 const SelectChallengeScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
@@ -3469,7 +3640,7 @@ const SelectChallengeScene = cc.Scene.extend({
                 if (cc.rectContainsPoint(rect, locationInNode)) {     
                 
                     cc.log(target)  
-                    cc.director.runScene(new cc.TransitionMoveInR(1, new SelectDifficultyScene()));
+                    cc.director.runScene(new cc.TransitionMoveInR(1, new SelectOptionsScene()));
                     return true;
                 
                 }
@@ -3485,65 +3656,6 @@ const SelectChallengeScene = cc.Scene.extend({
 
 });
 
-
-const SelectDifficultyScene = cc.Scene.extend({
-    onEnter:function () {
-        this._super();
-
-        const layer = this;
-        const size = cc.winSize;
-
-        const layerBackground = new cc.LayerColor(COLOR_BACKGROUND, size.width, size.height);
-        layerBackground.attr({ x: 0, y: 0 });
-        layer.addChild(layerBackground, 1);
-
-        const newLabel = new cc.LabelTTF("Select a game difficulty", FONT_FACE_BODY, 38);
-        newLabel.attr({x: size.width * 0.5, y: size.height * 0.8})
-        this.addChild(newLabel);
-
-        const casualLabel = new cc.LabelTTF("Casual", FONT_FACE_BODY, 38);
-        casualLabel.attr({x: size.width * 0.25, y: size.height * 0.5})
-        this.addChild(casualLabel);
-
-        const normalLabel = new cc.LabelTTF("Normal", FONT_FACE_BODY, 38);
-        normalLabel.attr({x: size.width * 0.5, y: size.height * 0.5})
-        this.addChild(normalLabel);
-
-        const brutalLabel = new cc.LabelTTF("Brutal", FONT_FACE_BODY, 38);
-        brutalLabel.attr({x: size.width * 0.75, y: size.height * 0.5})
-        this.addChild(brutalLabel);
-
-        const listener = cc.EventListener.create({
-
-            event: cc.EventListener.MOUSE,
-            onMouseUp : (event) => {
-
-                const target = event.getCurrentTarget();
-                const locationInNode = target.convertToNodeSpace(event.getLocation());    
-                const s = target.getContentSize();
-                const rect = cc.rect(0, 0, s.width, s.height);
-
-                if (cc.rectContainsPoint(rect, locationInNode)) {       
-
-                    gameParams.level = target.getString();
-                    cc.director.runScene(new cc.TransitionMoveInR(1, new EnterNameScene()));
-                    return true;
-
-                }
-                
-                return false;
-
-            }
-
-        });
-
-        cc.eventManager.addListener(listener.clone(), casualLabel);
-        cc.eventManager.addListener(listener.clone(), normalLabel);
-        cc.eventManager.addListener(listener.clone(), brutalLabel);
-
-    }
-
-});
 
 
 const EnterNameScene = cc.Scene.extend({

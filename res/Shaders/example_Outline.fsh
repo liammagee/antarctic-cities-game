@@ -125,7 +125,7 @@ void main()
 
     accum1 = vec4(u_outlineColor1 * accum0.a, accum0.a);
     accum1 *= accum1 * dotMask1; 
-    accum1 *= f1;
+    //accum1 *= f1;
     accum1 *= 1.0 - v1;
     accum1.a = clamp(accum1.a, 0.0, 1.0);
     
@@ -138,6 +138,5 @@ void main()
     normal = max( accum1, accum2 );
     normal = ( accumB * (1.0 - normal.a)) + (normal * normal.a);
     gl_FragColor = normal;
-    //gl_FragColor = vec4(1.0, 0.0, 0.0, 0.0);
 
 }
