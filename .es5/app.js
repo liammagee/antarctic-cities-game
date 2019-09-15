@@ -510,7 +510,7 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.rateOfLoss = scenarioData.threat_details.advanced_stats.loss_increase_speed;
     gameParams.minimumLoss = scenarioData.threat_details.advanced_stats.minimum_loss_increase;
     gameParams.totalLoss = 0;
-    gameParams.scenarioName = scenarioData.name;
+    gameParams.scenarioName = scenarioData[cc.sys.localStorage.language].name;
     gameParams.messagesNegative = scenarioData[cc.sys.localStorage.language].messages.negative;
     gameParams.messagesPositive = scenarioData[cc.sys.localStorage.language].messages.positive;
     gameParams.messageOverride = null;
@@ -2846,18 +2846,27 @@ var WorldScene = cc.Scene.extend({
 
         var scene = this;
 
+        // EAGER LOADING - LACKS CUSTOMISATION
+        scenarioData = res.scenarioData;
+        automateScripts = res.automateScripts;
+
+        var layer = new WorldLayer(scenarioData, scene.automateID);
+        scene.addChild(layer);
+
+        // LAZY LOADING
+        /*
         // Add country data 
-        cc.loader.loadJson("res/scenario-nature.json", function (error, scenarioData) {
-
-            // Add script data 
-            cc.loader.loadJson("res/automate.json", function (error, data) {
-
+        cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
+             // Add script data 
+            cc.loader.loadJson("res/automate.json",function(error, data){
+                
                 automateScripts = data;
-
-                var layer = new WorldLayer(scenarioData, scene.automateID);
+                 const layer = new WorldLayer(scenarioData, scene.automateID);
                 scene.addChild(layer);
-            });
+             });
+                
         });
+        */
     }
 });
 

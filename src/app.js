@@ -552,7 +552,7 @@ const initGameParams = (scenarioData) => {
     gameParams.rateOfLoss = scenarioData.threat_details.advanced_stats.loss_increase_speed;
     gameParams.minimumLoss = scenarioData.threat_details.advanced_stats.minimum_loss_increase;
     gameParams.totalLoss = 0;
-    gameParams.scenarioName = scenarioDatacc.sys.localStorage.language].name;
+    gameParams.scenarioName = scenarioData[cc.sys.localStorage.language].name;
     gameParams.messagesNegative = scenarioData[cc.sys.localStorage.language].messages.negative;
     gameParams.messagesPositive = scenarioData[cc.sys.localStorage.language].messages.positive;
     gameParams.messageOverride = null;
@@ -3128,6 +3128,15 @@ const WorldScene = cc.Scene.extend({
 
         const scene = this;
         
+        // EAGER LOADING - LACKS CUSTOMISATION
+        scenarioData = res.scenarioData;
+        automateScripts = res.automateScripts;
+
+        const layer = new WorldLayer(scenarioData, scene.automateID);
+        scene.addChild(layer);
+
+        // LAZY LOADING
+        /*
         // Add country data 
         cc.loader.loadJson("res/scenario-nature.json",function(error, scenarioData){
 
@@ -3142,6 +3151,7 @@ const WorldScene = cc.Scene.extend({
             });
                 
         });
+        */
 
     }
 });
