@@ -552,7 +552,7 @@ const initGameParams = (scenarioData) => {
     gameParams.rateOfLoss = scenarioData.threat_details.advanced_stats.loss_increase_speed;
     gameParams.minimumLoss = scenarioData.threat_details.advanced_stats.minimum_loss_increase;
     gameParams.totalLoss = 0;
-    gameParams.scenarioName = scenarioData.name;
+    gameParams.scenarioName = scenarioDatacc.sys.localStorage.language].name;
     gameParams.messagesNegative = scenarioData[cc.sys.localStorage.language].messages.negative;
     gameParams.messagesPositive = scenarioData[cc.sys.localStorage.language].messages.positive;
     gameParams.messageOverride = null;
