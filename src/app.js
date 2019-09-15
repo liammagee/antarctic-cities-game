@@ -553,8 +553,8 @@ const initGameParams = (scenarioData) => {
     gameParams.minimumLoss = scenarioData.threat_details.advanced_stats.minimum_loss_increase;
     gameParams.totalLoss = 0;
     gameParams.scenarioName = scenarioData.name;
-    gameParams.messagesNegative = scenarioData.messages.negative;
-    gameParams.messagesPositive = scenarioData.messages.positive;
+    gameParams.messagesNegative = scenarioData[cc.sys.localStorage.language].messages.negative;
+    gameParams.messagesPositive = scenarioData[cc.sys.localStorage.language].messages.positive;
     gameParams.messageOverride = null;
     gameParams.tutorialMode = false;
     gameParams.tutorialHints = [];
@@ -1408,7 +1408,7 @@ const WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnDevelopPolicy.setTouchEnabled(true);
         this.btnDevelopPolicy.setSwallowTouches(false);
-        this.btnDevelopPolicy.setTitleText("POLICY");
+        this.btnDevelopPolicy.setTitleText(res.lang.commands_policy[cc.sys.localStorage.language]);
         this.btnDevelopPolicy.setTitleFontName(FONT_FACE_BODY);
         this.btnDevelopPolicy.setTitleFontSize(24);
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
@@ -1434,7 +1434,7 @@ const WorldLayer = cc.Layer.extend({
         this.countryLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(this.countryLabel);
 
-        const lossLabel = new cc.LabelTTF("Loss", FONT_FACE_TITLE, fontSize);
+        const lossLabel = new cc.LabelTTF(res.lang.commands_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, fontSize);
         lossLabel.setContentSize(cc.size(50, Y_OFFSET));
         lossLabel.setPosition(cc.p(280, labelOffsetY));
         lossLabel.setColor(COLOR_ICE);
@@ -1444,26 +1444,26 @@ const WorldLayer = cc.Layer.extend({
 
         this.countryLoss = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryLoss.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryLoss.setPosition(cc.p(334, labelOffsetY));
+        this.countryLoss.setPosition(cc.p(360, labelOffsetY));
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLoss.setAnchorPoint(new cc.p(0,0.5));
         this.countryLoss.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryLoss);
 
-        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
-        this.countryLossProgressBase.setContentSize(cc.size(100, 10));
-        this.countryLossProgressBase.setPosition(cc.p(380, Y_OFFSET / 2));
+        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 80);
+        this.countryLossProgressBase.setContentSize(cc.size(80, 10));
+        this.countryLossProgressBase.setPosition(cc.p(400, Y_OFFSET / 2));
         this.countryLossProgressBase.setAnchorPoint(new cc.p(0,0.5));
         this.countryLossProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryLossProgress.setColor(COLOR_DESTRUCTION_POINTS);
-        this.countryLossProgress.setContentSize(cc.size(100, 10));
-        this.countryLossProgress.setPosition(cc.p(380, Y_OFFSET / 2));
+        this.countryLossProgress.setContentSize(cc.size(80, 10));
+        this.countryLossProgress.setPosition(cc.p(400, Y_OFFSET / 2));
         this.countryLossProgress.setAnchorPoint(new cc.p(0,0.5));
         countryDetailLayout.addChild(this.countryLossProgressBase, 100);
         countryDetailLayout.addChild(this.countryLossProgress, 101);
 
-        const preparednessLabel = new cc.LabelTTF("Prepared", FONT_FACE_TITLE, fontSize);
+        const preparednessLabel = new cc.LabelTTF(res.lang.commands_prepared[cc.sys.localStorage.language], FONT_FACE_TITLE, fontSize);
         preparednessLabel.setContentSize(cc.size(100, Y_OFFSET));
         preparednessLabel.setPosition(cc.p(570, labelOffsetY));
         preparednessLabel.setColor(COLOR_ICE);
@@ -1474,21 +1474,21 @@ const WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(664, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(684, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryAwarePrepared.setAnchorPoint(new cc.p(0,0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
-        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
-        this.countryPreparedProgressBase.setContentSize(cc.size(100, 10));
-        this.countryPreparedProgressBase.setPosition(cc.p(710, Y_OFFSET / 2));
+        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 80);
+        this.countryPreparedProgressBase.setContentSize(cc.size(80, 10));
+        this.countryPreparedProgressBase.setPosition(cc.p(730, Y_OFFSET / 2));
         this.countryPreparedProgressBase.setAnchorPoint(new cc.p(0,0.5));
         this.countryPreparedProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryPreparedProgress.setColor(COLOR_POLICY_POINTS);
-        this.countryPreparedProgress.setContentSize(cc.size(100, 10));
-        this.countryPreparedProgress.setPosition(cc.p(710, Y_OFFSET / 2));
+        this.countryPreparedProgress.setContentSize(cc.size(80, 10));
+        this.countryPreparedProgress.setPosition(cc.p(730, Y_OFFSET / 2));
         this.countryPreparedProgress.setAnchorPoint(new cc.p(0,0.5));
         countryDetailLayout.addChild(this.countryPreparedProgressBase, 100);
         countryDetailLayout.addChild(this.countryPreparedProgress, 101);
@@ -1497,7 +1497,7 @@ const WorldLayer = cc.Layer.extend({
         this.btnStats = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnStats.setTouchEnabled(true);
         this.btnStats.setSwallowTouches(false);
-        this.btnStats.setTitleText("STATS");
+        this.btnStats.setTitleText(res.lang.commands_stats[cc.sys.localStorage.language]);
         this.btnStats.setTitleFontName(FONT_FACE_BODY);
         this.btnStats.setTitleFontSize(24);
         this.btnStats.setTitleColor(COLOR_ICE);
@@ -1637,7 +1637,7 @@ const WorldLayer = cc.Layer.extend({
                 gameParams.alertCrisis = true;
                 
                 showMessageBoxOK(world, res.lang.crisis_title, 
-                    res.lang.crisis_message + crisis[cc.sys.localStorage.language].name + "!", "OK!", function() {
+                    res.lang.crisis_message + crisis[cc.sys.localStorage.language] + "!", "OK!", function() {
 
                     gameParams.state = GAME_STATES.STARTED;
 
@@ -2822,8 +2822,8 @@ const WorldLayer = cc.Layer.extend({
                     // Sort narratives by loss for comparison
                     const narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
                     const n = narratives[0];
-                    const index = Math.floor(Math.random() * n.messages.length);
-                    const message = n.messages[index];
+                    const index = Math.floor(Math.random() * n[cc.sys.localStorage.language].messages.length);
+                    const message = n[cc.sys.localStorage.language].messages[index];
                     gameOver(world, message, "OK");
 
                 }
@@ -2839,8 +2839,8 @@ const WorldLayer = cc.Layer.extend({
                         const n = narratives[i];
                         if (gameParams.totalLoss > n.loss) {
 
-                            const index = Math.floor(Math.random() * n.messages.length);
-                            message = n.messages[index];
+                            const index = Math.floor(Math.random() * n[cc.sys.localStorage.language].messages.length);
+                            message = n[cc.sys.localStorage.language].messages[index];
                             break;
 
                         }
@@ -3039,7 +3039,9 @@ const WorldLayer = cc.Layer.extend({
         let startCountry = antCountries[Math.floor(Math.random() * antCountries.length)];
 
         
-        let buttons = showMessageBoxOK(world, world.scenarioData.popup_1_title, world.scenarioData.popup_1_description, 
+        let buttons = showMessageBoxOK(world, 
+            world.scenarioData[cc.sys.localStorage.language].popup_1_title, 
+            world.scenarioData[cc.sys.localStorage.language].popup_1_description, 
             res.lang.start_tutorial[cc.sys.localStorage.language], (that) => {
 
                 gameParams.tutorialMode = true;
@@ -3053,7 +3055,7 @@ const WorldLayer = cc.Layer.extend({
                     res.lang.start_mission_a[cc.sys.localStorage.language]  + 
                     countryName + 
                     res.lang.start_mission_b[cc.sys.localStorage.language], 
-                    world.scenarioData.popup_2_title, 
+                    world.scenarioData[cc.sys.localStorage.language].popup_2_title, 
                     (that) => {
                     
                     beginSim();
@@ -3075,7 +3077,7 @@ const WorldLayer = cc.Layer.extend({
                     res.lang.start_mission_a[cc.sys.localStorage.language]  + 
                     countryName + 
                     res.lang.start_mission_b[cc.sys.localStorage.language], 
-                    world.scenarioData.popup_2_title, 
+                    world.scenarioData[cc.sys.localStorage.language].popup_2_title, 
                     (that) => {
 
                        beginSim();
@@ -3372,7 +3374,7 @@ const LoadingScene = cc.Scene.extend({
         btnPlay.setPressedActionEnabled(true);
         btnPlay.setScale9Enabled(true);
         btnPlay.loadTextures(res.button_white, res.button_grey, res.button_grey);
-        btnPlay.setTitleText("PLAY");
+        btnPlay.setTitleText(res.lang.commands_play[cc.sys.localStorage.language]);
         btnPlay.setTitleFontName(FONT_FACE_BODY);
         btnPlay.setTitleColor(COLOR_BLACK);
         btnPlay.setTitleFontSize(38);
@@ -3399,7 +3401,7 @@ const LoadingScene = cc.Scene.extend({
         btnLearnMore.setPressedActionEnabled(true);
         btnLearnMore.setScale9Enabled(true);
         btnLearnMore.loadTextures(res.button_white, res.button_grey, res.button_grey);
-        btnLearnMore.setTitleText("LEARN MORE");
+        btnLearnMore.setTitleText(res.lang.commands_learn_more[cc.sys.localStorage.language]);
         btnLearnMore.setTitleFontName(FONT_FACE_BODY);
         btnLearnMore.setTitleColor(COLOR_BLACK);
         btnLearnMore.setTitleFontSize(38);
@@ -4377,7 +4379,7 @@ const StatsLayer = cc.Layer.extend({
         this.yearLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.75));
         layoutWorld.addChild(this.yearLabel, 100);
 
-        this.yearDescriptionLabel = new cc.LabelTTF(res.lang.stats_loss_message_a[cc.sys.localStorage.language] + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + res.lang.stats_loss_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
+        this.yearDescriptionLabel = new cc.LabelTTF(res.lang.stats_year_message_a[cc.sys.localStorage.language] + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + res.lang.stats_year_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
         this.yearDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.yearDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.7));
         layoutWorld.addChild(this.yearDescriptionLabel, 100);
@@ -4405,7 +4407,7 @@ const StatsLayer = cc.Layer.extend({
         // Country view
         this.tableCountryLabel = new cc.LabelTTF(res.lang.stats_country[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
         this.tableLossLabel = new cc.LabelTTF(res.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
-        this.tablePreparednessLabel = new cc.LabelTTF(res.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
+        this.tablePreparednessLabel = new cc.LabelTTF(res.lang.stats_preparedness[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
         this.tableCountryLabel.setAnchorPoint(cc.p(0, 0));
         this.tableLossLabel.setAnchorPoint(cc.p(0, 0));
         this.tablePreparednessLabel.setAnchorPoint(cc.p(0, 0));

@@ -232,6 +232,30 @@ res.lang = {
     eng: "I agree to participate in this research project, and understand my gameplay data will be recorded anonymously.",
     esp: "Acepto participar en este proyecto de investigación y entiendo que mis datos de juego se registrarán de forma anónima."
   },
+  commands_play: {
+    eng: "PLAY",
+    esp: "JUEGA"
+  },
+  commands_learn_more: {
+    eng: "LEARN MORE",
+    esp: "APRENDA MÁS"
+  },
+  commands_policy: {
+    eng: "POLICY",
+    esp: "PÓLIZA"
+  },
+  commands_loss: {
+    eng: "Loss",
+    esp: "Pérdida"
+  },
+  commands_prepared: {
+    eng: "Prepared",
+    esp: "Preparado"
+  },
+  commands_stats: {
+    eng: "STATS",
+    esp: "ESTADÍSTICA"
+  },
   world_label: {
     eng: "World",
     esp: "Mundo"
