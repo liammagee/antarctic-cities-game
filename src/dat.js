@@ -1,12 +1,37 @@
 
-// Debug
-const FULLSCREEN = false;
+// Version
+const VERSION_ANTARCTIC_FUTURES = "Build: 1006";
 
 // LANGUAGES
 const LANGUAGES = ['eng', 'esp'];
 
-// Version
-const VERSION_ANTARCTIC_FUTURES = "Build: 1006";
+// UI Constants
+const FONT_FACE_TITLE = "ArvoFont";
+const FONT_FACE_BODY = "JosefinSansFont";
+
+const X_OFFSET = 0, Y_OFFSET = 50;
+const RESOURCE_SIZE_W = 64; 
+const RESOURCE_SIZE_H = 72; 
+const TAG_SPRITE_BATCH_NODE = 1;
+const FULLSCREEN = false;
+
+
+// Timing Constants
+const MONTH_INTERVAL = 10;
+const MONTH_INTERVAL_FF = MONTH_INTERVAL / 2;
+const RESOURCE_CHANCE = 0.1;
+const CRISIS_CHANCE = 0.05;
+const TUTORIAL_INTERVAL_MULTIPLIER = 6; 
+const RESOURCE_INTERVAL_MULTIPLIER = 10; 
+const CRISIS_INTERVAL_MULTIPLIER = 20; 
+const RESOURCE_DURATION = 300;
+const GAME_STATES = {
+    INITIALISED: 0,
+    PREPARED: 1,
+    STARTED: 2,
+    PAUSED: 3,
+    GAME_OVER: 5
+};
 
 // Colours
 const COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
@@ -26,6 +51,8 @@ const COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transpar
 const COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
 const COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
 const COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
+
+
 
 // RESOURCES
 const RESOURCES = {

@@ -1,28 +1,3 @@
-// Global constants
-//const VERSION_ANTARCTIC_FUTURES = "Build: 1005";
-
-const FONT_FACE_TITLE = "ArvoFont";
-const FONT_FACE_BODY = "JosefinSansFont";
-
-const X_OFFSET = 0, Y_OFFSET = 50;
-
-const MONTH_INTERVAL = 20;
-const RESOURCE_CHANCE = 0.1;
-const CRISIS_CHANCE = 0.05;
-const RESOURCE_SIZE_W = 64; 
-const RESOURCE_SIZE_H = 72; 
-const TAG_SPRITE_BATCH_NODE = 1;
-const TUTORIAL_INTERVAL_MULTIPLIER = 6; 
-const RESOURCE_INTERVAL_MULTIPLIER = 10; 
-const CRISIS_INTERVAL_MULTIPLIER = 20; 
-const RESOURCE_DURATION = 300;
-const GAME_STATES = {
-    INITIALISED: 0,
-    PREPARED: 1,
-    STARTED: 2,
-    PAUSED: 3,
-    GAME_OVER: 5
-};
 
 // Game variables
 let gameParams = {};
@@ -1095,7 +1070,7 @@ const WorldLayer = cc.Layer.extend({
             }
             else if (target == world.btnFF) {  // Fast Forward
 
-                updateTimeVars(MONTH_INTERVAL / 10);
+                updateTimeVars(MONTH_INTERVAL_FF);
                 gameParams.state = GAME_STATES.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
@@ -1451,7 +1426,7 @@ const WorldLayer = cc.Layer.extend({
         this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryLoss);
 
-        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 80);
+        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryLossProgressBase.setContentSize(cc.size(80, 10));
         this.countryLossProgressBase.setPosition(cc.p(400, Y_OFFSET / 2));
         this.countryLossProgressBase.setAnchorPoint(new cc.p(0,0.5));
@@ -1474,21 +1449,21 @@ const WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(684, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryAwarePrepared.setAnchorPoint(new cc.p(0,0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
-        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 80);
+        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryPreparedProgressBase.setContentSize(cc.size(80, 10));
-        this.countryPreparedProgressBase.setPosition(cc.p(730, Y_OFFSET / 2));
+        this.countryPreparedProgressBase.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgressBase.setAnchorPoint(new cc.p(0,0.5));
         this.countryPreparedProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryPreparedProgress.setColor(COLOR_POLICY_POINTS);
         this.countryPreparedProgress.setContentSize(cc.size(80, 10));
-        this.countryPreparedProgress.setPosition(cc.p(730, Y_OFFSET / 2));
+        this.countryPreparedProgress.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgress.setAnchorPoint(new cc.p(0,0.5));
         countryDetailLayout.addChild(this.countryPreparedProgressBase, 100);
         countryDetailLayout.addChild(this.countryPreparedProgress, 101);
@@ -2822,8 +2797,8 @@ const WorldLayer = cc.Layer.extend({
                     // Sort narratives by loss for comparison
                     const narratives = Object.values(NARRATIVES.n2070).sort((o1, o2) => {return o2.loss - o1.loss});
                     const n = narratives[0];
-                    const index = Math.floor(Math.random() * n[cc.sys.localStorage.language].messages.length);
-                    const message = n[cc.sys.localStorage.language].messages[index];
+                    const index = Math.floor(Math.random() * n[cc.sys.localStorage.language].length);
+                    const message = n[cc.sys.localStorage.language][index];
                     gameOver(world, message, "OK");
 
                 }
@@ -2839,8 +2814,8 @@ const WorldLayer = cc.Layer.extend({
                         const n = narratives[i];
                         if (gameParams.totalLoss > n.loss) {
 
-                            const index = Math.floor(Math.random() * n[cc.sys.localStorage.language].messages.length);
-                            message = n[cc.sys.localStorage.language].messages[index];
+                            const index = Math.floor(Math.random() * n[cc.sys.localStorage.language].length);
+                            message = n[cc.sys.localStorage.language][index];
                             break;
 
                         }

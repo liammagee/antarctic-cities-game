@@ -1,32 +1,5 @@
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-// Global constants
-//const VERSION_ANTARCTIC_FUTURES = "Build: 1005";
-
-var FONT_FACE_TITLE = "ArvoFont";
-var FONT_FACE_BODY = "JosefinSansFont";
-
-var X_OFFSET = 0,
-    Y_OFFSET = 50;
-
-var MONTH_INTERVAL = 20;
-var RESOURCE_CHANCE = 0.1;
-var CRISIS_CHANCE = 0.05;
-var RESOURCE_SIZE_W = 64;
-var RESOURCE_SIZE_H = 72;
-var TAG_SPRITE_BATCH_NODE = 1;
-var TUTORIAL_INTERVAL_MULTIPLIER = 6;
-var RESOURCE_INTERVAL_MULTIPLIER = 10;
-var CRISIS_INTERVAL_MULTIPLIER = 20;
-var RESOURCE_DURATION = 300;
-var GAME_STATES = {
-    INITIALISED: 0,
-    PREPARED: 1,
-    STARTED: 2,
-    PAUSED: 3,
-    GAME_OVER: 5
-};
-
 // Game variables
 var gameParams = {};
 var automateScripts = [];
@@ -1005,7 +978,7 @@ var WorldLayer = cc.Layer.extend({
             } else if (target == world.btnFF) {
                 // Fast Forward
 
-                updateTimeVars(MONTH_INTERVAL / 10);
+                updateTimeVars(MONTH_INTERVAL_FF);
                 gameParams.state = GAME_STATES.STARTED;
                 world.btnPause.enabled = true;
                 world.btnPlay.enabled = true;
@@ -1125,7 +1098,7 @@ var WorldLayer = cc.Layer.extend({
             var arr = Object.values(world.countries).filter(function (c) {
                 return c.gid == gid;
             });
-            if (arr.length == 0) return "continue";
+            if (arr.length == 0) return 'continue';
             var country = arr[0];
 
             var sprite = new cc.Sprite(l.tileset.sourceImage);
@@ -1147,7 +1120,7 @@ var WorldLayer = cc.Layer.extend({
         for (var i = 0; i < 168; i++) {
             var _ret = _loop(i);
 
-            if (_ret === "continue") continue;
+            if (_ret === 'continue') continue;
         }
 
         // TOP BAR  
@@ -1347,7 +1320,7 @@ var WorldLayer = cc.Layer.extend({
         this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryLoss);
 
-        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 80);
+        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryLossProgressBase.setContentSize(cc.size(80, 10));
         this.countryLossProgressBase.setPosition(cc.p(400, Y_OFFSET / 2));
         this.countryLossProgressBase.setAnchorPoint(new cc.p(0, 0.5));
@@ -1370,21 +1343,21 @@ var WorldLayer = cc.Layer.extend({
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, fontSize);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(684, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
         this.countryAwarePrepared.setAnchorPoint(new cc.p(0, 0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         countryDetailLayout.addChild(this.countryAwarePrepared);
 
-        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 80);
+        this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryPreparedProgressBase.setContentSize(cc.size(80, 10));
-        this.countryPreparedProgressBase.setPosition(cc.p(730, Y_OFFSET / 2));
+        this.countryPreparedProgressBase.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgressBase.setAnchorPoint(new cc.p(0, 0.5));
         this.countryPreparedProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryPreparedProgress.setColor(COLOR_POLICY_POINTS);
         this.countryPreparedProgress.setContentSize(cc.size(80, 10));
-        this.countryPreparedProgress.setPosition(cc.p(730, Y_OFFSET / 2));
+        this.countryPreparedProgress.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgress.setAnchorPoint(new cc.p(0, 0.5));
         countryDetailLayout.addChild(this.countryPreparedProgressBase, 100);
         countryDetailLayout.addChild(this.countryPreparedProgress, 101);
@@ -2346,7 +2319,7 @@ var WorldLayer = cc.Layer.extend({
                                     });
                                 });
                             });
-                            return "break";
+                            return 'break';
                         }
                     };
 
@@ -2354,7 +2327,7 @@ var WorldLayer = cc.Layer.extend({
                     for (var i = 0; i < gameParams.automateScript.policyEvents.length; i++) {
                         var _ret2 = _loop2(i);
 
-                        if (_ret2 === "break") break;
+                        if (_ret2 === 'break') break;
                     };
 
                     // Select crisis
@@ -2595,8 +2568,8 @@ var WorldLayer = cc.Layer.extend({
                         return o2.loss - o1.loss;
                     });
                     var _n = _narratives[0];
-                    var _index = Math.floor(Math.random() * _n[cc.sys.localStorage.language].messages.length);
-                    var _message2 = _n[cc.sys.localStorage.language].messages[_index];
+                    var _index = Math.floor(Math.random() * _n[cc.sys.localStorage.language].length);
+                    var _message2 = _n[cc.sys.localStorage.language][_index];
                     gameOver(world, _message2, "OK");
                 }
                 // else if (gameParams.currentDate.getFullYear() >= YEAR_TARGET) {
@@ -2613,8 +2586,8 @@ var WorldLayer = cc.Layer.extend({
                             var _n2 = _narratives2[_i5];
                             if (gameParams.totalLoss > _n2.loss) {
 
-                                var _index2 = Math.floor(Math.random() * _n2[cc.sys.localStorage.language].messages.length);
-                                _message3 = _n2[cc.sys.localStorage.language].messages[_index2];
+                                var _index2 = Math.floor(Math.random() * _n2[cc.sys.localStorage.language].length);
+                                _message3 = _n2[cc.sys.localStorage.language][_index2];
                                 break;
                             }
                         }

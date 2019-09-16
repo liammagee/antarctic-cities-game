@@ -1,12 +1,37 @@
 
-// Debug
-var FULLSCREEN = false;
+// Version
+var VERSION_ANTARCTIC_FUTURES = "Build: 1006";
 
 // LANGUAGES
 var LANGUAGES = ['eng', 'esp'];
 
-// Version
-var VERSION_ANTARCTIC_FUTURES = "Build: 1006";
+// UI Constants
+var FONT_FACE_TITLE = "ArvoFont";
+var FONT_FACE_BODY = "JosefinSansFont";
+
+var X_OFFSET = 0,
+    Y_OFFSET = 50;
+var RESOURCE_SIZE_W = 64;
+var RESOURCE_SIZE_H = 72;
+var TAG_SPRITE_BATCH_NODE = 1;
+var FULLSCREEN = false;
+
+// Timing Constants
+var MONTH_INTERVAL = 10;
+var MONTH_INTERVAL_FF = MONTH_INTERVAL / 2;
+var RESOURCE_CHANCE = 0.1;
+var CRISIS_CHANCE = 0.05;
+var TUTORIAL_INTERVAL_MULTIPLIER = 6;
+var RESOURCE_INTERVAL_MULTIPLIER = 10;
+var CRISIS_INTERVAL_MULTIPLIER = 20;
+var RESOURCE_DURATION = 300;
+var GAME_STATES = {
+    INITIALISED: 0,
+    PREPARED: 1,
+    STARTED: 2,
+    PAUSED: 3,
+    GAME_OVER: 5
+};
 
 // Colours
 var COLOR_LICORICE = new cc.Color(42, 54, 68, 255); // Dark Grey
@@ -26,6 +51,7 @@ var COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transparen
 var COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
 var COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
 var COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
+
 
 // RESOURCES
 var RESOURCES = {
