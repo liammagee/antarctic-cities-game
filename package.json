@@ -5,10 +5,10 @@
   "scripts": {
     "compile": "./node_modules/.bin/babel --presets es2015-without-strict,stage-0 -d .es5/ src/ && node devutils/project.js",
     "server": "$(which http-server) -o -p 8000 .",
+    "serve": "forever start \"$(which npm)\" run server",
     "server2": "node server.js",
     "watch": "onchange 'src/**/*.js' 'main.js' -- npm run compile",
-    "serve-dev": "concurrently --kill-others \"npm run server2\" \"npm run watch\"",
-    "serve": "forever start \"$(which npm)\" run server"
+    "serve-dev": "concurrently --kill-others \"npm run server2\" \"npm run watch\""
   },
   "author": "Liam Magee",
   "license": "MIT",

@@ -1,6 +1,6 @@
 
 // Version
-const VERSION_ANTARCTIC_FUTURES = "Build: 1006";
+const VERSION_ANTARCTIC_FUTURES = "Build: 1007";
 
 // LANGUAGES
 const LANGUAGES = ['eng', 'esp'];
