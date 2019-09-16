@@ -697,6 +697,7 @@ const loadDataSets = () => {
 const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, callback2) => {
 
     parent.pause(); 
+    gameParams.state = GAME_STATES.PAUSED;
 
     let winWidth = cc.winSize.width, 
         winHeight = cc.winSize.height;
@@ -801,6 +802,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     if (btn2 !== undefined)
         buttons.push(btn2);
 
+    
     return buttons;
 
 };
@@ -1390,7 +1392,7 @@ const WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnDevelopPolicy.setTouchEnabled(true);
         this.btnDevelopPolicy.setSwallowTouches(false);
-        this.btnDevelopPolicy.setTitleText(res.lang.commands_policy[cc.sys.localStorage.language]);
+        this.btnDevelopPolicy.setTitleText(gd.lang.commands_policy[cc.sys.localStorage.language]);
         this.btnDevelopPolicy.setTitleFontName(FONT_FACE_BODY);
         this.btnDevelopPolicy.setTitleFontSize(24);
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
@@ -1416,7 +1418,7 @@ const WorldLayer = cc.Layer.extend({
         this.countryLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(this.countryLabel);
 
-        const lossLabel = new cc.LabelTTF(res.lang.commands_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, fontSize);
+        const lossLabel = new cc.LabelTTF(gd.lang.commands_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, fontSize);
         lossLabel.setContentSize(cc.size(50, Y_OFFSET));
         lossLabel.setPosition(cc.p(280, labelOffsetY));
         lossLabel.setColor(COLOR_ICE);
@@ -1445,7 +1447,7 @@ const WorldLayer = cc.Layer.extend({
         countryDetailLayout.addChild(this.countryLossProgressBase, 100);
         countryDetailLayout.addChild(this.countryLossProgress, 101);
 
-        const preparednessLabel = new cc.LabelTTF(res.lang.commands_prepared[cc.sys.localStorage.language], FONT_FACE_TITLE, fontSize);
+        const preparednessLabel = new cc.LabelTTF(gd.lang.commands_prepared[cc.sys.localStorage.language], FONT_FACE_TITLE, fontSize);
         preparednessLabel.setContentSize(cc.size(100, Y_OFFSET));
         preparednessLabel.setPosition(cc.p(570, labelOffsetY));
         preparednessLabel.setColor(COLOR_ICE);
@@ -1479,7 +1481,7 @@ const WorldLayer = cc.Layer.extend({
         this.btnStats = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnStats.setTouchEnabled(true);
         this.btnStats.setSwallowTouches(false);
-        this.btnStats.setTitleText(res.lang.commands_stats[cc.sys.localStorage.language]);
+        this.btnStats.setTitleText(gd.lang.commands_stats[cc.sys.localStorage.language]);
         this.btnStats.setTitleFontName(FONT_FACE_BODY);
         this.btnStats.setTitleFontSize(24);
         this.btnStats.setTitleColor(COLOR_ICE);
@@ -1567,6 +1569,10 @@ const WorldLayer = cc.Layer.extend({
         
         const processResourceSelection = (target) => {
             
+            // Do nothing if game is paused
+            if (gameParams.state = GAME_STATES.PAUSED)
+                return;
+
             const res = Math.floor(1 + Math.random() * 3);
 
             gameParams.resources += res;
@@ -1596,6 +1602,10 @@ const WorldLayer = cc.Layer.extend({
 
         const processCrisisSelection = (target) => {
 
+            // Do nothing if game is paused
+            if (gameParams.state = GAME_STATES.PAUSED)
+                return;
+
             gameParams.crisisCountry = null;
             let crisis = null;
 
@@ -1618,8 +1628,9 @@ const WorldLayer = cc.Layer.extend({
                 gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
                 
-                showMessageBoxOK(world, res.lang.crisis_title, 
-                    res.lang.crisis_message + crisis[cc.sys.localStorage.language] + "!", "OK!", function() {
+                showMessageBoxOK(world, 
+                    gd.lang.crisis_title, 
+                    gd.lang.crisis_message + crisis[cc.sys.localStorage.language] + "!", "OK!", function() {
 
                     gameParams.state = GAME_STATES.STARTED;
 
@@ -1664,7 +1675,7 @@ const WorldLayer = cc.Layer.extend({
          */
         const printWorldStats = () => {
 
-            world.countryLabel.setString(res.lang.world_label[cc.sys.localStorage.language]);
+            world.countryLabel.setString(gd.lang.world_label[cc.sys.localStorage.language]);
 
             const lossPercent = Math.round(gameParams.totalLoss);
             const preparedPercent = Math.round(gameParams.populationPreparedPercent);
@@ -1974,9 +1985,9 @@ const WorldLayer = cc.Layer.extend({
                 world.worldBackground.addChild(btnCrisis, 101);
 
                 // After the third crisis, add notifications to the news feed
-                let message = res.lang.crisis_prefix[cc.sys.localStorage.language] + 
+                let message = gd.lang.crisis_prefix[cc.sys.localStorage.language] + 
                                 crisis[cc.sys.localStorage.language] + 
-                                res.lang.crisis_suffix[cc.sys.localStorage.language] + 
+                                gd.lang.crisis_suffix[cc.sys.localStorage.language] + 
                                 country.name + "."; 
                 
                 // btnCrisis.setTitleColor(COLOR_LICORICE);
@@ -1985,9 +1996,9 @@ const WorldLayer = cc.Layer.extend({
                 if (gameParams.crisisCount < 4) {
 
                     gameParams.state = GAME_STATES.PAUSED;
-                    message += res.lang.crisis_explanation[cc.sys.localStorage.language];
+                    message += gd.lang.crisis_explanation[cc.sys.localStorage.language];
 
-                    let buttons = showMessageBoxOK(world, res.lang.crisis_alert[cc.sys.localStorage.language], message, "OK!", function(that) {
+                    let buttons = showMessageBoxOK(world, gd.lang.crisis_alert[cc.sys.localStorage.language], message, "OK!", function(that) {
 
                         gameParams.state = GAME_STATES.STARTED;
 
@@ -2604,7 +2615,7 @@ const WorldLayer = cc.Layer.extend({
                             
                             gameParams.state = GAME_STATES.PAUSED;
                             let buttons = showMessageBoxOK(world, 
-                                res.lang.bulletin[cc.sys.localStorage.language] + currentYear, 
+                                gd.lang.bulletin[cc.sys.localStorage.language] + currentYear, 
                                 message, "OK", function() {
                                     gameParams.state = GAME_STATES.STARTED;
                                 });
@@ -3046,7 +3057,7 @@ const WorldLayer = cc.Layer.extend({
         let buttons = showMessageBoxOK(world, 
             world.scenarioData[cc.sys.localStorage.language].popup_1_title, 
             world.scenarioData[cc.sys.localStorage.language].popup_1_description, 
-            res.lang.start_tutorial[cc.sys.localStorage.language], (that) => {
+            gd.lang.start_tutorial[cc.sys.localStorage.language], (that) => {
 
                 gameParams.tutorialMode = true;
                 gameParams.startCountry = startCountry;
@@ -3055,10 +3066,10 @@ const WorldLayer = cc.Layer.extend({
                 gameParams.currentCountry = startCountry;
                 const countryName = world.countries[gameParams.startCountry].name;
                 nestedButtons = showMessageBoxOK(world, 
-                    res.lang.start_prepare[cc.sys.localStorage.language], 
-                    res.lang.start_mission_a[cc.sys.localStorage.language]  + 
+                    gd.lang.start_prepare[cc.sys.localStorage.language], 
+                    gd.lang.start_mission_a[cc.sys.localStorage.language]  + 
                     countryName + 
-                    res.lang.start_mission_b[cc.sys.localStorage.language], 
+                    gd.lang.start_mission_b[cc.sys.localStorage.language], 
                     world.scenarioData[cc.sys.localStorage.language].popup_2_title, 
                     (that) => {
                     
@@ -3067,7 +3078,7 @@ const WorldLayer = cc.Layer.extend({
                 });
 
             },
-            res.lang.start_prepare[cc.sys.localStorage.language], (that) => {
+            gd.lang.start_prepare[cc.sys.localStorage.language], (that) => {
 
                 gameParams.tutorialMode = false;
                 gameParams.startCountry = startCountry;
@@ -3077,10 +3088,10 @@ const WorldLayer = cc.Layer.extend({
                 const countryName = world.countries[gameParams.startCountry].name;
 
                 nestedButtons = showMessageBoxOK(world, 
-                    res.lang.start_prepare[cc.sys.localStorage.language], 
-                    res.lang.start_mission_a[cc.sys.localStorage.language]  + 
+                    gd.lang.start_prepare[cc.sys.localStorage.language], 
+                    gd.lang.start_mission_a[cc.sys.localStorage.language]  + 
                     countryName + 
-                    res.lang.start_mission_b[cc.sys.localStorage.language], 
+                    gd.lang.start_mission_b[cc.sys.localStorage.language], 
                     world.scenarioData[cc.sys.localStorage.language].popup_2_title, 
                     (that) => {
 
@@ -3133,8 +3144,8 @@ const WorldScene = cc.Scene.extend({
         const scene = this;
         
         // EAGER LOADING - LACKS CUSTOMISATION
-        scenarioData = res.scenarioData;
-        automateScripts = res.automateScripts;
+        scenarioData = gd.scenarioData;
+        automateScripts = gd.automateScripts;
 
         const layer = new WorldLayer(scenarioData, scene.automateID);
         scene.addChild(layer);
@@ -3367,14 +3378,14 @@ const LoadingScene = cc.Scene.extend({
         antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
         layer.addChild(antarcticaSprite, 101);
        
-        const lblWelcome = new ccui.Text(res.lang.welcome[cc.sys.localStorage.language], FONT_FACE_BODY, 36);
+        const lblWelcome = new ccui.Text(gd.lang.welcome[cc.sys.localStorage.language], FONT_FACE_BODY, 36);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5,0.5));
         lblWelcome.setPosition(cc.p(size.width / 2, 5 * size.height / 8));
         layer.addChild(lblWelcome, 101);
 
         // const lblAbout = new ccui.Text("This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.", FONT_FACE_BODY, 20);
-        const lblAbout = new ccui.Text(res.lang.about_game[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
+        const lblAbout = new ccui.Text(gd.lang.about_game[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
         lblAbout.setAnchorPoint(cc.p(0.0,1.0));
         lblAbout.ignoreContentAdaptWithSize(false);
         lblAbout.setPosition(cc.p(1 * size.width / 8, 4 * size.height / 8));
@@ -3388,7 +3399,7 @@ const LoadingScene = cc.Scene.extend({
         btnPlay.setPressedActionEnabled(true);
         btnPlay.setScale9Enabled(true);
         btnPlay.loadTextures(res.button_white, res.button_grey, res.button_grey);
-        btnPlay.setTitleText(res.lang.commands_play[cc.sys.localStorage.language]);
+        btnPlay.setTitleText(gd.lang.commands_play[cc.sys.localStorage.language]);
         btnPlay.setTitleFontName(FONT_FACE_BODY);
         btnPlay.setTitleColor(COLOR_BLACK);
         btnPlay.setTitleFontSize(38);
@@ -3415,7 +3426,7 @@ const LoadingScene = cc.Scene.extend({
         btnLearnMore.setPressedActionEnabled(true);
         btnLearnMore.setScale9Enabled(true);
         btnLearnMore.loadTextures(res.button_white, res.button_grey, res.button_grey);
-        btnLearnMore.setTitleText(res.lang.commands_learn_more[cc.sys.localStorage.language]);
+        btnLearnMore.setTitleText(gd.lang.commands_learn_more[cc.sys.localStorage.language]);
         btnLearnMore.setTitleFontName(FONT_FACE_BODY);
         btnLearnMore.setTitleColor(COLOR_BLACK);
         btnLearnMore.setTitleFontSize(38);
@@ -3457,7 +3468,7 @@ const LoadingScene = cc.Scene.extend({
         chbAgree.setSelected(cc.sys.localStorage.content === "true");
         chbAgree.addEventListener(selectedStateEvent, this);
 
-        const lblAgreeTerms = new ccui.Text(res.lang.consent[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
+        const lblAgreeTerms = new ccui.Text(gd.lang.consent[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
         lblAgreeTerms.ignoreContentAdaptWithSize(false);
         lblAgreeTerms.setPosition(cc.p(40 + 1 * size.width / 8, 3 * size.height / 8));
         lblAgreeTerms.setAnchorPoint(cc.p(0.0,1.0));
@@ -3811,7 +3822,7 @@ const DesignPolicyLayer = cc.Layer.extend({
         layer.addChild(layerBackground, 1);
 
 
-        const heading = new ccui.Text(res.lang.policy_platform_title[cc.sys.localStorage.language], FONT_FACE_BODY, 38);
+        const heading = new ccui.Text(gd.lang.policy_platform_title[cc.sys.localStorage.language], FONT_FACE_BODY, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
@@ -3847,7 +3858,7 @@ const DesignPolicyLayer = cc.Layer.extend({
         policyLabel.setPosition(cc.p(20, 310));
         policyDetailsBackground.addChild(policyLabel);
 
-        const policyGeneralLabel = res.lang.policy_platform_hint[cc.sys.localStorage.language];
+        const policyGeneralLabel = gd.lang.policy_platform_hint[cc.sys.localStorage.language];
         const policyDescription = new ccui.Text("", FONT_FACE_BODY, 24);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
@@ -3873,7 +3884,7 @@ const DesignPolicyLayer = cc.Layer.extend({
         btnPolicyInvest.setTitleFontSize(24);
         btnPolicyInvest.setTitleColor(COLOR_BLACK);
         btnPolicyInvest.setTitleFontName(FONT_FACE_BODY);
-        btnPolicyInvest.setTitleText(res.lang.policy_platform_invest[cc.sys.localStorage.language]);
+        btnPolicyInvest.setTitleText(gd.lang.policy_platform_invest[cc.sys.localStorage.language]);
         
         // For automation
         layer.investButton = btnPolicyInvest;
@@ -3967,27 +3978,27 @@ const DesignPolicyLayer = cc.Layer.extend({
             }
 
             let newCost = costCalculation(policySelected);
-            policyCostLabel.setString(res.lang.policy_platform_cost[cc.sys.localStorage.language] + newCost.toString());
+            policyCostLabel.setString(gd.lang.policy_platform_cost[cc.sys.localStorage.language] + newCost.toString());
 
             if (gameParams.policies[policySelected.id] == 3) {
 
                 btnPolicyInvest.setBright(false);
                 btnPolicyInvest.setEnabled(false);
-                btnPolicyInvest.setTitleText(res.lang.policy_platform_completed[cc.sys.localStorage.language]);
+                btnPolicyInvest.setTitleText(gd.lang.policy_platform_completed[cc.sys.localStorage.language]);
 
             }
             else if (cost < gameParams.resources) {
 
                 btnPolicyInvest.setBright(true);
                 btnPolicyInvest.setEnabled(true);
-                btnPolicyInvest.setTitleText(res.lang.policy_platform_invest[cc.sys.localStorage.language]);
+                btnPolicyInvest.setTitleText(gd.lang.policy_platform_invest[cc.sys.localStorage.language]);
 
             }
             else {
 
                 btnPolicyInvest.setBright(false);
                 btnPolicyInvest.setEnabled(false);
-                btnPolicyInvest.setTitleText(res.lang.policy_platform_more_resources[cc.sys.localStorage.language]);
+                btnPolicyInvest.setTitleText(gd.lang.policy_platform_more_resources[cc.sys.localStorage.language]);
 
             }
 
@@ -4122,27 +4133,27 @@ const DesignPolicyLayer = cc.Layer.extend({
                     policyDescription.setString(policySelected[cc.sys.localStorage.language].description);
                     
                     const cost = costCalculation(policySelected);
-                    policyCostLabel.setString(res.lang.policy_platform_cost[cc.sys.localStorage.language] + cost.toString());
+                    policyCostLabel.setString(gd.lang.policy_platform_cost[cc.sys.localStorage.language] + cost.toString());
 
                     if (gameParams.policies[opt.id] == 3) {
 
                         btnPolicyInvest.setBright(false);
                         btnPolicyInvest.setEnabled(false);
-                        btnPolicyInvest.setTitleText(res.lang.policy_platform_completed[cc.sys.localStorage.language]);
+                        btnPolicyInvest.setTitleText(gd.lang.policy_platform_completed[cc.sys.localStorage.language]);
 
                     }
                     else if (cost < gameParams.resources) {
 
                         btnPolicyInvest.setBright(true);
                         btnPolicyInvest.setEnabled(true);
-                        btnPolicyInvest.setTitleText(res.lang.policy_platform_invest[cc.sys.localStorage.language]);
+                        btnPolicyInvest.setTitleText(gd.lang.policy_platform_invest[cc.sys.localStorage.language]);
 
                     }
                     else {
 
                         btnPolicyInvest.setBright(false);
                         btnPolicyInvest.setEnabled(false);
-                        btnPolicyInvest.setTitleText(res.lang.policy_platform_more_resources[cc.sys.localStorage.language]);
+                        btnPolicyInvest.setTitleText(gd.lang.policy_platform_more_resources[cc.sys.localStorage.language]);
 
                     }
 
@@ -4267,7 +4278,7 @@ const StatsLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        const heading = new ccui.Text(res.lang.stats_track[cc.sys.localStorage.language], FONT_FACE_BODY, 38);
+        const heading = new ccui.Text(gd.lang.stats_track[cc.sys.localStorage.language], FONT_FACE_BODY, 38);
         heading.attr({x: size.width * 0.5, y: size.height * 0.9});
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
@@ -4361,9 +4372,9 @@ const StatsLayer = cc.Layer.extend({
 
         };
 
-        makeButton(res.lang.stats_world[cc.sys.localStorage.language], cc.p(300, 80), 0);
-        makeButton(res.lang.stats_countries[cc.sys.localStorage.language], cc.p(600, 80), 1);
-        makeButton(res.lang.stats_trends[cc.sys.localStorage.language], cc.p(900, 80), 2);
+        makeButton(gd.lang.stats_world[cc.sys.localStorage.language], cc.p(300, 80), 0);
+        makeButton(gd.lang.stats_countries[cc.sys.localStorage.language], cc.p(600, 80), 1);
+        makeButton(gd.lang.stats_trends[cc.sys.localStorage.language], cc.p(900, 80), 2);
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
@@ -4388,40 +4399,40 @@ const StatsLayer = cc.Layer.extend({
 
         // FOR THE WORLD STATISTICS PAGE
 
-        this.yearLabel = new cc.LabelTTF(res.lang.stats_year[cc.sys.localStorage.language] + gameParams.currentDate.getFullYear(), FONT_FACE_TITLE, 30);
+        this.yearLabel = new cc.LabelTTF(gd.lang.stats_year[cc.sys.localStorage.language] + gameParams.currentDate.getFullYear(), FONT_FACE_TITLE, 30);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.75));
         layoutWorld.addChild(this.yearLabel, 100);
 
-        this.yearDescriptionLabel = new cc.LabelTTF(res.lang.stats_year_message_a[cc.sys.localStorage.language] + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + res.lang.stats_year_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
+        this.yearDescriptionLabel = new cc.LabelTTF(gd.lang.stats_year_message_a[cc.sys.localStorage.language] + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + gd.lang.stats_year_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
         this.yearDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.yearDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.7));
         layoutWorld.addChild(this.yearDescriptionLabel, 100);
 
-        this.destructionLabel = new cc.LabelTTF(res.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 30);
+        this.destructionLabel = new cc.LabelTTF(gd.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 30);
         this.destructionLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.55));
         layoutWorld.addChild(this.destructionLabel, 100);
 
-        this.destructionDescriptionLabel = new cc.LabelTTF(res.lang.stats_loss_message_a[cc.sys.localStorage.language] + gameParams.startDate.getFullYear() + res.lang.stats_loss_message_b[cc.sys.localStorage.language] + makeString(gameParams.totalLoss) + "." , FONT_FACE_BODY, 20);
+        this.destructionDescriptionLabel = new cc.LabelTTF(gd.lang.stats_loss_message_a[cc.sys.localStorage.language] + gameParams.startDate.getFullYear() + gd.lang.stats_loss_message_b[cc.sys.localStorage.language] + makeString(gameParams.totalLoss) + "." , FONT_FACE_BODY, 20);
         this.destructionDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.5));
         layoutWorld.addChild(this.destructionDescriptionLabel, 100);
         
-        this.policyLabel = new cc.LabelTTF(res.lang.stats_preparedness[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + " / " + Math.round(gameParams.populationPrepared / 1000000) + "M", FONT_FACE_TITLE, 30);
+        this.policyLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + " / " + Math.round(gameParams.populationPrepared / 1000000) + "M", FONT_FACE_TITLE, 30);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
         this.policyLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.35));
         layoutWorld.addChild(this.policyLabel, 100);
         
-        this.policyDescriptionLabel = new cc.LabelTTF(res.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + res.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
+        this.policyDescriptionLabel = new cc.LabelTTF(gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
         this.policyDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
         layoutWorld.addChild(this.policyDescriptionLabel, 100);
 
         // Country view
-        this.tableCountryLabel = new cc.LabelTTF(res.lang.stats_country[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
-        this.tableLossLabel = new cc.LabelTTF(res.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
-        this.tablePreparednessLabel = new cc.LabelTTF(res.lang.stats_preparedness[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
+        this.tableCountryLabel = new cc.LabelTTF(gd.lang.stats_country[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
+        this.tableLossLabel = new cc.LabelTTF(gd.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
+        this.tablePreparednessLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language], FONT_FACE_TITLE, 24);
         this.tableCountryLabel.setAnchorPoint(cc.p(0, 0));
         this.tableLossLabel.setAnchorPoint(cc.p(0, 0));
         this.tablePreparednessLabel.setAnchorPoint(cc.p(0, 0));

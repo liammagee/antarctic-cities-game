@@ -2,6 +2,9 @@
 // Version
 var VERSION_ANTARCTIC_FUTURES = "Build: 1007";
 
+// Game data
+var gd = {};
+
 // LANGUAGES
 var LANGUAGES = ['eng', 'esp'];
 
@@ -890,7 +893,7 @@ var NARRATIVES = {
     }
 };
 
-res.lang = {
+gd.lang = {
     welcome: {
         eng: "Welcome to Antarctic Futures!",
         esp: "¡Bienvenido a Futuros Antárcticos!"
@@ -1061,7 +1064,7 @@ res.lang = {
     }
 };
 
-res.scenarioData = {
+gd.scenarioData = {
     "version": "1.0",
     "eng": {
         "name": "Scenario: 'Choosing the future of Antarctica'",
@@ -1165,7 +1168,7 @@ res.scenarioData = {
     }
 };
 
-res.automateScripts = [{
+gd.automateScripts = [{
     "name": "Green Growth",
     "resourcesProb": 0.8,
     "crisisDuration": 10,
