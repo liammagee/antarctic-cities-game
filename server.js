@@ -17,7 +17,7 @@ app.post('/game_data', (req, res) => {
     res.send('Thanks for the data!')
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Antarctic Futures app listening on port ${port}!`))
 
 process.on('exit', function () {
     stream.end();

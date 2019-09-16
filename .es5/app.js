@@ -448,6 +448,8 @@ var initGameParams = function initGameParams(scenarioData) {
 
     gameParams = {};
     gameParams.level = cc.sys.localStorage.level;
+    gameParams.difficultyMultiplier = 1.0;
+    if (gameParams.level === "Medium") gameParams.difficultyMultiplier = 2.0;else if (gameParams.level === "Hard") gameParams.difficultyMultiplier = 3.0;
     gameParams.language = cc.sys.localStorage.language;
     gameParams.state = GAME_STATES.INITIALISED;
     gameParams.modal = false;
@@ -856,7 +858,8 @@ var gameOver = function gameOver(parent, message, prompt) {
         world.tweetLabel.attr({ x: world.tweetBackground.width / 2, width: world.tweetBackground.width });
         world.tweetAlertLabel.attr({ x: world.tweetLabel.x });
 
-        cc.director.runScene(new LoadingScene());
+        cc.director.runScene(new SelectOptionsScene());
+        //cc.director.runScene(new LoadingScene());
     });
 
     menu.addChild(btnOK);
@@ -955,7 +958,8 @@ var WorldLayer = cc.Layer.extend({
                     postResultsToServer();
 
                     gameParams.state = GAME_STATES.GAME_OVER;
-                    cc.director.runScene(new LoadingScene());
+                    // cc.director.runScene(new LoadingScene());
+                    cc.director.runScene(new SelectOptionsScene());
                 }, "RETURN TO GAME", function () {
 
                     gameParams.state = GAME_STATES.STARTED;
@@ -1825,7 +1829,7 @@ var WorldLayer = cc.Layer.extend({
                 world.worldBackground.addChild(btnCrisis, 101);
 
                 // After the third crisis, add notifications to the news feed
-                var message = res.lang.crisis_prefix[cc.sys.localStorage.language] + crisis.name + res.lang.crisis_suffix[cc.sys.localStorage.language] + country.name + ".";
+                var message = res.lang.crisis_prefix[cc.sys.localStorage.language] + crisis[cc.sys.localStorage.language] + res.lang.crisis_suffix[cc.sys.localStorage.language] + country.name + ".";
 
                 // btnCrisis.setTitleColor(COLOR_LICORICE);
                 // btnCrisis.setTitleText(crisis.name);
@@ -2481,19 +2485,37 @@ var WorldLayer = cc.Layer.extend({
                     addCrisis();
                 }
 
+                var adjustEffect = function adjustEffect(effect) {
+
+                    // Effect must be positive
+                    effect += 1.000001;
+                    // Invert effect
+                    effect = 1.0 / effect;
+                    // Multiply by difficulty
+                    if (effect > 1.0) effect = Math.pow(effect, gameParams.difficultyMultiplier);else effect = Math.pow(effect, 1.0 / gameParams.difficultyMultiplier);
+
+                    return effect;
+                };
+
                 var ri = gameParams.resourceInterval;
                 gameParams.crises.forEach(function (crisisInCountry) {
 
                     var crisis = CRISES[crisisInCountry.crisis];
+                    var crisisEffect = crisis.effect_on_resources;
                     var country = world.countries[crisisInCountry.country];
-                    ri /= 1 + crisis.effect_on_resources;
+                    // Add country-specific effects here
+                    // ...
+
+                    // Add to overall effect
+                    ri *= adjustEffect(crisisEffect);
                 });
 
                 Object.keys(gameParams.policies).forEach(function (policyID) {
 
                     var policy = gameParams.policyOptions[policyID];
                     var policyLevel = gameParams.policies[policyID];
-                    ri /= 1 + policy.effect_on_resources * Math.log(policyLevel + 1.718);
+
+                    ri *= adjustEffect(policy.effect_on_resources * Math.log(policyLevel + 1.718));
                 });
 
                 // Check enough time has elapsed to generate a new resource with some probability (1 / RESOURCE_CHANCE)
