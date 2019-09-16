@@ -1064,7 +1064,7 @@ res.lang = {
 res.scenarioData = {
     "version": "1.0",
     "eng": {
-        "name": "Nature Scenario",
+        "name": "Scenario: 'Choosing the future of Antarctica'",
         "description": "Obtained from Rintoul et al. (2018), 'Choosing the future of Antarctica', Nature, 558, 233-241",
         "icon": "",
         "feedback_email": "",
@@ -1082,7 +1082,7 @@ res.scenarioData = {
 
     },
     "esp": {
-        "name": "Escenario de la naturaleza",
+        "name": "Escenario: 'Choosing the future of Antarctica'",
         "description": "Obtenido de Rintoul et al. (2018), 'Choosing the future of Antarctica', Nature, 558, 233-241",
         "icon": "",
         "feedback_email": "",
