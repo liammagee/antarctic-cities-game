@@ -1570,7 +1570,7 @@ const WorldLayer = cc.Layer.extend({
         const processResourceSelection = (target) => {
             
             // Do nothing if game is paused
-            if (gameParams.state = GAME_STATES.PAUSED)
+            if (gameParams.state === GAME_STATES.PAUSED)
                 return;
 
             const res = Math.floor(1 + Math.random() * 3);
@@ -1603,7 +1603,7 @@ const WorldLayer = cc.Layer.extend({
         const processCrisisSelection = (target) => {
 
             // Do nothing if game is paused
-            if (gameParams.state = GAME_STATES.PAUSED)
+            if (gameParams.state === GAME_STATES.PAUSED)
                 return;
 
             gameParams.crisisCountry = null;

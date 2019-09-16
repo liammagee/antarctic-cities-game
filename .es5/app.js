@@ -1455,7 +1455,7 @@ var WorldLayer = cc.Layer.extend({
         var processResourceSelection = function processResourceSelection(target) {
 
             // Do nothing if game is paused
-            if (gameParams.state = GAME_STATES.PAUSED) return;
+            if (gameParams.state === GAME_STATES.PAUSED) return;
 
             var res = Math.floor(1 + Math.random() * 3);
 
@@ -1483,7 +1483,7 @@ var WorldLayer = cc.Layer.extend({
         var processCrisisSelection = function processCrisisSelection(target) {
 
             // Do nothing if game is paused
-            if (gameParams.state = GAME_STATES.PAUSED) return;
+            if (gameParams.state === GAME_STATES.PAUSED) return;
 
             gameParams.crisisCountry = null;
             var crisis = null;
