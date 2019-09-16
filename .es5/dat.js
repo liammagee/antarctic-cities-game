@@ -61,7 +61,7 @@ var RESOURCES = {
             name: "Economy"
         },
         esp: {
-            labelText: "Diseñe su póliza económica",
+            labelText: "Diseñe su pólitica económica",
             name: "Economía"
         },
         policyOptions: [{
@@ -228,7 +228,7 @@ var RESOURCES = {
             name: "Politics"
         },
         esp: {
-            labelText: "Diseñe su póliza política",
+            labelText: "Diseñe su pólitica política",
             name: "Política"
         },
         policyOptions: [{
@@ -395,7 +395,7 @@ var RESOURCES = {
             name: "Culture"
         },
         esp: {
-            labelText: "Diseñe su póliza cultural",
+            labelText: "Diseñe su pólitica cultural",
             name: "Cultura"
         },
         policyOptions: [{
@@ -562,7 +562,7 @@ var RESOURCES = {
             name: "Ecology"
         },
         esp: {
-            labelText: "Diseñe su póliza ecológica",
+            labelText: "Diseñe su pólitica ecológica",
             name: "Ecología"
         },
         policyOptions: [{

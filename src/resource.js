@@ -315,19 +315,19 @@ res.lang = {
   },
   policy_platform_hint: {
     eng: "<<< Select one of these policies to invest in it!",
-    esp: "<<< ¡Seleccione una de estas pólizas para invertir en ella!"
+    esp: "<<< ¡Seleccione una de estas póliticas para invertir en ella!"
   },
   policy_platform_cost: {
     eng: "Cost: ",
     esp: "Costo: "
   },
   policy_platform_invest: {
-    eng: "Invierta en esta política",
-    esp: "Policy completed!"
+    eng: "Invest in this policy",
+    esp: "Invierta en esta política"
   },
   policy_platform_completed: {
     eng: "Policy completed!",
-    esp: "¡Póliza completa!"
+    esp: "¡Pólitica completa!"
   },
   policy_platform_more_resources: {
     eng: "You need more resources!",
@@ -379,7 +379,7 @@ res.lang = {
   },
   stats_preparedness_message_a: {
     eng: "Thanks to your policy platform, ",
-    esp: "Gracias a su plataforma de pólizas, "
+    esp: "Gracias a su plataforma de póliticas, "
   },
   stats_preparedness_message_b: {
     eng: " of the world is now more ready to take action against climate change. ",
