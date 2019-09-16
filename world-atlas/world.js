@@ -167,6 +167,9 @@ var writeProj = function(proj, file) {
     if (col > 255)
       col = 255;
     context.fillStyle = '#' + col.toString(16)  + 'AA00';
+    if (props.ISO_A3 == "ATA") {
+      context.fillStyle = "#FFFFFF";
+    }
     context.beginPath();
     path(tracts.features[index]);
     context.fill();
@@ -269,6 +272,9 @@ var writeProj = function(proj, file) {
       if (col > 255)
         col = 255;
       context.fillStyle = '#' + col.toString(16)  + 'AA00';
+      if (props.ISO_A3 == "ATA") {
+        context.fillStyle = "#FFFFFF";
+      }
 
       var canvasCountry = new Canvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
       // var canvasCountry = new Canvas(width / 2, height / 2);
@@ -295,6 +301,9 @@ var writeProj = function(proj, file) {
       // contextCountry.fillStyle = '#F00';
       // contextCountry.fillStyle = COUNTRY_GREY;
       contextCountry.fillStyle = '#' + col.toString(16)  + 'AA00';
+      if (props.ISO_A3 == "ATA") {
+        contextCountry.fillStyle = "#FFFFFF";
+      }
 
       contextCountry.beginPath();
       pathCountry(tracts.features[i]);
@@ -549,7 +558,7 @@ for (var i in res) {
   // Graticule
   var graticule = d3.geoGraticule();
   context.beginPath();
-  context.lineWidth = 1.0;
+  context.lineWidth = 0.5;
   context.strokeStyle = '#ccc';
   path(graticule());
   context.stroke();

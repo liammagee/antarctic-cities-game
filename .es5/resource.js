@@ -222,15 +222,15 @@ for (var i in res) {
 res.lang = {
   welcome: {
     eng: "Welcome to Antarctic Futures!",
-    esp: "¡Bienvenido a Antarctic Futures!"
+    esp: "¡Bienvenido a Futuros Antárcticos!"
   },
   about_game: {
     eng: "This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.",
-    esp: "Este juego se desarrolla como parte de un proyecto de investigación,'Ciudades Antárticas y el Patrimonio Mundial'. Como parte de nuestra investigación, recopilamos su dirección IP, así como datos anónimos durante el juego. Para obtener más información, haga clic en el botón'Learn More' de abajo."
+    esp: "Este juego forma parte del proyecto de investigación “Ciudades Antárticas y Bienes Comunes Globales”. Como parte de nuestra investigación recopilamos tu dirección de IP así como algunos datos anónimos de la sesión de juego."
   },
   consent: {
     eng: "I agree to participate in this research project, and understand my gameplay data will be recorded anonymously.",
-    esp: "Acepto participar en este proyecto de investigación y entiendo que mis datos de juego se registrarán de forma anónima."
+    esp: "Acepto participar de este proyecto de investigación y entiendo que los datos de mi sesión de juego serán recopilados de forma anónima."
   },
   commands_play: {
     eng: "PLAY",
@@ -242,7 +242,7 @@ res.lang = {
   },
   commands_policy: {
     eng: "POLICY",
-    esp: "PÓLIZA"
+    esp: "PÓLITICA"
   },
   commands_loss: {
     eng: "Loss",
@@ -270,11 +270,11 @@ res.lang = {
   },
   crisis_explanation: {
     eng: " Crises are unexpected events due to environmental loss. Click on the crisis icon to slow the loss and increase the preparedness of the country to minimise the risk of further crises.",
-    esp: " Las crisis son eventos inesperados debido a la pérdida del medio ambiente. Haga clic en el icono de crisis para ralentizar la pérdida y aumentar la preparación del país para minimizar el riesgo de nuevas crisis."
+    esp: " Las crisis son eventos inesperados como consecuencia de la degradación ambiental. Haz clic sobre el ícono de crisis para detener el daño ambiental; aumenta el nivel de preparación de los países para minimizar el riesgo de nuevas crisis."
   },
   crisis_alert: {
     eng: "Crisis alert!",
-    esp: "¡Alerta de crisis!"
+    esp: "¡Alerta de Crisis!"
   },
   bulletin: {
     eng: "Antarctic Bulletin, year ",
@@ -294,11 +294,11 @@ res.lang = {
   },
   start_mission_a: {
     eng: "In 2019, your global policy mission begins in ",
-    esp: "En 2019, la misión de su política global comienza en "
+    esp: "En el 2019 tu misión política global comienza en "
   },
   start_mission_b: {
     eng: ". You have until 2070 to save the Antarctic continent. Invest in policies that will reduce the effects of climate change, arrest environmental loss and increase the preparedness of each country.",
-    esp: ". Tienes hasta 2070 para salvar el continente antártico. Invertir en políticas que reduzcan los efectos del cambio climático, detengan la pérdida del medio ambiente y aumenten la preparación de cada país."
+    esp: ". Tienes tiempo hasta el año 2070 para salvar el continente Antártico. Invertí en políticas que ayuden a reducir los efectos del cambio climático, evitar la pérdida de medio ambiente y aumentar el nivel de preparación de cada país."
   },
   crisis_title: {
     eng: "Congratulations!",
@@ -418,13 +418,13 @@ res.scenarioData = {
     "threat_type": "",
     "threat_type_locked": "",
     "threat_name": "",
-    "popup_1_title": "Bienvenido a Antarctic Futures",
-    "popup_1_description": "El futuro de la Antártida y el futuro del mundo están profundamente conectados. ¿Qué tipo de acción política detendrá el cambio climático y salvará a la Antártida de la destrucción del medio ambiente? El objetivo del juego es construir la plataforma de política global adecuada para sobrevivir hasta el año 2070.",
+    "popup_1_title": "¡Bienvenido a Futuros Antárcticos!",
+    "popup_1_description": "El futuro de la Antártida y el futuro del planeta están profundamente interconectados ¿Qué tipo de políticas pueden detener el cambio climático global y salvar a la Antártida de la destrucción medioambiental? El objetivo del juego es construir la plataforma política global correcta para sobrevivir hasta el año 2070.",
     "popup_2_title": "OK",
     "popup_2_description": "Haga clic en los iconos azules para reunir recursos!",
     "messages": {
-      "negative": ["Las temperaturas globales están subiendo, y podrían ser 3,5 grados más altas para el año 2070!", "Nuevas áreas libres de hielo están apareciendo en el continente antártico!", "El calentamiento de los océanos meridionales plantea riesgos para los mariscos y otras formas de vida marina.", "La pesca, el turismo y la navegación comercial se están expandiendo en el Océano Antártico!", "A nivel mundial, el aumento del nivel del mar cuesta a las ciudades costeras 1 billón de dólares al año.", "Los barcos ya pueden acceder a nuevas partes del continente antártico....", "Las aguas más cálidas ven un aumento en las ballenas con barbas!", "Las poblaciones de peces y pingüinos del Océano Austral están disminuyendo....", "Las especies invasoras - hierbas, insectos, biota - se están asentando permanentemente en la Antártida....", "Los llamamientos para proteger las especies amenazadas parecen ser ignorados por los signatarios del Tratado Antártico...", "La población humana va camino de superar los 10.000 millones para 2070...", "Las nuevas tecnologías están permitiendo la minería polar para el petróleo y otros recursos!", "El turismo en la Antártida alcanza el millón de visitantes al año!"],
-      "positive": ["¡Por fin! El entorno físico de la Antártida y el Océano Austral está volviendo a los niveles de 2020...", "¡Hey Jude! Los niveles de ozono en la estratosfera antártica están volviendo a los valores de la década de 1960....", "La acidificación de los océanos ya no está aumentando drásticamente...", "Las principales plataformas de hielo permanecen intactas.... por ahora.", "El aumento del nivel del mar está restringido a 6 cm por año!", "Comienza la conservación sistemática....", "¡Genial! Las especies invasoras no pueden establecerse permanentemente en la Antártida!", "Se están tomando medidas decisivas para limitar el impacto del aumento de la participación humana en la Antártida.", "La acción verdaderamente global sobre los Objetivos de Desarrollo Sostenible ya está en marcha!", "¡Eureka! Los científicos descubren nuevos compuestos de la biota antártica, con importantes aplicaciones industriales y médicas...."]
+      "negative": ["Las temperaturas globales están subiendo, y podrían ser 3,5 grados más altas para el año 2070!", "Nuevas áreas libres de hielo están apareciendo en el continente antártico!", "El calentamiento de los océanos meridionales plantea riesgos para los mariscos y otras formas de vida marina.", "La pesca, el turismo y la navegación comercial se están expandiendo en el Océano Antártico!", "A nivel global, el aumento del nivel del mar cuesta a las ciudades costeras 1 trillón de dólares cada año.", "Los barcos ya pueden acceder a nuevas partes del continente antártico....", "Las aguas más cálidas ven un aumento en las ballenas con barbas!", "Las poblaciones de peces y pingüinos del Océano Austral están disminuyendo....", "Las especies invasoras - hierbas, insectos, biota - se están asentando permanentemente en la Antártida....", "Los llamamientos para proteger las especies amenazadas parecen ser ignorados por los signatarios del Tratado Antártico...", "La población humana va camino de superar los 10.000 millones para 2070...", "Las nuevas tecnologías están permitiendo la minería polar para el petróleo y otros recursos!", "¡El turismo Antártico alcanza 1 millón de visitantes al año!"],
+      "positive": ["¡Finalmente! El entorno físico de la Antártida y el Océano Antártico está volviendo a los niveles del año 2020....", "¡Hey Jude! Los niveles de ozono en la estratósfera antártica están volviendo a los valores de 1960....", "La acidificación de los océanos ya no aumenta de modo dramático....", "Las principales plataformas de hielo permanecen intactas.... por ahora.", "El aumento del nivel del mar está restringido a 6 cm por año!", "Comienza una política de conservación sistemática....", "¡Genial! Las especies invasoras no pueden establecerse permanentemente en la Antártida!", "Se están tomando medidas decisivas para limitar el impacto del aumento de la participación humana en la Antártida.", "La acción verdaderamente global sobre los Objetivos de Desarrollo Sostenible ya está en marcha!", "¡Eureka! Científicos descubren nuevos compuestos en la biota Antártica con aplicaciones médicas e industriales de gran alcance...."]
     }
 
   },
