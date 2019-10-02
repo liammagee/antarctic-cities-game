@@ -731,6 +731,140 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
 };
 
 /**
+ * Message box
+ * @param {*} parent 
+ * @param {*} title
+ * @param {*} message 
+ * @param {*} prompt 
+ * @param {*} callback 
+ */
+var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, rightAnswer) {
+
+    parent.pause();
+    gameParams.state = GAME_STATES.PAUSED;
+
+    var winWidth = cc.winSize.width,
+        winHeight = cc.winSize.height;
+    var btn1OffsetX = 0.1,
+        btn2OffsetX = 0.0;
+    var btn1OffsetY = 0.1,
+        btn2OffsetY = 0.1;
+    var btn1Text = "OPTION 1",
+        btn2Text = "OPTION 2";
+    if (Math.random() > 0.5) {
+        btn1OffsetX = 0.25;
+        btn2OffsetX = 0.75;
+    } else {
+        btn1OffsetX = 0.75;
+        btn2OffsetX = 0.25;
+        btn1Text = "OPTION 2";
+        btn2Text = "OPTION 1";
+    }
+
+    var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.85, winHeight * 0.85);
+    layerBackground.attr({
+        x: winWidth / 2 - layerBackground.width / 2,
+        y: winHeight / 2 - layerBackground.height / 2 });
+    parent.addChild(layerBackground, 1);
+
+    var titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
+    titleText.ignoreContentAdaptWithSize(false);
+    titleText.setAnchorPoint(cc.p(0.5, 0));
+    titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
+    titleText.setPosition(cc.p(layerBackground.width * 0.5, layerBackground.height * 0.8));
+    titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setColor(COLOR_WHITE);
+    layerBackground.addChild(titleText, 2);
+
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
+    contentText.ignoreContentAdaptWithSize(false);
+    contentText.setAnchorPoint(cc.p(0, 0));
+    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.4));
+    contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.4));
+    contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
+    contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setColor(COLOR_WHITE);
+    layerBackground.addChild(contentText, 2);
+
+    var buttons = [];
+    var option1Text = new ccui.Text(wrongAnswer, FONT_FACE_BODY, 20);
+    option1Text.ignoreContentAdaptWithSize(false);
+    option1Text.setAnchorPoint(cc.p(0, 0));
+    option1Text.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.3));
+    option1Text.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
+    option1Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
+    option1Text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    option1Text.setColor(COLOR_WHITE);
+    layerBackground.addChild(option1Text, 2);
+
+    var btn1 = new ccui.Button();
+    btn1.setTouchEnabled(true);
+    btn1.setSwallowTouches(false);
+    btn1.setTitleText(btn1Text);
+    btn1.setTitleColor(COLOR_WHITE);
+    btn1.setTitleFontSize(36);
+    btn1.setTitleFontName(FONT_FACE_BODY);
+    btn1.attr({ x: layerBackground.width * btn1OffsetX, y: layerBackground.height * btn1OffsetY });
+    layerBackground.addChild(btn1);
+
+    handleMouseTouchEvent(btn1, function () {
+
+        layerBackground.removeAllChildren(true);
+        layerBackground.removeFromParent(true);
+        parent.resume();
+
+        showMessageBoxOK(world, "CRISIS RESPONSE", "Not the ideal response to this crisis. Better luck next time!", "OK!", function () {
+
+            var res = Math.floor(1 + Math.random() * 3);
+            if (gameParams.resources - res > 0) gameParams.resources -= res;else gameParams.resources = 0;
+
+            gameParams.state = GAME_STATES.STARTED;
+        });
+    });
+
+    var option2Text = new ccui.Text(rightAnswer, FONT_FACE_BODY, 20);
+    option2Text.ignoreContentAdaptWithSize(false);
+    option2Text.setAnchorPoint(cc.p(0, 0));
+    option2Text.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.3));
+    option2Text.setPosition(cc.p(layerBackground.width * 0.55, layerBackground.height * 0.2));
+    option2Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
+    option2Text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    option2Text.setColor(COLOR_WHITE);
+    layerBackground.addChild(option2Text, 2);
+
+    btn2 = new ccui.Button();
+    btn2.setTouchEnabled(true);
+    btn2.setSwallowTouches(false);
+    btn2.setTitleText(btn2Text);
+    btn2.setTitleColor(COLOR_WHITE);
+    btn2.setTitleFontSize(36);
+    btn2.setTitleFontName(FONT_FACE_BODY);
+    btn2.attr({ x: layerBackground.width * btn2OffsetX, y: layerBackground.height * btn2OffsetY });
+    layerBackground.addChild(btn2);
+
+    handleMouseTouchEvent(btn2, function () {
+
+        layerBackground.removeAllChildren(true);
+        layerBackground.removeFromParent(true);
+        parent.resume();
+
+        showMessageBoxOK(world, "CRISIS RESPONSE", "Great response to this crisis!", "OK!", function () {
+
+            var res = Math.floor(1 + Math.random() * 3);
+            gameParams.resources += res;
+
+            gameParams.state = GAME_STATES.STARTED;
+        });
+    });
+
+    buttons.push(btn1);
+    buttons.push(btn2);
+
+    return buttons;
+};
+
+/**
  * Post data to server
  * @param {*} parent 
  * @param {*} message 
@@ -1443,6 +1577,7 @@ var WorldLayer = cc.Layer.extend({
     },
 
     onEnter: function onEnter() {
+        var _this2 = this;
 
         this._super();
 
@@ -1458,8 +1593,8 @@ var WorldLayer = cc.Layer.extend({
             if (gameParams.state === GAME_STATES.PAUSED) return;
 
             var res = Math.floor(1 + Math.random() * 3);
-
             gameParams.resources += res;
+
             target.removeFromParent();
 
             if (!gameParams.resourcesAdded) {
@@ -1510,6 +1645,19 @@ var WorldLayer = cc.Layer.extend({
 
                     gameParams.state = GAME_STATES.STARTED;
                 });
+            } else {
+
+                // Add Crisis Quiz, 50% of the time
+                if (Math.random() < 0.5) {
+
+                    // Show quiz
+                    var qi = gd.quizzes[Math.floor(Math.random() * gd.quizzes.length)];
+                    var quiz = qi.quiz[cc.sys.localStorage.language];
+                    var wrong_answer = qi.wrong_answer[cc.sys.localStorage.language];
+                    var right_answer = qi.right_answer[cc.sys.localStorage.language];
+
+                    showQuizBox(_this2, "ALERT!", quiz, wrong_answer, right_answer);
+                }
             }
         };
 

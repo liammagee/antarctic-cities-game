@@ -1,6 +1,6 @@
 {
   "name": "antarctic-futures",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Antarctic Futures",
   "scripts": {
     "compile": "./node_modules/.bin/babel --presets es2015-without-strict,stage-0 -d .es5/ src/ && node devutils/project.js",

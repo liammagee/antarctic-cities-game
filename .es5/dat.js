@@ -1205,3 +1205,31 @@ gd.automateScripts = [{
     "fastForward": true,
     "policyEvents": []
 }];
+
+gd.quizzes = [{
+    quiz: {
+        eng: "As access to the Antarctic coast has become easier, thanks to rising temperatures and ice melt,  Antarctic krill is being fished to produce protein-rich animal feed. This is causing a decline in many other marine species around the continent. What can be done?",
+        esp: "A medida que el acceso a la costa antártica se ha hecho más fácil, gracias al aumento de las temperaturas y al derretimiento del hielo, se está pescando krill antártico para producir alimentos para animales ricos en proteínas. Esto está causando una disminución en muchas otras especies marinas en todo el continente. ¿Qué se puede hacer?"
+    },
+    wrong_answer: {
+        eng: "Establish a marine protected area?",
+        esp: "Establecer un área marina protegida?"
+    },
+    right_answer: {
+        eng: "Lobby the parties to the Antarctic Treaty secure Antarctica as a natural reserve and establish a moratorium on fishing in the Southern Ocean?",
+        esp: "Hacer lobby ante las partes del Tratado Antártico para asegurar la Antártida como reserva natural y establecer una moratoria sobre la pesca en el Océano Austral?"
+    }
+}, {
+    quiz: {
+        eng: "Because of the retreat of glaciers on the Antarctic peninsula, two invasive species have been found to be spreading without control, threatening the local ecosystem. What can be done?",
+        esp: "Debido al retroceso de los glaciares en la península antártica, se ha descubierto que dos especies invasoras se están extendiendo sin control, amenazando el ecosistema local. ¿Qué se puede hacer?"
+    },
+    wrong_answer: {
+        eng: "Start a social media campaign to support research on non-native invaders by the Antarctic Treaty’s Committee for Environmental Protection?",
+        esp: "Iniciar una campaña en los medios de comunicación social para apoyar la investigación sobre invasores no autóctonos por parte del Comité para la Protección del Medio Ambiente del Tratado Antártico?"
+    },
+    right_answer: {
+        eng: "Adopt a systematic, DNA barcoding and web-based surveillance system, which will enable rapid identification of other ‘unusual’ species in order to curb their spread on the peninsula?",
+        esp: "Adoptar un sistema de vigilancia sistemático, basado en códigos de barras de ADN y en la web, que permita la rápida identificación de otras especies 'inusuales' para frenar su propagación en la península?"
+    }
+}];
