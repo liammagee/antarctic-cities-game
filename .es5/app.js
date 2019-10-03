@@ -765,7 +765,7 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
     layerBackground.attr({
         x: winWidth / 2 - layerBackground.width / 2,
         y: winHeight / 2 - layerBackground.height / 2 });
-    parent.addChild(layerBackground, 1);
+    parent.addChild(layerBackground, 101);
 
     var titleText = new ccui.Text(title, FONT_FACE_TITLE, 36);
     titleText.ignoreContentAdaptWithSize(false);
@@ -1315,10 +1315,10 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.setTouchEnabled(true);
         this.btnQuit.setSwallowTouches(false);
         this.btnQuit.setScale9Enabled(true);
-        this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_off_png);
-        this.btnQuit.attr({ x: 0, y: 0 });
+        this.btnQuit.loadTextures(res.quit_off_png, "", res.quit_on_png);
+        this.btnQuit.attr({ x: 5, y: 0 });
         this.btnQuit.setContentSize(cc.size(105, 105));
-        this.btnQuit.setScale(0.48);
+        this.btnQuit.setScale(0.46);
         this.topBarLayout.addChild(this.btnQuit, 102);
 
         this.btnPause.setTouchEnabled(true);
@@ -1577,7 +1577,6 @@ var WorldLayer = cc.Layer.extend({
     },
 
     onEnter: function onEnter() {
-        var _this2 = this;
 
         this._super();
 
@@ -1605,6 +1604,7 @@ var WorldLayer = cc.Layer.extend({
                 if (gameParams.tutorialMode) {
 
                     showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED[cc.sys.localStorage.language], "OK!", function () {
+
                         gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_CLICKED[cc.sys.localStorage.language]);
                         gameParams.state = GAME_STATES.STARTED;
                     });
@@ -1656,7 +1656,7 @@ var WorldLayer = cc.Layer.extend({
                     var wrong_answer = qi.wrong_answer[cc.sys.localStorage.language];
                     var right_answer = qi.right_answer[cc.sys.localStorage.language];
 
-                    showQuizBox(_this2, "ALERT!", quiz, wrong_answer, right_answer);
+                    showQuizBox(world, "ALERT!", quiz, wrong_answer, right_answer);
                 }
             }
         };
@@ -3115,7 +3115,7 @@ var SelectOptionsScene = cc.Scene.extend({
         var engComponent = makeCheckBox(layer, "English", size.width * 0.4, size.height * 0.5, cc.sys.localStorage.language === "eng", listenerLanguage, 'language', 'eng');
         var espComponent = makeCheckBox(layer, "Español", size.width * 0.6, size.height * 0.5, cc.sys.localStorage.language === "esp", listenerLanguage, 'language', 'esp');
 
-        var lblDifficulty = new cc.LabelTTF("SELECT DIFFICULTY", FONT_FACE_TITLE, 18);
+        var lblDifficulty = new cc.LabelTTF("SELECT DIFFICULTY", FONT_FACE_BODY, 18);
         lblDifficulty.attr({ x: size.width * 0.5, y: size.height * 0.35 });
         lblDifficulty.setColor(COLOR_WHITE);
         layer.addChild(lblDifficulty, 101);
@@ -3153,7 +3153,7 @@ var SelectOptionsScene = cc.Scene.extend({
         btnPlay.setTitleColor(COLOR_BLACK);
         btnPlay.setTitleFontSize(38);
         btnPlay.setAnchorPoint(cc.p(0.5, 0.5));
-        btnPlay.setPosition(cc.p(size.width * 0.5, size.height * 0.1));
+        btnPlay.setPosition(cc.p(size.width * 0.5, 1 * size.height / 8));
         btnPlay.setTouchEnabled(true);
         btnPlay.setBright(true);
         btnPlay.setEnabled(true);
@@ -3234,7 +3234,7 @@ var LoadingScene = cc.Scene.extend({
         btnPlay.setTitleColor(COLOR_BLACK);
         btnPlay.setTitleFontSize(38);
         btnPlay.setAnchorPoint(cc.p(0.5, 0.5));
-        btnPlay.setPosition(cc.p(3 * size.width / 8, 1 * size.height / 8));
+        btnPlay.setPosition(cc.p(2.9 * size.width / 8, 1 * size.height / 8));
         if (cc.sys.localStorage.content === "true") {
 
             btnPlay.setTouchEnabled(true);
@@ -3259,7 +3259,7 @@ var LoadingScene = cc.Scene.extend({
         btnLearnMore.setTitleColor(COLOR_BLACK);
         btnLearnMore.setTitleFontSize(38);
         btnLearnMore.setAnchorPoint(cc.p(0.5, 0.5));
-        btnLearnMore.setPosition(cc.p(5 * size.width / 8, 1 * size.height / 8));
+        btnLearnMore.setPosition(cc.p(5.1 * size.width / 8, 1 * size.height / 8));
         layer.addChild(btnLearnMore, 101);
 
         var selectedStateEvent = function selectedStateEvent(sender, type) {
@@ -4001,7 +4001,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
         this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
-        layer.addChild(this.resourceScoreBackground, 100);
+        layer.addChild(this.resourceScoreBackground, 1);
 
         var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
