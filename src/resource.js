@@ -2,6 +2,7 @@
 let res = {
     world_png : "res/world-stereographic-perspective.png",
     dot_png : "res/Images/dot.png",
+    fire_texture: "res/Images/fire.png",
     grat_png : "res/graticule-stereographic-perspective.png",
     world_tilemap_tmx : "res/tmx-stereographic.tmx",
     world_tilemap_background : "res/background-stereographic.png",
@@ -40,7 +41,6 @@ let res = {
     progress_bar: "res/png/progress-bar.png",
     ctrls_background: "res/png/ctrls-background.png",
     status_button: "res/png/status-button.png",
-    fire_texture: "res/Images/fire.png",
     shader_outline_vertex: "res/Shaders/mask_country.vsh",
     shader_outline_fragment: "res/Shaders/mask_country.fsh",
   ZWE_png:"res/countries/ZWE_stereographic.png",
