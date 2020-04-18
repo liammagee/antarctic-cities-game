@@ -1,26 +1,26 @@
+#!/usr/bin/env node
 
-// Imports
-let fs = require('fs');
-let Canvas = require('canvas');
-
+const { program } = require('commander');
+const fs = require('fs');
+const { createCanvas, loadImage } = require('canvas');
 // Augment d3 and topojson libraries
 let d3 = Object.assign({}, require('d3'), require('d3-geo'), require('d3-geo-projection'));
 let topojson = Object.assign({}, require('topojson-client'), require('topojson-simplify'));
 
+program
+    .version(require("./package.json").version)
+    .usage("[options]")
+    .description("Generate XML and images files for the countries to be rendered in the game.")
+    .option("-x, --xml", "generate just the tmx file of countries")
+    .option("-j, --json <file>", "specify the JSON file to use as input (must be in TopoJSON format)")
+    .parse(process.argv);
+
+
 // Global parameters
 let width = 1334, height = 650;
-let xmlOnly = false;
+let xmlOnly = (program.xml !== undefined);
+let jsonFile = (program.json !== undefined) ? program.json : 'data/110m-topo.json';
 
-// Revise parameters, based on command-line arguments
-let args = process.argv.slice(2)
-if (args[0] == 'xml')
-  xmlOnly = true;
-
-let jsonFile = '50m-topo.json';
-if (typeof(args[1]) !== 'undefined') {
-  jsonFile = args[1];
-  console.log(jsonFile);
-}
 
 // Common variables
 const COUNTRY_GREY = '#D8E1E3';
@@ -31,14 +31,14 @@ const coordCutoff = 4;
 const mainlandCoordCutoff = 6;
 
 
-let canvas = new Canvas(width, height);
+let canvas = createCanvas(width, height);
 
 
 //  Extract data from the topology file
 // Taken from: https://github.com/topojson/world-atlas
 // https://unpkg.com/world-atlas@1/
 
-let data = JSON.parse(fs.readFileSync("./world/" + jsonFile, 'utf8'));
+let data = JSON.parse(fs.readFileSync("./" + jsonFile, 'utf8'));
 
 // Extract features
 let tracts = topojson.feature(data, data.objects.tracts);
@@ -121,7 +121,7 @@ var writeProj = function(proj, file) {
   var background = 'background-' + file + '.png';
   var foreground = 'foreground-' + file + '.png';
 
-  var canvas = new Canvas(width, height);
+  var canvas = createCanvas(width, height);
       // var _ = makeContext(canvas, proj),
       // context = _.context,
       // path = _.path;
@@ -151,29 +151,33 @@ var writeProj = function(proj, file) {
 
   var sphere = new Object({type: "Sphere"});
   context.beginPath();
-  context.fillStyle = "rgba(69,168,226, 0.5)";
+  //context.fillStyle = "rgba(69,168,226, 0.5)";
+  context.fillStyle = "rgb(255,255,255)";
   path(sphere);
   context.fill();
   context.closePath();
 
   context.strokeStyle = '#fff';
   context.lineWidth = 0.5;
-  // context.fillStyle = COUNTRY_GREY;
+  context.fillStyle = COUNTRY_GREY;
 
+  
   for (let i = 0; i < tracts.features.length; i++) {
     let index = i;
     var props = tracts.features[index].properties;
     var col = (100 + parseInt(props.MAPCOLOR7) * 20);
     if (col > 255)
       col = 255;
-    context.fillStyle = '#' + col.toString(16)  + 'AA00';
+    //context.fillStyle = '#' + col.toString(16)  + 'AA00';
+    context.fillStyle = COUNTRY_GREY;
+    context.strokeStyle = "#fff";
     if (props.ISO_A3 == "ATA") {
       context.fillStyle = "#FFFFFF";
     }
     context.beginPath();
     path(tracts.features[index]);
     context.fill();
-    // context.stroke();
+    context.stroke();
     context.closePath();
 
   }
@@ -244,7 +248,7 @@ var writeProj = function(proj, file) {
       return gid;
 
     if (!xmlOnly) {
-      canvas = new Canvas(width, height);
+      canvas = createCanvas(width, height);
       var context = canvas.getContext('2d');
       path = d3.geoPath(proj, context);
 
@@ -276,8 +280,8 @@ var writeProj = function(proj, file) {
         context.fillStyle = "#FFFFFF";
       }
 
-      var canvasCountry = new Canvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
-      // var canvasCountry = new Canvas(width / 2, height / 2);
+      var canvasCountry = createCanvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
+      // var canvasCountry = createCanvas(width / 2, height / 2);
       var contextCountry = canvasCountry.getContext('2d');
       var pathCountry = d3.geoPath(proj, contextCountry);
       // contextCountry.clearRect();
@@ -292,7 +296,7 @@ var writeProj = function(proj, file) {
       // console.log(translate)
 
       //  Draw smaller images
-      // canvas = new Canvas(dx, dy);
+      // canvas = createCanvas(dx, dy);
       // context = canvas.getContext('2d');
 
       contextCountry.strokeStyle = '#f00';
@@ -535,7 +539,7 @@ for (var i in res) {
   });
 
   // GRATICULE
-  canvas = new Canvas(width, height);
+  canvas = createCanvas(width, height);
   context = canvas.getContext('2d');
   
   path = d3.geoPath(proj,

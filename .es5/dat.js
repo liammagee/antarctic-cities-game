@@ -11,6 +11,11 @@ var LANGUAGES = ['eng', 'esp'];
 // UI Constants
 var FONT_FACE_TITLE = "ArvoFont";
 var FONT_FACE_BODY = "JosefinSansFont";
+var FONT_FACE_SIZE_SMALL = 20;
+var FONT_FACE_TITLE_SIZE = 30;
+var FONT_FACE_TITLE_SIZE_BIG = 38;
+var FONT_FACE_BODY_SIZE = 24;
+var FONT_FACE_BODY_SIZE_BIG = 38;
 
 var X_OFFSET = 0,
     Y_OFFSET = 50;

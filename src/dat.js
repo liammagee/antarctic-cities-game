@@ -11,6 +11,11 @@ const LANGUAGES = ['eng', 'esp'];
 // UI Constants
 const FONT_FACE_TITLE = "ArvoFont";
 const FONT_FACE_BODY = "JosefinSansFont";
+const FONT_FACE_SIZE_SMALL = 20;
+const FONT_FACE_TITLE_SIZE = 30;
+const FONT_FACE_TITLE_SIZE_BIG = 38;
+const FONT_FACE_BODY_SIZE = 24;
+const FONT_FACE_BODY_SIZE_BIG = 38;
 
 const X_OFFSET = 0, Y_OFFSET = 50;
 const RESOURCE_SIZE_W = 64; 
