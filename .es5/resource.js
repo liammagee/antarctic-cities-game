@@ -1,12 +1,10 @@
 
 var res = {
-    world_png: "res/world-stereographic-perspective.png",
+    world_tilemap_tmx: "res/tmx-equal.tmx",
+    world_tilemap_background: "res/background-equal-colour.png",
+    world_tilemap_foreground: "res/foreground-equal-colour.png",
     dot_png: "res/images/dot.png",
     fire_texture: "res/images/fire.png",
-    grat_png: "res/graticule-stereographic-perspective.png",
-    world_tilemap_tmx: "res/tmx-stereographic.tmx",
-    world_tilemap_background: "res/background-stereographic.png",
-    world_tilemap_foreground: "res/foreground-stereographic.png",
     policy_dot_off_png: "res/images/BUTTONS/DOT_OFF.png",
     policy_dot_on_png: "res/images/niab/DOT_ON.png",
     quit_off_png: "res/images/niab/BUTTON_QUIT.png",

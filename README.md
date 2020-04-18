@@ -56,16 +56,29 @@ For the final preparation step, convert the list of features to [TopoJSON](https
     geo2topo -n tracts=50m-cat.ndjson > 50m-topo.json
     geo2topo -n tracts=110m-cat.ndjson > 110m-topo.json
 
-Then to generate the tile map:
+Then to generate the tile map, background, foreground and individual country images:
 
     cd ..
-    ./world.js -x -j [one of: data/10m-topo.json, data/50m-topo.json, data/110m-topo.json]
+    ./world.js -j [one of: data/10m-topo.json, data/50m-topo.json, data/110m-topo.json]
+
+To generate *just* the xml and background and foreground images:
+
+    ./world.js -x
+
+To produce the images in greyscale:
+
+    ./world.js -g
+
+To specify a projection other than stereographic:
+
+    ./world.js -p <>
 
 Or with the full set of images:
 
     ./world.js -j [one of: data/10m-topo.json, data/50m-topo.json, data/110m-topo.json]
 
-Copy the generated tile map to the resources folder:
+Copy the generated tile map and other files to the resources folder:
 
+    cp cp background-stereographic-greyscale.png ../res/
     cp tmx-test-stereographic.tmx ../res/
 

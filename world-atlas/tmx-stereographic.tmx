@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="1334" tileheight="650" infinite="0" nextobjectid="16">
    <tileset firstgid="1" name="background" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
-    <image source="background-stereographic.png" trans="ff00ff" width="1334" height="650"/>
+    <image source="background-stereographic-colour.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
    <tileset firstgid="2" name="foreground" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
-    <image source="foreground-stereographic.png" trans="ff00ff" width="1334" height="650"/>
+    <image source="foreground-stereographic-colour.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
    <tileset firstgid="3" name="FJI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/FJI_stereographic.png" trans="ff00ff" width="1334" height="650"/>

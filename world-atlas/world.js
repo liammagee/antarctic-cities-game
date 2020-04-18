@@ -13,17 +13,22 @@ program
     .description("Generate XML and images files for the countries to be rendered in the game.")
     .option("-x, --xml", "generate just the tmx file of countries")
     .option("-j, --json <file>", "specify the JSON file to use as input (must be in TopoJSON format)")
+    .option("-g, --greyscale", "use greyscale rather than colour scheme")
+    .option("-p, --projection <projectionType>", "specify the type of projection; one of stereographic|mercator|equirectangular|peirce|patterson|guyou")
     .parse(process.argv);
 
 
-// Global parameters
+// Fits to the size of the game.
 let width = 1334, height = 650;
 let xmlOnly = (program.xml !== undefined);
 let jsonFile = (program.json !== undefined) ? program.json : 'data/110m-topo.json';
-
+let greyscale = (program.greyscale !== undefined);
+let scheme = (greyscale ? 'greyscale' : 'colour');
+let projectionName = (program.projection !== undefined) ? program.projection : 'equal';
 
 // Common variables
 const COUNTRY_GREY = '#D8E1E3';
+const ATA_GREY = '#E8F1F3';
 const scaleFactor = 1.0;
 const decimalFactor = 10;
 const precisionLevel = 0.1;
@@ -31,60 +36,75 @@ const coordCutoff = 4;
 const mainlandCoordCutoff = 6;
 
 
-let canvas = createCanvas(width, height);
-
-
 //  Extract data from the topology file
 // Taken from: https://github.com/topojson/world-atlas
 // https://unpkg.com/world-atlas@1/
-
 let data = JSON.parse(fs.readFileSync("./" + jsonFile, 'utf8'));
-
 // Extract features
 let tracts = topojson.feature(data, data.objects.tracts);
-
 // Simplify the data
 let data_sim = topojson.simplify(topojson.presimplify(data), precisionLevel);
 let tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
 
-// Create and configure various projections
-let proj = d3.geoPeirceQuincuncial().precision(.01).translate([width  / 2, height / 2]).rotate([240,90,0]);
-
-let projection1 = d3.geoMercator()
-    .translate([width  / 2, height / 2])
-    // .scale(width / 2 / Math.PI)
-    .rotate([0, 90]);
-
-let projection2 = d3.geoEquirectangular()
-    .translate([width  / 2, height / 2])
-    .rotate([0, 90])
-    // .scale(340);
-
-let projection3 = d3
-      .geoPeirceQuincuncial()
-      .precision(.01)
-      // // .clipAngle(90 - 1e-3)
-      .translate([width  / 2, height / 2])
-      // .scale(150)
-      // // .rotate([100,90,-190])
-      .rotate([240,90,0]);
-
-let projection4 = d3.geoPatterson().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
-let projection5 = d3
-      .geoStereographic()
-      .precision(0.1).rotate([0,90,0])
-      .fitExtent([[0, 0], [width, height]], tracts)
-      // .translate([-width/10, -height / 10]);
-let projection6 = d3.geoGuyou().translate([width / 2, height / 2]).precision(0.1).rotate([0,90,0]);
-let projection7 = d3
-      .geoEqualEarth()
-      .precision(0.1).rotate([300,90,0])
-      .fitExtent([[0, 0], [width, height]], tracts)
-      // .translate([-width/10, -height / 10]);
-
 
 /**
- * Makes a graphics context
+ * Make a projection
+ */
+const makeProjection = function() {
+  let projection = null;
+  if (projectionName === 'equal') {
+    projection = d3
+        .geoEqualEarth()
+        .precision(0.1).rotate([300,90,0])
+        .fitExtent([[0, 0], [width, height]], tracts)
+        // .translate([-width/10, -height / 10]);
+  }
+  else if (projectionName === 'mercator') {
+    projection = d3.geoMercator()
+        .translate([width  / 2, height / 2])
+        // .scale(width / 2 / Math.PI)
+        .rotate([0, 90]);
+  }
+  else if (projectionName === 'equirectangular') {
+    projection = d3.geoEquirectangular()
+        .translate([width  / 2, height / 2])
+        .rotate([0, 90])
+        // .scale(340);  
+  }
+  else if (projectionName === 'peirce') {
+    projection = d3
+        .geoPeirceQuincuncial()
+        .precision(.01)
+        // // .clipAngle(90 - 1e-3)
+        .translate([width  / 2, height / 2])
+        // .scale(150)
+        // // .rotate([100,90,-190])
+        .rotate([240,90,0]);  
+  }
+  else if (projectionName === 'patterson') {
+    projection = d3.geoPatterson()
+        .translate([width / 2, height / 2])
+        .precision(0.1)
+        .rotate([0,90,0]);
+  }
+  else if (projectionName === 'equal') {
+    projection = d3.geoStereographic()
+        .precision(0.1).rotate([0,90,0])
+        .fitExtent([[0, 0], [width, height]], tracts)
+        // .translate([-width/10, -height / 10]);
+  }
+  else if (projectionName === 'guyou') {
+    projection = d3.geoGuyou()
+        .translate([width / 2, height / 2])
+        .precision(0.1)
+        .rotate([0,90,0]);
+  }
+
+  return projection;
+}; 
+
+/**
+ * Makes a graphics context with correct scale and tralsation for the desired projection.
  * @param {*} canvas 
  * @param {*} proj 
  */
@@ -107,33 +127,30 @@ const makeContext = function(canvas, proj) {
   context.scale(scalex, scaley);
   context.translate(translate[0], translate[1]);
   return { path: path, context: context };
-
 }
 
 /**
  * Writes out a complete projection to a tilemap
  * @param {} proj 
- * @param {*} file 
+ * @param {*} projectionName 
  */
-var writeProj = function(proj, file) {  
+var writeProj = function(proj) {  
 
   // File names
-  var background = 'background-' + file + '.png';
-  var foreground = 'foreground-' + file + '.png';
+  let background = 'background-' + projectionName +'-' + scheme + '.png';
+  let foreground = 'foreground-' + projectionName +'-' + scheme + '.png';
 
-  var canvas = createCanvas(width, height);
-      // var _ = makeContext(canvas, proj),
-      // context = _.context,
-      // path = _.path;
-
-  var context = canvas.getContext('2d');
+  let canvas = createCanvas(width, height);
+  let context = canvas.getContext('2d');
   context.clearRect();
 
-  // context.fillStyle = '#fff';
-  // context.fillRect(0, 0, width, height);
+  // if (greyscale) {
+  //   context.fillStyle = '#fff';
+  //   context.fillRect(0, 0, width, height);
+  // }
 
-  var path = d3.geoPath(proj, context);
-  var bounds = path.bounds(topojson.mesh(data)),
+  let path = d3.geoPath(proj, context);
+  let bounds = path.bounds(topojson.mesh(data)),
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
         x = dx / 2,
@@ -146,21 +163,21 @@ var writeProj = function(proj, file) {
   context.scale(scalex, scaley);
   context.translate(width/2 * (1/ scalex)-width/2, height/2 * (1/ scaley)- height/2);
 
-  var graticule = d3.geoGraticule();
-
-
-  var sphere = new Object({type: "Sphere"});
+  let graticule = d3.geoGraticule();
+  let sphere = new Object({type: "Sphere"});
   context.beginPath();
-  //context.fillStyle = "rgba(69,168,226, 0.5)";
-  context.fillStyle = "rgb(255,255,255)";
+  if (greyscale)
+    context.fillStyle = "rgb(255,255,255)";
+  else
+    context.fillStyle = "rgba(69,168,226, 0.5)";
   path(sphere);
   context.fill();
   context.closePath();
 
-  context.strokeStyle = '#fff';
-  context.lineWidth = 0.5;
-  context.fillStyle = COUNTRY_GREY;
-
+  if (greyscale) {
+    context.strokeStyle = '#fff';
+    context.lineWidth = 0.5;
+  }
   
   for (let i = 0; i < tracts.features.length; i++) {
     let index = i;
@@ -168,11 +185,18 @@ var writeProj = function(proj, file) {
     var col = (100 + parseInt(props.MAPCOLOR7) * 20);
     if (col > 255)
       col = 255;
-    //context.fillStyle = '#' + col.toString(16)  + 'AA00';
-    context.fillStyle = COUNTRY_GREY;
     context.strokeStyle = "#fff";
-    if (props.ISO_A3 == "ATA") {
-      context.fillStyle = "#FFFFFF";
+    if (greyscale) {
+      context.fillStyle = COUNTRY_GREY;
+      if (props.ISO_A3 == "ATA") {
+        context.fillStyle = ATA_GREY;
+      }
+    }
+    else {
+      context.fillStyle = '#' + col.toString(16)  + 'AA00';
+      if (props.ISO_A3 == "ATA") {
+        context.fillStyle = "#FFFFFF";
+      }
     }
     context.beginPath();
     path(tracts.features[index]);
@@ -209,20 +233,18 @@ var writeProj = function(proj, file) {
   //   context.stroke();
   // });
 
-  var out = fs.createWriteStream('./' + background);
+  var out = fs.createWriteStream('./res/' + background);
   var stream = canvas.pngStream();
   stream.on('data', function(chunk){
     out.write(chunk);
   });
 
   stream.on('end', function(){
-    console.log('saved png');
+    console.log('saved png: ' + background);
   });
-  
 
-  // ADD COUNTRIES
-  var countries = [], country_files = [], frags = [], iso_a3s = [];
-  var writing = false;
+  // Add countries
+  var countries = [], countryFiles = [], frags = [], iso_a3s = [];
 
   var featureGenerator = function(i, gid) {
 
@@ -243,7 +265,7 @@ var writeProj = function(proj, file) {
     country.MAPCOLOR9 = props.MAPCOLOR9;
     country.MAPCOLOR13 = props.MAPCOLOR13;
 
-    country_file = country.iso_a3 + '_' + file + '.png';
+    countryFile = country.iso_a3 + '_' + projectionName + '.png';
     if (iso_a3s.indexOf(country.iso_a3) !== -1)
       return gid;
 
@@ -275,9 +297,18 @@ var writeProj = function(proj, file) {
       var col = (100 + parseInt(props.MAPCOLOR7) * 20);
       if (col > 255)
         col = 255;
-      context.fillStyle = '#' + col.toString(16)  + 'AA00';
-      if (props.ISO_A3 == "ATA") {
-        context.fillStyle = "#FFFFFF";
+      
+      if (greyscale) {
+        context.fillStyle = COUNTRY_GREY;
+        if (props.ISO_A3 == "ATA") {
+          context.fillStyle = ATA_GREY;
+        }
+      }
+      else {
+        context.fillStyle = '#' + col.toString(16)  + 'AA00';
+        if (props.ISO_A3 == "ATA") {
+          context.fillStyle = "#FFFFFF";
+        }
       }
 
       var canvasCountry = createCanvas(parseInt(dx_country * scalex), parseInt(dy_country * scaley));
@@ -287,24 +318,21 @@ var writeProj = function(proj, file) {
       // contextCountry.clearRect();
       // contextCountry.fillStyle = '#000';
       // contextCountry.fillRect(0, 0, width, height);
-
-      // console.log(canvasCountry.width, canvasCountry.height)
-      // console.log(tracts.features[i])
             
       contextCountry.scale(scalex, scaley);
       contextCountry.translate(translate_country[0], translate_country[1]);
-      // console.log(translate)
 
       //  Draw smaller images
       // canvas = createCanvas(dx, dy);
       // context = canvas.getContext('2d');
-
       contextCountry.strokeStyle = '#f00';
       contextCountry.lineWidth = 3.0;
       
       // contextCountry.fillStyle = '#F00';
-      // contextCountry.fillStyle = COUNTRY_GREY;
-      contextCountry.fillStyle = '#' + col.toString(16)  + 'AA00';
+      if (greyscale)
+        contextCountry.fillStyle = COUNTRY_GREY;
+      else
+        contextCountry.fillStyle = '#' + col.toString(16)  + 'AA00';
       if (props.ISO_A3 == "ATA") {
         contextCountry.fillStyle = "#FFFFFF";
       }
@@ -312,23 +340,20 @@ var writeProj = function(proj, file) {
       contextCountry.beginPath();
       pathCountry(tracts.features[i]);
       contextCountry.fill();
-      
 
       // Toggle off border
       // contextCountry.beginPath();
       // path(tracts.features[i]);
       // contextCountry.stroke();
 
-
-      var out2 = fs.createWriteStream('./countries/' + country_file);
+      var out2 = fs.createWriteStream('./res/countries/' + countryFile);
       var stream2 = canvasCountry.pngStream();
       stream2.on('data', function(chunk){
         out2.write(chunk);
       });
 
       stream2.on('end', function(){
-        console.log('saved png: ' + country_file);
-        
+        console.log('saved png: ' + countryFile);
       });
     }
 
@@ -365,8 +390,6 @@ var writeProj = function(proj, file) {
       // Remove non-unique points 
       s = [...new Set(s)];
       // s = s.sort((a, b) => { return a.length - b.length; });
-      // if (country.NAME == "Russia")
-      //   console.log(s[0])
       return s;
     }).filter(s => { return s.length > 0; }).sort((a, b) => { return b.length - a.length; });
     // Filter is useful, but creates problems determining min/max coords
@@ -378,7 +401,6 @@ var writeProj = function(proj, file) {
     // When there are multiple polygons, i.e. land masses
     if (coords.length > 1)
       mainland_coords = orig_coords[0][0];
-    //console.log("len: ",country.iso_a3, mainland_coords.length)
     var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
     var meanLongitudes = sumOfLongitudes / mainland_coords.length;
     var minX = 0, maxY = 0;
@@ -434,7 +456,7 @@ var writeProj = function(proj, file) {
     if (mainland_coords.length > mainlandCoordCutoff) {
       countries.push(country);
       iso_a3s.push(country.iso_a3);
-      country_files.push(country_file);
+      countryFiles.push(countryFile);
       frags.push(tmx_frag);
 
       return gid + 1;
@@ -446,7 +468,6 @@ var writeProj = function(proj, file) {
 
   var counter = 0;
   tracts.features.forEach((feature, index) => { 
-    // console.log(counter);
       counter = featureGenerator(index, counter);
   } );
 
@@ -460,11 +481,11 @@ var writeProj = function(proj, file) {
   xml += '    <image source="' + foreground + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
   xml += '   </tileset>\n'
 
-  for (var i = 0; i < country_files.length; i++) {
-    country_file = country_files[i]
+  for (var i = 0; i < countryFiles.length; i++) {
+    countryFile = countryFiles[i]
     country = countries[i]
     xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + country.iso_a3 + '" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
-    xml += '    <image source="countries/' + country_file + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
+    xml += '    <image source="countries/' + countryFile + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
     xml += '   </tileset>\n'
   }
 
@@ -479,7 +500,7 @@ var writeProj = function(proj, file) {
   xml += '    </data>\n'
   xml += '   </layer>\n'
 
-  for (var i = 0; i < country_files.length; i++) {
+  for (var i = 0; i < countryFiles.length; i++) {
     xml += '   <layer name="Tile Layer ' + (i + 3) + '" width="1" height="1">\n'
     xml += '    <data encoding="csv">\n'
     xml += '      ' + (i + 3) + '\n'
@@ -488,7 +509,7 @@ var writeProj = function(proj, file) {
   }
   
   xml += '  <objectgroup name="Object Layer 1">\n'
-  for (var i = 0; i < country_files.length; i++) {
+  for (var i = 0; i < countryFiles.length; i++) {
     country = countries[i]
     tmx_frag = frags[i]
     // xml += '    <object id="' + (obj_id++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">'
@@ -498,31 +519,67 @@ var writeProj = function(proj, file) {
   xml += '  </objectgroup>\n'
   xml += '</map>\n'
 
-  tmx_file = "./tmx-"+file+".tmx"
-  fs.writeFile(tmx_file, xml, function(err) {
+  let tmxFile = "./res/tmx-" + projectionName + ".tmx"
+  fs.writeFile(tmxFile, xml, function(err) {
     if(err) {
         return console.log(err);
     }
-    console.log("The file '" + tmx_file + "' was saved!");
+    console.log("The file '" + tmxFile + "' was saved!");
   });
-  res_js = `
+  
+  let resourceJavaScript = `
   var res = {
-    world_png : "res/world-stereographic-perspective.png",
-    dot_png : "res/Images/dot.png",
-    grat_png : "res/graticule-stereographic-perspective.png",
-    world_tilemap_tmx : "res/tmx-stereographic.tmx",
-    world_tilemap_background : "res/background-stereographic.png",
-    world_tilemap_foreground : "res/foreground-stereographic.png",
+    world_tilemap_tmx : "res/tmx-stereographic-${scheme}.tmx",
+    world_tilemap_background : "res/background-stereographic-${scheme}.png",
+    world_tilemap_foreground : "res/foreground-stereographic-${scheme}.png",
+    dot_png : "res/images/dot.png",
+    fire_texture: "res/images/fire.png",
+    policy_dot_off_png : "res/images/BUTTONS/DOT_OFF.png",
+    policy_dot_on_png : "res/images/niab/DOT_ON.png",
+    quit_off_png : "res/images/niab/BUTTON_QUIT.png",
+    quit_on_png : "res/images/niab/BUTTON_QUIT.png",
+    pause_off_png : "res/images/niab/BUTTON_PAUSE_NORMAL.png",
+    pause_on_png : "res/images/niab/BUTTON_PAUSE_ON.png",
+    play_off_png : "res/images/niab/BUTTON_PLAY_NORMAL.png",
+    play_on_png : "res/images/niab/BUTTON_PLAY_ON.png",
+    playfast_off_png : "res/images/niab/BUTTON_PLAYFAST_NORMAL.png",
+    playfast_on_png : "res/images/niab/BUTTON_PLAYFAST_ON.png",
+    antarctica_small_png : "res/images/NEW_ICONS/ANTARCTICA_SMALL.png",
+    antarctica_large_png : "res/images/NEW_ICONS/ANTARCTICA_LARGE.png",
+    resource_icon: "res/images/NEW_ICONS/ICON_RESOURCE.png",
+    resource_economy_1: "res/images/niab/ICON_RESOURCE_ECONOMY_1.png",
+    resource_economy_2: "res/images/niab/ICON_RESOURCE_ECONOMY_2.png",
+    resource_economy_3: "res/images/niab/ICON_RESOURCE_ECONOMY_3.png",
+    resource_economy_4: "res/images/niab/ICON_RESOURCE_ECONOMY_4.png",
+    resource_politics_1: "res/images/niab/ICON_RESOURCE_POLITICS_1.png",
+    resource_politics_2: "res/images/niab/ICON_RESOURCE_POLITICS_2.png",
+    resource_politics_3: "res/images/niab/ICON_RESOURCE_POLITICS_3.png",
+    resource_politics_4: "res/images/niab/ICON_RESOURCE_POLITICS_4.png",
+    resource_culture_1: "res/images/niab/ICON_RESOURCE_CULTURE_1.png",
+    resource_culture_2: "res/images/niab/ICON_RESOURCE_CULTURE_2.png",
+    resource_culture_3: "res/images/niab/ICON_RESOURCE_CULTURE_3.png",
+    resource_culture_4: "res/images/niab/ICON_RESOURCE_CULTURE_4.png",
+    resource_ecology_1: "res/images/niab/ICON_RESOURCE_ECOLOGY_1.png",
+    resource_ecology_2: "res/images/niab/ICON_RESOURCE_ECOLOGY_2.png",
+    resource_ecology_3: "res/images/niab/ICON_RESOURCE_ECOLOGY_3.png",
+    resource_ecology_4: "res/images/niab/ICON_RESOURCE_ECOLOGY_4.png",
+    button_white: "res/images/BUTTONS/BUTTON_WHITE.png",
+    button_grey: "res/images/BUTTONS/BUTTON_GREY.png",
+    progress_bar: "res/images/progress-bar.png",
+    ctrls_background: "res/images/ctrls-background.png",
+    status_button: "res/images/status-button.png",
+    shader_outline_vertex: "res/Shaders/mask_country.vsh",
+    shader_outline_fragment: "res/Shaders/mask_country.fsh",
   `;
 
   for (var i = 0; i < countries.length; i++) {
     country = countries[i];
-    country_file = country_files[i];
+    countryFile = countryFiles[i];
     if (country.iso_a3 == "-99")
       continue;
-    res_js = res_js + country.iso_a3 + '_png:\"res/countries/'+country_file+'\",\n'
+    resourceJavaScript = resourceJavaScript + country.iso_a3 + '_png:\"res/countries/'+countryFile+'\",\n'
   }
-  res_js += `
+  resourceJavaScript += `
 };
 
 var g_resources = [];
@@ -530,12 +587,12 @@ for (var i in res) {
     g_resources.push(res[i]);
 }
 `; 
-  res_file = "./resource.js"
-  fs.writeFile(res_file, res_js, function(err) {
+  let resourceFile = "./res/resource.js"
+  fs.writeFile(resourceFile, resourceJavaScript, function(err) {
     if(err) {
         return console.log(err);
     }
-    console.log("The file '" + res_file + "' was saved!");
+    console.log("The file '" + resourceFile + "' was saved!");
   });
 
   // GRATICULE
@@ -560,32 +617,22 @@ for (var i in res) {
   context.translate(translate[0], translate[1]);
 
   // Graticule
-  var graticule = d3.geoGraticule();
   context.beginPath();
   context.lineWidth = 0.5;
   context.strokeStyle = '#ccc';
   path(graticule());
   context.stroke();
 
-  var out3 = fs.createWriteStream('./' + foreground);
+  var out3 = fs.createWriteStream('./res/' + foreground);
   var stream3 = canvas.pngStream();
   stream3.on('data', function(chunk){
     out3.write(chunk);
   });
 
   stream3.on('end', function(){
-    console.log('saved png');
+    console.log('saved png: ' + foreground);
   });
 
 }
 
-
-// Generates projections for various D3 geo projections
-
-// writeProj(projection1, 'mercator');
-// writeProj(projection2, 'equirectangular');
-// writeProj(projection3, 'peirce');
-// writeProj(projection4, 'patterson');
-writeProj(projection7, 'stereographic');
-// writeProj(projection6, 'guyou');
-
+writeProj(makeProjection());
