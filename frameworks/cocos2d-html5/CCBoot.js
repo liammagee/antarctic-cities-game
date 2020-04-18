@@ -1061,7 +1061,6 @@ cc.loader = (function () {
             if (obj)
                 return cb(null, obj);
             var loader = null;
-                        console.log(_register);
 
             if (type) {
                 loader = _register[type.toLowerCase()];
