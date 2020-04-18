@@ -200,7 +200,8 @@ var writeProj = function(proj) {
     context.beginPath();
     path(tracts.features[index]);
     context.fill();
-    context.stroke();
+    if (greyscale)
+      context.stroke();
     context.closePath();
   }
 
@@ -213,14 +214,6 @@ var writeProj = function(proj) {
   context.fillStyle = "#00f", 
   context.closePath();
 
-
-  // d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
-  //   if (error) throw error;
-
-  //   context.beginPath();
-  //   path(topojson.mesh(world));
-  //   context.stroke();
-  // });
 
   var out = fs.createWriteStream('./res/' + background);
   var stream = canvas.pngStream();
