@@ -29,6 +29,7 @@ let projectionName = (program.projection !== undefined) ? program.projection : '
 // Common variables
 const COUNTRY_GREY = '#D8E1E3';
 const ATA_GREY = '#E8F1F3';
+const BORDER_GREY = '#59616B';
 const scaleFactor = 1.0;
 const decimalFactor = 10;
 const precisionLevel = 0.1;
@@ -144,10 +145,10 @@ var writeProj = function(proj) {
   let context = canvas.getContext('2d');
   context.clearRect();
 
-  // if (greyscale) {
-  //   context.fillStyle = '#fff';
-  //   context.fillRect(0, 0, width, height);
-  // }
+  if (greyscale) {
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, width, height);
+  }
 
   let path = d3.geoPath(proj, context);
   let bounds = path.bounds(topojson.mesh(data)),
@@ -166,18 +167,15 @@ var writeProj = function(proj) {
   let graticule = d3.geoGraticule();
   let sphere = new Object({type: "Sphere"});
   context.beginPath();
-  if (greyscale)
+  if (greyscale) {
     context.fillStyle = "rgb(255,255,255)";
-  else
+  }
+  else {
     context.fillStyle = "rgba(69,168,226, 0.5)";
+  }
   path(sphere);
   context.fill();
   context.closePath();
-
-  if (greyscale) {
-    context.strokeStyle = '#fff';
-    context.lineWidth = 0.5;
-  }
   
   for (let i = 0; i < tracts.features.length; i++) {
     let index = i;
@@ -185,8 +183,9 @@ var writeProj = function(proj) {
     var col = (100 + parseInt(props.MAPCOLOR7) * 20);
     if (col > 255)
       col = 255;
-    context.strokeStyle = "#fff";
     if (greyscale) {
+      context.strokeStyle = BORDER_GREY;
+      context.lineWidth = 1.0;
       context.fillStyle = COUNTRY_GREY;
       if (props.ISO_A3 == "ATA") {
         context.fillStyle = ATA_GREY;
@@ -203,17 +202,7 @@ var writeProj = function(proj) {
     context.fill();
     context.stroke();
     context.closePath();
-
   }
-  
-  
-  // context.beginPath();
-  // path(tracts);
-  // context.fill();
-
-  // context.beginPath();
-  // path(tracts);
-  // context.stroke();
 
   // Graticule
   context.beginPath();
@@ -519,7 +508,7 @@ var writeProj = function(proj) {
   xml += '  </objectgroup>\n'
   xml += '</map>\n'
 
-  let tmxFile = "./res/tmx-" + projectionName + ".tmx"
+  let tmxFile = "./res/tmx-" + projectionName + "-" + scheme + ".tmx"
   fs.writeFile(tmxFile, xml, function(err) {
     if(err) {
         return console.log(err);
@@ -529,9 +518,9 @@ var writeProj = function(proj) {
   
   let resourceJavaScript = `
   var res = {
-    world_tilemap_tmx : "res/tmx-stereographic-${scheme}.tmx",
-    world_tilemap_background : "res/background-stereographic-${scheme}.png",
-    world_tilemap_foreground : "res/foreground-stereographic-${scheme}.png",
+    world_tilemap_tmx : "res/tmx-${projectionName}-${scheme}.tmx",
+    world_tilemap_background : "res/background-${projectionName}-${scheme}.png",
+    world_tilemap_foreground : "res/foreground-${projectionName}-${scheme}.png",
     dot_png : "res/images/dot.png",
     fire_texture: "res/images/fire.png",
     policy_dot_off_png : "res/images/BUTTONS/DOT_OFF.png",
@@ -568,8 +557,18 @@ var writeProj = function(proj) {
     progress_bar: "res/images/progress-bar.png",
     ctrls_background: "res/images/ctrls-background.png",
     status_button: "res/images/status-button.png",
-    shader_outline_vertex: "res/Shaders/mask_country.vsh",
-    shader_outline_fragment: "res/Shaders/mask_country.fsh",
+    shader_outline_vertex: "res/shaders/mask_country.vsh",
+    shader_outline_fragment: "res/shaders/mask_country.fsh",
+    ArvoFont : {
+      type:"font",
+      name:"ArvoFont",
+      srcs:["res/fonts/Arvo-Regular.ttf", "res/fonts/Arvo-Regular.ttf"]
+    },
+    JosefinSansFont : {
+      type:"font",
+      name:"JosefinSansFont",
+      srcs:["res/fonts/JosefinSans-Regular.ttf", "res/fonts/JosefinSans-Regular.ttf"]
+    },
   `;
 
   for (var i = 0; i < countries.length; i++) {
