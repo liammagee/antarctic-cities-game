@@ -11,6 +11,7 @@ program
     .version(require("./package.json").version)
     .usage("[options]")
     .description("Generate XML and images files for the countries to be rendered in the game.")
+    .option("-c, --city", "include cities and other populated places")
     .option("-x, --xml", "generate just the tmx file of countries")
     .option("-j, --json <file>", "specify the JSON file to use as input (must be in TopoJSON format)")
     .option("-g, --greyscale", "use greyscale rather than colour scheme")
@@ -25,6 +26,7 @@ let jsonFile = (program.json !== undefined) ? program.json : 'data/110m-topo.jso
 let greyscale = (program.greyscale !== undefined);
 let scheme = (greyscale ? 'greyscale' : 'colour');
 let projectionName = (program.projection !== undefined) ? program.projection : 'equal';
+let city = (program.city !== undefined);
 
 // Common variables
 const COUNTRY_GREY = '#D8E1E3';
@@ -41,8 +43,10 @@ const mainlandCoordCutoff = 6;
 // Taken from: https://github.com/topojson/world-atlas
 // https://unpkg.com/world-atlas@1/
 let data = JSON.parse(fs.readFileSync("./" + jsonFile, 'utf8'));
+let dataCity = JSON.parse(fs.readFileSync("./data/10m-pop-places-topo.json", 'utf8'));
 // Extract features
 let tracts = topojson.feature(data, data.objects.tracts);
+let tractsCity = topojson.feature(dataCity, dataCity.objects.tracts);
 // Simplify the data
 let data_sim = topojson.simplify(topojson.presimplify(data), precisionLevel);
 let tracts_sim = topojson.feature(data_sim, data_sim.objects.tracts);
@@ -122,6 +126,8 @@ const makeContext = function(canvas, proj) {
         scale = .9 / Math.max(dx / width, dy / height),
         scalex = width / dx, 
         scaley = height  / dy,
+        translatex = -bounds[0][0], 
+        translatey = -bounds[0][1],
         translate = [-bounds[0][0], -bounds[0][1]];
         translate = [width / 2 - scale * x, height / 2 - scale * y];
 
@@ -159,8 +165,10 @@ var writeProj = function(proj) {
         scale = .9 / Math.max(dx / width, dy / height),
         scalex = scaleFactor * width / dx, 
         scaley = scaleFactor * height  / dy,
-        translate = [-bounds[0][0], -bounds[0][1]];
-
+        translatex = -bounds[0][0], 
+        translatey = -bounds[0][1],
+      translate = [-bounds[0][0], -bounds[0][1]];
+  
   context.scale(scalex, scaley);
   context.translate(width/2 * (1/ scalex)-width/2, height/2 * (1/ scaley)- height/2);
 
@@ -205,6 +213,27 @@ var writeProj = function(proj) {
     context.closePath();
   }
 
+  if (city) {
+    for (let i = 0; i < tractsCity.features.length; i++) {
+      let index = i;
+      var featPop = tractsCity.features[index];
+      var propsPop = featPop.properties;
+      context.fillStyle = BORDER_GREY;
+
+      // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
+      let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
+      // context.fillStyle = "#000";
+      context.beginPath();
+      // context.arc(featPop.geometry.coordinates[0], featPop.geometry.coordinates[1], popScale * 5, 0, Math.PI * 2);
+      path.pointRadius(popScale * 5);
+      path(featPop.geometry);
+      context.fill();
+      if (greyscale)
+        context.stroke();
+      context.closePath();
+    }
+  }
+
   // Graticule
   context.beginPath();
   context.lineWidth = 0.5;
@@ -226,7 +255,7 @@ var writeProj = function(proj) {
   });
 
   // Add countries
-  var countries = [], countryFiles = [], frags = [], iso_a3s = [];
+  var countries = [], countryFiles = [], frags = [], fragPlaces = [], iso_a3s = [];
 
   var featureGenerator = function(i, gid) {
 
@@ -323,10 +352,20 @@ var writeProj = function(proj) {
       pathCountry(tracts.features[i]);
       contextCountry.fill();
 
-      // Toggle off border
-      // contextCountry.beginPath();
-      // path(tracts.features[i]);
-      // contextCountry.stroke();
+      if (city) {
+        let index = i;
+        var featPop = tractsCity.features[index];
+        var propsPop = featPop.properties;
+        contextCountry.fillStyle = BORDER_GREY;
+  
+        // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
+        let countryPopScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
+        contextCountry.beginPath();
+        path.pointRadius(countryPopScale * 5);
+        path(featPop.geometry);
+        contextCountry.fill();
+        contextCountry.closePath();
+      }
 
       var out2 = fs.createWriteStream('./res/countries/' + countryFile);
       var stream2 = canvasCountry.pngStream();
@@ -352,7 +391,6 @@ var writeProj = function(proj) {
           translatey = -bounds[0][1],
           translate = [-bounds[0][0], -bounds[0][1]];
     
-
     svg_text = path(tracts_sim.features[i]);
     if (svg_text == null)
       return gid;
@@ -360,10 +398,11 @@ var writeProj = function(proj) {
     // MULTIPOLYGON VERSION
     zones = svg_text.split(/[Z]/);
     tmx_frag = "";
+    tmxFragPlace = "";
     var internalCounter = 0;
   
-  
     // Parses the SVG comma-delimited pairs to builds an array of arrays of coordinate pairs
+    // console.log(translatex, scalex, translatey, scaley);
     var coords = zones.map(z => {
       s = z.split(/[ML]/). 
         map((p) => { p = p.split(','); return [Math.round((parseFloat(p[0]) + translatex) * scalex * decimalFactor) / decimalFactor, Math.round((parseFloat(p[1]) + translatey) * scaley * decimalFactor) / decimalFactor].join(',') }).
@@ -381,7 +420,7 @@ var writeProj = function(proj) {
     var orig_coords = tracts_sim.features[i].geometry.coordinates.sort((a, b) => { return b[0].length - a[0].length;})
     var mainland_coords = orig_coords[0];
     // When there are multiple polygons, i.e. land masses
-    if (coords.length > 1)
+    if (coords.length > 1 && orig_coords[0][0].length > 2)
       mainland_coords = orig_coords[0][0];
     var sumOfLongitudes = mainland_coords.map(c => { return c[1]; }).reduce((accumulator, c) => { return accumulator + c; }, 0 );
     var meanLongitudes = sumOfLongitudes / mainland_coords.length;
@@ -403,9 +442,10 @@ var writeProj = function(proj) {
       // s = s.join(' ');
     for (let j = 0; j < coords.length; j++) {
       coord = coords[j];
-      if (coord.length < coordCutoff)
+      if (coord.length < coordCutoff) {
         continue;
-    // coords.forEach(s => {
+      }
+  // coords.forEach(s => {
       s = coord.join(' ');
 
       /*
@@ -440,6 +480,7 @@ var writeProj = function(proj) {
       iso_a3s.push(country.iso_a3);
       countryFiles.push(countryFile);
       frags.push(tmx_frag);
+      fragPlaces.push(tmxFragPlace);
 
       return gid + 1;
     }
@@ -492,13 +533,42 @@ var writeProj = function(proj) {
   
   xml += '  <objectgroup name="Object Layer 1">\n'
   for (var i = 0; i < countryFiles.length; i++) {
-    country = countries[i]
-    tmx_frag = frags[i]
+    country = countries[i];
+    tmx_frag = frags[i];
     // xml += '    <object id="' + (obj_id++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">'
-    xml += tmx_frag + '\n'
+    xml += tmx_frag + '\n';
     // xml += '    </object>\n'
   }
   xml += '  </objectgroup>\n'
+  
+  if (city) {
+    xml += '  <objectgroup name="Object Layer 2">\n'
+    for (let i = 0; i < tractsCity.features.length; i++) {
+      let index = i;
+      var featPop = tractsCity.features[index];
+      var propsPop = featPop.properties;
+      var coordsPlace = path(featPop).split(',').slice(0, 2).map(item => { return item.replace(/[A-Za-z]/, '') });
+      console.log(coordsPlace);
+      let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
+      let px = Math.round((parseFloat(coordsPlace[0]) + translatex) * scalex * decimalFactor) / decimalFactor;
+      let py = Math.round((parseFloat(coordsPlace[1]) + translatey) * scaley * decimalFactor) / decimalFactor;
+      xml += '\t<object id="' + (obj_id++) + '" name="' + propsPop.NAME + '" x="0" y="0" visible="0">\n'
+      xml += "\t\t<polygon points=\"" + px + "," + py + "\"/>\n";
+      xml += "\t\t<properties>\n";
+      xml += "\t\t\t<property name=\"NAME\" value=\"" + propsPop.NAME + "\"/>\n";
+      xml += "\t\t\t<property name=\"ISO_A2\" value=\"" + propsPop.ISO_A2 + "\"/>\n";
+      xml += "\t\t\t<property name=\"ADM0_A3\" value=\"" + propsPop.ADM0_A3 + "\"/>\n";
+      xml += "\t\t\t<property name=\"LATITUDE\" value=\"" + propsPop.LATITUDE + "\"/>\n";
+      xml += "\t\t\t<property name=\"LONGITUDE\" value=\"" + propsPop.LONGITUDE + "\"/>\n";
+      xml += "\t\t\t<property name=\"POP_MAX\" value=\"" + propsPop.POP_MAX + "\"/>\n";
+      xml += "\t\t\t<property name=\"POP_MIN\" value=\"" + propsPop.POP_MIN + "\"/>\n";
+      xml += "\t\t\t<property name=\"POP_SCALE\" value=\"" + popScale + "\"/>\n";
+      xml += "\t\t</properties>\n";
+      xml += '\t</object>\n';
+    }
+    xml += '  </objectgroup>\n'
+  }
+
   xml += '</map>\n'
 
   let tmxFile = "./res/tmx-" + projectionName + "-" + scheme + ".tmx"

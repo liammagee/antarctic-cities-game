@@ -447,10 +447,13 @@ var initGameParams = function initGameParams(scenarioData) {
     if (cc.sys.localStorage.level === undefined) cc.sys.localStorage.level = 'Easy';
 
     gameParams = {};
+    // Set options here
     gameParams.level = cc.sys.localStorage.level;
+    gameParams.language = cc.sys.localStorage.language;
+    gameParams.greyscale = cc.sys.localStorage.greyscale;
+    // Game play options
     gameParams.difficultyMultiplier = 1.0;
     if (gameParams.level === "Medium") gameParams.difficultyMultiplier = 2.0;else if (gameParams.level === "Hard") gameParams.difficultyMultiplier = 3.0;
-    gameParams.language = cc.sys.localStorage.language;
     gameParams.state = GAME_STATES.INITIALISED;
     gameParams.modal = false;
     gameParams.startDate = new Date(Date.now());
@@ -1088,6 +1091,7 @@ var WorldLayer = cc.Layer.extend({
                 // Pause
 
                 gameParams.state = GAME_STATES.PAUSED;
+
                 showMessageBoxOK(world, "Options", "", "QUIT GAME", function () {
 
                     postResultsToServer();
@@ -1099,6 +1103,19 @@ var WorldLayer = cc.Layer.extend({
 
                     gameParams.state = GAME_STATES.STARTED;
                 });
+            } else if (target == world.btnOptions) {
+                // Pause
+
+                gameParams.state = GAME_STATES.PAUSED;
+
+                cc.sys.localStorage.greyscale = !(cc.sys.localStorage.greyscale == 'true');
+                gameParams.greyscale = cc.sys.localStorage.greyscale;
+                world.worldBackground.removeChild(world.map);
+                if (gameParams.greyscale == 'true') world.map = cc.TMXTiledMap.create(res.world_tilemap_tmx_greyscale);else world.map = cc.TMXTiledMap.create(res.world_tilemap_tmx_colour);
+                world.worldBackground.addChild(world.map, 2);
+                tilelayer = world.map.getLayer("Tile Layer 1");
+
+                gameParams.state = GAME_STATES.STARTED;
             } else if (target == world.btnPause) {
                 // Pause
 
@@ -1126,6 +1143,7 @@ var WorldLayer = cc.Layer.extend({
         };
 
         handleMouseTouchEvent(world.btnQuit, controlHandler);
+        handleMouseTouchEvent(world.btnOptions, controlHandler);
         handleMouseTouchEvent(world.btnPause, controlHandler);
         handleMouseTouchEvent(world.btnPlay, controlHandler);
         handleMouseTouchEvent(world.btnFF, controlHandler);
@@ -1212,9 +1230,7 @@ var WorldLayer = cc.Layer.extend({
         }, this.worldBackground);
 
         // Add map
-        this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx);
-        // this.map.setAnchorPoint(new cc.p(0,0));
-        // this.map.attr({ x: 0, y: 0 });
+        if (gameParams.greyscale) this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx_greyscale);else this.map = cc.TMXTiledMap.create(res.world_tilemap_tmx_colour);
         this.worldBackground.addChild(this.map, 2);
         tilelayer = this.map.getLayer("Tile Layer 1");
 
@@ -1307,6 +1323,7 @@ var WorldLayer = cc.Layer.extend({
         this.controlsBackground.addChild(this.dateBackground, 2);
 
         this.btnQuit = new ccui.Button();
+        this.btnOptions = new ccui.Button();
         this.btnPause = new ccui.Button();
         this.btnPlay = new ccui.Button();
         this.btnFF = new ccui.Button();
@@ -1320,6 +1337,16 @@ var WorldLayer = cc.Layer.extend({
         this.btnQuit.setContentSize(cc.size(105, 105));
         this.btnQuit.setScale(0.46);
         this.topBarLayout.addChild(this.btnQuit, 102);
+
+        this.btnOptions.setAnchorPoint(cc.p(0, 0));
+        this.btnOptions.setTouchEnabled(true);
+        this.btnOptions.setSwallowTouches(false);
+        this.btnOptions.setScale9Enabled(true);
+        this.btnOptions.loadTextures(res.options_off_png, "", res.options_on_png);
+        this.btnOptions.attr({ x: 47, y: 0 });
+        this.btnOptions.setContentSize(cc.size(105, 105));
+        this.btnOptions.setScale(0.46);
+        this.topBarLayout.addChild(this.btnOptions, 102);
 
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setSwallowTouches(false);
@@ -3080,6 +3107,7 @@ var SelectOptionsScene = cc.Scene.extend({
 
         if (cc.sys.localStorage.language === undefined || LANGUAGES.indexOf(cc.sys.localStorage.language) === -1) cc.sys.localStorage.language = 'eng';
         if (cc.sys.localStorage.level === undefined) cc.sys.localStorage.level = 'Easy';
+        if (cc.sys.localStorage.greyscale === undefined) cc.sys.localStorage.greyscale = true;
 
         var antarcticaSprite = new cc.Sprite(res.antarctica_large_png);
         antarcticaSprite.setAnchorPoint(new cc.p(0.5, 0.5));
@@ -3385,7 +3413,9 @@ var LoadingScene = cc.Scene.extend({
                 onKeyPressed: function onKeyPressed(keyCode, event) {},
                 onKeyReleased: function onKeyReleased(keyCode, event) {
 
-                    var automateID = parseInt(cc.sys.isNative ? that.getNativeKeyName(keyCode) : String.fromCharCode(keyCode));
+                    var keyPressed = cc.sys.isNative ? that.getNativeKeyName(keyCode) : String.fromCharCode(keyCode);
+
+                    var automateID = parseInt(keyPressed);
                     if (!isNaN(automateID) && automateID > 0 && automateID < 7) {
 
                         cc.director.runScene(new WorldScene(automateID));

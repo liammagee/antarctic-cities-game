@@ -21,454 +21,469 @@
    <tileset firstgid="7" name="USA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/USA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="8" name="PNG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="8" name="KAZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+    <image source="countries/KAZ_equal.png" trans="ff00ff" width="1334" height="650"/>
+   </tileset>
+   <tileset firstgid="9" name="UZB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+    <image source="countries/UZB_equal.png" trans="ff00ff" width="1334" height="650"/>
+   </tileset>
+   <tileset firstgid="10" name="PNG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PNG_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="9" name="IDN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="11" name="IDN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/IDN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="10" name="ARG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="12" name="ARG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ARG_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="11" name="CHL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="13" name="CHL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CHL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="12" name="COD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="14" name="COD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/COD_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="13" name="SOM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="15" name="SOM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SOM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="14" name="KEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="16" name="KEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/KEN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="15" name="SDN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="17" name="SDN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SDN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="16" name="TCD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="18" name="TCD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/TCD_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="17" name="HTI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="19" name="HTI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/HTI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="18" name="DOM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="20" name="DOM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/DOM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="19" name="RUS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="21" name="RUS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/RUS_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="20" name="FLK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="22" name="FLK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/FLK_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="21" name="NOR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="23" name="NOR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NOR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="22" name="GRL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="24" name="GRL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GRL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="23" name="LSO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="25" name="ZAF" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+    <image source="countries/ZAF_equal.png" trans="ff00ff" width="1334" height="650"/>
+   </tileset>
+   <tileset firstgid="26" name="LSO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LSO_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="24" name="MEX" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="27" name="MEX" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MEX_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="25" name="URY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="28" name="URY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/URY_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="26" name="BRA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="29" name="BRA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BRA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="27" name="BOL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="30" name="BOL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BOL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="28" name="PER" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="31" name="PER" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PER_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="29" name="COL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="32" name="COL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/COL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="30" name="PAN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="33" name="PAN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PAN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="31" name="CRI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="34" name="CRI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CRI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="32" name="NIC" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="35" name="NIC" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NIC_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="33" name="HND" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="36" name="HND" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/HND_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="34" name="SLV" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="37" name="SLV" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SLV_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="35" name="GTM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="38" name="GTM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GTM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="36" name="BLZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="39" name="BLZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BLZ_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="37" name="VEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="40" name="VEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/VEN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="38" name="GUY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="41" name="GUY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GUY_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="39" name="SUR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="42" name="SUR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SUR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="40" name="FRA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="43" name="FRA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/FRA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="41" name="ECU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="44" name="ECU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ECU_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="42" name="CUB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="45" name="CUB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CUB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="43" name="ZWE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="46" name="ZWE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ZWE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="44" name="BWA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="47" name="BWA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BWA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="45" name="NAM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="48" name="NAM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NAM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="46" name="SEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="49" name="SEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SEN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="47" name="MLI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="50" name="MLI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MLI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="48" name="MRT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="51" name="MRT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MRT_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="49" name="BEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="52" name="BEN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BEN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="50" name="NER" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="53" name="NER" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NER_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="51" name="NGA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="54" name="NGA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NGA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="52" name="CMR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="55" name="CMR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CMR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="53" name="TGO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="56" name="TGO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/TGO_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="54" name="GHA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="57" name="GHA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GHA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="55" name="CIV" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="58" name="CIV" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CIV_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="56" name="GIN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="59" name="GIN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GIN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="57" name="GNB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="60" name="GNB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GNB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="58" name="LBR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="61" name="LBR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LBR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="59" name="SLE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="62" name="SLE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SLE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="60" name="BFA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="63" name="BFA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BFA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="61" name="CAF" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="64" name="CAF" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CAF_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="62" name="COG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="65" name="COG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/COG_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="63" name="GAB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="66" name="GAB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GAB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="64" name="ZMB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="67" name="ZMB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ZMB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="65" name="MWI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="68" name="MWI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MWI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="66" name="MOZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="69" name="MOZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MOZ_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="67" name="SWZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="70" name="SWZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SWZ_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="68" name="AGO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="71" name="AGO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/AGO_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="69" name="BDI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="72" name="BDI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BDI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="70" name="ISR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="73" name="ISR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ISR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="71" name="MDG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="74" name="MDG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MDG_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="72" name="GMB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="75" name="GMB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GMB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="73" name="TUN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="76" name="TUN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/TUN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="74" name="DZA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="77" name="DZA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/DZA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="75" name="JOR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="78" name="JOR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/JOR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="76" name="ARE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="79" name="ARE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ARE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="77" name="KWT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="80" name="KWT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/KWT_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="78" name="IRQ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="81" name="IRQ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/IRQ_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="79" name="OMN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="82" name="OMN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/OMN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="80" name="KHM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="83" name="KHM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/KHM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="81" name="THA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="84" name="THA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/THA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="82" name="LAO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="85" name="LAO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LAO_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="83" name="MMR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="86" name="MMR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MMR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="84" name="VNM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="87" name="VNM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/VNM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="85" name="PRK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="88" name="PRK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PRK_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="86" name="KOR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="89" name="KOR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/KOR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="87" name="MNG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="90" name="MNG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MNG_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="88" name="IND" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="91" name="IND" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/IND_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="89" name="BGD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="92" name="BGD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BGD_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="90" name="BTN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="93" name="BTN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BTN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="91" name="NPL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="94" name="NPL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NPL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="92" name="PAK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="95" name="PAK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PAK_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="93" name="AFG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="96" name="AFG" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/AFG_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="94" name="TJK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="97" name="TJK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/TJK_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="95" name="KGZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="98" name="KGZ" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/KGZ_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="96" name="SYR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="99" name="TKM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+    <image source="countries/TKM_equal.png" trans="ff00ff" width="1334" height="650"/>
+   </tileset>
+   <tileset firstgid="100" name="IRN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+    <image source="countries/IRN_equal.png" trans="ff00ff" width="1334" height="650"/>
+   </tileset>
+   <tileset firstgid="101" name="SYR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SYR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="97" name="ARM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="102" name="ARM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ARM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="98" name="SWE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="103" name="SWE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SWE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="99" name="BLR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="104" name="BLR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BLR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="100" name="UKR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="105" name="UKR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/UKR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="101" name="POL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="106" name="POL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/POL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="102" name="AUT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="107" name="AUT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/AUT_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="103" name="HUN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="108" name="HUN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/HUN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="104" name="MDA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="109" name="MDA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MDA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="105" name="ROU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="110" name="ROU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ROU_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="106" name="LTU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="111" name="LTU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LTU_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="107" name="LVA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="112" name="LVA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LVA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="108" name="EST" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="113" name="EST" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/EST_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="109" name="DEU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="114" name="DEU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/DEU_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="110" name="BGR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="115" name="BGR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BGR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="111" name="GRC" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="116" name="GRC" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GRC_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="112" name="TUR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="117" name="TUR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/TUR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="113" name="ALB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="118" name="ALB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ALB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="114" name="HRV" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="119" name="HRV" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/HRV_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="115" name="CHE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="120" name="CHE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CHE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="116" name="BEL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="121" name="BEL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BEL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="117" name="NLD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="122" name="NLD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NLD_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="118" name="PRT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="123" name="PRT" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PRT_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="119" name="ESP" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="124" name="ESP" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ESP_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="120" name="IRL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="125" name="IRL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/IRL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="121" name="NCL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="126" name="NCL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NCL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="122" name="NZL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="127" name="NZL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/NZL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="123" name="AUS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="128" name="AUS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/AUS_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="124" name="LKA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="129" name="LKA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LKA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="125" name="CHN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="130" name="CHN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CHN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="126" name="TWN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="131" name="TWN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/TWN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="127" name="ITA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="132" name="ITA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ITA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="128" name="DNK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="133" name="DNK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/DNK_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="129" name="GBR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="134" name="GBR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GBR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="130" name="ISL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="135" name="ISL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ISL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="131" name="AZE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="136" name="AZE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/AZE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="132" name="GEO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="137" name="GEO" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/GEO_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="133" name="PHL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="138" name="PHL" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PHL_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="134" name="MYS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="139" name="MYS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MYS_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="135" name="SVN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="140" name="SVN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SVN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="136" name="FIN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="141" name="FIN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/FIN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="137" name="SVK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="142" name="SVK" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SVK_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="138" name="CZE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="143" name="CZE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/CZE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="139" name="ERI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="144" name="ERI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ERI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="140" name="JPN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="145" name="JPN" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/JPN_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="141" name="PRY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="146" name="PRY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/PRY_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="142" name="YEM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="147" name="YEM" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/YEM_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="143" name="SAU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="148" name="SAU" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SAU_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="144" name="ATA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="149" name="ATA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ATA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="145" name="MAR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="150" name="MAR" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MAR_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="146" name="EGY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="151" name="EGY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/EGY_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="147" name="LBY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="152" name="LBY" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/LBY_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="148" name="ETH" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="153" name="ETH" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/ETH_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="149" name="DJI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="154" name="DJI" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/DJI_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="150" name="UGA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="155" name="UGA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/UGA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="151" name="RWA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="156" name="RWA" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/RWA_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="152" name="BIH" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="157" name="BIH" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/BIH_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="153" name="MKD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="158" name="MKD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MKD_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="154" name="SRB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="159" name="SRB" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SRB_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="155" name="MNE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="160" name="MNE" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/MNE_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="156" name="KOS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="161" name="KOS" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/KOS_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
-   <tileset firstgid="157" name="SSD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
+   <tileset firstgid="162" name="SSD" tilewidth="1334" tileheight="650" tilecount="1" columns="1">
     <image source="countries/SSD_equal.png" trans="ff00ff" width="1334" height="650"/>
    </tileset>
    <layer name="Tile Layer 1" width="1" height="1">
@@ -1256,6 +1271,31 @@
       157
     </data>
    </layer>
+   <layer name="Tile Layer 158" width="1" height="1">
+    <data encoding="csv">
+      158
+    </data>
+   </layer>
+   <layer name="Tile Layer 159" width="1" height="1">
+    <data encoding="csv">
+      159
+    </data>
+   </layer>
+   <layer name="Tile Layer 160" width="1" height="1">
+    <data encoding="csv">
+      160
+    </data>
+   </layer>
+   <layer name="Tile Layer 161" width="1" height="1">
+    <data encoding="csv">
+      161
+    </data>
+   </layer>
+   <layer name="Tile Layer 162" width="1" height="1">
+    <data encoding="csv">
+      162
+    </data>
+   </layer>
   <objectgroup name="Object Layer 1">
 	<object id="228" name="FJI" x="0" y="0" visible="0">
 		<polygon points="917.1,481.8 915.8,484.5 914,483.3 915.8,477.7 917.6,477.6 918.3,479.7"/>
@@ -1542,10 +1582,56 @@
 		</properties>
 	</object>
 
+	<object id="233" name="KAZ" x="0" y="0" visible="0">
+		<polygon points="1268.4,136.9 1264.6,136.8 1265.7,139 1272.4,142.1 1272.5,142.3 1271.8,144.5 1273.2,145.8 1271.7,147.1 1276,150.4 1276,152.1 1268.7,154.5 1268.5,155.8 1264.6,158.6 1264.4,161.1 1260.1,161.1 1255.3,156.4 1254.3,158.3 1250.5,157.7 1248.4,155.1 1246.9,156.1 1246.6,162.8 1245.8,161 1240.4,158.8 1225.4,150.2 1227,153.2 1222.2,152.5 1221.4,155.7 1219.8,155.8 1216.4,154.1 1214.6,154.4 1212,153.4 1211.1,156.1 1207.5,154.6 1205.2,150.5 1205.8,148.7 1201,144.6 1199.4,141.8 1203.7,139.8 1195.8,131.4 1195.4,129.6 1196.5,124.9 1186.1,119.3 1185.8,117.2 1182.7,115 1187.2,115.3 1193.7,111.5 1193.9,110.6 1199,110.6 1199.2,109.1 1196.5,106.5 1202.1,106.3 1202.9,105.1 1201.2,103 1201.6,97.7 1199.1,94.4 1203.3,95.9 1207.1,95.2 1211.8,98.6 1213.2,98.4 1217.9,102.7 1224.8,105.4 1232.6,103.6 1239.6,107.5 1245.1,109.7 1257.1,123.1"/>
+		<properties>
+			<property name="GID" value="8"/>
+			<property name="NAME" value="Kazakhstan"/>
+			<property name="ECONOMY" value="6. Developing region"/>
+			<property name="INCOME_GRP" value="3. Upper middle income"/>
+			<property name="ISO_A2" value="KZ"/>
+			<property name="POP_EST" value="18556698"/>
+			<property name="SUBREGION" value="Central Asia"/>
+			<property name="GDP_MD_EST" value="460700"/>
+			<property name="ISO_A3" value="KAZ"/>
+			<property name="EQUATOR_DIST" value="47.65019778485121"/>
+			<property name="OFFSET_X" value="61.5"/>
+			<property name="OFFSET_Y" value="162.8"/>
+		</properties>
+	</object>
+	<object id="234" name="KAZ" x="0" y="0" visible="0">
+		<polygon points="88.9,109.7 90.7,112.8 101,110.7 109.3,102.6 118,94.6 119.8,94.6 118.2,98.2 118.9,99.7 123.2,99.5 126.1,98.3 121.1,102.6 122.5,104.9 119.3,109.1 117.9,112 116,110.9 112.4,114.1 109.4,114.3 107.8,113.1 102.9,117.3 100.5,120.2 103.3,120.6 104.3,122.2 112.2,120.8 112.6,121.9 109.9,124.1 108.2,127.6 109.9,128.2 108.5,132 103.8,134.8 103.5,136 96.9,140.3 97.4,136.8 93.9,140.1 84.8,143.7 81.3,143 77.7,136.5 73.3,138.2 69.2,138 67.7,135.5 65.8,136.9 65.6,136.9 76.9,123.1"/>
+		<properties>
+		</properties>
+	</object>
+
+	<object id="234" name="UZB" x="0" y="0" visible="0">
+		<polygon points="1245.1,109.7 1239.6,107.5 1232.6,103.6 1224.8,105.4 1217.9,102.7 1213.2,98.4 1211.8,98.6 1207.1,95.2 1203.3,95.9 1199.1,94.4 1201.6,97.7 1201.2,103 1200,102.9 1198.8,99.4 1194.9,98.5 1194.5,100.2 1188.9,99.3 1188.1,95 1190.6,94.6 1193.3,95.2 1195.2,97.3 1197.5,95.2 1193.5,89.6 1196.2,89.2 1194.6,87.2 1191.2,86.7 1186.6,83.9 1182.9,79.4 1188.2,79.4 1191.3,81.9 1197.8,82.9 1203.8,84.5 1215.5,88.8 1222.1,93.1 1224,93.8 1227.6,93.5 1229.9,94.4 1232.9,97.1"/>
+		<properties>
+			<property name="GID" value="9"/>
+			<property name="NAME" value="Uzbekistan"/>
+			<property name="ECONOMY" value="6. Developing region"/>
+			<property name="INCOME_GRP" value="4. Lower middle income"/>
+			<property name="ISO_A2" value="UZ"/>
+			<property name="POP_EST" value="29748859"/>
+			<property name="SUBREGION" value="Central Asia"/>
+			<property name="GDP_MD_EST" value="202300"/>
+			<property name="ISO_A3" value="UZB"/>
+			<property name="EQUATOR_DIST" value="41.07869073249183"/>
+			<property name="OFFSET_X" value="88.9"/>
+			<property name="OFFSET_Y" value="112.8"/>
+		</properties>
+	</object>
+	<object id="235" name="UZB" x="0" y="0" visible="0">
+		<polygon points="101.1,97.1 100.4,97.8 102.7,100.2 108.1,97.8 112.4,96.5 114.2,94.3 118,94.6 109.3,102.6 101,110.7 90.7,112.8 88.9,109.7"/>
+		<properties>
+		</properties>
+	</object>
+
 	<object id="235" name="PNG" x="0" y="0" visible="0">
 		<polygon points="992.7,291.4 990.8,300.7 989.3,310.7 985.8,317.4 983.6,318.3 981.5,327.3 979.6,328.6 979,323.6 976.6,324.9 974.2,329.7 970.3,333.2 970.5,336.2 968.8,336 965.9,344.2 964.5,340.1 965.5,338.8 966.4,328.8 970.6,321.6 973.8,318.8 975.1,311.8 972.4,304 969.6,304.8 968.1,300.6 968.2,292.1"/>
 		<properties>
-			<property name="GID" value="8"/>
+			<property name="GID" value="10"/>
 			<property name="NAME" value="Papua New Guinea"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -1578,7 +1664,7 @@
 	<object id="236" name="IDN" x="0" y="0" visible="0">
 		<polygon points="990.2,196.3 991.8,202.2 995.9,207.3 995.2,208.2 990.3,204 988.6,200.1 988.1,195.2 983.9,182.4 980.6,181.7 978.3,186.2 980.9,188.9 984.8,198.4 982.8,198 982.8,195.8 979.9,193.6 977.2,189.2 973.4,194.1 971.8,193.2 968.5,198 965.9,198.1 964,195.5 964.8,193.4 968.7,195.7 965.8,190.8 968.2,190.1 969.5,186.3 973.5,186.5 971.3,183.2 961.2,184.4 959.6,181.3 960.1,179.1 964.2,180.3 967.9,179.3 967.2,177.2 969.5,175.5 972.8,177.5 976.2,178.2 985,181.7 989.2,186 989.1,189.9"/>
 		<properties>
-			<property name="GID" value="9"/>
+			<property name="GID" value="11"/>
 			<property name="NAME" value="Indonesia"/>
 			<property name="ECONOMY" value="4. Emerging region: MIKT"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -1656,7 +1742,7 @@
 	<object id="237" name="ARG" x="0" y="0" visible="0">
 		<polygon points="463,465.9 470.4,465.6 473.9,464.1 477.4,464.1 479.4,463.6 480.7,457.1 483.3,456.6 484,453.4 485.8,452.9 491.6,454.7 495.6,459.5 499.3,466.8 500.6,471.1 502.4,469.1 505.2,468.5 506.7,466.8 508.8,468.3 510.9,471.6 511.2,475.8 512.7,476.6 515.8,474 515.8,471 513.8,469.7 515.1,467.6 517.6,470.1 520.9,471.5 526.6,469.2 528.2,472.3 531.1,473.5 534,472.6 534.8,467.7 534,464.2 537.4,463.1 541,465.3 545.7,464.1 548.4,465.6 550.4,465.5 553.2,461.7 554,458.3 554.5,459.6 555.3,462.5 558.7,469.3 557.6,472.1 555.4,474.3 556.7,475.8 556.2,477.9 553.2,481.3 550.5,480.5 548.1,481.4 546.8,483.2 543.2,484.1 538.5,486.6 536.9,488.5 535.5,487.7 534.7,491 532.8,491.1 532.5,493.5 529.3,497.3 527.9,496.5 524.4,500.2 517.2,503.2 514.9,502.1 512.3,505.4 509.3,507.6 505.6,506.3 502.9,508.3 498.4,508.2 495.3,510.1 495.3,511.5 490.4,516.7 485.5,516.4 482.4,518.6 478.4,518.8 473.7,517.8 470.1,516 461.8,520.3 457.7,516.4 453.2,516.4 452.6,517.2 447.5,514.8 445.9,508.7 447.4,505.2 443.7,504.5 441.7,499.3 442.2,498.3 445,488.1 444.2,484.2 445,477.8 444.8,472.7 446.2,471.6 453.3,474.2 451.7,464.2 450,460.8 445.9,457.5 442.5,457.7 441.1,455.6 442.6,452.7 445.5,452 451,457.9 456.1,461.8"/>
 		<properties>
-			<property name="GID" value="10"/>
+			<property name="GID" value="12"/>
 			<property name="NAME" value="Argentina"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -1679,7 +1765,7 @@
 	<object id="238" name="CHL" x="0" y="0" visible="0">
 		<polygon points="438.6,534.7 440.1,531.7 442.6,530.3 443,527.4 447.3,527.6 450.3,523.8 454.6,520.2 452.6,517.2 453.2,516.4 457.7,516.4 461.8,520.3 470.1,516 473.7,517.8 478.4,518.8 482.4,518.6 485.5,516.4 490.4,516.7 495.3,511.5 495.3,510.1 498.4,508.2 502.9,508.3 505.6,506.3 509.3,507.6 512.3,505.4 514.9,502.1 517.2,503.2 524.4,500.2 527.9,496.5 529.3,497.3 532.5,493.5 532.8,491.1 534.7,491 535.5,487.7 536.9,488.5 538.5,486.6 543.2,484.1 546.8,483.2 548.1,481.4 550.5,480.5 553.2,481.3 556.2,477.9 556.7,475.8 555.4,474.3 557.6,472.1 558.7,469.3 555.3,462.5 554.5,459.6 555.8,462 559.7,463.9 562.8,461.5 564.2,466.3 564,471.3 564.4,476.2 563.1,478.9 561,480.1 559.9,483.4 555.3,489.1 551.7,490.9 547.4,490.2 549.4,495.3 545,495.3 539.3,499 538.2,494.7 530.8,498.7 531.3,501.5 535.8,499.1 536.6,501.4 525.2,508.2 522,508.4 519.6,511.8 516.1,514.9 515.1,513.6 501.8,516.4 495.9,518 491.3,522 487.9,522.5 483.9,525.3 478.3,525.3 471.1,527.9 462.6,530.1 454,532 448.1,534.5 443.3,537.2"/>
 		<properties>
-			<property name="GID" value="11"/>
+			<property name="GID" value="13"/>
 			<property name="NAME" value="Chile"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -1702,7 +1788,7 @@
 	<object id="239" name="COD" x="0" y="0" visible="0">
 		<polygon points="435.4,52.6 446.5,52.8 451.2,51.1 459.2,50.3 457.4,51.6 453.5,57.6 455.6,59.2 458.4,58.8 467.4,62.3 473.2,59.6 473.3,58.4 478.4,59.5 475.7,62.2 468.8,63.6 465.6,66.2 462.6,66.4 461.9,69 458.8,71.8 455.8,72.6 452,76.7 449.4,77.9 444.9,85 439.9,83.6 437.3,84.7 432.1,83.4 427,83.5 423.8,88.5 422.4,87.9 420.2,93 422.8,95.2 420.8,97.5 419.2,101.9 414.1,104 406.9,105.6 400.1,118.7 398.7,123.5 397.1,124 394.6,120 396,114.7 398.9,112.9 395.9,106.1 392.1,106 388.7,104 386.6,99 382.4,97.6 375.7,97.4 371.2,95.5 368.4,95.4 365.1,95.3 362.8,91.7 369.2,85.3 373.7,79.1 371.2,78.1 372.5,75.7 372.1,71.5 374,69.9 373.7,66.8 377.2,60.2 383.1,57.5 384.7,55.8 385.5,51.3 388.5,50.2 394.2,46.8 401.1,46.7 402.8,45.2 404.8,47.6 409.1,49.6 415,50.6 419.1,50.7 419.9,51.8 425.7,53.1 428.8,52.3"/>
 		<properties>
-			<property name="GID" value="12"/>
+			<property name="GID" value="14"/>
 			<property name="NAME" value="Dem. Rep. Congo"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -1720,7 +1806,7 @@
 	<object id="240" name="SOM" x="0" y="0" visible="0">
 		<polygon points="454.9,13.3 446.9,14.7 432.8,14.7 418.4,15.2 410.4,13.4 408.3,11.4 402.6,9.7 402.2,6.8 386.8,5.1 369.4,4.1 351.9,3.9 334.3,6.8 326.3,5.3 319,4.8 331.3,2.6 347.1,1.2 361.5,0.5 376.1,0 394.5,0.1 409.6,1 423.1,2.3 430.7,4.1 434.6,5.6 438,7.1 442.8,9.2 450.2,12"/>
 		<properties>
-			<property name="GID" value="13"/>
+			<property name="GID" value="15"/>
 			<property name="NAME" value="Somalia"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -1738,7 +1824,7 @@
 	<object id="241" name="KEN" x="0" y="0" visible="0">
 		<polygon points="468.3,20.9 457,24.5 453,24.4 440.4,29.8 428.5,35.7 422,35.7 413.3,32.2 401.4,34.6 395.9,36.4 389.8,33 391.8,31.3 398.4,29.7 399.6,27.6 407.7,23.4 411.3,19.3 408.6,18.6 406.5,16.4 409.6,15.2 410.4,13.4 418.4,15.2 432.8,14.7 446.9,14.7 454.9,13.3 457.5,17 462,17.7 467.5,19.6"/>
 		<properties>
-			<property name="GID" value="14"/>
+			<property name="GID" value="16"/>
 			<property name="NAME" value="Kenya"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -1756,7 +1842,7 @@
 	<object id="242" name="SDN" x="0" y="0" visible="0">
 		<polygon points="355.4,72.9 349.6,77.9 343.5,78.5 336.7,82.2 333.3,84.2 327.8,86.1 327.6,87.5 323.8,87 318.6,88.1 312,87.2 313.3,83.8 302.2,86.9 291,90.4 288.7,91.1 289.4,87 278,90.8 278.7,81 278.9,71.6 278.6,62.8 278.3,58.6 277.7,54.6 284,51.4 285.3,51.6 292.1,48.8 300,45.2 303.7,41.5 308,41.6 311.7,43.5 326.4,41.1 329.2,40.1 341.8,38.8 344.9,39.9 352.6,40 354.1,41.1 360.7,40.8 366.7,39.8 355.6,42.4 352.5,44.6 342.9,46.4 343.3,49.8 349.4,47.6 356.3,49.6 356.3,51.3 351.6,54.8 355.6,57.5 354.1,61.1 352.7,61.8 351,66.8 345.1,70.2 344.8,72.8 351.5,73.6 352.1,75.9"/>
 		<properties>
-			<property name="GID" value="15"/>
+			<property name="GID" value="17"/>
 			<property name="NAME" value="Sudan"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -1774,7 +1860,7 @@
 	<object id="243" name="TCD" x="0" y="0" visible="0">
 		<polygon points="291,90.4 302.2,86.9 313.3,83.8 312,87.2 318.6,88.1 323.8,87 327.6,87.5 327.8,86.1 333.3,84.2 336.7,82.2 338.1,86.2 342.8,88.2 343.7,91.6 341.8,96.8 343.7,96.1 345.8,99.6 345.6,104.8 343.6,111 342.5,110.4 336.5,113.2 331.3,118.2 329.3,117.6 331.5,111.9 326.3,115 319.8,116.3 316.1,118.6 313.9,118.7 313,121.5 309.8,122.1 307.5,124.3 301.7,123.9 298.5,119.6 292.1,121.1 282.3,122.5 280.3,122.2 275,126.9 267,130.5 265,127.4 271.1,117.8 277.5,108.5 284.1,99.3"/>
 		<properties>
-			<property name="GID" value="16"/>
+			<property name="GID" value="18"/>
 			<property name="NAME" value="Chad"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -1792,7 +1878,7 @@
 	<object id="244" name="HTI" x="0" y="0" visible="0">
 		<polygon points="279.8,541.2 287.8,543.4 288.7,550.6 290.1,552.8 289.1,554.7 287.5,553.8 286.8,547.1 285.4,545.3 281.9,546.1 281.7,548.5 280.2,547.2"/>
 		<properties>
-			<property name="GID" value="17"/>
+			<property name="GID" value="19"/>
 			<property name="NAME" value="Haiti"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -1810,7 +1896,7 @@
 	<object id="245" name="DOM" x="0" y="0" visible="0">
 		<polygon points="287.8,543.4 279.8,541.2 278.1,537.1 279.3,531 281.7,527.8 283.9,530 284.1,535.3 285.9,540 289.6,542.6"/>
 		<properties>
-			<property name="GID" value="18"/>
+			<property name="GID" value="20"/>
 			<property name="NAME" value="Dominican Rep."/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -1828,7 +1914,7 @@
 	<object id="246" name="RUS" x="0" y="0" visible="0">
 		<polygon points="1319,224 1318.8,227.3 1321.5,230.3 1321.4,232 1316.9,230.7 1314.4,229.2 1306.8,224.2 1307.3,227.1 1309.9,229.5 1310.5,230.6 1312.3,230.8 1313,233.3 1316.3,238.9 1316.2,244.1 1317.6,249 1317.3,250.2 1314,249.7 1312.4,246.9 1311.4,242.4 1309.9,241 1307.7,237.5 1304.2,230.4 1301.2,227.9 1299.7,224.3 1298.1,216.2 1296.1,216 1296.7,218 1296,219.8 1297.2,222.5 1297.6,225.3 1300,227.9 1301.4,231.4 1302.9,231.3 1304.7,234 1306.6,239.5 1310.1,243.1 1310,247.2 1312.1,250.8 1311.7,251.1 1309.7,248.5 1307.5,243.4 1305.9,243 1308.4,246.5 1307.8,249.3 1306,250.6 1302.6,248.9 1305.8,252.5 1308.9,257.7 1308,259.7 1305.9,260.9 1304.6,263 1306.8,264.9 1307.8,268.8 1307.1,269.6 1307.2,273.2 1305.9,275.7 1306.6,277.2 1305.3,279.5 1304.1,279.2 1304.5,283.2 1303.5,284.7 1304.8,286.6 1305.7,289.1 1305.9,292.6 1304.1,292.8 1303.9,290.7 1302.3,292.1 1300.6,290.6 1301,292.3 1299.7,295.1 1297.2,295.7 1295.6,295.4 1293.8,293.5 1292.4,286.6 1291.7,284.8 1289.1,286.6 1289.4,288.3 1286.9,286.9 1287.6,288.3 1287.5,290.8 1285.8,294.4 1284,293.5 1282.1,298.9 1284.9,300.8 1283.6,303.3 1283.2,305.6 1280.9,306.9 1278.4,306.4 1277,304.7 1273.7,305.2 1271.9,307.2 1275.6,310.4 1273.6,312.4 1274.3,315.6 1272.9,318.4 1273.8,320 1273.1,322.6 1276.7,322.3 1278.2,324.8 1275.2,339.1 1273,340.5 1270.2,345.2 1271.1,352.2 1270.7,355.8 1269.2,357.7 1266.5,358.1 1265.5,360.6 1266.5,362.9 1266.8,366.1 1266.4,369.8 1267.2,373.1 1264.2,377.7 1265.7,379.5 1267.9,376.9 1269.7,376.9 1269.4,382.9 1270.2,386.3 1269.3,392.3 1268.2,395.7 1253,405.8 1250.9,404.2 1250.7,401.3 1249,404.5 1246,407.7 1245.1,409.3 1242.4,410.6 1242.7,405.9 1239,401.1 1238.3,399.2 1232.6,394.3 1230.8,394.1 1233.2,389.4 1229.8,383.8 1231.1,382.1 1229.4,380.1 1229.7,376.4 1227.2,376.3 1223.4,373.9 1221.9,374.4 1221.1,377.9 1215.6,379 1215.4,376.3 1212.2,375.8 1210.5,377.5 1208.5,372.5 1204.2,372.3 1203.2,367.7 1199.4,367.3 1195.8,363 1198.4,361.4 1212.2,356.6 1217.5,357.4 1219.7,359.6 1221.5,359.5 1222.4,363.8 1227.3,367.8 1231.4,371.5 1234.6,375.3 1240,375.7 1239.5,372.8 1236.4,372.2 1231.9,366.7 1236.5,363.7 1235.1,357.3 1228.6,351.4 1226.4,353.9 1224.9,343.5 1227.6,343.6 1228.2,339.3 1226.4,335.9 1227.1,327.5 1226.1,318.3 1218.4,306 1210.3,293.9 1209.7,298.5 1207.2,299.4 1206.3,302.3 1208.2,304.7 1207.9,308.1 1203.7,311.9 1200.5,311.4 1196.7,308.2 1192.2,307.1 1186.1,304.4 1180.6,297.9 1178,296.1 1166.6,280.9 1164.3,275.2 1164.2,272.8 1166,270.9 1163,265 1161.7,264 1162.4,263.6 1164.4,264.2 1164.5,266.2 1169.2,268.2 1172.5,268.3 1174,271.9 1173.3,276.1 1177.1,279.7 1181.4,282.1 1186.3,286.7 1185.1,280.6 1183.6,277.1 1183.6,271.8 1187.3,271.7 1190.1,268.7 1191.5,263.4 1195.4,263.8 1203.7,263.1 1205.3,261.1 1206.7,257.3 1206.8,253.3 1206.3,249.4 1204.5,245.9 1203.4,247 1201.2,245.8 1199.9,243.5 1195.7,238.5 1193.9,237.5 1191.5,231.8 1193.3,229 1193.2,225.3 1195.3,223 1192.7,217 1191.5,209.4 1192.9,203.7 1195.4,203.5 1197.9,202.3 1198.9,200 1198.5,193.4 1201.2,191.2 1204.6,193.2 1207.6,189.6 1210.2,188.5 1206.2,182.5 1203.3,181.3 1200.7,176.7 1203.9,172.3 1206.7,172.6 1207.7,170.5 1209.9,170 1209.2,165.2 1207.1,158.2 1207.5,155.6 1207.5,154.6 1211.1,156.1 1212,153.4 1214.6,154.4 1216.4,154.1 1219.8,155.8 1221.4,155.7 1222.2,152.5 1227,153.2 1225.4,150.2 1240.4,158.8 1245.8,161 1246.6,162.8 1246.9,156.1 1248.4,155.1 1250.5,157.7 1254.3,158.3 1255.3,156.4 1260.1,161.1 1264.4,161.1 1264.6,158.6 1268.5,155.8 1268.7,154.5 1276,152.1 1276,150.4 1271.7,147.1 1273.2,145.8 1271.8,144.5 1272.5,142.3 1279.6,152.1 1286.4,162 1292.8,172 1298.8,182.2 1304.4,192.5 1309.7,202.9 1314.6,213.4"/>
 		<properties>
-			<property name="GID" value="19"/>
+			<property name="GID" value="21"/>
 			<property name="NAME" value="Russia"/>
 			<property name="ECONOMY" value="3. Emerging region: BRIC"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -1926,7 +2012,7 @@
 	<object id="248" name="FLK" x="0" y="0" visible="0">
 		<polygon points="543.1,440 539.6,437.8 539.5,434.7 537.5,433.7 538.1,430.3 539.6,430.5 542.2,433.9 541.5,436 544,437.5"/>
 		<properties>
-			<property name="GID" value="20"/>
+			<property name="GID" value="22"/>
 			<property name="NAME" value="Falkland Is."/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -1944,7 +2030,7 @@
 	<object id="249" name="NOR" x="0" y="0" visible="0">
 		<polygon points="44.9,244.4 48.7,244.6 46,247.3 45.7,250.3 48.1,250.5 51,247.9 53.3,247.1 53.3,249.3 54.4,250.7 53.3,254.2 54.6,253.9 55.2,254.5 57.7,252.1 58.4,255.2 60.6,253.5 61.2,254.8 69.1,250.6 75.4,248.2 76.5,246.4 78.3,245.7 78.8,247.5 82.9,245.6 88.1,241.1 89.8,238.2 94.7,235 100.5,233.6 98.4,237 104,237.9 105.5,240.3 104,245 99.8,248.8 90.8,255.9 87.8,255.8 83.3,253 78.3,252.6 63.2,257 53.1,258.5 50,257.6 49.1,255.5 45.1,257.3 43.9,255.3 41.9,254.4 41.8,248.3 43.8,248.2"/>
 		<properties>
-			<property name="GID" value="21"/>
+			<property name="GID" value="23"/>
 			<property name="NAME" value="Norway"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -1977,7 +2063,7 @@
 	<object id="250" name="GRL" x="0" y="0" visible="0">
 		<polygon points="18.7,351.4 16.9,348.4 17.3,346.3 16,345.2 15.8,343 16.3,338.2 19,333.7 20.6,334.7 21.3,341.3 21.9,341 21.5,338.3 22.7,335.9 21.5,334.7 22.8,333.8 25,334.3 23.5,332.5 21.6,329.2 22,326.7 23.5,325.6 26.6,327.9 27.5,328.1 28.4,330.8 28.4,328.6 33.7,329.1 37.9,328 40.2,326 40.5,327.8 41.8,329.5 43.6,326.8 46.8,325.7 47.2,327 50.3,324.4 50.8,327.6 52.2,325.6 53.6,325.8 54.3,327.8 54.4,329.9 56.8,327.5 58.5,327.2 57.1,330.7 58.1,331.4 59,329 61.2,326.4 64.2,325.2 65,328.3 61.5,332.3 64.1,331.4 66.1,333.3 66.2,325.9 69.7,330.4 72.7,335.5 74,341.3 74,343.5 75.5,345.7 79.4,348.9 81.9,353.9 82,355.4 83.6,361.9 85.8,364.4 88.4,365 90.9,366.8 93.7,371.5 96.7,371.4 103.4,375.7 103.5,379.5 100.2,382.3 99.8,387.3 97.6,388.9 93.7,389 88.6,390.8 86,390.8 82.5,389.4 78.6,390.5 75.9,388.3 74.4,388.9 70.3,384.7 69.2,381.2 67.8,379.7 64.9,377.9 66.3,381.8 66.6,383.7 65.1,385.1 62.5,383.8 60.6,382 60.8,380.5 62.3,377.6 58,379.9 58.3,381.8 57.1,382.5 54,378.8 52.4,378.9 45.4,377.5 43.6,378.2 42.1,377.1 39.2,378.6 38.2,380.8 36.7,386.5 32.2,386.1 32.2,382.6 32.8,380.6 30.3,383.6 28,384.1 26.8,382.5 26.2,373.3 25.1,371.8 23.1,372.7 22,370.8 20.6,366.2 20.6,364.9 19,363.9 18.6,361.6 18.7,359.2 19.2,357.1 20.5,357.1 18.9,354.2 20.6,353.2 21.1,352.3 22.5,351.2 20.3,352.2"/>
 		<properties>
-			<property name="GID" value="22"/>
+			<property name="GID" value="24"/>
 			<property name="NAME" value="Greenland"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -1992,10 +2078,33 @@
 		</properties>
 	</object>
 
+	<object id="253" name="ZAF" x="0" y="0" visible="0">
+		<polygon points="494.5,135.5 494,132.7 497.9,132.2 501.6,128.9 502.8,126.8 503.5,122.5 497.3,118.4 490.9,114.6 497.2,113.8 500.8,115.4 502.5,112.6 502.7,103.5 506.8,101.3 509.5,98.7 510.7,96.1 509,93.3 510.5,91.4 509,87 509.5,82.4 511.9,76.3 518.8,71.1 528.6,74 532.9,77.9 529.7,79.9 531.6,83.6 535.4,83.3 537.2,81.4 536.5,79.6 539.3,77.5 542.6,82.8 543,84.8 541.8,89 542.5,97.4 541.3,107.3 540.3,110.7 537.3,117.7 534.2,121 530.6,123.8 528,127.1 523,139 520,140.5 516.6,141.1 511.8,139.1 512,137.5 509.5,135.8 504.8,135.9"/>
+		<properties>
+			<property name="GID" value="25"/>
+			<property name="NAME" value="South Africa"/>
+			<property name="ECONOMY" value="5. Emerging region: G20"/>
+			<property name="INCOME_GRP" value="3. Upper middle income"/>
+			<property name="ISO_A2" value="ZA"/>
+			<property name="POP_EST" value="54841552"/>
+			<property name="SUBREGION" value="Southern Africa"/>
+			<property name="GDP_MD_EST" value="739100"/>
+			<property name="ISO_A3" value="ZAF"/>
+			<property name="EQUATOR_DIST" value="-28.418780710213035"/>
+			<property name="OFFSET_X" value="490.9"/>
+			<property name="OFFSET_Y" value="141.1"/>
+		</properties>
+	</object>
+	<object id="254" name="ZAF" x="0" y="0" visible="0">
+		<polygon points="532.6,94.4 530.2,94.9 528.7,99.5 529,102.7 533.7,102.6 535.5,97.8 534.6,94.2"/>
+		<properties>
+		</properties>
+	</object>
+
 	<object id="254" name="LSO" x="0" y="0" visible="0">
 		<polygon points="532.6,94.4 534.6,94.2 535.5,97.8 533.7,102.6 529,102.7 528.7,99.5 530.2,94.9"/>
 		<properties>
-			<property name="GID" value="23"/>
+			<property name="GID" value="26"/>
 			<property name="NAME" value="Lesotho"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2013,7 +2122,7 @@
 	<object id="255" name="MEX" x="0" y="0" visible="0">
 		<polygon points="158.2,621 166.7,619.3 167.5,620.1 177.7,621 187.7,621.6 196.1,618.6 193.6,617.2 198.2,614.9 208.6,616.7 216.7,619.3 223.3,619 219.6,615.3 221,613.8 224.7,613.7 234.1,616 238.6,616.4 246.8,618.8 252,616.9 252.2,615.8 262,621.5 273.9,626.7 286.5,629.3 291.9,629.3 299.3,629.9 301.3,627.5 304.1,627.1 299.1,616.5 296.4,613.7 285.7,608.6 282.3,602 281.5,597 285.5,597.7 289.2,600.7 293.9,602.4 301.3,606 300.1,607.1 304.8,611.2 305.6,617.2 309.1,618.3 309.3,619.7 314.1,617.9 316.2,618.6 316.9,622.8 322.4,625.7 327,626.8 320.5,628.6 317,631.6 320.7,638 317.2,641.1 313.4,642.7 307.4,646.1 300.7,647 295.3,649.5 291.2,649.3 284.7,650 274.9,648.5 269.1,645.1 257.7,642.8 248.6,641.3 240.4,640.5 234.8,639.3 227.1,638.6 223.6,636.4 215.4,635.4 210.2,633.3 207.8,633.6 197.8,631.1 183.5,625.4 181.3,624 171.7,622.7 173.3,624.3 181.3,628.6 198.2,633.5 202.9,635.6 214.1,638.3 221.2,640.9 229.2,643.2 232.8,644.7 234.8,644.3 243.5,646 244.9,648.4 239.9,646.9 233.7,645.9 224.1,644.9 215.6,641 206.2,639.5 199.8,638.9 193.8,637.3 195.8,637 192.7,633.9 185.3,631.9 181.3,631.2 164.8,624.2"/>
 		<properties>
-			<property name="GID" value="24"/>
+			<property name="GID" value="27"/>
 			<property name="NAME" value="Mexico"/>
 			<property name="ECONOMY" value="4. Emerging region: MIKT"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2031,7 +2140,7 @@
 	<object id="256" name="URY" x="0" y="0" visible="0">
 		<polygon points="463,465.9 461.7,463.2 463.1,457.9 462.5,456.3 464.5,447 466.2,443.7 468.5,445 470.2,443.1 473,444.2 476.4,448.2 477.7,453.6 477.5,458 478.5,460.7 477.4,464.1 473.9,464.1 470.4,465.6"/>
 		<properties>
-			<property name="GID" value="25"/>
+			<property name="GID" value="28"/>
 			<property name="NAME" value="Uruguay"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2049,7 +2158,7 @@
 	<object id="257" name="BRA" x="0" y="0" visible="0">
 		<polygon points="470.2,443.1 468.5,445 466.2,443.7 464.5,447 462.5,456.3 463.1,457.9 461.7,463.2 463,465.9 456.1,461.8 451,457.9 445.5,452 442.6,452.7 441.1,455.6 442.5,457.7 435.7,457.8 436.9,463.1 432.4,465.3 431.5,469.9 432.8,471.6 433.7,476.7 428.6,477.7 426.9,479.6 418.4,478.2 416.4,479.9 416.2,482.7 412.5,483.3 415.4,492.5 411.6,495.3 411.1,493.9 406.5,496 407.4,502.1 407.5,507.6 406.7,509.8 408.1,515.2 406.7,521 399.4,521.9 402.6,528 408.6,534 410.2,534.8 412.6,540.7 415.1,545.3 408.8,546.1 413,549.4 414.9,553.4 413.5,555.5 414.8,558.5 412.6,557.8 411.3,560.7 408.5,563.1 405.3,562.3 402.7,559.7 400.7,560.4 396.5,559.2 391.1,554.3 387.7,550 386.1,545.8 373.5,544.2 369.5,544.9 368.7,547 365.6,547 362.2,543.2 362.8,546 360.1,546 356.7,536.8 354.7,535.1 357.8,533 356.9,532.1 358.2,529.5 356.7,525.7 355,524.7 351.5,519.1 349.6,518.5 346.5,515.2 347.4,519.3 342.1,519.6 341,520.7 340.3,513.3 338.9,511.9 334.1,502.7 331,501.3 330.8,497.6 332.8,498.4 334.6,495.7 340.1,498 343.6,496.5 344.6,493.5 341.3,486.5 339.9,484.8 339.1,480.8 338.7,478 335.9,477.8 335,470.4 333.9,466.6 334.8,464.7 332.1,460.2 324.7,455.4 324.2,453.6 332.4,449.6 332.5,446.8 335.2,446.7 339.1,450.7 340,449.1 338.9,439.8 342.7,439.6 339.5,435.6 340.9,420.1 342.7,417.5 345,418.3 343,412.2 343.8,401.7 342.8,393.7 345.2,385.8 348.9,378.8 349.7,374.7 349.6,370.1 350.7,368.1 357.6,365.3 363.9,367.3 366.5,370 372.2,377.3 376.7,380.5 383.4,386.9 390.4,386.1 398.9,387.6 400.5,389.1 405.6,389.6 411.1,394.2 415,394.7 417.2,398.5 419.6,399.4 420.3,404.8 422.9,412.2 425.2,415.4 427.2,420.7 431.3,425.8 435.8,429 438.7,429.1 440.6,427.9 446.6,428.6 449.3,431.3 457,434.6 463.3,440.1 467.3,441"/>
 		<properties>
-			<property name="GID" value="26"/>
+			<property name="GID" value="29"/>
 			<property name="NAME" value="Brazil"/>
 			<property name="ECONOMY" value="3. Emerging region: BRIC"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2067,7 +2176,7 @@
 	<object id="258" name="BOL" x="0" y="0" visible="0">
 		<polygon points="412.6,540.7 410.2,534.8 408.6,534 402.6,528 399.4,521.9 406.7,521 408.1,515.2 406.7,509.8 407.5,507.6 407.4,502.1 406.5,496 411.1,493.9 411.6,495.3 415.4,492.5 412.5,483.3 416.2,482.7 416.4,479.9 418.4,478.2 426.9,479.6 425.8,480 425.4,484.9 426.8,489.3 430.9,497.1 435,498.4 442.2,498.3 441.7,499.3 443.7,504.5 447.4,505.2 445.9,508.7 447.5,514.8 452.6,517.2 454.6,520.2 450.3,523.8 447.3,527.6 443,527.4 442.6,530.3 440.1,531.7 438.6,534.7 433.1,533.1 430.8,535.9 428,536.4 425.2,535.1 419,536.2 417.2,535.5"/>
 		<properties>
-			<property name="GID" value="27"/>
+			<property name="GID" value="30"/>
 			<property name="NAME" value="Bolivia"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2085,7 +2194,7 @@
 	<object id="259" name="PER" x="0" y="0" visible="0">
 		<polygon points="386.1,545.8 387.7,550 391.1,554.3 396.5,559.2 400.7,560.4 402.7,559.7 405.3,562.3 408.5,563.1 411.3,560.7 412.6,557.8 414.8,558.5 413.5,555.5 414.9,553.4 413,549.4 408.8,546.1 415.1,545.3 412.6,540.7 417.2,535.5 419,536.2 425.2,535.1 428,536.4 430.8,535.9 433.1,533.1 438.6,534.7 443.3,537.2 443.4,542.3 442,543.1 442.9,552.9 443.1,561.8 442.6,565.8 440.4,568.5 438.8,568.1 435.7,573 430.6,578.9 424.6,584.4 421.3,588.3 420.5,595.1 417.6,594 414.5,596.4 410.4,595.4 405.5,592.3 410.5,592.5 408.6,589.1 409.9,587.1 406.6,584.9 403.1,584.3 397.7,581.9 393.1,576.8 386,572.1 382.4,570.8 379.2,571.5 378.2,570.3 380.6,563.7 384,560.9 383,557.5 380.8,555 379.2,550.5 379.7,546.9 385.3,549.7"/>
 		<properties>
-			<property name="GID" value="28"/>
+			<property name="GID" value="31"/>
 			<property name="NAME" value="Peru"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2103,7 +2212,7 @@
 	<object id="260" name="COL" x="0" y="0" visible="0">
 		<polygon points="356.9,532.1 357.8,533 354.7,535.1 356.7,536.8 360.1,546 362.8,546 362.2,543.2 365.6,547 368.7,547 369.5,544.9 373.5,544.2 386.1,545.8 385.3,549.7 379.7,546.9 379.2,550.5 380.8,555 383,557.5 384,560.9 380.6,563.7 378.2,570.3 379.2,571.5 378.6,575.5 381.1,580.5 379.5,586.6 372.5,584.5 371.2,582.4 364.1,578.6 363.6,580.1 360.5,579.1 356.5,579.7 354.8,578.6 350.9,578.9 349,580.3 346.4,579.4 344.4,577.1 340.9,577.1 340.3,574.9 335.6,571.1 334.5,569.3 328.4,567.5 323.2,561.3 322.4,558 317.3,552.1 314.4,549.6 315.1,547.1 316.9,548.2 318.6,551.2 325.4,556.3 332.1,559 331.7,556.8 336,555.5 338.9,556.2 340.1,554.2 337.6,548.3 337.2,545.7 339.9,542.8 336.5,534.8 336.7,533.2 341.2,535.4 344.5,536 348.8,533.8 351.8,536.3 353.2,533.4"/>
 		<properties>
-			<property name="GID" value="29"/>
+			<property name="GID" value="32"/>
 			<property name="NAME" value="Colombia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2121,7 +2230,7 @@
 	<object id="261" name="PAN" x="0" y="0" visible="0">
 		<polygon points="340.9,577.1 344.4,577.1 346.4,579.4 349,580.3 345.8,582.1 344.1,580.9 342.2,584.3 349.1,590.6 351.1,589 354.3,592.9 351.5,593.2 352.9,595.2 351.2,595.7 352.7,600.6 348.5,599.1 345.9,599.5 344.8,597.9 347.3,597 347.1,594.1 341.9,587.4 339.8,585.7 339.2,579.6"/>
 		<properties>
-			<property name="GID" value="30"/>
+			<property name="GID" value="33"/>
 			<property name="NAME" value="Panama"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2139,7 +2248,7 @@
 	<object id="262" name="CRI" x="0" y="0" visible="0">
 		<polygon points="344.8,597.9 345.9,599.5 348.5,599.1 352.7,600.6 351.6,603.2 349.3,602.6 347.8,606.1 348.9,607.9 346.6,609.9 341.1,608.6 339.7,604.7 340.5,602.1 339,600.9 341.6,600.5"/>
 		<properties>
-			<property name="GID" value="31"/>
+			<property name="GID" value="34"/>
 			<property name="NAME" value="Costa Rica"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2157,7 +2266,7 @@
 	<object id="263" name="NIC" x="0" y="0" visible="0">
 		<polygon points="339,600.9 340.5,602.1 339.7,604.7 341.1,608.6 337.1,611.2 333,613.7 332.1,612.3 329.8,609.8 327,609.2 324.6,606.5 325.5,605.6 319,601.1 319.5,599.6 316,594.1 326.8,598.1 330.6,598.6 336.9,601.2"/>
 		<properties>
-			<property name="GID" value="32"/>
+			<property name="GID" value="35"/>
 			<property name="NAME" value="Nicaragua"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2175,7 +2284,7 @@
 	<object id="264" name="HND" x="0" y="0" visible="0">
 		<polygon points="316,594.1 319.5,599.6 319,601.1 325.5,605.6 324.6,606.5 327,609.2 329.8,609.8 332.1,612.3 330.3,613.5 327.8,612.7 328.3,615.4 325.5,617.5 321.5,615.8 316.7,611.6 315.3,609.2 314.8,605.2 313.1,603.3 312.6,597.5"/>
 		<properties>
-			<property name="GID" value="33"/>
+			<property name="GID" value="36"/>
 			<property name="NAME" value="Honduras"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2193,7 +2302,7 @@
 	<object id="265" name="SLV" x="0" y="0" visible="0">
 		<polygon points="325.5,617.5 328.3,615.4 327.8,612.7 330.3,613.5 332.3,616.2 330.4,621"/>
 		<properties>
-			<property name="GID" value="34"/>
+			<property name="GID" value="37"/>
 			<property name="NAME" value="El Salvador"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2211,7 +2320,7 @@
 	<object id="266" name="GTM" x="0" y="0" visible="0">
 		<polygon points="327,626.8 322.4,625.7 316.9,622.8 316.2,618.6 314.1,617.9 309.3,619.7 309.1,618.3 305.6,617.2 304.8,611.2 316.5,614.8 316.3,613.7 316.7,611.6 321.5,615.8 325.5,617.5 330.4,621 330.2,624.5"/>
 		<properties>
-			<property name="GID" value="35"/>
+			<property name="GID" value="38"/>
 			<property name="NAME" value="Guatemala"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2229,7 +2338,7 @@
 	<object id="267" name="BLZ" x="0" y="0" visible="0">
 		<polygon points="304.8,611.2 300.1,607.1 300.9,606.7 312,610.7 316.3,613.7 316.5,614.8"/>
 		<properties>
-			<property name="GID" value="36"/>
+			<property name="GID" value="39"/>
 			<property name="NAME" value="Belize"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2247,7 +2356,7 @@
 	<object id="268" name="VEN" x="0" y="0" visible="0">
 		<polygon points="331,501.3 334.1,502.7 338.9,511.9 340.3,513.3 341,520.7 342.1,519.6 347.4,519.3 346.5,515.2 349.6,518.5 351.5,519.1 355,524.7 356.7,525.7 358.2,529.5 356.9,532.1 353.2,533.4 351.8,536.3 348.8,533.8 344.5,536 341.2,535.4 336.7,533.2 336.5,534.8 339.9,542.8 337.2,545.7 337.6,548.3 340.1,554.2 338.9,556.2 336,555.5 331.7,556.8 332.1,559 325.4,556.3 318.6,551.2 316.9,548.2 319.4,551.3 323.6,550.6 326.9,553 330,551.9 329.1,549.9 325.4,548.4 324.2,549.5 320.8,549.2 317.2,543.2 315.2,543.5 313.3,541.6 316,540.5 315.1,537.3 318.2,534.8 315.1,525.5 316.3,523.1 315.9,519.5 312.7,516.5 309.4,504.7 311.7,509 313.2,507.6 312.6,503.7 313.7,500.2 316.9,499.8 316.7,495.4 320.1,499.6 322.8,498.6 325.4,503 328.8,504.5"/>
 		<properties>
-			<property name="GID" value="37"/>
+			<property name="GID" value="40"/>
 			<property name="NAME" value="Venezuela"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2265,7 +2374,7 @@
 	<object id="269" name="GUY" x="0" y="0" visible="0">
 		<polygon points="339.1,480.8 339.9,484.8 341.3,486.5 344.6,493.5 343.6,496.5 340.1,498 334.6,495.7 332.8,498.4 330.8,497.6 331,501.3 328.8,504.5 325.4,503 322.8,498.6 320.1,499.6 316.7,495.4 317.4,492.3 321.1,487.6 323.4,483.2 327.2,484.2 329,487.3 332.2,488.1"/>
 		<properties>
-			<property name="GID" value="38"/>
+			<property name="GID" value="41"/>
 			<property name="NAME" value="Guyana"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2283,7 +2392,7 @@
 	<object id="270" name="SUR" x="0" y="0" visible="0">
 		<polygon points="335,470.4 335.9,477.8 338.7,478 339.1,480.8 332.2,488.1 329,487.3 327.2,484.2 323.4,483.2 322.8,477.1 320.8,472.4 320.7,467 324.7,469.8 327.3,469.5 329.2,467.6"/>
 		<properties>
-			<property name="GID" value="39"/>
+			<property name="GID" value="42"/>
 			<property name="NAME" value="Suriname"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2301,7 +2410,7 @@
 	<object id="271" name="FRA" x="0" y="0" visible="0">
 		<polygon points="141.9,219.5 142.9,217.4 143.3,212.7 146.4,212.4 149.5,211 153.7,213.1 155.6,212.1 154.9,211 156.7,208.8 159.6,206.4 161,206.8 164.3,204.1 164.8,202 166.8,201.4 169.3,203 168.2,210.3 169.7,214.6 172.2,213.7 172.8,217.5 170.8,222.4 171.7,223.2 169.7,230.7 168.1,232.8 165.6,232.1 157.3,235.2 153.1,240.7 151,244.1 149.6,249.9 146.6,251.5 145.6,247.7 146.5,241.7 141.9,245 143.6,241.1 140,235.6 136.6,236.5 135.6,234.4 140.4,226.2 140,224.8 141.7,221.1"/>
 		<properties>
-			<property name="GID" value="40"/>
+			<property name="GID" value="43"/>
 			<property name="NAME" value="France"/>
 			<property name="ECONOMY" value="1. Developed region: G7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -2329,7 +2438,7 @@
 	<object id="272" name="ECU" x="0" y="0" visible="0">
 		<polygon points="379.2,571.5 382.4,570.8 386,572.1 393.1,576.8 397.7,581.9 403.1,584.3 406.6,584.9 409.9,587.1 408.6,589.1 410.5,592.5 405.5,592.3 400.7,590.2 399.1,591.2 402.3,592.8 401.6,595.3 399.8,594.6 395.9,595.4 394.3,593.9 386.9,591.6 385.1,591.9 379.5,586.6 381.1,580.5 378.6,575.5"/>
 		<properties>
-			<property name="GID" value="41"/>
+			<property name="GID" value="44"/>
 			<property name="NAME" value="Ecuador"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2347,7 +2456,7 @@
 	<object id="275" name="CUB" x="0" y="0" visible="0">
 		<polygon points="270.1,577 269.6,571.2 270.9,568.3 272.6,567.5 271.3,563.7 276.7,558.8 276.9,555.4 278.3,556.1 277.9,553.2 279.3,550.7 280.5,551.6 282.6,557.3 284.6,565.9 281.2,562.3 280.4,566 276.4,566.8 277,569 275.3,572.8 275.3,577.3 272.8,576.4 273.1,579.8 278.1,585.9 278.6,589.2 274.5,585.2 271.7,581"/>
 		<properties>
-			<property name="GID" value="42"/>
+			<property name="GID" value="45"/>
 			<property name="NAME" value="Cuba"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2365,7 +2474,7 @@
 	<object id="276" name="ZWE" x="0" y="0" visible="0">
 		<polygon points="518.8,71.1 511.9,76.3 508,77.3 504.8,79.5 500.2,78.5 498.3,79.7 490.5,81.5 481.6,82 488.3,76.1 487.4,68.6 487.8,63.7 489.9,61 491.7,61.4 494.7,58.6 504.5,54.8 509.5,57.1 514,60.7 515.7,60.9 518.7,65.4"/>
 		<properties>
-			<property name="GID" value="43"/>
+			<property name="GID" value="46"/>
 			<property name="NAME" value="Zimbabwe"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2383,7 +2492,7 @@
 	<object id="277" name="BWA" x="0" y="0" visible="0">
 		<polygon points="511.9,76.3 509.5,82.4 509,87 510.5,91.4 509,93.3 510.7,96.1 509.5,98.7 506.8,101.3 502.7,103.5 502.5,112.6 500.8,115.4 497.2,113.8 490.9,114.6 480.6,109 483.3,105.3 476.8,102.1 470.2,99.1 472.2,96.2 475.6,89.8 478.3,89.1 480.7,82.6 481.6,82 490.5,81.5 498.3,79.7 500.2,78.5 504.8,79.5 508,77.3"/>
 		<properties>
-			<property name="GID" value="44"/>
+			<property name="GID" value="47"/>
 			<property name="NAME" value="Botswana"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2401,7 +2510,7 @@
 	<object id="278" name="NAM" x="0" y="0" visible="0">
 		<polygon points="490.9,114.6 497.3,118.4 503.5,122.5 502.8,126.8 501.6,128.9 497.9,132.2 494,132.7 494.5,135.5 490.1,136.7 486.6,136.8 473.2,133.9 466.5,131.6 459.7,133.4 451.1,133.9 445.5,136.2 442.4,135.5 443.6,130.4 445.3,127.6 448.6,124.9 453.7,116.5 459,108.1 462.8,106.1 470.3,96.8 474.3,89.2 476,85.8 480.7,82.6 478.3,89.1 475.6,89.8 472.2,96.2 470.2,99.1 476.8,102.1 483.3,105.3 480.6,109"/>
 		<properties>
-			<property name="GID" value="45"/>
+			<property name="GID" value="48"/>
 			<property name="NAME" value="Namibia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2419,7 +2528,7 @@
 	<object id="279" name="SEN" x="0" y="0" visible="0">
 		<polygon points="281.9,270.4 278.7,272.7 277.1,275.4 276.6,273.2 272.3,269.9 271.4,260.5 274.2,254.4 280.6,247.4 285.4,245.6 286.7,243.6 289.5,243.1 289.3,248.2 287.5,254.5 286.2,264 286.6,269.8 283.5,270.9 284.1,266.2 283.1,262.2 284.4,257.7 282.6,256.7 282.9,259.9 281.7,262 282.4,264.7"/>
 		<properties>
-			<property name="GID" value="46"/>
+			<property name="GID" value="49"/>
 			<property name="NAME" value="Senegal"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2437,7 +2546,7 @@
 	<object id="280" name="MLI" x="0" y="0" visible="0">
 		<polygon points="289.5,243.1 286.7,243.6 285.4,245.6 280.6,247.4 277.9,245.2 279.5,239.9 278.9,234.5 280.4,224.5 282,214.5 278.7,214.8 260.7,220.2 242.9,226.4 243.7,219.3 249.1,210.2 254.8,201.3 260.7,192.4 266.8,183.6 269,182 271.9,176.6 274.7,175.8 275.3,170.9 285.5,168.5 287.9,170.4 290.5,170.3 289.2,180.7 290.3,182.2 289.8,185.3 288.1,189.7 289,196.5 290.1,197.2 292.6,203.2 291.6,205.7 295,207.3 297.6,210.8 302.9,211.2 303.3,214.3 301.5,215.3 302.4,218.4 301.1,224.4 298.2,227.7 296.1,226.7 291.8,230.9 292.9,236"/>
 		<properties>
-			<property name="GID" value="47"/>
+			<property name="GID" value="50"/>
 			<property name="NAME" value="Mali"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2455,7 +2564,7 @@
 	<object id="281" name="MRT" x="0" y="0" visible="0">
 		<polygon points="253.3,274.9 252.1,273.9 253.9,254.6 248.1,256.4 246.3,255.5 246.3,251.1 236.3,253.1 238,237.6 231.9,239 237.7,229.1 243.7,219.3 242.9,226.4 260.7,220.2 278.7,214.8 282,214.5 280.4,224.5 278.9,234.5 279.5,239.9 277.9,245.2 280.6,247.4 274.2,254.4 271.4,260.5 272.3,269.9 264.8,269 259,270.8 257.1,270.6"/>
 		<properties>
-			<property name="GID" value="48"/>
+			<property name="GID" value="51"/>
 			<property name="NAME" value="Mauritania"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2473,7 +2582,7 @@
 	<object id="282" name="BEN" x="0" y="0" visible="0">
 		<polygon points="329.3,169.2 328.6,173.2 325.4,174.7 315.8,175.4 312.6,176.9 309.1,180.5 307,180.1 304.5,174.6 304,171.5 307.4,167.4 311.6,166 314.4,166 317.4,169.3 319.8,169.9"/>
 		<properties>
-			<property name="GID" value="49"/>
+			<property name="GID" value="52"/>
 			<property name="NAME" value="Benin"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2491,7 +2600,7 @@
 	<object id="283" name="NER" x="0" y="0" visible="0">
 		<polygon points="267,130.5 275,126.9 280.3,122.2 282.3,122.5 292.1,121.1 298.5,119.6 301.7,123.9 307.5,124.3 309.8,122.1 313,121.5 313.9,118.7 316.1,118.6 317.5,119.6 317.3,120.4 311.2,124.4 312.3,128.4 309.9,132.1 308.3,138.4 309.5,140.7 309,143 305.1,149 304.9,153.4 302.8,155.4 299.9,160.4 299.2,165.3 303.6,167.7 307.4,167.4 304,171.5 304.5,174.6 301.6,175 299.3,180.7 297.2,181.1 293.9,184.3 289.8,185.3 290.3,182.2 289.2,180.7 290.5,170.3 287.9,170.4 285.5,168.5 275.3,170.9 274.6,165 268.2,154.7 262,143 265.2,135.9 268.4,132.7"/>
 		<properties>
-			<property name="GID" value="50"/>
+			<property name="GID" value="53"/>
 			<property name="NAME" value="Niger"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2509,7 +2618,7 @@
 	<object id="284" name="NGA" x="0" y="0" visible="0">
 		<polygon points="329.3,169.2 319.8,169.9 317.4,169.3 314.4,166 311.6,166 307.4,167.4 303.6,167.7 299.2,165.3 299.9,160.4 302.8,155.4 304.9,153.4 305.1,149 309,143 309.5,140.7 308.3,138.4 309.9,132.1 312.3,128.4 311.2,124.4 317.3,120.4 317.5,119.6 320,117.5 322.2,117.8 324.7,120.8 333.3,123 334.4,125.2 339.8,126.6 340.2,129.6 336.9,134.1 338.2,137.9 344.4,140.8 343.8,149.2 342.5,153 335.4,157.6 331.5,161.2"/>
 		<properties>
-			<property name="GID" value="51"/>
+			<property name="GID" value="54"/>
 			<property name="NAME" value="Nigeria"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2527,7 +2636,7 @@
 	<object id="285" name="CMR" x="0" y="0" visible="0">
 		<polygon points="316.1,118.6 319.8,116.3 326.3,115 331.5,111.9 329.3,117.6 331.3,118.2 336.5,113.2 342.5,110.4 343.6,111 348,113.6 354.9,113.3 363.2,108.7 365.6,106.6 369.4,105.8 371.7,106 366.2,113.2 363.6,118.9 360.3,127.2 357.3,134.8 354.1,134.2 350.5,136.2 349,138.4 344.4,140.8 338.2,137.9 336.9,134.1 340.2,129.6 339.8,126.6 334.4,125.2 333.3,123 324.7,120.8 322.2,117.8 320,117.5 317.5,119.6"/>
 		<properties>
-			<property name="GID" value="52"/>
+			<property name="GID" value="55"/>
 			<property name="NAME" value="Cameroon"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2545,7 +2654,7 @@
 	<object id="286" name="TGO" x="0" y="0" visible="0">
 		<polygon points="307,180.1 309.1,180.5 312.6,176.9 315.8,175.4 325.4,174.7 328.6,173.2 328.4,177.1 321.5,180.4 318.1,179.7 316.2,181.1 309.8,182.3 305.9,184.4"/>
 		<properties>
-			<property name="GID" value="53"/>
+			<property name="GID" value="56"/>
 			<property name="NAME" value="Togo"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2563,7 +2672,7 @@
 	<object id="287" name="GHA" x="0" y="0" visible="0">
 		<polygon points="305.9,184.4 309.8,182.3 316.2,181.1 318.1,179.7 321.5,180.4 328.4,177.1 329.6,191.9 327.3,196.5 325.8,196.3 321.8,198.8 317.5,197.8 314.6,196 308.5,197.9 302.9,199.1"/>
 		<properties>
-			<property name="GID" value="54"/>
+			<property name="GID" value="57"/>
 			<property name="NAME" value="Ghana"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2581,7 +2690,7 @@
 	<object id="288" name="CIV" x="0" y="0" visible="0">
 		<polygon points="301.1,224.4 302.4,218.4 301.5,215.3 303.3,214.3 302.9,211.2 307,205.4 306.7,201.4 308.5,197.9 314.6,196 317.5,197.8 321.8,198.8 325.8,196.3 327.3,196.5 325.2,202.4 324,211.7 324.5,221.2 319.3,220.8 315.4,226.3 310.7,225.7 307.9,224.7 307.7,222.9 302.5,225.7"/>
 		<properties>
-			<property name="GID" value="55"/>
+			<property name="GID" value="58"/>
 			<property name="NAME" value="Côte d'Ivoire"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2599,7 +2708,7 @@
 	<object id="289" name="GIN" x="0" y="0" visible="0">
 		<polygon points="287.5,254.5 289.3,248.2 289.5,243.1 292.9,236 291.8,230.9 296.1,226.7 298.2,227.7 301.1,224.4 302.5,225.7 307.7,222.9 307.9,224.7 310.7,225.7 311.7,228.1 310.5,230.7 308.9,230.4 306.2,232.8 306.3,235.2 306.3,236.6 302.6,237.5 299.2,240.3 299,247 302.1,251 297.7,255.6 296.1,258.3 292.6,261.4 291,259.2 290.5,254.4"/>
 		<properties>
-			<property name="GID" value="56"/>
+			<property name="GID" value="59"/>
 			<property name="NAME" value="Guinea"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2617,7 +2726,7 @@
 	<object id="290" name="GNB" x="0" y="0" visible="0">
 		<polygon points="286.6,269.8 286.2,264 287.5,254.5 290.5,254.4 291,259.2 292.6,261.4 290.2,266.5"/>
 		<properties>
-			<property name="GID" value="57"/>
+			<property name="GID" value="60"/>
 			<property name="NAME" value="Guinea-Bissau"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2635,7 +2744,7 @@
 	<object id="291" name="LBR" x="0" y="0" visible="0">
 		<polygon points="310.7,225.7 315.4,226.3 319.3,220.8 324.5,221.2 321.4,228 314.7,237.4 311.6,241.1 309.5,239.7 306.3,235.2 306.2,232.8 308.9,230.4 310.5,230.7 311.7,228.1"/>
 		<properties>
-			<property name="GID" value="58"/>
+			<property name="GID" value="61"/>
 			<property name="NAME" value="Liberia"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2653,7 +2762,7 @@
 	<object id="292" name="SLE" x="0" y="0" visible="0">
 		<polygon points="302.1,251 299,247 299.2,240.3 302.6,237.5 306.3,236.6 306.3,235.2 309.5,239.7 311.6,241.1 309,246.4 306.5,249.2"/>
 		<properties>
-			<property name="GID" value="59"/>
+			<property name="GID" value="62"/>
 			<property name="NAME" value="Sierra Leone"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2671,7 +2780,7 @@
 	<object id="293" name="BFA" x="0" y="0" visible="0">
 		<polygon points="302.9,211.2 297.6,210.8 295,207.3 291.6,205.7 292.6,203.2 290.1,197.2 289,196.5 288.1,189.7 289.8,185.3 293.9,184.3 297.2,181.1 299.3,180.7 301.6,175 304.5,174.6 307,180.1 305.9,184.4 302.9,199.1 308.5,197.9 306.7,201.4 307,205.4"/>
 		<properties>
-			<property name="GID" value="60"/>
+			<property name="GID" value="63"/>
 			<property name="NAME" value="Burkina Faso"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2689,7 +2798,7 @@
 	<object id="294" name="CAF" x="0" y="0" visible="0">
 		<polygon points="377.2,60.2 373.7,66.8 374,69.9 372.1,71.5 372.5,75.7 371.2,78.1 373.7,79.1 369.2,85.3 362.8,91.7 365.1,95.3 368.4,95.4 364.7,101.2 366,103.7 369.4,105.8 365.6,106.6 363.2,108.7 354.9,113.3 348,113.6 343.6,111 345.6,104.8 345.8,99.6 343.7,96.1 341.8,96.8 343.7,91.6 342.8,88.2 338.1,86.2 336.7,82.2 343.5,78.5 349.6,77.9 355.4,72.9 360.3,70.2 367.6,65.4 371.4,64"/>
 		<properties>
-			<property name="GID" value="61"/>
+			<property name="GID" value="64"/>
 			<property name="NAME" value="Central African Rep."/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2707,7 +2816,7 @@
 	<object id="295" name="COG" x="0" y="0" visible="0">
 		<polygon points="368.4,95.4 371.2,95.5 375.7,97.4 382.4,97.6 386.6,99 388.7,104 392.1,106 395.9,106.1 398.9,112.9 396,114.7 394.6,120 392.3,121.5 393.4,125 387.1,128.4 386.4,124.8 382.7,126.3 383.2,121.6 381.4,121.2 384.6,118.8 386.7,114.8 382.6,112.7 378.8,113.1 375.2,115.3 370.8,113.4 368.3,117.9 363.6,118.9 366.2,113.2 371.7,106 369.4,105.8 366,103.7 364.7,101.2"/>
 		<properties>
-			<property name="GID" value="62"/>
+			<property name="GID" value="65"/>
 			<property name="NAME" value="Congo"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2725,7 +2834,7 @@
 	<object id="296" name="GAB" x="0" y="0" visible="0">
 		<polygon points="360.3,127.2 363.6,118.9 368.3,117.9 370.8,113.4 375.2,115.3 378.8,113.1 382.6,112.7 386.7,114.8 384.6,118.8 381.4,121.2 383.2,121.6 382.7,126.3 386.4,124.8 387.1,128.4 376,135.9 370.4,138.6 362.6,135.4 365.7,127"/>
 		<properties>
-			<property name="GID" value="63"/>
+			<property name="GID" value="66"/>
 			<property name="NAME" value="Gabon"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2743,7 +2852,7 @@
 	<object id="298" name="ZMB" x="0" y="0" visible="0">
 		<polygon points="459.2,50.3 470.7,44.3 474.6,43.3 479.7,43.4 483.4,46 488,46.5 491.3,50.3 494.5,49 486.6,60.2 489.9,61 487.8,63.7 487.4,68.6 488.3,76.1 481.6,82 480.7,82.6 476,85.8 474.3,89.2 464.6,92.1 458.3,89.9 451.9,87.8 458.2,79.7 455.3,78.7 449.4,77.9 452,76.7 455.8,72.6 458.8,71.8 461.9,69 462.6,66.4 465.6,66.2 468.8,63.6 475.7,62.2 478.4,59.5 473.3,58.4 473.2,59.6 467.4,62.3 458.4,58.8 455.6,59.2 453.5,57.6 457.4,51.6"/>
 		<properties>
-			<property name="GID" value="64"/>
+			<property name="GID" value="67"/>
 			<property name="NAME" value="Zambia"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2761,7 +2870,7 @@
 	<object id="299" name="MWI" x="0" y="0" visible="0">
 		<polygon points="470.7,44.3 475.1,41.3 480.9,40.5 488.5,41.3 491,43.2 498,44.3 502.2,42.6 507.1,42.6 513,44.6 512,46.2 513.6,48.4 508.4,49.2 502.1,46.2 498.8,48 494.5,49 491.3,50.3 488,46.5 483.4,46 479.7,43.4 474.6,43.3"/>
 		<properties>
-			<property name="GID" value="65"/>
+			<property name="GID" value="68"/>
 			<property name="NAME" value="Malawi"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2779,7 +2888,7 @@
 	<object id="300" name="MOZ" x="0" y="0" visible="0">
 		<polygon points="488.5,41.3 491.1,38.9 497.3,35.7 500.6,32.7 506.1,26.2 506.6,23.3 517.4,25.7 527.3,28.6 530.3,29.1 533,33.4 532.6,36.2 526.8,43.3 526,48.6 524,55.1 526.2,56.9 535.2,58.3 540.6,62.1 540.8,65.6 535.8,73.4 535.3,75.6 538.1,75.9 539.3,77.5 536.5,79.6 532.9,77.9 528.6,74 518.8,71.1 518.7,65.4 515.7,60.9 514,60.7 509.5,57.1 504.5,54.8 494.7,58.6 491.7,61.4 489.9,61 486.6,60.2 494.5,49 498.8,48 502.1,46.2 508.4,49.2 513.6,48.4 512,46.2 513,44.6 507.1,42.6 502.2,42.6 498,44.3 491,43.2"/>
 		<properties>
-			<property name="GID" value="66"/>
+			<property name="GID" value="69"/>
 			<property name="NAME" value="Mozambique"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2797,7 +2906,7 @@
 	<object id="301" name="SWZ" x="0" y="0" visible="0">
 		<polygon points="536.5,79.6 537.2,81.4 535.4,83.3 531.6,83.6 529.7,79.9 532.9,77.9"/>
 		<properties>
-			<property name="GID" value="67"/>
+			<property name="GID" value="70"/>
 			<property name="NAME" value="eSwatini"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -2815,7 +2924,7 @@
 	<object id="302" name="AGO" x="0" y="0" visible="0">
 		<polygon points="398.7,123.5 400.1,118.7 406.9,105.6 414.1,104 419.2,101.9 420.8,97.5 422.8,95.2 420.2,93 422.4,87.9 423.8,88.5 427,83.5 432.1,83.4 437.3,84.7 439.9,83.6 444.9,85 449.4,77.9 455.3,78.7 458.2,79.7 451.9,87.8 458.3,89.9 464.6,92.1 474.3,89.2 470.3,96.8 462.8,106.1 459,108.1 453.7,116.5 448.6,124.9 445.3,127.6 443.6,130.4 442.4,135.5 439.8,135.1 432.4,130.4 428.6,126.6 426.3,121.6 421.1,120.3 412.8,122.8 411.1,120.7 403.1,122.1"/>
 		<properties>
-			<property name="GID" value="68"/>
+			<property name="GID" value="71"/>
 			<property name="NAME" value="Angola"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2838,7 +2947,7 @@
 	<object id="303" name="BDI" x="0" y="0" visible="0">
 		<polygon points="427.5,47.8 433.5,47.1 436.3,51.1 435.4,52.6 428.8,52.3 425.7,53.1 427.8,50.9 425.6,49.6"/>
 		<properties>
-			<property name="GID" value="69"/>
+			<property name="GID" value="72"/>
 			<property name="NAME" value="Burundi"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2856,7 +2965,7 @@
 	<object id="304" name="ISR" x="0" y="0" visible="0">
 		<polygon points="211.5,88 213.5,87.4 213.1,88.6 220.4,85.5 219.1,84.8 221.4,83.6 231.6,79.9 230.1,80.9 221.8,86.7 209.9,90.6 208,89.6"/>
 		<properties>
-			<property name="GID" value="70"/>
+			<property name="GID" value="73"/>
 			<property name="NAME" value="Israel"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -2874,7 +2983,7 @@
 	<object id="306" name="MDG" x="0" y="0" visible="0">
 		<polygon points="570.6,7.7 579.4,9 585.5,11.1 589.1,11.8 590,13.8 585.5,13 589.3,15.3 589.1,17.3 591.3,19.3 593,24.5 594.2,29.9 595.3,35.7 596.1,41.7 589.3,46.4 581.3,46.9 578.6,45.9 576,43.5 569.5,40.2 568.2,37.9 569.1,32.9 567.5,31.1 561.5,29.4 557.7,27.4 555.7,23.9 564.5,19.4 568.1,14.6 568.8,9.9 566,7.5"/>
 		<properties>
-			<property name="GID" value="71"/>
+			<property name="GID" value="74"/>
 			<property name="NAME" value="Madagascar"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2892,7 +3001,7 @@
 	<object id="308" name="GMB" x="0" y="0" visible="0">
 		<polygon points="281.9,270.4 282.4,264.7 281.7,262 282.9,259.9 282.6,256.7 284.4,257.7 283.1,262.2 284.1,266.2 283.5,270.9"/>
 		<properties>
-			<property name="GID" value="72"/>
+			<property name="GID" value="75"/>
 			<property name="NAME" value="Gambia"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -2910,7 +3019,7 @@
 	<object id="309" name="TUN" x="0" y="0" visible="0">
 		<polygon points="228.1,165.1 219.6,170.2 213.4,178.2 209.9,180 207.5,178.8 203.8,179.7 199.4,182.2 197.1,182.6 195.4,179.6 196,176.8 198.4,175.8 196.7,173.6 199.9,173.6 203.2,170.8 207.3,169.3 209.5,170.7 212.1,168.8 212.3,166.9 215.4,163.2 219.1,161.8 223.3,165.4 227.2,163.7"/>
 		<properties>
-			<property name="GID" value="73"/>
+			<property name="GID" value="76"/>
 			<property name="NAME" value="Tunisia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2928,7 +3037,7 @@
 	<object id="310" name="DZA" x="0" y="0" visible="0">
 		<polygon points="231.9,239 230.9,239.1 226.1,240.3 223.8,233.8 222.8,226.2 220.9,225.1 219.8,220.5 216.7,221.3 215.2,217.5 215,212.3 205.3,217.6 202.5,220.1 200.5,217.1 200,213.1 198.4,211.3 197.3,208 196.9,195.7 197.6,193.6 196.1,190.8 197.1,182.6 199.4,182.2 203.8,179.7 207.5,178.8 209.9,180 213.4,178.2 219.6,170.2 228.1,165.1 234.6,161.1 238.3,160.4 246,157.4 247.7,158.3 251.5,154.7 256.4,151.5 255.9,149.9 258.6,145.9 262,143 268.2,154.7 274.6,165 275.3,170.9 274.7,175.8 271.9,176.6 269,182 266.8,183.6 260.7,192.4 254.8,201.3 249.1,210.2 243.7,219.3 237.7,229.1"/>
 		<properties>
-			<property name="GID" value="74"/>
+			<property name="GID" value="77"/>
 			<property name="NAME" value="Algeria"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2946,7 +3055,7 @@
 	<object id="311" name="JOR" x="0" y="0" visible="0">
 		<polygon points="213.5,87.4 211.5,88 212.5,84.2 203.5,83.6 210.3,78.7 211.5,78.6 217.2,81.2 222,75.9 225.8,75.4 227.5,76.7 232.4,76.2 232.4,79.4 231.6,79.9 221.4,83.6 219.1,84.8"/>
 		<properties>
-			<property name="GID" value="75"/>
+			<property name="GID" value="78"/>
 			<property name="NAME" value="Jordan"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -2964,7 +3073,7 @@
 	<object id="312" name="ARE" x="0" y="0" visible="0">
 		<polygon points="229.6,34 230.2,33.1 226,32.8 220.1,31.5 198.9,36.5 199.9,35.3 203.8,32.7 206.4,32.9 210.6,30.9 222.9,26.5 225.2,26 230.9,27.8 236,29.8"/>
 		<properties>
-			<property name="GID" value="76"/>
+			<property name="GID" value="79"/>
 			<property name="NAME" value="United Arab Emirates"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -2982,7 +3091,7 @@
 	<object id="314" name="KWT" x="0" y="0" visible="0">
 		<polygon points="205.3,56.8 212.9,51.4 215.1,52.2 212.8,54.2 214.6,55.7 206.6,57.9"/>
 		<properties>
-			<property name="GID" value="77"/>
+			<property name="GID" value="80"/>
 			<property name="NAME" value="Kuwait"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -3000,7 +3109,7 @@
 	<object id="315" name="IRQ" x="0" y="0" visible="0">
 		<polygon points="210.3,78.7 203.5,83.6 193.8,83.1 186,86.7 181.9,89.6 179.5,89.6 175,91.1 173.2,91 170.3,87.3 175.7,81.9 176,79.8 179.2,77.6 182.4,76.9 187.5,74.4 191.6,70 191.8,66.4 195,63 199.8,60.7 203.9,55.9 205.3,56.8 206.6,57.9 214.6,55.7 218.6,58.8 211.7,70.3 210,75.5"/>
 		<properties>
-			<property name="GID" value="78"/>
+			<property name="GID" value="81"/>
 			<property name="NAME" value="Iraq"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3018,7 +3127,7 @@
 	<object id="316" name="OMN" x="0" y="0" visible="0">
 		<polygon points="222.9,26.5 210.6,30.9 206.4,32.9 203.8,32.7 205.4,30.3 204.5,29 198.8,27.7 198.8,23.9 217,18.6 219.6,18.9 226,16.9 228.9,15.1 239.5,14.3 245.7,12.7 249.7,13 256.2,11.6 263.8,11.9 273,12 262.6,18.8 251.8,18.7 240.6,18.9 224.8,24.1"/>
 		<properties>
-			<property name="GID" value="79"/>
+			<property name="GID" value="82"/>
 			<property name="NAME" value="Oman"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -3036,7 +3145,7 @@
 	<object id="318" name="KHM" x="0" y="0" visible="0">
 		<polygon points="1010.6,105.5 1016.3,105.8 1021.4,109.4 1024,115 1024.5,118.9 1023.6,122 1027.5,124.7 1026.8,128.2 1024,128.5 1018.1,126.9 1012.1,118.8 1009.8,120.2 1007.9,115.5 1004.7,111.4 1004.1,107.9"/>
 		<properties>
-			<property name="GID" value="80"/>
+			<property name="GID" value="83"/>
 			<property name="NAME" value="Cambodia"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3054,7 +3163,7 @@
 	<object id="319" name="THA" x="0" y="0" visible="0">
 		<polygon points="1024.5,118.9 1024,115 1021.4,109.4 1016.3,105.8 1010.6,105.5 1011.6,102.2 1010.4,98.7 1014.6,100.1 1013.4,96.5 1007.6,95 994,89.2 990.3,88.9 991.2,91.5 983.1,92.7 981.2,94.7 981.7,97.2 980.1,99.1 977.5,97.5 975.6,94.6 978.1,94.6 978.8,91.4 977.5,90.5 981,88.7 984.7,85.3 981.3,84.2 983.9,83.8 992.9,86.7 1004.8,92.8 1009.1,92.2 1014.4,93 1020.3,91.1 1021.7,92.7 1026.7,95.3 1033.2,93.3 1037.6,92.9 1039,94.8 1045.2,98.3 1046.1,101.1 1050.5,106.6 1049.2,107.7 1046.1,107 1046.5,109.6 1040.7,107 1036.1,105.7 1040.2,110.8 1040.4,114.2 1042.3,115.5 1042.8,118.5 1039.5,120.5 1034.6,119.5 1031.3,121.9 1027.1,120.7"/>
 		<properties>
-			<property name="GID" value="81"/>
+			<property name="GID" value="84"/>
 			<property name="NAME" value="Thailand"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3072,7 +3181,7 @@
 	<object id="320" name="LAO" x="0" y="0" visible="0">
 		<polygon points="1026.8,128.2 1027.5,124.7 1023.6,122 1024.5,118.9 1027.1,120.7 1031.3,121.9 1034.6,119.5 1039.5,120.5 1042.8,118.5 1042.3,115.5 1040.4,114.2 1040.2,110.8 1036.1,105.7 1040.7,107 1046.5,109.6 1046.1,107 1049.2,107.7 1050.5,106.6 1056.7,112.4 1055.8,114.4 1061.7,115.8 1062.8,118.1 1054.9,119.2 1055.9,124.2 1051.8,124.4 1047.9,119.7 1046,123.8 1037.4,127.3 1034.9,129.7 1031.8,130"/>
 		<properties>
-			<property name="GID" value="82"/>
+			<property name="GID" value="85"/>
 			<property name="NAME" value="Laos"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3090,7 +3199,7 @@
 	<object id="321" name="MMR" x="0" y="0" visible="0">
 		<polygon points="1050.5,106.6 1046.1,101.1 1045.2,98.3 1039,94.8 1037.6,92.9 1033.2,93.3 1026.7,95.3 1021.7,92.7 1020.3,91.1 1014.4,93 1009.1,92.2 1004.8,92.8 992.9,86.7 996.7,87 1001.2,89 1003.9,88.3 1009.9,89.8 1012.1,88.8 1024.9,90.1 1029.1,89.7 1020.5,81.2 1021.2,77.3 1028.7,80.5 1033.9,81.4 1040,80.7 1042.2,81.8 1042.6,80 1047.1,79.2 1051.8,80.6 1051.1,81.4 1055.3,83 1056.8,85.1 1067.3,89.5 1066.2,91.6 1073.8,96.2 1078.6,99.9 1081.8,101.2 1085.9,107.1 1085,109.1 1088.3,110.2 1091.4,112.5 1091.9,114.6 1087.7,115.4 1079.1,111.8 1074.3,106.7 1067.7,103.8 1069.1,107.9 1064.3,107 1063.6,108.9 1059,106.3 1056.8,109.7 1058.9,113 1056.7,112.4"/>
 		<properties>
-			<property name="GID" value="83"/>
+			<property name="GID" value="86"/>
 			<property name="NAME" value="Myanmar"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3108,7 +3217,7 @@
 	<object id="322" name="VNM" x="0" y="0" visible="0">
 		<polygon points="1004.7,111.4 1007.9,115.5 1009.8,120.2 1012.1,118.8 1018.1,126.9 1024,128.5 1026.8,128.2 1031.8,130 1034.9,129.7 1037.4,127.3 1046,123.8 1047.9,119.7 1051.8,124.4 1055.9,124.2 1054.9,119.2 1062.8,118.1 1064.4,120.6 1066.2,127.7 1069.5,132 1068,133.3 1067.8,136.7 1064.9,135.2 1063.3,136.5 1062.8,140.3 1057.5,133.4 1052.1,128.6 1048.5,126.7 1038.8,130.8 1036.9,134.1 1033.8,135.9 1025.7,136.1 1017.3,133.9 1013.1,129.7 1008.4,124 1003.2,119.8 996.8,113.6 999.3,112.5 1003,114.2"/>
 		<properties>
-			<property name="GID" value="84"/>
+			<property name="GID" value="87"/>
 			<property name="NAME" value="Vietnam"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3126,7 +3235,7 @@
 	<object id="323" name="PRK" x="0" y="0" visible="0">
 		<polygon points="1162.4,263.6 1161.7,264 1161.9,262.6 1159.1,258.9 1156.3,258.1 1153.4,253.1 1151.5,248.2 1149.3,246.9 1147,249.9 1146,249 1145.4,244.3 1143.5,242.2 1143.1,240 1144.3,234.7 1149.7,239.2 1151.7,235.7 1154.4,239.8 1156.8,244.8 1159.7,248.5 1158.5,249.8 1158.4,253.1 1160.5,253.2 1162.4,259.7 1164.7,261.9"/>
 		<properties>
-			<property name="GID" value="85"/>
+			<property name="GID" value="88"/>
 			<property name="NAME" value="North Korea"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3144,7 +3253,7 @@
 	<object id="324" name="KOR" x="0" y="0" visible="0">
 		<polygon points="1143.1,240 1143.5,242.2 1145.4,244.3 1146,249 1147,249.9 1142.5,252 1139.9,252.2 1135.3,250.9 1133.1,248.7 1132,244.7 1130.2,240.8 1129.5,236.9 1134.8,238.9 1139,238.4 1139.8,241.7"/>
 		<properties>
-			<property name="GID" value="86"/>
+			<property name="GID" value="89"/>
 			<property name="NAME" value="South Korea"/>
 			<property name="ECONOMY" value="4. Emerging region: MIKT"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3162,7 +3271,7 @@
 	<object id="325" name="MNG" x="0" y="0" visible="0">
 		<polygon points="1207.5,155.6 1207.1,158.2 1209.2,165.2 1209.9,170 1207.7,170.5 1206.7,172.6 1203.9,172.3 1200.7,176.7 1203.3,181.3 1206.2,182.5 1210.2,188.5 1207.6,189.6 1204.6,193.2 1201.2,191.2 1198.5,193.4 1198.9,200 1197.9,202.3 1195.4,203.5 1192.9,203.7 1191.5,209.4 1192.7,217 1195.3,223 1193.2,225.3 1193.3,229 1186.1,221.2 1184.3,221.1 1184.8,223.1 1184,225.9 1185.5,229.2 1184,231 1181,232.5 1179.5,231.4 1180.1,229.1 1179.7,224 1178.5,221.1 1175.8,217.3 1174.3,211.4 1172.1,207 1173.5,202.6 1170.8,199.3 1167.5,199.1 1163.8,192.4 1162.3,187.7 1162.3,182.8 1161,176.9 1158.7,171.8 1160.3,171.3 1160.6,167.6 1164,165 1165,162.7 1164.9,158.5 1167,153.6 1167.5,150.6 1170.8,151.1 1175.7,153 1176.7,151.9 1180.7,151.2 1184.4,146.6 1187,147.4 1192.4,152.6 1197,154.2 1200.3,152.8 1203.8,153.3"/>
 		<properties>
-			<property name="GID" value="87"/>
+			<property name="GID" value="90"/>
 			<property name="NAME" value="Mongolia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3180,7 +3289,7 @@
 	<object id="326" name="IND" x="0" y="0" visible="0">
 		<polygon points="1091.4,112.5 1088.3,110.2 1085,109.1 1085.9,107.1 1081.8,101.2 1078.6,99.9 1073.8,96.2 1066.2,91.6 1067.3,89.5 1056.8,85.1 1055.3,83 1064.5,84.7 1060.6,81.8 1063.6,81.3 1067,83.5 1067.4,85.1 1072.4,88.5 1073.4,87.1 1074.2,81.6 1078.4,83.1 1081.7,80.6 1077.7,77.9 1074.2,78.6 1070,74.3 1068.2,75.5 1064.5,73.5 1054.8,71.4 1052.5,70.1 1051.4,64 1046.6,62.5 1042.9,59.6 1038.8,54 1031.2,48.4 1023.1,41.1 1019.9,40.2 1016.4,35.3 1016.3,34 1011,31.8 995.2,28.8 988.3,26.2 975.4,23.8 975.2,22.4 969.3,20.3 966.7,20.7 964.6,18 957,15.2 965.3,14 986.3,15.4 999.5,15.9 1015.4,18.5 1028.4,19.6 1041.5,22.5 1054.4,25.8 1063,28.9 1070.2,31 1070.7,27.3 1074.1,26.7 1087.3,28.4 1087.8,30 1091.6,30.8 1101.8,32.1 1103.5,34.8 1095.6,37.4 1101.9,39.7 1107.1,40.6 1112.4,42.9 1117.5,43.7 1120.5,48.3 1116.5,49.5 1120.2,54.4 1124.9,58.7 1128.7,63.5 1133.2,66 1134.7,69.3 1139.6,69.9 1150.5,74.5 1151.9,76.8 1147,78.1 1145.6,80.3 1148.7,84.9 1139.8,82.6 1135.1,79.5 1131.3,78.5 1128.3,76.7 1130.4,75.8 1123.1,72.6 1111.2,72.9 1109.2,70.2 1103.9,66.4 1097.2,67.8 1090.9,69.3 1088.8,72.3 1085.2,72.4 1081.9,76.8 1081.7,79.1 1090.5,83.2 1091.5,85.5 1086.7,83.6 1082.9,84.8 1083.7,87 1083.2,91.9 1086.8,93.7 1088.7,93.3 1089.3,96.1 1093.4,100.8 1096.9,106 1095.5,108.1 1097.8,111.4 1094.5,111.4 1092.1,109.3"/>
 		<properties>
-			<property name="GID" value="88"/>
+			<property name="GID" value="91"/>
 			<property name="NAME" value="India"/>
 			<property name="ECONOMY" value="3. Emerging region: BRIC"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3198,7 +3307,7 @@
 	<object id="327" name="BGD" x="0" y="0" visible="0">
 		<polygon points="1055.3,83 1051.1,81.4 1051.8,80.6 1047.1,79.2 1055.9,80.5 1059.3,80.4 1059.4,77.6 1053.5,74.8 1054.8,71.4 1064.5,73.5 1068.2,75.5 1070,74.3 1074.2,78.6 1077.7,77.9 1081.7,80.6 1078.4,83.1 1074.2,81.6 1073.4,87.1 1072.4,88.5 1067.4,85.1 1067,83.5 1063.6,81.3 1060.6,81.8 1064.5,84.7"/>
 		<properties>
-			<property name="GID" value="89"/>
+			<property name="GID" value="92"/>
 			<property name="NAME" value="Bangladesh"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3216,7 +3325,7 @@
 	<object id="328" name="BTN" x="0" y="0" visible="0">
 		<polygon points="1088.7,93.3 1086.8,93.7 1083.2,91.9 1083.7,87 1082.9,84.8 1086.7,83.6 1090.9,87.5 1092.2,89.7 1090.3,92.7"/>
 		<properties>
-			<property name="GID" value="90"/>
+			<property name="GID" value="93"/>
 			<property name="NAME" value="Bhutan"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3234,7 +3343,7 @@
 	<object id="329" name="NPL" x="0" y="0" visible="0">
 		<polygon points="1090.5,83.2 1081.7,79.1 1081.9,76.8 1085.2,72.4 1088.8,72.3 1090.9,69.3 1097.2,67.8 1103.9,66.4 1109.2,70.2 1111.2,72.9 1112.1,74.6 1109.1,75.3 1103.9,75.6 1102.4,76.5 1099.1,75.9 1093.9,78"/>
 		<properties>
-			<property name="GID" value="91"/>
+			<property name="GID" value="94"/>
 			<property name="NAME" value="Nepal"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3252,7 +3361,7 @@
 	<object id="330" name="PAK" x="0" y="0" visible="0">
 		<polygon points="1148.7,84.9 1145.6,80.3 1147,78.1 1151.9,76.8 1150.5,74.5 1139.6,69.9 1134.7,69.3 1133.2,66 1128.7,63.5 1124.9,58.7 1120.2,54.4 1116.5,49.5 1120.5,48.3 1117.5,43.7 1112.4,42.9 1107.1,40.6 1101.9,39.7 1095.6,37.4 1103.5,34.8 1101.8,32.1 1106.4,32.2 1112.2,34.1 1120.2,35.9 1127.5,34.1 1135.4,33.3 1142.1,32.5 1146.3,36.4 1142,38.5 1145,40 1148.2,40.4 1153.2,43.4 1160.1,44.7 1170.4,48.6 1159.8,47.1 1153.3,48.6 1149.8,48.6 1147.1,50.9 1151.9,54 1153.1,56.4 1150.5,57 1151.7,58.1 1148.1,59.2 1148.5,60.6 1152.3,62.7 1154.5,65.4 1154,66.9 1159.1,69 1156.1,69.9 1159.8,72.9 1160.8,75.1 1167.1,78.2 1168,80.5 1164.4,84.5 1163.6,87 1159.3,86.3 1154.3,83.9"/>
 		<properties>
-			<property name="GID" value="92"/>
+			<property name="GID" value="95"/>
 			<property name="NAME" value="Pakistan"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3270,7 +3379,7 @@
 	<object id="331" name="AFG" x="0" y="0" visible="0">
 		<polygon points="1188.2,79.4 1182.9,79.4 1180.9,81 1178.8,80.5 1180.4,82.6 1178.6,83 1181.7,87.3 1176.6,85.7 1172.1,82.3 1169.3,81.4 1170,86 1165.6,87.9 1163.6,87 1164.4,84.5 1168,80.5 1167.1,78.2 1160.8,75.1 1159.8,72.9 1156.1,69.9 1159.1,69 1154,66.9 1154.5,65.4 1152.3,62.7 1148.5,60.6 1148.1,59.2 1151.7,58.1 1150.5,57 1153.1,56.4 1151.9,54 1147.1,50.9 1149.8,48.6 1153.3,48.6 1159.8,47.1 1170.4,48.6 1170.9,52 1174.7,54.3 1179,54.8 1188,60.2 1188.9,62.3 1191.5,62.8 1198.5,70.6 1192.6,69.3 1190.3,70 1191.9,71.8 1189.3,74.1 1192.7,77.4 1190.9,78.6 1192.2,80.1"/>
 		<properties>
-			<property name="GID" value="93"/>
+			<property name="GID" value="96"/>
 			<property name="NAME" value="Afghanistan"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3288,7 +3397,7 @@
 	<object id="332" name="TJK" x="0" y="0" visible="0">
 		<polygon points="1182.9,79.4 1186.6,83.9 1191.2,86.7 1194.6,87.2 1196.2,89.2 1193.5,89.6 1197.5,95.2 1195.2,97.3 1193.3,95.2 1190.6,94.6 1189.9,93 1193.6,92.8 1190.9,90.3 1188.4,91.6 1183.4,91.5 1179.7,94.2 1174.1,90.8 1171.3,91.5 1165.6,87.9 1170,86 1169.3,81.4 1172.1,82.3 1176.6,85.7 1181.7,87.3 1178.6,83 1180.4,82.6 1178.8,80.5 1180.9,81"/>
 		<properties>
-			<property name="GID" value="94"/>
+			<property name="GID" value="97"/>
 			<property name="NAME" value="Tajikistan"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3306,7 +3415,7 @@
 	<object id="333" name="KGZ" x="0" y="0" visible="0">
 		<polygon points="1201.2,103 1202.9,105.1 1202.1,106.3 1196.5,106.5 1199.2,109.1 1199,110.6 1193.9,110.6 1193.7,111.5 1187.2,115.3 1182.7,115 1181.7,113.9 1181.5,109.3 1180,107.2 1181.8,104.9 1179.1,101.8 1182,100.9 1181.9,96.2 1179.7,94.2 1183.4,91.5 1188.4,91.6 1190.9,90.3 1193.6,92.8 1189.9,93 1190.6,94.6 1188.1,95 1188.9,99.3 1194.5,100.2 1194.9,98.5 1198.8,99.4 1200,102.9"/>
 		<properties>
-			<property name="GID" value="95"/>
+			<property name="GID" value="98"/>
 			<property name="NAME" value="Kyrgyzstan"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -3321,10 +3430,56 @@
 		</properties>
 	</object>
 
+	<object id="334" name="TKM" x="0" y="0" visible="0">
+		<polygon points="125,75.2 125.2,77.6 127.7,78.2 129.3,80.5 131.4,81 136,80.8 141.3,78.8 145.3,78.5 142.2,81.4 136.3,85.6 136.9,87.5 132.7,90.2 134.3,90.8 129.4,94.2 127.8,92.6 123.6,93.6 122.8,96.5 120.9,99.1 124.5,98.4 128.4,95.4 126.1,98.3 123.2,99.5 118.9,99.7 118.2,98.2 119.8,94.6 118,94.6 114.2,94.3 112.4,96.5 108.1,97.8 102.7,100.2 100.4,97.8 101.1,97.1 112.8,86"/>
+		<properties>
+			<property name="GID" value="99"/>
+			<property name="NAME" value="Turkmenistan"/>
+			<property name="ECONOMY" value="6. Developing region"/>
+			<property name="INCOME_GRP" value="3. Upper middle income"/>
+			<property name="ISO_A2" value="TM"/>
+			<property name="POP_EST" value="5351277"/>
+			<property name="SUBREGION" value="Central Asia"/>
+			<property name="GDP_MD_EST" value="94720"/>
+			<property name="ISO_A3" value="TKM"/>
+			<property name="EQUATOR_DIST" value="39.46245358332448"/>
+			<property name="OFFSET_X" value="100.4"/>
+			<property name="OFFSET_Y" value="100.2"/>
+		</properties>
+	</object>
+	<object id="335" name="TKM" x="0" y="0" visible="0">
+		<polygon points="1232.9,97.1 1229.9,94.4 1227.6,93.5 1224,93.8 1222.1,93.1 1215.5,88.8 1203.8,84.5 1197.8,82.9 1191.3,81.9 1188.2,79.4 1192.2,80.1 1190.9,78.6 1192.7,77.4 1189.3,74.1 1191.9,71.8 1190.3,70 1192.6,69.3 1198.5,70.6 1203,73.9 1206.1,74 1209,75.2 1221.2,86"/>
+		<properties>
+		</properties>
+	</object>
+
+	<object id="335" name="IRN" x="0" y="0" visible="0">
+		<polygon points="182.2,33.3 189,34.2 194.1,34.9 189.4,39.1 190.7,39.9 202.6,38.6 205.9,40.5 205.2,43.9 207,45.7 197.8,54.9 200.5,54.9 200.4,56.8 203.9,55.9 199.8,60.7 195,63 191.8,66.4 191.6,70 187.5,74.4 182.4,76.9 179.2,77.6 176,79.8 175.7,81.9 170.3,87.3 167,91.1 164.8,92.1 159.1,97 156.1,97.2 159.3,93 158.5,91.6 157.5,91.3 150.6,92.9 150.1,91.3 153.7,89.7 154.1,86.9 157.3,83.7 155.8,81.9 156.6,79.3 153.2,77.5 146.8,77.6 145.3,78.5 141.3,78.8 136,80.8 131.4,81 129.3,80.5 127.7,78.2 125.2,77.6 125,75.2 138.8,63.9 153,53.1 167.5,42.9"/>
+		<properties>
+			<property name="GID" value="100"/>
+			<property name="NAME" value="Iran"/>
+			<property name="ECONOMY" value="5. Emerging region: G20"/>
+			<property name="INCOME_GRP" value="3. Upper middle income"/>
+			<property name="ISO_A2" value="IR"/>
+			<property name="POP_EST" value="82021564"/>
+			<property name="SUBREGION" value="Southern Asia"/>
+			<property name="GDP_MD_EST" value="1459000"/>
+			<property name="ISO_A3" value="IRN"/>
+			<property name="EQUATOR_DIST" value="33.398799921591554"/>
+			<property name="OFFSET_X" value="125"/>
+			<property name="OFFSET_Y" value="97.2"/>
+		</properties>
+	</object>
+	<object id="336" name="IRN" x="0" y="0" visible="0">
+		<polygon points="1209,75.2 1206.1,74 1203,73.9 1198.5,70.6 1191.5,62.8 1188.9,62.3 1188,60.2 1179,54.8 1174.7,54.3 1170.9,52 1170.4,48.6 1160.1,44.7 1153.2,43.4 1148.2,40.4 1145,40 1142,38.5 1146.3,36.4 1142.1,32.5 1151.8,33.3 1166.5,42.9 1181,53.1 1195.2,63.9"/>
+		<properties>
+		</properties>
+	</object>
+
 	<object id="336" name="SYR" x="0" y="0" visible="0">
 		<polygon points="211.5,88 208,89.6 204.5,90.9 201.6,90.9 199.8,93.8 195.5,96.6 192.8,97.5 187,98.4 183.9,97.2 182.8,94 178.8,93.3 175,91.1 179.5,89.6 181.9,89.6 186,86.7 193.8,83.1 203.5,83.6 212.5,84.2"/>
 		<properties>
-			<property name="GID" value="96"/>
+			<property name="GID" value="101"/>
 			<property name="NAME" value="Syria"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3342,7 +3497,7 @@
 	<object id="337" name="ARM" x="0" y="0" visible="0">
 		<polygon points="157.5,91.3 158.5,91.6 155.4,95 156.1,97.2 155.5,100.9 151.1,104.3 147.4,103.1 148.5,100.6 150.3,99.9 151,97.8 153.3,96.9 153.7,94.1"/>
 		<properties>
-			<property name="GID" value="97"/>
+			<property name="GID" value="102"/>
 			<property name="NAME" value="Armenia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3360,7 +3515,7 @@
 	<object id="338" name="SWE" x="0" y="0" visible="0">
 		<polygon points="100.5,233.6 94.7,235 89.8,238.2 88.1,241.1 82.9,245.6 78.8,247.5 78.3,245.7 76.5,246.4 75.4,248.2 69.1,250.6 61.2,254.8 60.6,253.5 58.4,255.2 57.7,252.1 55.2,254.5 54.6,253.9 56.8,245.5 62.4,239.2 63.6,237.1 66,238.3 69.4,236.9 71.7,234.3 80.7,233.6 86.8,229.8 89.2,226 90.8,222.2 96.1,219.9 97.8,221.1 105.1,216 109.4,214.1 109.7,217.1 113.3,215.8 114.1,218.3 110.3,222 106,227.5"/>
 		<properties>
-			<property name="GID" value="98"/>
+			<property name="GID" value="103"/>
 			<property name="NAME" value="Sweden"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3378,7 +3533,7 @@
 	<object id="339" name="BLR" x="0" y="0" visible="0">
 		<polygon points="99.5,190.4 99.4,183.4 102.8,180.6 106.2,174.8 107.1,171.4 110,172.5 113.9,167.7 115.1,169 118.9,166.7 120.4,170.7 120.6,176.7 121.9,180.6 124.1,181.6 120.3,185.6 118.9,185.1 113.7,190.3 112.9,188.3 110.3,187.7 107.6,189.4 105.4,189.2 103.5,191.1"/>
 		<properties>
-			<property name="GID" value="99"/>
+			<property name="GID" value="104"/>
 			<property name="NAME" value="Belarus"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3396,7 +3551,7 @@
 	<object id="340" name="UKR" x="0" y="0" visible="0">
 		<polygon points="113.9,167.7 112.3,167.4 110.5,165.4 112.3,162.1 114.9,160.2 114.1,158.7 116.6,155.6 116.5,152.1 114.7,151.7 116,148.8 115.1,148 114.4,144.6 118.9,141.6 123.1,137.8 125,138.9 127.1,138.5 129.3,136.7 130.9,137.6 133.5,137.3 135,138.7 138,138.7 140.7,136.5 139.9,140.8 141.5,140.3 141.6,145 139.8,146.5 141.4,147.9 149,145.4 149.3,149.1 144,151.3 142.9,148.8 136.8,156 135.4,161.6 137.3,162.6 141.1,164.8 140.3,166.7 140.6,170 142,170.3 139.8,173.7 136.4,174.8 134.6,176.3 127.8,177.3 124.1,181.6 121.9,180.6 120.6,176.7 120.4,170.7 118.9,166.7 115.1,169"/>
 		<properties>
-			<property name="GID" value="100"/>
+			<property name="GID" value="105"/>
 			<property name="NAME" value="Ukraine"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3414,7 +3569,7 @@
 	<object id="341" name="POL" x="0" y="0" visible="0">
 		<polygon points="113.7,190.3 118.9,185.1 120.3,185.6 124.1,181.6 127.8,177.3 134.6,176.3 136.4,174.8 135.3,178.4 136.2,181.1 137.6,181.8 136.2,184.2 136.8,185.1 134.9,187.9 135,189.9 133.6,191.2 134.7,192.8 132.8,195.5 131.6,199.9 127.4,203.8 123.8,208.1 122.5,208.3 120.4,210.5 118.8,209.8 113.7,206 113.8,203.2 114.8,202.2 114.2,200.1 113.9,197.1 112.4,193.3"/>
 		<properties>
-			<property name="GID" value="101"/>
+			<property name="GID" value="106"/>
 			<property name="NAME" value="Poland"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3432,7 +3587,7 @@
 	<object id="342" name="AUT" x="0" y="0" visible="0">
 		<polygon points="144.1,185.5 150.3,183.6 152.9,186.7 152.8,189.3 152.1,194.1 150.6,195.8 152,200.1 151.3,203.6 149.5,204.4 150.2,201.4 149,201.7 147.9,197.5 147.9,194.8 145.1,197 142.2,196.8 143.3,193.8 140.7,192.8 142,187"/>
 		<properties>
-			<property name="GID" value="102"/>
+			<property name="GID" value="107"/>
 			<property name="NAME" value="Austria"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3450,7 +3605,7 @@
 	<object id="343" name="HUN" x="0" y="0" visible="0">
 		<polygon points="139.8,173.7 142,170.3 143.4,171 150.5,169.2 151.8,170.6 153.6,173.6 153.9,177 151.8,181.6 150.3,183.6 144.1,185.5 145.4,182 143.4,180.7 141.4,177.8 139.7,177.4"/>
 		<properties>
-			<property name="GID" value="103"/>
+			<property name="GID" value="108"/>
 			<property name="NAME" value="Hungary"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3468,7 +3623,7 @@
 	<object id="344" name="MDA" x="0" y="0" visible="0">
 		<polygon points="137.3,162.6 135.4,161.6 136.8,156 142.9,148.8 144,151.3 149.3,149.1 142.9,154.2 137.6,161.6"/>
 		<properties>
-			<property name="GID" value="104"/>
+			<property name="GID" value="109"/>
 			<property name="NAME" value="Moldova"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3486,7 +3641,7 @@
 	<object id="345" name="ROU" x="0" y="0" visible="0">
 		<polygon points="149.3,149.1 149,145.4 150.3,144.4 151.6,145.7 158,142 156.7,146.7 160.4,149 161.4,156.1 159.6,158.1 157.6,162.7 155.7,164.3 154.9,166.6 151.8,170.6 150.5,169.2 143.4,171 142,170.3 140.6,170 140.3,166.7 141.1,164.8 137.3,162.6 137.6,161.6 142.9,154.2"/>
 		<properties>
-			<property name="GID" value="105"/>
+			<property name="GID" value="110"/>
 			<property name="NAME" value="Romania"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3504,7 +3659,7 @@
 	<object id="346" name="LTU" x="0" y="0" visible="0">
 		<polygon points="103.5,191.1 105.4,189.2 107.6,189.4 110.3,187.7 112.9,188.3 113.7,190.3 112.4,193.3 110.1,195.3 109.7,199.5 106.2,203 104,201.9 103,198.4 101.7,197"/>
 		<properties>
-			<property name="GID" value="106"/>
+			<property name="GID" value="111"/>
 			<property name="NAME" value="Lithuania"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3522,7 +3677,7 @@
 	<object id="347" name="LVA" x="0" y="0" visible="0">
 		<polygon points="94.8,197.2 95.3,195.4 99.5,190.4 103.5,191.1 101.7,197 103,198.4 104,201.9 106.2,203 103,205.7 99.9,207.1 97.7,206.6 100.3,202.3 99.5,200.9 96.1,203.5 94.6,202.7 95.5,198.6"/>
 		<properties>
-			<property name="GID" value="107"/>
+			<property name="GID" value="112"/>
 			<property name="NAME" value="Latvia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3540,7 +3695,7 @@
 	<object id="348" name="EST" x="0" y="0" visible="0">
 		<polygon points="85.7,204.3 86.3,203.3 89.4,202 93,197.8 94.8,197.2 95.5,198.6 94.6,202.7 96.1,203.5 93.5,205.6 94.4,205.8 93.4,208.3 91.1,210.7 87.1,208.1 86.8,205.7"/>
 		<properties>
-			<property name="GID" value="108"/>
+			<property name="GID" value="113"/>
 			<property name="NAME" value="Estonia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3558,7 +3713,7 @@
 	<object id="349" name="DEU" x="0" y="0" visible="0">
 		<polygon points="120.4,210.5 122.5,208.3 123.8,208.1 127.4,203.8 131.6,199.9 131.9,201.7 136.5,204.6 139.6,201.7 142.2,196.8 145.1,197 147.9,194.8 147.9,197.5 149,201.7 150.2,201.4 149.5,204.4 148.4,208.3 149.5,211 146.4,212.4 143.3,212.7 142.9,217.4 141.9,219.5 139.1,221.6 136.2,222.9 131.8,226.1 131.6,224.4 126,226.5 124.6,227.9 123.1,225.9 124,224.8 121.7,224.5 117.8,227.8 117.2,224.4 118.8,223.3 119.3,220.1 120.8,219 118.2,216.5"/>
 		<properties>
-			<property name="GID" value="109"/>
+			<property name="GID" value="114"/>
 			<property name="NAME" value="Germany"/>
 			<property name="ECONOMY" value="1. Developed region: G7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3576,7 +3731,7 @@
 	<object id="350" name="BGR" x="0" y="0" visible="0">
 		<polygon points="159.6,158.1 161.4,156.1 160.4,149 156.7,146.7 158,142 160.5,141.7 164.5,140.1 167.2,137.4 167.1,139.9 169.5,141.4 172,139.7 173.1,141.7 171.7,144.7 173.6,145.9 173.8,148 170.5,150.3 169.2,152.7 164.4,153.9 162.6,156.6"/>
 		<properties>
-			<property name="GID" value="110"/>
+			<property name="GID" value="115"/>
 			<property name="NAME" value="Bulgaria"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3594,7 +3749,7 @@
 	<object id="351" name="GRC" x="0" y="0" visible="0">
 		<polygon points="173.8,148 173.6,145.9 171.7,144.7 173.1,141.7 172,139.7 169.5,141.4 170.5,139.2 174.7,138.2 174.7,141.5 176.7,143.9 179.2,140.3 180.6,142.6 178.2,145.7 182.4,143.1 184.6,140.2 185.8,140.6 189.3,135.4 192.2,133.6 191.2,137.1 193.7,134.7 194.5,136.2 199,132.5 199.2,134.5 197.2,138.2 189.9,144 183.6,150.7 177.2,151.9"/>
 		<properties>
-			<property name="GID" value="111"/>
+			<property name="GID" value="116"/>
 			<property name="NAME" value="Greece"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3617,7 +3772,7 @@
 	<object id="352" name="TUR" x="0" y="0" visible="0">
 		<polygon points="170.3,87.3 173.2,91 175,91.1 178.8,93.3 182.8,94 183.9,97.2 187,98.4 192.8,97.5 189.3,101.3 188.9,103.9 192.9,103.5 195.1,106.6 192.8,110.3 193.5,113 196,112.3 197.2,113.6 194.9,117.8 195.7,120.6 190.7,125.4 188.2,129.1 183.8,130.3 181.7,133.5 175.9,133.7 174.6,130.1 170.2,131.7 169.2,126.8 164.5,126.5 161.8,125.1 159.6,121.9 161.1,116 161.1,111.9 158.4,110.5 157.5,108.8 152.6,109 150.4,107.6 151.1,104.3 155.5,100.9 156.1,97.2 159.1,97 164.8,92.1 167,91.1"/>
 		<properties>
-			<property name="GID" value="112"/>
+			<property name="GID" value="117"/>
 			<property name="NAME" value="Turkey"/>
 			<property name="ECONOMY" value="4. Emerging region: MIKT"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3640,7 +3795,7 @@
 	<object id="353" name="ALB" x="0" y="0" visible="0">
 		<polygon points="177.2,151.9 183.6,150.7 180.7,154.8 173.4,158.7 172.7,159.7 168.6,161.1 168.9,159.9 172.3,156.2 176.1,153.8"/>
 		<properties>
-			<property name="GID" value="113"/>
+			<property name="GID" value="118"/>
 			<property name="NAME" value="Albania"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3658,7 +3813,7 @@
 	<object id="354" name="HRV" x="0" y="0" visible="0">
 		<polygon points="151.8,181.6 153.9,177 153.6,173.6 156.5,170 158.5,169.8 157.6,171.7 157.5,176.5 159.9,178.8 163.3,174.5 167.7,168 169.2,164.3 170.1,164.1 167.1,170.7 166,174.2 162.8,178.8 159,182 158.5,184.3 160.6,184 157.4,186.7 156.5,184.5 157.1,181.9 153.3,183"/>
 		<properties>
-			<property name="GID" value="114"/>
+			<property name="GID" value="119"/>
 			<property name="NAME" value="Croatia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -3676,7 +3831,7 @@
 	<object id="355" name="CHE" x="0" y="0" visible="0">
 		<polygon points="149.5,204.4 151.3,203.6 152,200.1 154.7,200.2 154.3,202.7 156.2,202.3 155.7,204.7 157.3,205.6 156.7,208.8 154.9,211 155.6,212.1 153.7,213.1 149.5,211 148.4,208.3"/>
 		<properties>
-			<property name="GID" value="115"/>
+			<property name="GID" value="120"/>
 			<property name="NAME" value="Switzerland"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3694,7 +3849,7 @@
 	<object id="357" name="BEL" x="0" y="0" visible="0">
 		<polygon points="136.2,222.9 139.1,221.6 141.7,221.1 140,224.8 140.4,226.2 135.6,234.4 134.6,232.5 134.7,230.2 133.6,228"/>
 		<properties>
-			<property name="GID" value="116"/>
+			<property name="GID" value="121"/>
 			<property name="NAME" value="Belgium"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3712,7 +3867,7 @@
 	<object id="358" name="NLD" x="0" y="0" visible="0">
 		<polygon points="124.6,227.9 126,226.5 131.6,224.4 131.8,226.1 136.2,222.9 133.6,228 134.7,230.2 134.6,232.5 133.3,231.7 126.9,232.9 124.8,230.2"/>
 		<properties>
-			<property name="GID" value="117"/>
+			<property name="GID" value="122"/>
 			<property name="NAME" value="Netherlands"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3730,7 +3885,7 @@
 	<object id="359" name="PRT" x="0" y="0" visible="0">
 		<polygon points="173.8,256.8 172.3,254.4 174.3,252.8 174,247.8 176.1,246 177.1,247.4 182.8,246.3 183,247.9 185.5,245.5 188.1,245.7 189.4,243.9 191.9,245.1 193.2,244.3 194.2,245.7 193.8,250 188.3,251.5 186.3,254.8 183.7,255.3 182.3,254.1 178.3,254.3"/>
 		<properties>
-			<property name="GID" value="118"/>
+			<property name="GID" value="123"/>
 			<property name="NAME" value="Portugal"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3748,7 +3903,7 @@
 	<object id="360" name="ESP" x="0" y="0" visible="0">
 		<polygon points="193.2,244.3 191.9,245.1 189.4,243.9 188.1,245.7 185.5,245.5 183,247.9 182.8,246.3 177.1,247.4 176.1,246 174,247.8 174.3,252.8 172.3,254.4 173.8,256.8 171,257.6 169.2,259.7 166.5,255.4 167.2,250.6 167.3,245.7 168.1,241.6 168.1,232.8 169.7,230.7 171.7,223.2 170.8,222.4 172.8,217.5 172.2,213.7 174.7,212.3 177.6,214.3 178.4,218.6 182.1,219.5 185.5,219.5 187.9,217 189.7,218.4 192.4,218.2 193.1,220.8 196.2,222.3 195.7,231.3 198.4,234.3 197.9,236.5 194.1,240.3"/>
 		<properties>
-			<property name="GID" value="119"/>
+			<property name="GID" value="124"/>
 			<property name="NAME" value="Spain"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3766,7 +3921,7 @@
 	<object id="361" name="IRL" x="0" y="0" visible="0">
 		<polygon points="126.1,265.8 128.9,264 132.5,264.8 135,269.3 134.6,274.1 130.4,273.1 126.5,276.3 121.3,272 123.4,270.5 125.5,270.2"/>
 		<properties>
-			<property name="GID" value="120"/>
+			<property name="GID" value="125"/>
 			<property name="NAME" value="Ireland"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3784,7 +3939,7 @@
 	<object id="362" name="NCL" x="0" y="0" visible="0">
 		<polygon points="918.6,419 913.4,425 912.8,423 916.6,417.2 922.3,411.4 923.3,413"/>
 		<properties>
-			<property name="GID" value="121"/>
+			<property name="GID" value="126"/>
 			<property name="NAME" value="New Caledonia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -3802,7 +3957,7 @@
 	<object id="364" name="NZL" x="0" y="0" visible="0">
 		<polygon points="836.9,448.3 833.6,443 833.2,439.5 835.3,437.9 837.5,441.4 839.9,441 842.6,437.4 843.8,438 844.2,441.3 849.2,443.8 852.7,443.5 858.9,440 861.9,439.1 861.8,440.7 859.1,442.3 857.2,445.2 853.7,445.2 849,446.7 851.4,447.7 849.8,449.1 847,448.6 843.6,453.8 844.1,456.7 843,458.5 838.6,454 839.7,451.1"/>
 		<properties>
-			<property name="GID" value="122"/>
+			<property name="GID" value="127"/>
 			<property name="NAME" value="New Zealand"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3825,7 +3980,7 @@
 	<object id="365" name="AUS" x="0" y="0" visible="0">
 		<polygon points="868.9,232.8 863.7,225.5 859.6,224.4 857.1,218.4 856.5,214.5 853.8,209 847,203.4 844.8,197.8 844.9,190 846.9,189.1 849.4,191.1 855.1,188.1 857.7,184.2 861.5,181.9 864,178.6 864.6,176.1 867.1,174.3 868.8,170.7 869.4,172 872.1,169.1 871.2,173.5 873,172.7 876.4,167.1 882.2,167.2 884.1,165.9 887.6,166.8 884.9,168.1 888.3,169.1 891.1,172.3 896.4,177 897.6,180.4 907.4,195.2 915.1,200.4 918.8,200 923,202.7 920.4,205.4 921.8,207.3 923,205.3 925.3,206.5 925.1,208.8 928.2,208.8 935,214.5 938.4,221.2 936,228.2 937,234.6 938.9,233.3 947.3,238.6 949.3,241.6 950.9,248.5 952.8,248.2 953.3,244.3 954.4,247 953,253.4 952.7,262.6 955.1,268.7 953.6,271.3 943.5,264.1 942.5,264.6 940.4,272.9 937.7,279.6 937.3,283.8 936.2,284.6 935.5,289.6 937.1,292.9 946.2,296.6 951.2,295.4 956.1,296.1 961.4,298.3 963,300.2 958.9,302.2 955.2,305.8 951.8,306.1 948.9,308.1 950.5,311.4 947.7,315.8 946,315.3 941,317.3 937.5,320.1 935.5,319.7 933,321.4 931.3,327 928,334.1 927.1,333.4 924.8,336.3 920.7,338.3 921.5,340.3 920.5,343.6 916.5,344.4 909.5,353.9 906.5,355.2 902,354.8 898.7,357 895.4,356.6 890.4,354.3 885.6,353.3 882.3,351.1 880.5,347.7 875.8,344.4 867.9,340.3 864.1,339.9 862.8,337.5 862.6,332.7 861,328.8 857.8,324.5 859.8,318.2 861.8,318.7 860.9,316.5 858,313 859.8,300.1 861.7,297 866.2,294.5 867.5,292.2 867.4,287.9 869.4,289 872,287.5 869.1,285.8 867.9,282.1 870.3,284 874.6,285.6 877.3,284.8 873.6,281.7 871.9,279.2 868.7,278.1 869.6,274.4 871.6,274.1 874.7,268.2 875.8,268.8 876.9,262.6 876.4,259.5 877.2,254.7 875.1,246.9 869.8,237"/>
 		<properties>
-			<property name="GID" value="123"/>
+			<property name="GID" value="128"/>
 			<property name="NAME" value="Australia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3848,7 +4003,7 @@
 	<object id="366" name="LKA" x="0" y="0" visible="0">
 		<polygon points="954.9,25.9 947.1,24.5 942,20.5 947.8,19.9 958.9,20.8 971.4,23.9 967.3,25.1"/>
 		<properties>
-			<property name="GID" value="124"/>
+			<property name="GID" value="129"/>
 			<property name="NAME" value="Sri Lanka"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -3866,7 +4021,7 @@
 	<object id="367" name="CHN" x="0" y="0" visible="0">
 		<polygon points="1182.7,115 1185.8,117.2 1186.1,119.3 1196.5,124.9 1195.4,129.6 1195.8,131.4 1203.7,139.8 1199.4,141.8 1201,144.6 1205.8,148.7 1205.2,150.5 1207.5,154.6 1207.5,155.6 1203.8,153.3 1200.3,152.8 1197,154.2 1192.4,152.6 1187,147.4 1184.4,146.6 1180.7,151.2 1176.7,151.9 1175.7,153 1170.8,151.1 1167.5,150.6 1167,153.6 1164.9,158.5 1165,162.7 1164,165 1160.6,167.6 1160.3,171.3 1158.7,171.8 1161,176.9 1162.3,182.8 1162.3,187.7 1163.8,192.4 1167.5,199.1 1170.8,199.3 1173.5,202.6 1172.1,207 1174.3,211.4 1175.8,217.3 1178.5,221.1 1179.7,224 1180.1,229.1 1179.5,231.4 1181,232.5 1184,231 1185.5,229.2 1184,225.9 1184.8,223.1 1184.3,221.1 1186.1,221.2 1193.3,229 1191.5,231.8 1193.9,237.5 1195.7,238.5 1199.9,243.5 1201.2,245.8 1203.4,247 1204.5,245.9 1206.3,249.4 1206.8,253.3 1206.7,257.3 1205.3,261.1 1203.7,263.1 1195.4,263.8 1191.5,263.4 1190.1,268.7 1187.3,271.7 1183.6,271.8 1183.6,277.1 1185.1,280.6 1186.3,286.7 1181.4,282.1 1177.1,279.7 1173.3,276.1 1174,271.9 1172.5,268.3 1169.2,268.2 1164.5,266.2 1164.4,264.2 1162.4,263.6 1164.7,261.9 1162.4,259.7 1160.5,253.2 1158.4,253.1 1158.5,249.8 1159.7,248.5 1156.8,244.8 1154.4,239.8 1151.7,235.7 1150.3,229.9 1148.2,226.3 1146.9,221.7 1148.9,224.5 1150.5,224.4 1153.5,228.5 1155.6,227.5 1154,223.6 1150.9,218.2 1148.1,214.7 1147.8,210.9 1145.7,208.1 1142.9,208.9 1142.3,211.7 1140.4,211 1139.3,213.5 1142.6,219.1 1141.1,221.9 1141.1,224.4 1139,224.2 1137.5,218.2 1135.1,215.5 1132.7,210.8 1129.5,207.6 1127.5,211 1123.5,211.1 1116.8,214 1113.7,212.9 1112.3,209.8 1110.1,210.1 1109.1,212.3 1102.1,208.4 1101.4,205.8 1090.3,196 1084.6,190.4 1074.9,175.8 1073.5,170.7 1071,167.4 1072.2,166.3 1069.5,163.2 1066,156.4 1064.4,151.7 1059.2,148.8 1058.4,146.3 1061.6,146.2 1063.6,147.7 1064,142.5 1062.8,140.3 1063.3,136.5 1064.9,135.2 1067.8,136.7 1068,133.3 1069.5,132 1066.2,127.7 1064.4,120.6 1062.8,118.1 1061.7,115.8 1055.8,114.4 1056.7,112.4 1058.9,113 1056.8,109.7 1059,106.3 1063.6,108.9 1064.3,107 1069.1,107.9 1067.7,103.8 1074.3,106.7 1079.1,111.8 1087.7,115.4 1091.9,114.6 1091.4,112.5 1092.1,109.3 1094.5,111.4 1097.8,111.4 1095.5,108.1 1096.9,106 1093.4,100.8 1089.3,96.1 1088.7,93.3 1090.3,92.7 1092.2,89.7 1090.9,87.5 1086.7,83.6 1091.5,85.5 1090.5,83.2 1093.9,78 1099.1,75.9 1102.4,76.5 1103.9,75.6 1109.1,75.3 1112.1,74.6 1111.2,72.9 1123.1,72.6 1130.4,75.8 1128.3,76.7 1131.3,78.5 1135.1,79.5 1139.8,82.6 1148.7,84.9 1154.3,83.9 1159.3,86.3 1163.6,87 1165.6,87.9 1171.3,91.5 1174.1,90.8 1179.7,94.2 1181.9,96.2 1182,100.9 1179.1,101.8 1181.8,104.9 1180,107.2 1181.5,109.3 1181.7,113.9"/>
 		<properties>
-			<property name="GID" value="125"/>
+			<property name="GID" value="130"/>
 			<property name="NAME" value="China"/>
 			<property name="ECONOMY" value="3. Emerging region: BRIC"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -3889,7 +4044,7 @@
 	<object id="368" name="TWN" x="0" y="0" visible="0">
 		<polygon points="1086,204.3 1075,196.9 1078.2,195.4 1081.3,195.7 1085.9,199.5 1089.6,204 1088.6,205.7"/>
 		<properties>
-			<property name="GID" value="126"/>
+			<property name="GID" value="131"/>
 			<property name="NAME" value="Taiwan"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -3907,7 +4062,7 @@
 	<object id="369" name="ITA" x="0" y="0" visible="0">
 		<polygon points="152,200.1 150.6,195.8 152.1,194.1 152.8,189.3 156.9,186.3 156.5,189 158.4,190.4 161.9,188.5 164.2,186.1 166.3,181.9 170,178.1 173.6,172.4 173.3,170.1 175.4,169 178.2,162.2 180.5,158.1 183.2,156.8 181,159.8 180.4,163 183.6,162.5 185.3,159.2 187.9,158.1 188.2,159.3 192.5,158.7 192.9,159.9 187.7,161.3 182.6,166.4 177.5,175.1 177.3,177.6 175.3,181.3 169.8,189.5 165.4,193.1 163.6,198.3 166.8,201.4 164.8,202 164.3,204.1 161,206.8 159.6,206.4 156.7,208.8 157.3,205.6 155.7,204.7 156.2,202.3 154.3,202.7 154.7,200.2"/>
 		<properties>
-			<property name="GID" value="127"/>
+			<property name="GID" value="132"/>
 			<property name="NAME" value="Italy"/>
 			<property name="ECONOMY" value="1. Developed region: G7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3935,7 +4090,7 @@
 	<object id="370" name="DNK" x="0" y="0" visible="0">
 		<polygon points="117.2,224.4 117.8,227.8 115.7,230.4 111.4,233.4 108.9,234 108.2,232.1 105.4,231.1 110.1,228.2 110.5,226.5 115.2,226.5"/>
 		<properties>
-			<property name="GID" value="128"/>
+			<property name="GID" value="133"/>
 			<property name="NAME" value="Denmark"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3958,7 +4113,7 @@
 	<object id="371" name="GBR" x="0" y="0" visible="0">
 		<polygon points="127.4,255.8 125.1,256.5 122.7,259.7 122.2,263.5 121.2,264.7 119.4,264.6 118.3,266 120.3,266.6 116.5,268.6 114.6,271 110.5,271.9 107.1,271.5 106.6,266.3 111.1,266.9 110.1,261.6 113.4,260.5 117.2,261.1 117.2,258.1 122.1,252.6 122.6,250.4 128.7,244.4 129.2,240.5 131.8,239.4 133.2,240.2 135.2,237.8 137.5,239.4 137.7,243.5 139.1,248.2 138.3,250 140.3,251.2 139.9,254.3 141.5,255.9 140.8,257.9 136.4,255.2 135.4,252.8 135,258 133.4,259.6 132,257 130,259.6 127.3,260.3"/>
 		<properties>
-			<property name="GID" value="129"/>
+			<property name="GID" value="134"/>
 			<property name="NAME" value="United Kingdom"/>
 			<property name="ECONOMY" value="1. Developed region: G7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3981,7 +4136,7 @@
 	<object id="372" name="ISL" x="0" y="0" visible="0">
 		<polygon points="79,306.8 81.5,306.4 83.9,303.1 87,305 90.8,312.7 89.4,322.8 87.7,320.8 86,326.1 85.1,322.2 84,322.5 83.3,327.3 80.8,326.1 80.2,322.9 82.6,319.1 80.4,316.2 81.3,313.2 79,310.4"/>
 		<properties>
-			<property name="GID" value="130"/>
+			<property name="GID" value="135"/>
 			<property name="NAME" value="Iceland"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -3999,7 +4154,7 @@
 	<object id="373" name="AZE" x="0" y="0" visible="0">
 		<polygon points="141.1,104 142.2,100.3 141.5,99.5 136.2,101.5 140.1,95.4 139.7,93.4 142.3,93.8 154.1,86.9 153.7,89.7 150.1,91.3 150.6,92.9 157.5,91.3 153.7,94.1 153.3,96.9 151,97.8 150.3,99.9 148.5,100.6 147.4,103.1 144.1,100.9 142.4,103.7"/>
 		<properties>
-			<property name="GID" value="131"/>
+			<property name="GID" value="136"/>
 			<property name="NAME" value="Azerbaijan"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4022,7 +4177,7 @@
 	<object id="374" name="GEO" x="0" y="0" visible="0">
 		<polygon points="145.3,119 144.5,119.3 142.1,114.6 142,110.8 139.8,107.7 141.1,104 142.4,103.7 144.1,100.9 147.4,103.1 151.1,104.3 150.4,107.6 152.6,109 150,110.5 146.9,113.6"/>
 		<properties>
-			<property name="GID" value="132"/>
+			<property name="GID" value="137"/>
 			<property name="NAME" value="Georgia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4040,7 +4195,7 @@
 	<object id="375" name="PHL" x="0" y="0" visible="0">
 		<polygon points="1024.2,215.4 1019.5,215.8 1015.5,213.8 1019.2,212.2 1016.7,209.7 1014.1,211.1 1011.9,209.6 1012.9,203.7 1015.6,202.5 1017.8,204.2 1019,201.1 1017,199.4 1016.6,197 1013.5,193.1 1014.5,192.4 1018.4,194.6 1022.4,200.8 1020.9,202.4 1022.8,206.4 1024.8,207.4 1025.6,211 1028.7,210.9 1027.6,214.9"/>
 		<properties>
-			<property name="GID" value="133"/>
+			<property name="GID" value="138"/>
 			<property name="NAME" value="Philippines"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4088,7 +4243,7 @@
 	<object id="376" name="MYS" x="0" y="0" visible="0">
 		<polygon points="996.6,171.4 994.4,161.6 989.1,159.6 987,157.7 980.3,155 978.1,151.1 977.7,146.6 973.3,141.4 970.4,135.4 971.6,132.2 974.3,131.5 974.1,134.9 976.3,138.6 980.3,139.6 984.8,147.4 992.8,153.6 991.3,155.6 993.7,159 998.7,159.9 1002.7,163.8 1006.7,166.6 1007.3,168.6 1005.9,170.9 1004.1,171 1003.7,178.2 1002,177.7 1000.9,174.4 999.1,175.1"/>
 		<properties>
-			<property name="GID" value="134"/>
+			<property name="GID" value="139"/>
 			<property name="NAME" value="Malaysia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4111,7 +4266,7 @@
 	<object id="378" name="SVN" x="0" y="0" visible="0">
 		<polygon points="152.8,189.3 152.9,186.7 150.3,183.6 151.8,181.6 153.3,183 157.1,181.9 156.5,184.5 157.4,186.7 156.9,186.3"/>
 		<properties>
-			<property name="GID" value="135"/>
+			<property name="GID" value="140"/>
 			<property name="NAME" value="Slovenia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -4129,7 +4284,7 @@
 	<object id="379" name="FIN" x="0" y="0" visible="0">
 		<polygon points="48.7,244.6 51.3,241.7 52.3,237.1 55.8,234.8 58.9,228.5 62.7,225.5 64.6,221.1 67.5,218.8 68.6,213.9 71,212.2 81.4,208.4 83.4,210.8 86.5,212.2 88.7,214 86.9,217.2 86.4,220.1 82.2,223.5 79,227.8 76.3,229.3 73.1,230.3 67.1,231.5 65.8,231.4 64.3,233.3 63.6,237.1 62.4,239.2 56.8,245.5 54.6,253.9 53.3,254.2 54.4,250.7 53.3,249.3 53.3,247.1 51,247.9 48.1,250.5 45.7,250.3 46,247.3"/>
 		<properties>
-			<property name="GID" value="136"/>
+			<property name="GID" value="141"/>
 			<property name="NAME" value="Finland"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -4147,7 +4302,7 @@
 	<object id="380" name="SVK" x="0" y="0" visible="0">
 		<polygon points="136.4,174.8 139.8,173.7 139.7,177.4 141.4,177.8 143.4,180.7 145.4,182 144.1,185.5 142,187 136.8,185.1 136.2,184.2 137.6,181.8 136.2,181.1 135.3,178.4"/>
 		<properties>
-			<property name="GID" value="137"/>
+			<property name="GID" value="142"/>
 			<property name="NAME" value="Slovakia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -4165,7 +4320,7 @@
 	<object id="381" name="CZE" x="0" y="0" visible="0">
 		<polygon points="131.6,199.9 132.8,195.5 134.7,192.8 133.6,191.2 135,189.9 134.9,187.9 136.8,185.1 142,187 140.7,192.8 143.3,193.8 142.2,196.8 139.6,201.7 136.5,204.6 131.9,201.7"/>
 		<properties>
-			<property name="GID" value="138"/>
+			<property name="GID" value="143"/>
 			<property name="NAME" value="Czechia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -4183,7 +4338,7 @@
 	<object id="382" name="ERI" x="0" y="0" visible="0">
 		<polygon points="329.2,40.1 326.4,41.1 311.7,43.5 308,41.6 303.7,41.5 311.5,37.6 317.8,35.1 326.7,27.7 336.6,21.8 338.3,20.2 340.4,21.6 329.8,27.7 326.4,33.4 328.3,34.5 325.3,36.9 330.6,36.5"/>
 		<properties>
-			<property name="GID" value="139"/>
+			<property name="GID" value="144"/>
 			<property name="NAME" value="Eritrea"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -4201,7 +4356,7 @@
 	<object id="383" name="JPN" x="0" y="0" visible="0">
 		<polygon points="1151.1,306 1147.2,301.6 1143.3,301.1 1140.2,299.1 1138.3,299.6 1135.6,296.9 1133.6,291.1 1133,283.3 1128.3,276.2 1129.7,273.5 1132.6,274 1131.3,266.2 1129.2,260.6 1128.8,255.5 1126.2,259.3 1119.3,254.7 1117.4,251.5 1118.8,249.7 1122.4,251.6 1123.4,249.2 1126,248.1 1127.5,252.5 1130.1,255.4 1132.4,260.3 1135.3,264.1 1136.9,272.9 1136.3,277.3 1143.3,283.1 1141.6,285.6 1147.2,295.1 1151.9,298.5 1156.2,298.5 1158.6,300.6 1159.4,305 1154.2,306.5"/>
 		<properties>
-			<property name="GID" value="140"/>
+			<property name="GID" value="145"/>
 			<property name="NAME" value="Japan"/>
 			<property name="ECONOMY" value="1. Developed region: G7"/>
 			<property name="INCOME_GRP" value="1. High income: OECD"/>
@@ -4229,7 +4384,7 @@
 	<object id="384" name="PRY" x="0" y="0" visible="0">
 		<polygon points="426.9,479.6 428.6,477.7 433.7,476.7 432.8,471.6 431.5,469.9 432.4,465.3 436.9,463.1 435.7,457.8 442.5,457.7 445.9,457.5 450,460.8 451.7,464.2 453.3,474.2 446.2,471.6 444.8,472.7 445,477.8 444.2,484.2 445,488.1 442.2,498.3 435,498.4 430.9,497.1 426.8,489.3 425.4,484.9 425.8,480"/>
 		<properties>
-			<property name="GID" value="141"/>
+			<property name="GID" value="146"/>
 			<property name="NAME" value="Paraguay"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4247,7 +4402,7 @@
 	<object id="385" name="YEM" x="0" y="0" visible="0">
 		<polygon points="262.6,18.8 273,12 278.8,12.1 285.6,10.6 293.9,10.8 304.8,11.9 313.9,11.9 316.5,13.1 321.8,13.3 328.9,15.9 335.1,16.1 338.2,19.2 326.8,22.7 315.7,26.5 310.9,27.7 307.8,27.4 300.7,29 301.9,27.6 298,25 296.2,22.6 294.1,20.4 284,21.7 277.4,21.4 270.3,20"/>
 		<properties>
-			<property name="GID" value="142"/>
+			<property name="GID" value="147"/>
 			<property name="NAME" value="Yemen"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4265,7 +4420,7 @@
 	<object id="386" name="SAU" x="0" y="0" visible="0">
 		<polygon points="232.4,79.4 232.4,76.2 227.5,76.7 225.8,75.4 222,75.9 217.2,81.2 211.5,78.6 210.3,78.7 210,75.5 211.7,70.3 218.6,58.8 214.6,55.7 212.8,54.2 215.1,52.2 212.9,51.4 217.2,48 219.2,43.2 224.1,40.9 229.3,36.4 227.9,35.4 229.6,34 236,29.8 230.9,27.8 225.2,26 222.9,26.5 224.8,24.1 240.6,18.9 251.8,18.7 262.6,18.8 270.3,20 277.4,21.4 284,21.7 294.1,20.4 296.2,22.6 298,25 301.9,27.6 300.7,29 307.8,27.4 310.9,27.7 303.3,31.2 301.5,33.1 290.8,38.7 286.2,43.3 280.4,47.2 271.8,50.6 265,54.9 262.1,58.9 257.2,61.7 248.6,68.2 240.2,75.2 240.7,76.4"/>
 		<properties>
-			<property name="GID" value="143"/>
+			<property name="GID" value="148"/>
 			<property name="NAME" value="Saudi Arabia"/>
 			<property name="ECONOMY" value="2. Developed region: nonG7"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -4283,7 +4438,7 @@
 	<object id="387" name="ATA" x="0" y="0" visible="0">
 		<polygon points="684.2,354.2 667,339.9 685.9,356.2 684.5,356.1 685.4,357.7 683.7,357.1 684.8,359.3 684.6,361.2 681.9,359.9 680.5,360 679.2,359.5 677.7,359.6 677.6,361.6 676.1,361.8 674.9,360.8 674.3,364.6 674.9,367 676.3,366.3 677.7,366.6 678.7,368.2 680.1,368.4 682.3,374.2 683.2,376 684.5,376.6 685.6,377.8 687,378.4 685.8,379.3 685,381.1 683.6,380.2 683,384.7 683.2,386.6 684.1,388.5 686.7,389.9 688.1,389.1 690.8,388 692,389.2 693.5,389.8 694.7,390.7 697.6,395.2 695.7,394.5 694,397.8 692.6,396.4 691.7,397.9 690.7,401.7 690.4,404 689.4,405.3 691,408.6 691.3,410.5 690.5,412.1 689.5,410.8 687.7,414.5 685.3,416.4 682.6,421.4 681,421.2 679.6,422.4 678.1,421.9 675.5,423.4 672.5,422.8 666.7,423.4 664.3,425.7 663.1,424.5 661.8,425.3 660.5,427 659.3,421.4 658.1,422.7 657.1,420.5 655.9,419.5 655,417.8 652.2,418.1 650.8,417.3 648.6,414.5 647.6,416.4 647.8,420.4 649,421.4 649.2,423.5 648.5,429.5 646.5,427.4 645,427.1 643.4,423.6 643.4,421.6 642.2,420.5 637.6,420 637,418.1 635.6,417.5 633.3,420.2 633.4,417.5 632.7,415.8 631.3,415.1 631.4,412.7 629.6,409.7 629.1,407.7 626.4,409.5 626.5,406.9 625.2,405.9 625.2,402 624,400.9 621.2,400.3 617.3,397 614.6,396.7 612,399.2 608.3,405.8 606,408.3 602.9,409.4 601.6,410.4 599.4,413.4 597.6,414 594.5,413.9 591.2,412.9 589.5,413.4 586.8,412.6 585.8,410.8 584.2,410.4 581.9,408 578.9,406.7 577.9,405.2 578.3,403.4 579.7,403.4 582.6,405.3 582.7,407.2 583.7,408.7 587.8,410.4 590.3,408.5 591,406.7 593.4,408.9 598.2,408.9 599.5,408.1 601,404.5 601.6,400.3 604.6,395.7 606.4,392.6 609.3,389.9 612.6,385.9 614.4,384.6 617.4,384 618.6,385.3 621.3,384.5 623.3,385.1 627.2,387.3 628.9,386.7 630.8,389.8 633.1,392.4 633.9,390.6 633.4,388.6 633.5,386.7 634.1,384.9 635.6,384.6 636.3,386.3 637.7,386.4 639.8,383.3 640.1,381.2 640.9,379.6 641.3,377.3 640.8,375.3 640.8,373.2 641.4,368.9 641,366.8 641.1,364.4 642.2,360.3 644.6,357.3 643.2,357.4 640.4,356.7 637.8,355 637.3,353.2 637.4,351.2 638,349.4 636.4,349.4 635.2,348.6 634.9,346.6 633,343.7 631.7,340 630.8,338.6 628.1,339.6 626.7,339.6 626.9,341.6 627.5,343.6 627.7,345.5 626.3,346 623.5,346.2 622.7,345.9 620.7,342.5 618.5,339.7 617,338.5 615.7,334.1 615.3,330.2 614.1,326.6 612.5,322.7 610.6,319.5 609.3,318.5 608.2,319.8 605.8,317.3 604.9,313.5 603,309.5 601.5,308 600.8,306.3 601.5,304.5 602.9,304.3 603.5,302.5 601.1,300.1 602,298.5 603.4,298.9 604.2,297.2 604.6,292.5 605.5,290.9 607.1,291.3 606.7,288.8 607.4,282.7 607.7,276.4 607.1,274.4 608.5,274.1 608.9,272.2 612.4,273.1 612.7,270.9 612,268.9 612.1,266.6 613.5,265 614.9,265.9 614.6,263.4 615.3,261.6 617.4,258.7 620.1,256.8 622.7,258.1 623.4,256.1 626.9,252.3 628.6,249.1 629.1,247.1 630.8,244 631.2,242.1 631.1,237 632.7,236.8 633.7,238.1 635.2,238.5 636.4,237.4 639.1,239.2 640,237.4 639.9,235 641.8,231.3 644.4,228.3 647.1,223.7 648.6,223.8 650.3,220 651.7,219.7 652.8,218.2 652.9,216.3 655.2,213.4 658.2,211.7 661.2,212.2 662.5,213.5 662.7,215.7 665.1,218.7 666.9,219.3 669.1,222.2 670.5,222.6 673.1,219.6 677.1,222.5 680,223.5 680.5,229.1 679.8,232.7 677.2,235.4 677.1,237.5 678.5,237.7 678.1,239.7 676.5,243.5 677.2,245.3 678.5,246.2 680,245.6 681.6,242 683.5,239.3 685.3,235.4 687.7,235.5 690.6,235.3 692.6,232 694,230.6 697,229.7 698.3,228.5 700.5,228 701.8,229.3 704.7,230 706.1,231.3 707.5,230.8 709.4,228.3 709.2,232.5 711,235.7 712.5,236.2 714.8,238.9 716.7,240.6 717.1,242.4 721.2,245 722,247 726.5,246 729.9,245.1 730.4,248.8 729.9,255.3 731.8,258.4 734.6,261.1 737.8,261.8 738.9,263.7 740.3,264.4 740.4,266.4 739.5,270.3 740.5,272.2 740.4,277 742,281.2 745.1,282.5 746,284 746.4,288.3 748.1,291.6 748.4,295.6 750.6,299 751.8,303.4 753.2,307 756.6,306.5 755.8,308.2 754.2,309.2 751.8,311.6 751.4,313.6 752.9,320.4 753.4,325.2 753.3,330.4 752.2,332 750.8,331.7 749.8,333.1 748,337.6 746.1,344.8 746,347 747.2,348.4 743.8,352.9 742.5,357.2 741,357.8 739.9,359.6 738.4,360.6 737.5,362.4 736.4,368.3 734.8,371.9 732.4,374.6 731.1,375.2 724.9,368.8 724.8,366.6 723.7,365.2 723.3,363.1 722,361.9 719.9,359.1 717.2,357.2 714.2,356.1 709.9,356.1 709,357.9 707.4,357.6 706.6,353.8 706.8,351.8 704.8,350.4 703.1,349.8 700.5,348.2 699.1,349 697.5,349 694.7,349.7 692.1,350.7 690.6,351.6 688.8,351 687.7,352.1 686.3,351.8 686.7,353.8"/>
 		<properties>
-			<property name="GID" value="144"/>
+			<property name="GID" value="149"/>
 			<property name="NAME" value="Antarctica"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="2. High income: nonOECD"/>
@@ -4336,7 +4491,7 @@
 	<object id="390" name="MAR" x="0" y="0" visible="0">
 		<polygon points="202.5,220.1 205.3,217.6 215,212.3 215.2,217.5 216.7,221.3 219.8,220.5 220.9,225.1 222.8,226.2 223.8,233.8 226.1,240.3 230.9,239.1 232.9,239.2 233.6,243.3 232.8,251.1 235.7,252 235.8,253.4 240.6,254.7 244.2,260.7 249.4,261.5 252.4,263.7 251.7,274.9 249.9,274.8 247.2,271.7 243.2,270.9 240.5,267 236.3,266.3 234,265 232.8,262.1 229.1,259.8 227.7,257.7 227.6,253.5 224.4,248.4 221.4,245.4 216.3,247.7 211,246.9 208.4,244.8 205.5,238.4 199,236.4 199.2,233.3 201.1,230.3 201.1,226.5"/>
 		<properties>
-			<property name="GID" value="145"/>
+			<property name="GID" value="150"/>
 			<property name="NAME" value="Morocco"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4354,7 +4509,7 @@
 	<object id="391" name="EGY" x="0" y="0" visible="0">
 		<polygon points="277.7,54.6 278.3,58.6 278.6,62.8 278.9,71.6 278.7,81 278,90.8 267.8,94.6 257.6,98.6 247.4,102.8 237.3,107.3 232.9,110.3 229.5,111.1 227.1,112.7 224.5,112.9 224.1,108.9 227.3,99.9 223.3,98.3 222.6,93.9 225.3,91.7 223.2,92.1 223.7,87.2 221.8,86.7 230.1,80.9 239.1,77.8 243.7,77.1 239.5,81.3 231.4,87.3 238.1,83.2 252.9,72.5 259.4,67.7 265.9,62.5 271.3,60.8"/>
 		<properties>
-			<property name="GID" value="146"/>
+			<property name="GID" value="151"/>
 			<property name="NAME" value="Egypt"/>
 			<property name="ECONOMY" value="5. Emerging region: G20"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4372,7 +4527,7 @@
 	<object id="392" name="LBY" x="0" y="0" visible="0">
 		<polygon points="278,90.8 289.4,87 288.7,91.1 291,90.4 284.1,99.3 277.5,108.5 271.1,117.8 265,127.4 267,130.5 268.4,132.7 265.2,135.9 262,143 258.6,145.9 255.9,149.9 256.4,151.5 251.5,154.7 247.7,158.3 246,157.4 238.3,160.4 234.6,161.1 228.1,165.1 227.2,163.7 223.3,165.4 219.1,161.8 215.4,163.2 217.4,158.1 218,153.4 220.5,147.6 225,143.9 228.6,134.3 231.3,129.5 227.7,127.9 223.7,130.5 221.2,130.7 218.8,129.5 218,127.6 219,122.8 221.4,120.5 222.7,114.5 224.5,112.9 227.1,112.7 229.5,111.1 232.9,110.3 237.3,107.3 247.4,102.8 257.6,98.6 267.8,94.6"/>
 		<properties>
-			<property name="GID" value="147"/>
+			<property name="GID" value="152"/>
 			<property name="NAME" value="Libya"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4390,7 +4545,7 @@
 	<object id="393" name="ETH" x="0" y="0" visible="0">
 		<polygon points="369.4,4.1 386.8,5.1 402.2,6.8 402.6,9.7 408.3,11.4 410.4,13.4 409.6,15.2 406.5,16.4 408.6,18.6 411.3,19.3 407.7,23.4 399.6,27.6 398.4,29.7 391.8,31.3 389.8,33 381.6,35.6 379.4,37.3 372.6,40.2 371.3,42.3 368.1,41.7 366.7,39.8 360.7,40.8 354.1,41.1 352.6,40 344.9,39.9 341.8,38.8 329.2,40.1 330.6,36.5 325.3,36.9 328.3,34.5 326.4,33.4 329.8,27.7 340.4,21.6 348.1,21.8 352.6,20.7 352.7,18.1 355.7,18.1 366.1,13.7 369.2,9.5 371.5,5.6"/>
 		<properties>
-			<property name="GID" value="148"/>
+			<property name="GID" value="153"/>
 			<property name="NAME" value="Ethiopia"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -4408,7 +4563,7 @@
 	<object id="394" name="DJI" x="0" y="0" visible="0">
 		<polygon points="340.4,21.6 338.3,20.2 343.7,18.5 346.3,19.5 348,18.1 352.7,18.1 352.6,20.7 348.1,21.8"/>
 		<properties>
-			<property name="GID" value="149"/>
+			<property name="GID" value="154"/>
 			<property name="NAME" value="Djibouti"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4426,7 +4581,7 @@
 	<object id="396" name="UGA" x="0" y="0" visible="0">
 		<polygon points="428.5,35.7 420.5,46.4 420.2,47.7 419.1,50.7 415,50.6 409.1,49.6 404.8,47.6 402.8,45.2 401.1,46.7 394.2,46.8 393.5,45.5 396.1,43.2 397.7,38.2 395.9,36.4 401.4,34.6 413.3,32.2 422,35.7"/>
 		<properties>
-			<property name="GID" value="150"/>
+			<property name="GID" value="155"/>
 			<property name="NAME" value="Uganda"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -4444,7 +4599,7 @@
 	<object id="397" name="RWA" x="0" y="0" visible="0">
 		<polygon points="420.2,47.7 424.5,46.4 427.5,47.8 425.6,49.6 427.8,50.9 425.7,53.1 419.9,51.8 419.1,50.7"/>
 		<properties>
-			<property name="GID" value="151"/>
+			<property name="GID" value="156"/>
 			<property name="NAME" value="Rwanda"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>
@@ -4462,7 +4617,7 @@
 	<object id="398" name="BIH" x="0" y="0" visible="0">
 		<polygon points="169.2,164.3 167.7,168 163.3,174.5 159.9,178.8 157.5,176.5 157.6,171.7 158.5,169.8 162.1,165.6 164.8,165.1 166.5,165.6"/>
 		<properties>
-			<property name="GID" value="152"/>
+			<property name="GID" value="157"/>
 			<property name="NAME" value="Bosnia and Herz."/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4480,7 +4635,7 @@
 	<object id="399" name="MKD" x="0" y="0" visible="0">
 		<polygon points="169.2,152.7 170.5,150.3 173.8,148 177.2,151.9 176.1,153.8 172.3,156.2 170,154.6"/>
 		<properties>
-			<property name="GID" value="153"/>
+			<property name="GID" value="158"/>
 			<property name="NAME" value="Macedonia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4498,7 +4653,7 @@
 	<object id="400" name="SRB" x="0" y="0" visible="0">
 		<polygon points="153.6,173.6 151.8,170.6 154.9,166.6 155.7,164.3 157.6,162.7 159.6,158.1 162.6,156.6 164.4,153.9 169.2,152.7 170,154.6 167.7,155.5 165.3,159.9 167.8,160 164.8,165.1 162.1,165.6 158.5,169.8 156.5,170"/>
 		<properties>
-			<property name="GID" value="154"/>
+			<property name="GID" value="159"/>
 			<property name="NAME" value="Serbia"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4516,7 +4671,7 @@
 	<object id="401" name="MNE" x="0" y="0" visible="0">
 		<polygon points="168.9,159.9 168.6,161.1 172.7,159.7 170.1,164.1 169.2,164.3 166.5,165.6 164.8,165.1 167.8,160"/>
 		<properties>
-			<property name="GID" value="155"/>
+			<property name="GID" value="160"/>
 			<property name="NAME" value="Montenegro"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="3. Upper middle income"/>
@@ -4534,7 +4689,7 @@
 	<object id="402" name="KOS" x="0" y="0" visible="0">
 		<polygon points="172.3,156.2 168.9,159.9 167.8,160 165.3,159.9 167.7,155.5 170,154.6"/>
 		<properties>
-			<property name="GID" value="156"/>
+			<property name="GID" value="161"/>
 			<property name="NAME" value="Kosovo"/>
 			<property name="ECONOMY" value="6. Developing region"/>
 			<property name="INCOME_GRP" value="4. Lower middle income"/>
@@ -4552,7 +4707,7 @@
 	<object id="404" name="SSD" x="0" y="0" visible="0">
 		<polygon points="394.2,46.8 388.5,50.2 385.5,51.3 384.7,55.8 383.1,57.5 377.2,60.2 371.4,64 367.6,65.4 360.3,70.2 355.4,72.9 352.1,75.9 351.5,73.6 344.8,72.8 345.1,70.2 351,66.8 352.7,61.8 354.1,61.1 355.6,57.5 351.6,54.8 356.3,51.3 356.3,49.6 349.4,47.6 343.3,49.8 342.9,46.4 352.5,44.6 355.6,42.4 366.7,39.8 368.1,41.7 371.3,42.3 372.6,40.2 379.4,37.3 381.6,35.6 389.8,33 395.9,36.4 397.7,38.2 396.1,43.2 393.5,45.5"/>
 		<properties>
-			<property name="GID" value="157"/>
+			<property name="GID" value="162"/>
 			<property name="NAME" value="S. Sudan"/>
 			<property name="ECONOMY" value="7. Least developed region"/>
 			<property name="INCOME_GRP" value="5. Low income"/>

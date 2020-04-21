@@ -1,6 +1,7 @@
 
 var res = {
-  world_tilemap_tmx: "res/tmx-equal-greyscale.tmx",
+  world_tilemap_tmx_greyscale: "res/tmx-equal-greyscale.tmx",
+  world_tilemap_tmx_colour: "res/tmx-equal-colour.tmx",
   world_tilemap_background: "res/background-equal-greyscale.png",
   world_tilemap_foreground: "res/foreground-equal-greyscale.png",
   dot_png: "res/images/dot.png",
@@ -9,6 +10,8 @@ var res = {
   policy_dot_on_png: "res/images/niab/DOT_ON.png",
   quit_off_png: "res/images/niab/BUTTON_QUIT.png",
   quit_on_png: "res/images/niab/BUTTON_QUIT.png",
+  options_off_png: "res/images/niab/BUTTON_OPTIONS_OFF.png",
+  options_on_png: "res/images/niab/BUTTON_OPTIONS_ON.png",
   pause_off_png: "res/images/niab/BUTTON_PAUSE_NORMAL.png",
   pause_on_png: "res/images/niab/BUTTON_PAUSE_ON.png",
   play_off_png: "res/images/niab/BUTTON_PLAY_NORMAL.png",

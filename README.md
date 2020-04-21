@@ -44,17 +44,27 @@ Low resolution:
 
     ogr2ogr -f GeoJSON -t_srs crs:84 110m.json ne_110m_admin_0_countries.shp
 
+For cities:
+
+    ogr2ogr -f GeoJSON -t_srs crs:84 10m-pop-places.json ne_10m_populated_places.shp
+
+
 Then, run one of the following to extract just the features:
 
     ndjson-cat 10m.json | ndjson-split 'd.features' > 10m-cat.ndjson
     ndjson-cat 50m.json | ndjson-split 'd.features' > 50m-cat.ndjson
     ndjson-cat 110m.json | ndjson-split 'd.features' > 110m-cat.ndjson
 
+And for cities:
+
+    ndjson-cat 10m-pop-places.json | ndjson-split 'd.features' > 10m-pop-places-cat.ndjson
+
 For the final preparation step, convert the list of features to [TopoJSON](https://github.com/topojson/topojson) format:
 
     geo2topo -n tracts=10m-cat.ndjson > 10m-topo.json
     geo2topo -n tracts=50m-cat.ndjson > 50m-topo.json
     geo2topo -n tracts=110m-cat.ndjson > 110m-topo.json
+    geo2topo -n tracts=10m-pop-places-cat.ndjson > 10m-pop-places-topo.json
 
 Then to generate the tile map, background, foreground and individual country images:
 
