@@ -20,7 +20,7 @@ program
 
 
 // Fits to the size of the game.
-let width = 1334, height = 650;
+let width = 1334, height = 640;
 let xmlOnly = (program.xml !== undefined);
 let jsonFile = (program.json !== undefined) ? program.json : 'data/110m-topo.json';
 let greyscale = (program.greyscale !== undefined);

@@ -60,7 +60,7 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
 
                 var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this.shader);
                 glProgram_state.setUniformFloat("u_threshold", 1.75);
-                glProgram_state.setUniformFloat("u_zoom", 1.0);
+                glProgram_state.setUniformFloat("u_zoom", world.worldBackground.getScale());
                 glProgram_state.setUniformFloat("u_selected", 0.0);
                 glProgram_state.setUniformFloat("u_fill1", 1.0);
                 glProgram_state.setUniformFloat("u_fill2", 1.0);
@@ -664,9 +664,9 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
     layerBackground.attr({
         x: winWidth / 2 - layerBackground.width / 2,
         y: winHeight / 2 - layerBackground.height / 2 });
-    parent.addChild(layerBackground, 1);
+    parent.addChild(layerBackground, 4);
 
-    var titleText = new ccui.Text(title, FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE_BIG);
+    var titleText = new ccui.Text(title, FONT_FACE_TITLE, FONT_FACE_TITLE_BIG);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0.5, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
@@ -676,7 +676,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
@@ -692,7 +692,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
     btn1.setSwallowTouches(false);
     btn1.setTitleText(prompt1);
     btn1.setTitleColor(COLOR_WHITE);
-    btn1.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+    btn1.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn1.setTitleFontName(FONT_FACE_BODY);
     btn1.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn1Offset });
     layerBackground.addChild(btn1);
@@ -712,7 +712,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
         btn2.setSwallowTouches(false);
         btn2.setTitleText(prompt2);
         btn2.setTitleColor(COLOR_ICE);
-        btn2.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+        btn2.setTitleFontSize(FONT_FACE_BODY_BIG);
         btn2.setTitleFontName(FONT_FACE_BODY);
         btn2.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn2Offset });
         layerBackground.addChild(btn2);
@@ -748,29 +748,37 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
 
     var winWidth = cc.winSize.width,
         winHeight = cc.winSize.height;
-    var btn1OffsetX = 0.1,
-        btn2OffsetX = 0.0;
-    var btn1OffsetY = 0.1,
+    var lbl1OffsetX = 0.05,
+        lbl2OffsetX = 0.55,
+        lbl1OffsetY = 0.2,
+        lbl2OffsetY = 0.2;
+    var btn1OffsetX = 0.25,
+        btn2OffsetX = 0.75,
+        btn1OffsetY = 0.1,
         btn2OffsetY = 0.1;
     var btn1Text = "OPTION 1",
         btn2Text = "OPTION 2";
+
     if (Math.random() > 0.5) {
-        btn1OffsetX = 0.25;
-        btn2OffsetX = 0.75;
-    } else {
-        btn1OffsetX = 0.75;
-        btn2OffsetX = 0.25;
-        btn1Text = "OPTION 2";
-        btn2Text = "OPTION 1";
+
+        var tmp = lbl1OffsetX;
+        lbl1OffsetX = lbl2OffsetX;
+        lbl2OffsetX = tmp;
+        tmp = btn1OffsetX;
+        btn1OffsetX = btn2OffsetX;
+        btn2OffsetX = tmp;
+        tmp = btn1Text;
+        btn1Text = btn2Text;
+        btn2Text = tmp;
     }
 
     var layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.85, winHeight * 0.85);
     layerBackground.attr({
         x: winWidth / 2 - layerBackground.width / 2,
         y: winHeight / 2 - layerBackground.height / 2 });
-    parent.addChild(layerBackground, 101);
+    parent.addChild(layerBackground, 4);
 
-    var titleText = new ccui.Text(title, FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE_BIG);
+    var titleText = new ccui.Text(title, FONT_FACE_TITLE, FONT_FACE_TITLE_BIG);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0.5, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
@@ -780,7 +788,7 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_BIG);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.4));
@@ -791,11 +799,11 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
     layerBackground.addChild(contentText, 2);
 
     var buttons = [];
-    var option1Text = new ccui.Text(wrongAnswer, FONT_FACE_BODY, 20);
+    var option1Text = new ccui.Text(wrongAnswer, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     option1Text.ignoreContentAdaptWithSize(false);
     option1Text.setAnchorPoint(cc.p(0, 0));
     option1Text.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.3));
-    option1Text.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
+    option1Text.setPosition(cc.p(layerBackground.width * lbl1OffsetX, layerBackground.height * lbl1OffsetY));
     option1Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     option1Text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     option1Text.setColor(COLOR_WHITE);
@@ -806,7 +814,7 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
     btn1.setSwallowTouches(false);
     btn1.setTitleText(btn1Text);
     btn1.setTitleColor(COLOR_WHITE);
-    btn1.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+    btn1.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn1.setTitleFontName(FONT_FACE_BODY);
     btn1.attr({ x: layerBackground.width * btn1OffsetX, y: layerBackground.height * btn1OffsetY });
     layerBackground.addChild(btn1);
@@ -817,7 +825,7 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
         layerBackground.removeFromParent(true);
         parent.resume();
 
-        showMessageBoxOK(world, "CRISIS RESPONSE", "Not the ideal response to this crisis. Better luck next time!", "OK!", function () {
+        showMessageBoxOK(world, "CRISIS RESPONSE", "Good try, but this won't be enough to preserve the future of Antarctica!", "OK!", function () {
 
             var res = Math.floor(1 + Math.random() * 3);
             if (gameParams.resources - res > 0) gameParams.resources -= res;else gameParams.resources = 0;
@@ -826,11 +834,11 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
         });
     });
 
-    var option2Text = new ccui.Text(rightAnswer, FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+    var option2Text = new ccui.Text(rightAnswer, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     option2Text.ignoreContentAdaptWithSize(false);
     option2Text.setAnchorPoint(cc.p(0, 0));
     option2Text.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.3));
-    option2Text.setPosition(cc.p(layerBackground.width * 0.55, layerBackground.height * 0.2));
+    option2Text.setPosition(cc.p(layerBackground.width * lbl2OffsetX, layerBackground.height * lbl2OffsetY));
     option2Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     option2Text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     option2Text.setColor(COLOR_WHITE);
@@ -841,7 +849,7 @@ var showQuizBox = function showQuizBox(parent, title, message, wrongAnswer, righ
     btn2.setSwallowTouches(false);
     btn2.setTitleText(btn2Text);
     btn2.setTitleColor(COLOR_WHITE);
-    btn2.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+    btn2.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn2.setTitleFontName(FONT_FACE_BODY);
     btn2.attr({ x: layerBackground.width * btn2OffsetX, y: layerBackground.height * btn2OffsetY });
     layerBackground.addChild(btn2);
@@ -954,9 +962,9 @@ var gameOver = function gameOver(parent, message, prompt) {
         x: WINDOW_WIDTH / 2 - layerBackground.width / 2,
         y: WINDOW_HEIGHT / 2 - layerBackground.height / 2
     });
-    parent.addChild(layerBackground, 1);
+    parent.addChild(layerBackground, 4);
 
-    var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+    var titleText = new ccui.Text("Game Over!", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
@@ -966,7 +974,7 @@ var gameOver = function gameOver(parent, message, prompt) {
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    var contentText = new ccui.Text(message, FONT_FACE_BODY, 24);
+    var contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
@@ -1180,6 +1188,10 @@ var WorldLayer = cc.Layer.extend({
         this.worldBackground.attr({ x: X_OFFSET, y: Y_OFFSET });
         this.worldBackground.setContentSize(cc.size(cc.winSize.width, cc.winSize.height - 2 * Y_OFFSET));
         this.addChild(this.worldBackground, 1);
+        this.worldBackgroundTransparent = new cc.Layer(size.width, size.height - 2 * Y_OFFSET);
+        this.worldBackgroundTransparent.attr({ x: X_OFFSET, y: Y_OFFSET });
+        this.worldBackgroundTransparent.setContentSize(cc.size(cc.winSize.width, cc.winSize.height - 2 * Y_OFFSET));
+        this.addChild(this.worldBackgroundTransparent, 3);
 
         // Interaction handling
         cc.eventManager.addListener({
@@ -1205,6 +1217,8 @@ var WorldLayer = cc.Layer.extend({
 
                         node.x += event.getDeltaX();
                         node.y += event.getDeltaY();
+                        world.worldBackgroundTransparent.x += event.getDeltaX();
+                        world.worldBackgroundTransparent.y += event.getDeltaY();
                     }
                 }
             },
@@ -1224,6 +1238,7 @@ var WorldLayer = cc.Layer.extend({
                 if (newScale <= 10.0 && newScale >= 0.9 && node.x < marginX + allowance && node.x > -marginX - allowance) {
 
                     node.setScale(newScale);
+                    world.worldBackgroundTransparent.setScale(newScale);
                 }
             }
 
@@ -1283,7 +1298,7 @@ var WorldLayer = cc.Layer.extend({
         this.topBarLayout.setAnchorPoint(new cc.p(0, 0));
         this.topBarLayout.setPosition(cc.p(0, cc.winSize.height - Y_OFFSET));
         this.topBarLayout.setContentSize(cc.size(cc.winSize.width, Y_OFFSET));
-        layout.addChild(this.topBarLayout);
+        layout.addChild(this.topBarLayout, 1);
 
         // Add controls
         this.controlsBackground = new cc.Layer();
@@ -1305,15 +1320,15 @@ var WorldLayer = cc.Layer.extend({
         this.dateBackground.attr({ x: 0, y: 0 });
         this.dateBackground.setContentSize(cc.size(126, 30));
         this.dateBackground.setColor(COLOR_BACKGROUND_TRANS);
-        this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.dayLabel = new cc.LabelTTF("", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.dayLabel.setAnchorPoint(cc.p(0, 0));
         this.dayLabel.attr({ x: 0, y: 10 });
         this.dayLabel.color = COLOR_WHITE;
-        this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.monthLabel = new cc.LabelTTF("", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.monthLabel.setAnchorPoint(cc.p(0, 0));
         this.monthLabel.attr({ x: 4, y: 10 });
         this.monthLabel.color = COLOR_WHITE;
-        this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.yearLabel = new cc.LabelTTF("", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.attr({ x: 30, y: 10 });
         this.yearLabel.color = COLOR_WHITE;
@@ -1401,13 +1416,13 @@ var WorldLayer = cc.Layer.extend({
         this.tweetBackgroundLayer.attr({ width: this.tweetBackground.width, height: this.tweetBackground.height, x: 0, y: 0 });
         this.tweetBackground.addChild(this.tweetBackgroundLayer, 100);
 
-        this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.tweetLabel = new cc.LabelTTF(gameParams.scenarioName, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.tweetLabel.setAnchorPoint(cc.p(0, 0.5));
         this.tweetLabel.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
         this.tweetLabel.attr({ x: this.tweetBackground.width / 2, y: Y_OFFSET / 2, width: this.tweetBackground.width, height: this.tweetBackground.height });
         this.tweetLabel.color = COLOR_ICE;
         this.tweetBackground.addChild(this.tweetLabel, 101);
-        this.tweetAlertLabel = new cc.LabelTTF("ALERT!", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.tweetAlertLabel = new cc.LabelTTF("ALERT!", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.tweetAlertLabel.setAnchorPoint(cc.p(0, 0.5));
         this.tweetAlertLabel.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
         this.tweetAlertLabel.attr({ x: world.tweetLabel.x - 100, y: 18, width: 20 });
@@ -1419,7 +1434,7 @@ var WorldLayer = cc.Layer.extend({
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
         this.resourceScoreBackground.setAnchorPoint(cc.p(0, 0));
         this.resourceScoreBackground.setPosition(cc.p(0, 80));
-        this.addChild(this.resourceScoreBackground, 100);
+        this.addChild(this.resourceScoreBackground, 2);
 
         var antarcticaSmallSprite = new cc.Sprite(res.antarctica_small_png);
         antarcticaSmallSprite.setAnchorPoint(new cc.p(0.5, 0.5));
@@ -1428,7 +1443,7 @@ var WorldLayer = cc.Layer.extend({
         antarcticaSmallSprite.setPosition(cc.p(40, 25));
         this.resourceScoreBackground.addChild(antarcticaSmallSprite, 100);
 
-        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        this.resourceScoreLabel = new cc.LabelTTF(gameParams.resources.toString(), FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         this.resourceScoreLabel.setAnchorPoint(cc.p(0.5, 0.5));
         this.resourceScoreLabel.setPosition(cc.p(80, 25));
         this.resourceScoreLabel.setColor(COLOR_LICORICE);
@@ -1439,14 +1454,14 @@ var WorldLayer = cc.Layer.extend({
         this.statusLayout.setAnchorPoint(new cc.p(0, 0));
         this.statusLayout.setPosition(cc.p(0, 0));
         this.statusLayout.setContentSize(cc.size(cc.winSize.width, Y_OFFSET));
-        layout.addChild(this.statusLayout);
+        layout.addChild(this.statusLayout, 1);
 
         this.btnDevelopPolicy = new ccui.Button(res.status_button, res.status_button, res.status_button);
         this.btnDevelopPolicy.setTouchEnabled(true);
         this.btnDevelopPolicy.setSwallowTouches(false);
         this.btnDevelopPolicy.setTitleText(gd.lang.commands_policy[cc.sys.localStorage.language]);
         this.btnDevelopPolicy.setTitleFontName(FONT_FACE_BODY);
-        this.btnDevelopPolicy.setTitleFontSize(FONT_FACE_BODY_SIZE);
+        this.btnDevelopPolicy.setTitleFontSize(FONT_FACE_BODY_MEDIUM);
         this.btnDevelopPolicy.setTitleColor(COLOR_ICE);
         this.btnDevelopPolicy.setAnchorPoint(new cc.p(0, 0));
         this.btnDevelopPolicy.setContentSize(cc.size(Math.ceil(cc.winSize.width * (1 / 6)), Y_OFFSET));
@@ -1460,7 +1475,7 @@ var WorldLayer = cc.Layer.extend({
         this.statusLayout.addChild(countryDetailLayout);
         var labelOffsetY = Y_OFFSET / 2;
 
-        this.countryLabel = new cc.LabelTTF("", FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
+        this.countryLabel = new cc.LabelTTF("", FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         this.countryLabel.setContentSize(cc.size(300, Y_OFFSET));
         this.countryLabel.setPosition(cc.p(20, labelOffsetY));
         this.countryLabel.setColor(COLOR_ICE);
@@ -1468,15 +1483,15 @@ var WorldLayer = cc.Layer.extend({
         this.countryLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(this.countryLabel);
 
-        var lossLabel = new cc.LabelTTF(gd.lang.commands_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_SIZE_SMALL);
+        var lossLabel = new cc.LabelTTF(gd.lang.commands_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         lossLabel.setContentSize(cc.size(50, Y_OFFSET));
-        lossLabel.setPosition(cc.p(280, labelOffsetY));
+        lossLabel.setPosition(cc.p(300, labelOffsetY));
         lossLabel.setColor(COLOR_ICE);
         lossLabel.setAnchorPoint(new cc.p(0, 0.5));
         lossLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(lossLabel);
 
-        this.countryLoss = new cc.LabelTTF("0%", FONT_FACE_TITLE, FONT_FACE_SIZE_SMALL);
+        this.countryLoss = new cc.LabelTTF("0%", FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         this.countryLoss.setContentSize(cc.size(20, Y_OFFSET));
         this.countryLoss.setPosition(cc.p(360, labelOffsetY));
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
@@ -1497,7 +1512,7 @@ var WorldLayer = cc.Layer.extend({
         countryDetailLayout.addChild(this.countryLossProgressBase, 100);
         countryDetailLayout.addChild(this.countryLossProgress, 101);
 
-        var preparednessLabel = new cc.LabelTTF(gd.lang.commands_prepared[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_SIZE_SMALL);
+        var preparednessLabel = new cc.LabelTTF(gd.lang.commands_prepared[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         preparednessLabel.setContentSize(cc.size(100, Y_OFFSET));
         preparednessLabel.setPosition(cc.p(570, labelOffsetY));
         preparednessLabel.setColor(COLOR_ICE);
@@ -1505,7 +1520,7 @@ var WorldLayer = cc.Layer.extend({
         preparednessLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         countryDetailLayout.addChild(preparednessLabel);
 
-        this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, FONT_FACE_SIZE_SMALL);
+        this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
         this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
@@ -1533,7 +1548,7 @@ var WorldLayer = cc.Layer.extend({
         this.btnStats.setSwallowTouches(false);
         this.btnStats.setTitleText(gd.lang.commands_stats[cc.sys.localStorage.language]);
         this.btnStats.setTitleFontName(FONT_FACE_BODY);
-        this.btnStats.setTitleFontSize(FONT_FACE_BODY_SIZE);
+        this.btnStats.setTitleFontSize(FONT_FACE_BODY_MEDIUM);
         this.btnStats.setTitleColor(COLOR_ICE);
         this.btnStats.setContentSize(cc.size(Math.ceil(cc.winSize.width * (1 / 6)), Y_OFFSET));
         this.btnStats.setAnchorPoint(new cc.p(1.0, 0));
@@ -1674,7 +1689,8 @@ var WorldLayer = cc.Layer.extend({
             } else {
 
                 // Add Crisis Quiz, 50% of the time
-                if (Math.random() < 0.5) {
+                // if (Math.random() < 0.5) {
+                if (Math.random() < 1.0) {
 
                     // Show quiz
                     var qi = gd.quizzes[Math.floor(Math.random() * gd.quizzes.length)];
@@ -1745,8 +1761,6 @@ var WorldLayer = cc.Layer.extend({
                 total += weight;
                 dists.push(weight);
             }
-
-            var counter = 0;
 
             for (var _i = 0; _i < dists.length; _i++) {
 
@@ -1877,7 +1891,7 @@ var WorldLayer = cc.Layer.extend({
                 btnRes.setContentSize(cc.size(RESOURCE_SIZE_W, RESOURCE_SIZE_H));
                 // btnRes.setColor(COLOR_RESOURCE);
                 btnRes.placedAt = gameParams.counter;
-                world.worldBackground.addChild(btnRes, 101);
+                world.worldBackgroundTransparent.addChild(btnRes, 3);
 
                 buttons.push(btnRes);
 
@@ -2007,7 +2021,7 @@ var WorldLayer = cc.Layer.extend({
 
                 handleMouseTouchEvent(btnCrisis, processCrisisSelection);
 
-                world.worldBackground.addChild(btnCrisis, 101);
+                world.worldBackgroundTransparent.addChild(btnCrisis, 3);
 
                 // After the third crisis, add notifications to the news feed
                 var message = gd.lang.crisis_prefix[cc.sys.localStorage.language] + crisis[cc.sys.localStorage.language] + gd.lang.crisis_suffix[cc.sys.localStorage.language] + country.name + ".";
@@ -3061,7 +3075,7 @@ var makeCheckBox = function makeCheckBox(layer, label, x, y, checked, callback, 
     chb[name] = value;
     chb.addEventListener(callback, undefined);
 
-    var lbl = new ccui.Text(label, FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+    var lbl = new ccui.Text(label, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     lbl.setTouchEnabled(true);
     lbl.setSwallowTouches(false);
     lbl.ignoreContentAdaptWithSize(false);
@@ -3116,13 +3130,13 @@ var SelectOptionsScene = cc.Scene.extend({
         antarcticaSprite.setPosition(cc.p(size.width * 0.5, size.height * 0.875));
         layer.addChild(antarcticaSprite, 101);
 
-        var lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5, 0.5));
         lblWelcome.setPosition(cc.p(size.width * 0.5, size.height * 0.675));
         layer.addChild(lblWelcome, 101);
 
-        var lblLanguage = new cc.LabelTTF("SELECT LANGUAGE", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        var lblLanguage = new cc.LabelTTF("SELECT LANGUAGE", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         lblLanguage.attr({ x: size.width * 0.5, y: size.height * 0.55 });
         lblLanguage.setColor(COLOR_WHITE);
         layer.addChild(lblLanguage, 101);
@@ -3142,7 +3156,7 @@ var SelectOptionsScene = cc.Scene.extend({
         var engComponent = makeCheckBox(layer, "English", size.width * 0.4, size.height * 0.5, cc.sys.localStorage.language === "eng", listenerLanguage, 'language', 'eng');
         var espComponent = makeCheckBox(layer, "Español", size.width * 0.6, size.height * 0.5, cc.sys.localStorage.language === "esp", listenerLanguage, 'language', 'esp');
 
-        var lblDifficulty = new cc.LabelTTF("SELECT DIFFICULTY", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        var lblDifficulty = new cc.LabelTTF("SELECT DIFFICULTY", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         lblDifficulty.attr({ x: size.width * 0.5, y: size.height * 0.35 });
         lblDifficulty.setColor(COLOR_WHITE);
         layer.addChild(lblDifficulty, 101);
@@ -3178,7 +3192,7 @@ var SelectOptionsScene = cc.Scene.extend({
         btnPlay.setTitleText("START GAME");
         btnPlay.setTitleFontName(FONT_FACE_BODY);
         btnPlay.setTitleColor(COLOR_BLACK);
-        btnPlay.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+        btnPlay.setTitleFontSize(FONT_FACE_BODY_BIG);
         btnPlay.setAnchorPoint(cc.p(0.5, 0.5));
         btnPlay.setPosition(cc.p(size.width * 0.5, 1 * size.height / 8));
         btnPlay.setTouchEnabled(true);
@@ -3236,14 +3250,14 @@ var LoadingScene = cc.Scene.extend({
         antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
         layer.addChild(antarcticaSprite, 101);
 
-        var lblWelcome = new ccui.Text(gd.lang.welcome[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var lblWelcome = new ccui.Text(gd.lang.welcome[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5, 0.5));
         lblWelcome.setPosition(cc.p(size.width / 2, 5 * size.height / 8));
         layer.addChild(lblWelcome, 101);
 
-        // const lblAbout = new ccui.Text("This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
-        var lblAbout = new ccui.Text(gd.lang.about_game[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        // const lblAbout = new ccui.Text("This game is developed as part of a research project, 'Antarctic Cities and the Global Commons'. As part of our research, we collect your IP address, as well as anonymous data during the game. To learn more, click the 'Learn More' button below.", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
+        var lblAbout = new ccui.Text(gd.lang.about_game[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         lblAbout.setAnchorPoint(cc.p(0.0, 1.0));
         lblAbout.ignoreContentAdaptWithSize(false);
         lblAbout.setPosition(cc.p(1 * size.width / 8, 4 * size.height / 8));
@@ -3259,7 +3273,7 @@ var LoadingScene = cc.Scene.extend({
         btnPlay.setTitleText(gd.lang.commands_play[cc.sys.localStorage.language]);
         btnPlay.setTitleFontName(FONT_FACE_BODY);
         btnPlay.setTitleColor(COLOR_BLACK);
-        btnPlay.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+        btnPlay.setTitleFontSize(FONT_FACE_BODY_BIG);
         btnPlay.setAnchorPoint(cc.p(0.5, 0.5));
         btnPlay.setPosition(cc.p(2.9 * size.width / 8, 1 * size.height / 8));
         if (cc.sys.localStorage.content === "true") {
@@ -3284,7 +3298,7 @@ var LoadingScene = cc.Scene.extend({
         btnLearnMore.setTitleText(gd.lang.commands_learn_more[cc.sys.localStorage.language]);
         btnLearnMore.setTitleFontName(FONT_FACE_BODY);
         btnLearnMore.setTitleColor(COLOR_BLACK);
-        btnLearnMore.setTitleFontSize(FONT_FACE_BODY_SIZE_BIG);
+        btnLearnMore.setTitleFontSize(FONT_FACE_BODY_BIG);
         btnLearnMore.setAnchorPoint(cc.p(0.5, 0.5));
         btnLearnMore.setPosition(cc.p(5.1 * size.width / 8, 1 * size.height / 8));
         layer.addChild(btnLearnMore, 101);
@@ -3319,7 +3333,7 @@ var LoadingScene = cc.Scene.extend({
         chbAgree.setSelected(cc.sys.localStorage.content === "true");
         chbAgree.addEventListener(selectedStateEvent, this);
 
-        var lblAgreeTerms = new ccui.Text(gd.lang.consent[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        var lblAgreeTerms = new ccui.Text(gd.lang.consent[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         lblAgreeTerms.ignoreContentAdaptWithSize(false);
         lblAgreeTerms.setPosition(cc.p(40 + 1 * size.width / 8, 3 * size.height / 8));
         lblAgreeTerms.setAnchorPoint(cc.p(0.0, 1.0));
@@ -3448,11 +3462,11 @@ var NewGameScene = cc.Scene.extend({
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var newLabel = new cc.LabelTTF("New Game", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
-        var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var loadLabel = new cc.LabelTTF("Load Game", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         loadLabel.attr({ x: size.width * 0.5, y: size.height * 0.4 });
         this.addChild(loadLabel);
 
@@ -3508,11 +3522,11 @@ var SelectChallengeScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var newLabel = new cc.LabelTTF("Select a Challenge", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.4 });
         this.addChild(newLabel);
 
-        var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var waterLabel = new cc.LabelTTF("Water Challenge", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         waterLabel.attr({ x: size.width * 0.5, y: size.height * 0.4 });
         this.addChild(waterLabel);
 
@@ -3549,11 +3563,11 @@ var EnterNameScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var newLabel = new cc.LabelTTF("Enter a name for your policy", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
-        var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var enterNameLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         enterNameLabel.attr({ x: size.width * 0.5, y: size.height * 0.5 });
         this.addChild(enterNameLabel);
 
@@ -3590,11 +3604,11 @@ var ModifyCodeScene = cc.Scene.extend({
 
         var size = cc.winSize;
 
-        var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var newLabel = new cc.LabelTTF("Modify Code", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.8 });
         this.addChild(newLabel);
 
-        var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var modifyCodeLabel = new cc.LabelTTF("Just click for now", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         newLabel.attr({ x: size.width * 0.5, y: size.height * 0.5 });
         this.addChild(modifyCodeLabel);
 
@@ -3648,7 +3662,7 @@ var DesignPolicyLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var heading = new ccui.Text(gd.lang.policy_platform_title[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var heading = new ccui.Text(gd.lang.policy_platform_title[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_BIG);
         heading.attr({ x: size.width * 0.5, y: size.height * 0.9 });
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
@@ -3677,14 +3691,14 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsBackground.setPosition(cc.p(800, 200));
         layer.addChild(policyDetailsBackground, 110);
 
-        var policyLabel = new ccui.Text("", FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
+        var policyLabel = new ccui.Text("", FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
         policyLabel.setColor(COLOR_ICE);
         policyLabel.setAnchorPoint(cc.p(0, 0));
         policyLabel.setPosition(cc.p(20, 310));
         policyDetailsBackground.addChild(policyLabel);
 
         var policyGeneralLabel = gd.lang.policy_platform_hint[cc.sys.localStorage.language];
-        var policyDescription = new ccui.Text("", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        var policyDescription = new ccui.Text("", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         policyDescription.ignoreContentAdaptWithSize(false);
         policyDescription.setAnchorPoint(cc.p(0, 0));
         policyDescription.setContentSize(cc.size(360, 170));
@@ -3881,7 +3895,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
                 btnLayer.addChild(btn, 101);
 
-                var btnLabel = new cc.LabelTTF(opt[cc.sys.localStorage.language].text, FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
+                var btnLabel = new cc.LabelTTF(opt[cc.sys.localStorage.language].text, FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
                 btnLabel.attr({ x: 78, y: 0 });
                 btnLabel.setAnchorPoint(cc.p(0.5, 0.0));
                 btnLayer.addChild(btnLabel, 101);
@@ -3983,7 +3997,7 @@ var DesignPolicyLayer = cc.Layer.extend({
             btn.setPosition(point);
             btn.setName(text);
             btn.setTitleText(text);
-            btn.setTitleFontSize(FONT_FACE_TITLE_SIZE_BIG);
+            btn.setTitleFontSize(FONT_FACE_TITLE_BIG);
             btn.setTitleFontName(FONT_FACE_TITLE);
 
             handleMouseTouchEvent(btn, function () {
@@ -4067,7 +4081,7 @@ var StatsLayer = cc.Layer.extend({
         layerBackground.attr({ x: 0, y: 0 });
         layer.addChild(layerBackground, 1);
 
-        var heading = new ccui.Text(gd.lang.stats_track[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SIZE_BIG);
+        var heading = new ccui.Text(gd.lang.stats_track[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_BIG);
         heading.attr({ x: size.width * 0.5, y: size.height * 0.9 });
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
@@ -4106,7 +4120,7 @@ var StatsLayer = cc.Layer.extend({
             btn.setPosition(point);
             btn.setName(text);
             btn.setTitleText(text);
-            btn.setTitleFontSize(FONT_FACE_TITLE_SIZE_BIG);
+            btn.setTitleFontSize(FONT_FACE_TITLE_BIG);
             btn.setTitleFontName(FONT_FACE_TITLE);
 
             handleMouseTouchEvent(btn, function () {
@@ -4186,40 +4200,40 @@ var StatsLayer = cc.Layer.extend({
 
         // FOR THE WORLD STATISTICS PAGE
 
-        this.yearLabel = new cc.LabelTTF(gd.lang.stats_year[cc.sys.localStorage.language] + gameParams.currentDate.getFullYear(), FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
+        this.yearLabel = new cc.LabelTTF(gd.lang.stats_year[cc.sys.localStorage.language] + gameParams.currentDate.getFullYear(), FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
         this.yearLabel.setAnchorPoint(cc.p(0, 0));
         this.yearLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.75));
         layoutWorld.addChild(this.yearLabel, 100);
 
-        this.yearDescriptionLabel = new cc.LabelTTF(gd.lang.stats_year_message_a[cc.sys.localStorage.language] + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + gd.lang.stats_year_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, 20);
+        this.yearDescriptionLabel = new cc.LabelTTF(gd.lang.stats_year_message_a[cc.sys.localStorage.language] + (gameParams.targetDate.getFullYear() - gameParams.currentDate.getFullYear()) + gd.lang.stats_year_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.yearDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.yearDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.7));
         layoutWorld.addChild(this.yearDescriptionLabel, 100);
 
-        this.destructionLabel = new cc.LabelTTF(gd.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, 30);
+        this.destructionLabel = new cc.LabelTTF(gd.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
         this.destructionLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.55));
         layoutWorld.addChild(this.destructionLabel, 100);
 
-        this.destructionDescriptionLabel = new cc.LabelTTF(gd.lang.stats_loss_message_a[cc.sys.localStorage.language] + gameParams.startDate.getFullYear() + gd.lang.stats_loss_message_b[cc.sys.localStorage.language] + makeString(gameParams.totalLoss) + ".", FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.destructionDescriptionLabel = new cc.LabelTTF(gd.lang.stats_loss_message_a[cc.sys.localStorage.language] + gameParams.startDate.getFullYear() + gd.lang.stats_loss_message_b[cc.sys.localStorage.language] + makeString(gameParams.totalLoss) + ".", FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.destructionDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.destructionDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.5));
         layoutWorld.addChild(this.destructionDescriptionLabel, 100);
 
-        this.policyLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + " / " + Math.round(gameParams.populationPrepared / 1000000) + "M", FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
+        this.policyLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + " / " + Math.round(gameParams.populationPrepared / 1000000) + "M", FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
         this.policyLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.35));
         layoutWorld.addChild(this.policyLabel, 100);
 
-        this.policyDescriptionLabel = new cc.LabelTTF(gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        this.policyDescriptionLabel = new cc.LabelTTF(gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SMALL);
         this.policyDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
         layoutWorld.addChild(this.policyDescriptionLabel, 100);
 
         // Country view
-        this.tableCountryLabel = new cc.LabelTTF(gd.lang.stats_country[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
-        this.tableLossLabel = new cc.LabelTTF(gd.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
-        this.tablePreparednessLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SIZE);
+        this.tableCountryLabel = new cc.LabelTTF(gd.lang.stats_country[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
+        this.tableLossLabel = new cc.LabelTTF(gd.lang.stats_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
+        this.tablePreparednessLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
         this.tableCountryLabel.setAnchorPoint(cc.p(0, 0));
         this.tableLossLabel.setAnchorPoint(cc.p(0, 0));
         this.tablePreparednessLabel.setAnchorPoint(cc.p(0, 0));
@@ -4294,7 +4308,7 @@ var StatsLayer = cc.Layer.extend({
 
                     cell = new CustomTableViewCell();
 
-                    labelCountry = new cc.LabelTTF(country.name, FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+                    labelCountry = new cc.LabelTTF(country.name, FONT_FACE_BODY, FONT_FACE_BODY_SMALL);
                     labelCountry.color = color;
                     labelCountry.x = 10;
                     labelCountry.y = 0;
@@ -4303,7 +4317,7 @@ var StatsLayer = cc.Layer.extend({
                     labelCountry.tag = 123;
                     cell.addChild(labelCountry);
 
-                    labelLoss = new cc.LabelTTF(makeString(country.loss), FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+                    labelLoss = new cc.LabelTTF(makeString(country.loss), FONT_FACE_BODY, FONT_FACE_BODY_SMALL);
                     // labelLoss.color = color;
                     labelLoss.x = size.width * 0.25;
                     labelLoss.y = 0;
@@ -4312,7 +4326,7 @@ var StatsLayer = cc.Layer.extend({
                     labelLoss.tag = 456;
                     cell.addChild(labelLoss);
 
-                    labelPreparedness = new cc.LabelTTF(makeString(country.pop_prepared_percent), FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+                    labelPreparedness = new cc.LabelTTF(makeString(country.pop_prepared_percent), FONT_FACE_BODY, FONT_FACE_BODY_SMALL);
                     // labelPreparedness.color = color;
                     labelPreparedness.x = size.width * 0.45;
                     labelPreparedness.y = 0;
@@ -4355,8 +4369,8 @@ var StatsLayer = cc.Layer.extend({
         var graphIncrementX = size.width * 0.5 / years;
         var graphIncrementY = size.height * 0.5 / 100;
         var graphOffset = 40;
-        var lblStartYear = cc.LabelTTF.create(gameParams.startDate.getFullYear(), FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
-        var lblEndYear = cc.LabelTTF.create(gameParams.targetDate.getFullYear(), FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        var lblStartYear = cc.LabelTTF.create(gameParams.startDate.getFullYear(), FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
+        var lblEndYear = cc.LabelTTF.create(gameParams.targetDate.getFullYear(), FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         lblStartYear.attr({ x: graphX, y: graphY });
         lblEndYear.attr({ x: graphEndX, y: graphY });
         lblStartYear.setAnchorPoint(cc.p(0, 0));
@@ -4408,8 +4422,8 @@ var StatsLayer = cc.Layer.extend({
             x_o = x, yL_o = yL, yP_o = yP;
         }
 
-        var lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
-        var lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, FONT_FACE_BODY_SIZE);
+        var lblDestructionScore = cc.LabelTTF.create(makeString(gameParams.totalLoss), FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
+        var lblPolicyScore = cc.LabelTTF.create(makeString(gameParams.populationPreparedPercent), FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         lblDestructionScore.color = colorD;
         lblPolicyScore.color = colorP;
         lblDestructionScore.attr({ x: 4 + graphX + x, y: graphY + yL });

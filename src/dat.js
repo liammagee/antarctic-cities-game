@@ -11,13 +11,14 @@ const LANGUAGES = ['eng', 'esp'];
 // UI Constants
 const FONT_FACE_TITLE = "ArvoFont";
 const FONT_FACE_BODY = "JosefinSansFont";
-const FONT_FACE_SIZE_SMALL = 20;
-const FONT_FACE_TITLE_SIZE = 30;
-const FONT_FACE_TITLE_SIZE_BIG = 38;
-const FONT_FACE_BODY_SIZE = 24;
-const FONT_FACE_BODY_SIZE_BIG = 38;
+const FONT_FACE_TITLE_SMALL = 20;
+const FONT_FACE_TITLE_MEDIUM = 26;
+const FONT_FACE_TITLE_BIG = 38;
+const FONT_FACE_BODY_SMALL = 20;
+const FONT_FACE_BODY_MEDIUM = 24;
+const FONT_FACE_BODY_BIG = 30;
 
-const X_OFFSET = 0, Y_OFFSET = 50;
+const X_OFFSET = 0, Y_OFFSET = 55;
 const RESOURCE_SIZE_W = 64; 
 const RESOURCE_SIZE_H = 72; 
 const TAG_SPRITE_BATCH_NODE = 1;
@@ -1483,6 +1484,7 @@ gd.automateScripts = [
 gd.quizzes =
     [
         {
+            id: 1,
             quiz: {
                 eng: "As access to the Antarctic coast has become easier, thanks to rising temperatures and ice melt,  Antarctic krill is being fished to produce protein-rich animal feed. This is causing a decline in many other marine species around the continent. What can be done?",
                 esp: "A medida que el acceso a la costa antártica se ha hecho más fácil, gracias al aumento de las temperaturas y al derretimiento del hielo, se está pescando krill antártico para producir alimentos para animales ricos en proteínas. Esto está causando una disminución en muchas otras especies marinas en todo el continente. ¿Qué se puede hacer?",
@@ -1497,6 +1499,7 @@ gd.quizzes =
             }
         },
         {
+            id: 2,
             quiz: {
                 eng: "Because of the retreat of glaciers on the Antarctic peninsula, two invasive species have been found to be spreading without control, threatening the local ecosystem. What can be done?",
                 esp: "Debido al retroceso de los glaciares en la península antártica, se ha descubierto que dos especies invasoras se están extendiendo sin control, amenazando el ecosistema local. ¿Qué se puede hacer?",
@@ -1508,6 +1511,81 @@ gd.quizzes =
             right_answer: {
                 eng: "Adopt a systematic, DNA barcoding and web-based surveillance system, which will enable rapid identification of other ‘unusual’ species in order to curb their spread on the peninsula?",
                 esp: "Adoptar un sistema de vigilancia sistemático, basado en códigos de barras de ADN y en la web, que permita la rápida identificación de otras especies 'inusuales' para frenar su propagación en la península?"
+            }
+        },
+        {
+            id: 3,
+            quiz: {
+                eng: "Because of a global shortage in key minerals, a few nations have started investigating resource potential and extraction technologies in Antarctica, thinly veiled under the guise of scientific exploration. Environmental experts are worried that secret mines will appear on the continent, endangering the ecosystem. What can be done?",
+                esp: "Because of a global shortage in key minerals, a few nations have started investigating resource potential and extraction technologies in Antarctica, thinly veiled under the guise of scientific exploration. Environmental experts are worried that secret mines will appear on the continent, endangering the ecosystem. What can be done?",
+            },
+            wrong_answer: {
+                eng: "Call upon the Antarctic Treaty parties to rescind Article 7 of the Protocol on Environmental Protection to the Antarctic Treaty?",
+                esp: "Call upon the Antarctic Treaty parties to rescind Article 7 of the Protocol on Environmental Protection to the Antarctic Treaty?"
+            },
+            right_answer: {
+                eng: "Call upon the Antarctic Treaty parties to reinforce Article 7 of the Protocol on Environmental Protection to the Antarctic Treaty?",
+                esp: "Call upon the Antarctic Treaty parties to reinforce Article 7 of the Protocol on Environmental Protection to the Antarctic Treaty?"
+            }
+        },
+        {
+            id: 4,
+            quiz: {
+                eng: "Mass loss from the melting Antarctic Ice Sheet is contributing to global sea level rise and continues to accelerate. Antarctica now makes the largest contribution to the rise in global mean sea level, exceeding the contribution from thermal expansion, the retreat of mountain glaciers and melting of the Greenland Ice Sheet. What can be done?",
+                esp: "Mass loss from the melting Antarctic Ice Sheet is contributing to global sea level rise and continues to accelerate. Antarctica now makes the largest contribution to the rise in global mean sea level, exceeding the contribution from thermal expansion, the retreat of mountain glaciers and melting of the Greenland Ice Sheet. What can be done?",
+            },
+            wrong_answer: {
+                eng: "Lobby the Antarctic treaty parties to test a geoengineering solution that delays sea level rise by pumping seawater onto the Antarctic continent to be stored as ice, with power supplied by 850,000 1.5-MW wind turbines?",
+                esp: "Lobby the Antarctic treaty parties to test a geoengineering solution that delays sea level rise by pumping seawater onto the Antarctic continent to be stored as ice, with power supplied by 850,000 1.5-MW wind turbines?"
+            },
+            right_answer: {
+                eng: "Lobby the UN to adopt a stricter temperature increase target and a moratorium on new fossil fuel explorations?",
+                esp: "Lobby the UN to adopt a stricter temperature increase target and a moratorium on new fossil fuel explorations?"
+            }
+        },
+        {
+            id: 5,
+            quiz: {
+                eng: "With the increase of tourism to Antarctica, and the construction of hotels in the Antarctic Peninsula, alien plants have spread, threatening the local ecosystem. What can be done?",
+                esp: "With the increase of tourism to Antarctica, and the construction of hotels in the Antarctic Peninsula, alien plants have spread, threatening the local ecosystem. What can be done?",
+            },
+            wrong_answer: {
+                eng: "Start a social media campaign to ban tourism and non-scientific presence in Antarctica?",
+                esp: "Start a social media campaign to ban tourism and non-scientific presence in Antarctica?"
+            },
+            right_answer: {
+                eng: "Call upon the Antarctic Treaty to include a limit on human presence in the Protocol on Environmental Protection, and enact a systematic surveillance system for alien species?",
+                esp: "Call upon the Antarctic Treaty to include a limit on human presence in the Protocol on Environmental Protection, and enact a systematic surveillance system for alien species?"
+            }
+        },
+        {
+            id: 6,
+            quiz: {
+                eng: "Changes in food availability is endangering the survival of several penguin species, which have to compete with large-scale krill fishing in the North of Antarctica. What can be done?",
+                esp: "Changes in food availability is endangering the survival of several penguin species, which have to compete with large-scale krill fishing in the North of Antarctica. What can be done? ",
+            },
+            wrong_answer: {
+                eng: "Establish a marine protected area?",
+                esp: "Establish a marine protected area?"
+            },
+            right_answer: {
+                eng: "Lobby the parties to the Antarctic Treaty to secure Antarctica as a natural reserve and establish a moratorium on fishing in the Southern Ocean?",
+                esp: "Lobby the parties to the Antarctic Treaty to secure Antarctica as a natural reserve and establish a moratorium on fishing in the Southern Ocean?"
+            }
+        },
+        {
+            id: 7,
+            quiz: {
+                eng: "Owing to tremendous pressure for food to support the ever-growing world population, bioprospecting experiments have identified the possibility to harvest several krill species in the Southern Ocean. Scientists  fear that high levels of fishing will cause irreparable damage to the whole Antarctic ecosystem, whilst several nations are fighting for the apportionment of the krill population. What can be done?",
+                esp: "Owing to tremendous pressure for food to support the ever-growing world population, bioprospecting experiments have identified the possibility to harvest several krill species in the Southern Ocean. Scientists  fear that high levels of fishing will cause irreparable damage to the whole Antarctic ecosystem, whilst several nations are fighting for the apportionment of the krill population. What can be done?",
+            },
+            wrong_answer: {
+                eng: "Establish marine protected areas within the Protocol on Environmental Protection of the Antarctic Treaty, and apportion the remainder of the Southern Ocean area to countries that most need food supplies?",
+                esp: "Establish marine protected areas within the Protocol on Environmental Protection of the Antarctic Treaty, and apportion the remainder of the Southern Ocean area to countries that most need food supplies?"
+            },
+            right_answer: {
+                eng: "Lobby the Antarctic Treaty parties and the UN to adopt an ecosystem-based approach to the conservation of krill in the Southern Ocean, including a possible moratorium on fishing?",
+                esp: "Lobby the Antarctic Treaty parties and the UN to adopt an ecosystem-based approach to the conservation of krill in the Southern Ocean, including a possible moratorium on fishing?"
             }
         }
 
