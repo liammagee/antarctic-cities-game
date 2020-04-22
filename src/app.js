@@ -4633,7 +4633,7 @@ const StatsLayer = cc.Layer.extend({
         this.policyLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.35));
         layoutWorld.addChild(this.policyLabel, 100);
         
-        this.policyDescriptionLabel = new cc.LabelTTF(gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_SMALL);
+        this.policyDescriptionLabel = new cc.LabelTTF(gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
         this.policyDescriptionLabel.setAnchorPoint(cc.p(0, 0));
         this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
         layoutWorld.addChild(this.policyDescriptionLabel, 100);
