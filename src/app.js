@@ -1476,7 +1476,7 @@ const WorldLayer = cc.Layer.extend({
         this.btnOptions.setTouchEnabled(true);
         this.btnOptions.setSwallowTouches(false);
         this.btnOptions.setScale9Enabled(true);
-        this.btnOptions.loadTextures(res.options_off_png, "", res.options_on_png);
+        this.btnOptions.loadTextures(res.settings_normal_png, "", res.settings_on_png);
         this.btnOptions.attr({ x: 47, y: 0 });
         this.btnOptions.setContentSize(cc.size(105, 105));
         this.btnOptions.setScale(0.46);
