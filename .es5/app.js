@@ -3130,7 +3130,7 @@ var SelectOptionsScene = cc.Scene.extend({
         antarcticaSprite.setPosition(cc.p(size.width * 0.5, size.height * 0.875));
         layer.addChild(antarcticaSprite, 101);
 
-        var lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, FONT_FACE_BODY_BIG);
+        var lblWelcome = new ccui.Text("Welcome to Antarctic Futures!", FONT_FACE_BODY, FONT_FACE_BODY_VERY_BIG);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5, 0.5));
         lblWelcome.setPosition(cc.p(size.width * 0.5, size.height * 0.675));
@@ -3250,7 +3250,7 @@ var LoadingScene = cc.Scene.extend({
         antarcticaSprite.setPosition(cc.p(size.width / 2, 7 * size.height / 8));
         layer.addChild(antarcticaSprite, 101);
 
-        var lblWelcome = new ccui.Text(gd.lang.welcome[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_BIG);
+        var lblWelcome = new ccui.Text(gd.lang.welcome[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_VERY_BIG);
         lblWelcome.color = COLOR_FOREGROUND;
         lblWelcome.setAnchorPoint(new cc.p(0.5, 0.5));
         lblWelcome.setPosition(cc.p(size.width / 2, 5 * size.height / 8));
