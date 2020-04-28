@@ -43,7 +43,7 @@ var res = {
   button_grey: "res/images/BUTTONS/BUTTON_GREY.png",
   progress_bar: "res/images/progress-bar.png",
   ctrls_background: "res/images/ctrls-background.png",
-  status_button: "res/images/status-button.png",
+  status_button: "res/images/status-button-55.png",
   shader_outline_vertex: "res/shaders/mask_country.vsh",
   shader_outline_fragment: "res/shaders/mask_country.fsh",
   ArvoFont: {
