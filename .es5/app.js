@@ -684,7 +684,9 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
+    // Hacks for line height and no smoothing
     contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + 4);
+    contentText.getVirtualRenderer()._renderCmd._labelContext.imageSmoothingEnabled = false;
     layerBackground.addChild(contentText, 2);
 
     var buttons = [];
@@ -1704,7 +1706,8 @@ var WorldLayer = cc.Layer.extend({
                 gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
 
-                showMessageBoxOK(world, gd.lang.crisis_title, gd.lang.crisis_message + crisis[cc.sys.localStorage.language] + "!", "OK!", function () {
+                console.log("got here");
+                showMessageBoxOK(world, gd.lang.crisis_title[cc.sys.localStorage.language], gd.lang.crisis_message[cc.sys.localStorage.language] + crisis[cc.sys.localStorage.language] + "!", "OK!", function () {
 
                     gameParams.state = GAME_STATES.STARTED;
                 });
@@ -1934,6 +1937,7 @@ var WorldLayer = cc.Layer.extend({
 
                         gameParams.state = GAME_STATES.PAUSED;
                         gameParams.alertResources = true;
+
                         showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN[cc.sys.localStorage.language], "OK!", function (that) {
 
                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN[cc.sys.localStorage.language]);
@@ -2743,6 +2747,7 @@ var WorldLayer = cc.Layer.extend({
                 }
 
                 if (gameParams.tutorialMode && gameParams.counter % gameParams.tutorialInterval == 0) {
+
                     addTutorial();
                 }
 
@@ -3005,6 +3010,7 @@ var WorldLayer = cc.Layer.extend({
             gameParams.statsCountry = startCountry;
             gameParams.currentCountry = startCountry;
             var countryName = world.countries[gameParams.startCountry].name;
+
             nestedButtons = showMessageBoxOK(world, gd.lang.start_prepare[cc.sys.localStorage.language], gd.lang.start_mission_a[cc.sys.localStorage.language] + countryName + gd.lang.start_mission_b[cc.sys.localStorage.language], world.scenarioData[cc.sys.localStorage.language].popup_2_title, function (that) {
 
                 beginSim();

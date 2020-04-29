@@ -757,7 +757,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     contentText.setColor(COLOR_WHITE);
     // Hacks for line height and no smoothing
     contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + 4);
-    contentText..getVirtualRenderer()._renderCmd._labelContext.imageSmoothingEnabled = false;
+    contentText.getVirtualRenderer()._renderCmd._labelContext.imageSmoothingEnabled = false;
     layerBackground.addChild(contentText, 2);
 
     let buttons = [];
@@ -1846,9 +1846,10 @@ const WorldLayer = cc.Layer.extend({
                 gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
                 
+                console.log("got here")
                 showMessageBoxOK(world, 
-                    gd.lang.crisis_title, 
-                    gd.lang.crisis_message + crisis[cc.sys.localStorage.language] + "!", "OK!", function() {
+                    gd.lang.crisis_title[cc.sys.localStorage.language], 
+                    gd.lang.crisis_message[cc.sys.localStorage.language] + crisis[cc.sys.localStorage.language] + "!", "OK!", function() {
 
                     gameParams.state = GAME_STATES.STARTED;
 
@@ -2093,6 +2094,7 @@ const WorldLayer = cc.Layer.extend({
                         
                         gameParams.state = GAME_STATES.PAUSED;
                         gameParams.alertResources = true;
+
                         showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN[cc.sys.localStorage.language], "OK!", function(that) {
                         
                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN[cc.sys.localStorage.language]);
@@ -2996,7 +2998,9 @@ const WorldLayer = cc.Layer.extend({
                 }
                
                 if (gameParams.tutorialMode && gameParams.counter % gameParams.tutorialInterval == 0) {
+                    
                     addTutorial();
+
                 }
 
                 // Add buttons
@@ -3297,6 +3301,7 @@ const WorldLayer = cc.Layer.extend({
                 gameParams.statsCountry = startCountry;
                 gameParams.currentCountry = startCountry;
                 const countryName = world.countries[gameParams.startCountry].name;
+                
                 nestedButtons = showMessageBoxOK(world, 
                     gd.lang.start_prepare[cc.sys.localStorage.language], 
                     gd.lang.start_mission_a[cc.sys.localStorage.language]  + 

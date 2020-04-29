@@ -85,11 +85,12 @@ cc.game.onStart = function(){
     if(!sys.isNative) {
         document.getElementById('gameCanvas').getContext('webgl').imageSmoothingEnabled = false;
         window.onresize = function() {
+            
             document.getElementById('gameCanvas').getContext('webgl').imageSmoothingEnabled = false;
+        
         };
     }
 
-    console.log(document.getElementById('gameCanvas').getContext('webgl').imageSmoothingEnabled)
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
         cc.director.runScene(new SelectOptionsScene());
