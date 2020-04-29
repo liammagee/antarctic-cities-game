@@ -1706,7 +1706,6 @@ var WorldLayer = cc.Layer.extend({
                 gameParams.state = GAME_STATES.PAUSED;
                 gameParams.alertCrisis = true;
 
-                console.log("got here");
                 showMessageBoxOK(world, gd.lang.crisis_title[cc.sys.localStorage.language], gd.lang.crisis_message[cc.sys.localStorage.language] + crisis[cc.sys.localStorage.language] + "!", "OK!", function () {
 
                     gameParams.state = GAME_STATES.STARTED;
@@ -1941,7 +1940,8 @@ var WorldLayer = cc.Layer.extend({
                         showMessageBoxOK(world, "HINT:", TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN[cc.sys.localStorage.language], "OK!", function (that) {
 
                             gameParams.tutorialHints.push(TUTORIAL_MESSAGES.FIRST_RESOURCE_SHOWN[cc.sys.localStorage.language]);
-                            gameParams.state = GAME_STATES.STARTED;
+                            //gameParams.state = GAME_STATES.STARTED;
+                            gameParams.state = GAME_STATES.PAUSED_TUTORIAL;
                         });
                     }
                 }
@@ -2062,7 +2062,7 @@ var WorldLayer = cc.Layer.extend({
 
                     var _buttons = showMessageBoxOK(world, gd.lang.crisis_alert[cc.sys.localStorage.language], message, "OK!", function (that) {
 
-                        gameParams.state = GAME_STATES.STARTED;
+                        if (gameParams.tutorialMode) gameParams.state = GAME_STATES.PAUSED_TUTORIAL;else gameParams.state = GAME_STATES.STARTED;
                     });
 
                     if (gameParams.automateMode) {

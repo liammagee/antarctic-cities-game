@@ -40,6 +40,7 @@ var GAME_STATES = {
     PREPARED: 1,
     STARTED: 2,
     PAUSED: 3,
+    PAUSED_TUTORIAL: 4,
     GAME_OVER: 5
 };
 
