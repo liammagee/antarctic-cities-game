@@ -1,6 +1,6 @@
 
 // Version
-const VERSION_ANTARCTIC_FUTURES = "Build: 1007";
+const VERSION_ANTARCTIC_FUTURES = "Build: 1009";
 
 // Game data
 let gd = {};
