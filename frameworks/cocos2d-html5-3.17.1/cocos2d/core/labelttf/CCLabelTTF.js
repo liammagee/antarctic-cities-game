@@ -117,7 +117,7 @@ cc.LabelTTF = cc.Sprite.extend(/** @lends cc.LabelTTF# */{
             strInfo = label + "";
         else
             strInfo = "";
-
+        
         fontSize = fontSize || 16;
         dimensions = dimensions || cc.size(0, 0/*fontSize*/);
         hAlignment = hAlignment || cc.TEXT_ALIGNMENT_LEFT;
@@ -851,11 +851,13 @@ cc.LabelTTF = cc.Sprite.extend(/** @lends cc.LabelTTF# */{
     },
 
     _createRenderCmd: function () {
-        if (cc._renderType === cc.game.RENDER_TYPE_WEBGL)
-            return new cc.LabelTTF.WebGLRenderCmd(this);
+        if (cc._renderType === cc.game.RENDER_TYPE_WEBGL) {
+            var a = new cc.LabelTTF.WebGLRenderCmd(this);
+            return a;
+        }
         else if (this._onCacheCanvasMode)
             return new cc.LabelTTF.CacheCanvasRenderCmd(this);
-        else
+        else 
             return new cc.LabelTTF.CanvasRenderCmd(this);
     },
 

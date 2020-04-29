@@ -684,6 +684,7 @@ var showMessageBoxOK = function showMessageBoxOK(parent, title, message, prompt1
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
+    contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + 4);
     layerBackground.addChild(contentText, 2);
 
     var buttons = [];
@@ -1096,7 +1097,7 @@ var WorldLayer = cc.Layer.extend({
         var controlHandler = function controlHandler(target) {
 
             if (target == world.btnQuit) {
-                // Pause
+                // Quit
 
                 gameParams.state = GAME_STATES.PAUSED;
 
@@ -1112,7 +1113,7 @@ var WorldLayer = cc.Layer.extend({
                     gameParams.state = GAME_STATES.STARTED;
                 });
             } else if (target == world.btnOptions) {
-                // Pause
+                // Options
 
                 gameParams.state = GAME_STATES.PAUSED;
 
@@ -1124,6 +1125,15 @@ var WorldLayer = cc.Layer.extend({
                 tilelayer = world.map.getLayer("Tile Layer 1");
 
                 gameParams.state = GAME_STATES.STARTED;
+            } else if (target == world.btnSound) {
+                // Sound
+
+                gameParams.state = GAME_STATES.PAUSED;
+
+                showMessageBoxOK(world, "Sound", "Not yet implemented", "OK", function () {
+
+                    gameParams.state = GAME_STATES.STARTED;
+                });
             } else if (target == world.btnPause) {
                 // Pause
 
@@ -1152,6 +1162,7 @@ var WorldLayer = cc.Layer.extend({
 
         handleMouseTouchEvent(world.btnQuit, controlHandler);
         handleMouseTouchEvent(world.btnOptions, controlHandler);
+        handleMouseTouchEvent(world.btnSound, controlHandler);
         handleMouseTouchEvent(world.btnPause, controlHandler);
         handleMouseTouchEvent(world.btnPlay, controlHandler);
         handleMouseTouchEvent(world.btnFF, controlHandler);
@@ -1339,6 +1350,7 @@ var WorldLayer = cc.Layer.extend({
 
         this.btnQuit = new ccui.Button();
         this.btnOptions = new ccui.Button();
+        this.btnSound = new ccui.Button();
         this.btnPause = new ccui.Button();
         this.btnPlay = new ccui.Button();
         this.btnFF = new ccui.Button();
@@ -1362,6 +1374,16 @@ var WorldLayer = cc.Layer.extend({
         this.btnOptions.setContentSize(cc.size(105, 105));
         this.btnOptions.setScale(0.46);
         this.topBarLayout.addChild(this.btnOptions, 102);
+
+        this.btnSound.setAnchorPoint(cc.p(0, 0));
+        this.btnSound.setTouchEnabled(true);
+        this.btnSound.setSwallowTouches(false);
+        this.btnSound.setScale9Enabled(true);
+        this.btnSound.loadTextures(res.sound_off_png, "", res.sound_on_png);
+        this.btnSound.attr({ x: 94, y: 0 });
+        this.btnSound.setContentSize(cc.size(105, 105));
+        this.btnSound.setScale(0.46);
+        this.topBarLayout.addChild(this.btnSound, 102);
 
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setSwallowTouches(false);

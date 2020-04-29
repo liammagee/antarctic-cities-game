@@ -755,6 +755,9 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
+    // Hacks for line height and no smoothing
+    contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + 4);
+    contentText..getVirtualRenderer()._renderCmd._labelContext.imageSmoothingEnabled = false;
     layerBackground.addChild(contentText, 2);
 
     let buttons = [];
@@ -1192,7 +1195,7 @@ const WorldLayer = cc.Layer.extend({
 
         const controlHandler = (target) => {
 
-            if (target == world.btnQuit) {  // Pause
+            if (target == world.btnQuit) {  // Quit
 
                 gameParams.state = GAME_STATES.PAUSED;
 
@@ -1213,7 +1216,7 @@ const WorldLayer = cc.Layer.extend({
                 });
 
             }
-            else if (target == world.btnOptions) {  // Pause
+            else if (target == world.btnOptions) {  // Options
 
                 gameParams.state = GAME_STATES.PAUSED;
 
@@ -1228,6 +1231,18 @@ const WorldLayer = cc.Layer.extend({
                 tilelayer = world.map.getLayer("Tile Layer 1");
 
                 gameParams.state = GAME_STATES.STARTED;
+
+            }
+            else if (target == world.btnSound) {  // Sound
+
+                gameParams.state = GAME_STATES.PAUSED;
+
+                showMessageBoxOK(world, "Sound", "Not yet implemented", 
+                    "OK", () => {
+                    
+                        gameParams.state = GAME_STATES.STARTED;
+
+                    });
 
             }
             else if (target == world.btnPause) {  // Pause
@@ -1261,6 +1276,7 @@ const WorldLayer = cc.Layer.extend({
 
         handleMouseTouchEvent(world.btnQuit, controlHandler);
         handleMouseTouchEvent(world.btnOptions, controlHandler);
+        handleMouseTouchEvent(world.btnSound, controlHandler);
         handleMouseTouchEvent(world.btnPause, controlHandler);
         handleMouseTouchEvent(world.btnPlay, controlHandler);
         handleMouseTouchEvent(world.btnFF, controlHandler);
@@ -1458,6 +1474,7 @@ const WorldLayer = cc.Layer.extend({
 
         this.btnQuit = new ccui.Button();
         this.btnOptions = new ccui.Button();
+        this.btnSound = new ccui.Button();
         this.btnPause = new ccui.Button();
         this.btnPlay = new ccui.Button();
         this.btnFF = new ccui.Button();
@@ -1481,6 +1498,16 @@ const WorldLayer = cc.Layer.extend({
         this.btnOptions.setContentSize(cc.size(105, 105));
         this.btnOptions.setScale(0.46);
         this.topBarLayout.addChild(this.btnOptions, 102);
+
+        this.btnSound.setAnchorPoint(cc.p(0,0));
+        this.btnSound.setTouchEnabled(true);
+        this.btnSound.setSwallowTouches(false);
+        this.btnSound.setScale9Enabled(true);
+        this.btnSound.loadTextures(res.sound_off_png, "", res.sound_on_png);
+        this.btnSound.attr({ x: 94, y: 0 });
+        this.btnSound.setContentSize(cc.size(105, 105));
+        this.btnSound.setScale(0.46);
+        this.topBarLayout.addChild(this.btnSound, 102);
         
         this.btnPause.setTouchEnabled(true);
         this.btnPause.setSwallowTouches(false);
