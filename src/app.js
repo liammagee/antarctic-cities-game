@@ -700,23 +700,24 @@ const loadDataSets = () => {
 const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, callback2) => {
 
     parent.pause(); 
+    gameParams.modal = true;
     gameParams.state = GAME_STATES.PAUSED;
 
     let winWidth = cc.winSize.width, 
         winHeight = cc.winSize.height;
-    let btn1Offset = 0.1, btn2Offset = 0.0;
+    let btn1Offset = 0.5, btn2Offset = 0.0;
 
     if (message === null || typeof(message) === "undefined" || message === "") {
     
         if (prompt2 !== undefined) {
 
-            btn1Offset = 0.5;
-            btn2Offset = 0.3;
+            btn1Offset = 0.3;
+            btn2Offset = 0.7;
 
         }
         else {
 
-            btn1Offset = 0.4;
+            btn1Offset = 0.5;
 
         }
     }
@@ -724,8 +725,8 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
 
         if (prompt2 !== undefined) {
 
-            btn1Offset = 0.2;
-            btn2Offset = 0.1;
+            btn1Offset = 0.3;
+            btn2Offset = 0.7;
 
         }
 
@@ -764,11 +765,18 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     let btn1 = new ccui.Button();
     btn1.setTouchEnabled(true);
     btn1.setSwallowTouches(false);
+    btn1.setScale9Enabled(true);
+    btn1.loadTextures(res.button_white, res.button_grey, res.button_grey);
     btn1.setTitleText(prompt1);
-    btn1.setTitleColor(COLOR_WHITE);
+    btn1.setTitleColor(COLOR_BLACK);
     btn1.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn1.setTitleFontName(FONT_FACE_BODY);
-    btn1.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn1Offset });
+    btn1.attr({ x: layerBackground.width * btn1Offset, y: layerBackground.height * 0.2 });
+    btn1.setContentSize(cc.size(layerBackground.width * 0.3, layerBackground.height * 0.15));
+    btn1.setTouchEnabled(true);
+    btn1.setBright(true);
+    btn1.setEnabled(true);
+
     layerBackground.addChild(btn1);
 
     handleMouseTouchEvent(btn1, () => {
@@ -776,6 +784,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
         layerBackground.removeAllChildren(true);
         layerBackground.removeFromParent(true);
         parent.resume(); 
+        gameParams.modal = false;
         callback1();
 
     });
@@ -785,11 +794,17 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
         btn2 = new ccui.Button();
         btn2.setTouchEnabled(true);
         btn2.setSwallowTouches(false);
+        btn2.setScale9Enabled(true);
+        btn2.loadTextures(res.button_white, res.button_grey, res.button_grey);
         btn2.setTitleText(prompt2);
-        btn2.setTitleColor(COLOR_ICE);
+        btn2.setTitleColor(COLOR_UMBER);
         btn2.setTitleFontSize(FONT_FACE_BODY_BIG);
         btn2.setTitleFontName(FONT_FACE_BODY);
-        btn2.attr({ x: layerBackground.width / 2, y: layerBackground.height * btn2Offset });
+        btn2.attr({ x: layerBackground.width * btn2Offset, y: layerBackground.height * 0.2 });
+        btn2.setContentSize(cc.size(layerBackground.width * 0.3, layerBackground.height * 0.15));
+        btn2.setTouchEnabled(true);
+        btn2.setBright(false);
+        btn2.setEnabled(true);
         layerBackground.addChild(btn2);  
 
         handleMouseTouchEvent(btn2, () => {
@@ -797,6 +812,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
             layerBackground.removeAllChildren(true);
             layerBackground.removeFromParent(true);
             parent.resume(); 
+            gameParams.modal = false;
             callback2();
 
         });
@@ -808,7 +824,6 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     if (btn2 !== undefined)
         buttons.push(btn2);
 
-    
     return buttons;
 
 };
@@ -3568,8 +3583,13 @@ const SelectOptionsScene = cc.Scene.extend({
         layer.addChild(btnPlay, 101);
 
         const playHandler = function() { 
-        
-            if (cc.sys.os != cc.sys.OS_IOS && FULLSCREEN) {
+
+            //&& 
+            // sys.browserType !== sys.BROWSER_TYPE_BAIDU &&
+            // sys.browserType !== sys.BROWSER_TYPE_WECHAT &&
+            // cc.sys.os != cc.sys.OS_IOS 
+            if (cc.sys.isMobile && FULLSCREEN) {
+
                 var el = document.getElementById('gameCanvas');
                 cc.screen.requestFullScreen(document.documentElement).catch(err => {
                     //alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);

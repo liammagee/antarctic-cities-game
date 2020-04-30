@@ -1,6 +1,6 @@
 
 // Version
-const VERSION_ANTARCTIC_FUTURES = "Build: 1009";
+const VERSION_ANTARCTIC_FUTURES = "Build: 1010";
 
 // Game data
 let gd = {};
@@ -23,7 +23,7 @@ const X_OFFSET = 0, Y_OFFSET = 55;
 const RESOURCE_SIZE_W = 64; 
 const RESOURCE_SIZE_H = 72; 
 const TAG_SPRITE_BATCH_NODE = 1;
-const FULLSCREEN = false;
+const FULLSCREEN = true;
 
 
 // Timing Constants
