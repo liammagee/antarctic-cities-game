@@ -972,8 +972,8 @@ gd.lang = {
         esp: "Saltar Tutorial"
     },
     start_prepare: {
-        eng: "Prepare the world...",
-        esp: "Preparar al mundo..."
+        eng: "Straight to Game",
+        esp: "Saltar Tutorial"
     },
     start_mission_a: {
         eng: "In 2019, your global policy mission begins in ",

@@ -860,7 +860,7 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
 
     }
 
-    let layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.85, winHeight * 0.85);
+    let layerBackground = new cc.LayerColor(COLOR_LICORICE, winWidth * 0.85, winHeight * 0.86);
     layerBackground.attr({ 
         x: winWidth / 2 - layerBackground.width / 2, 
         y: winHeight / 2 - layerBackground.height / 2});
@@ -870,7 +870,7 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     titleText.ignoreContentAdaptWithSize(false);
     titleText.setAnchorPoint(cc.p(0.5, 0));
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
-    titleText.setPosition(cc.p(layerBackground.width * 0.5, layerBackground.height * 0.8));
+    titleText.setPosition(cc.p(layerBackground.width * 0.5, layerBackground.height * 0.85));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
@@ -879,7 +879,7 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     let contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
-    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.3));
+    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.35));
     contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.5));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
     contentText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
@@ -895,10 +895,10 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     let option1Text = new ccui.Text(wrongAnswer, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     option1Text.ignoreContentAdaptWithSize(false);
     option1Text.setAnchorPoint(cc.p(0, 0));
-    option1Text.setPosition(cc.p(opt1Layer.width * 0.05, opt1Layer.height * 0.1));
+    option1Text.setPosition(cc.p(opt1Layer.width * 0.05, opt1Layer.height * 0.3));
     option1Text.setContentSize(cc.size(opt1Layer.width * 0.9, opt1Layer.height * 0.7));
     option1Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    option1Text.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+    option1Text.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     option1Text.setColor(COLOR_LICORICE);
     opt1Layer.addChild(option1Text, 2);
 
@@ -909,10 +909,14 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     btn1.setTitleColor(COLOR_LICORICE);
     btn1.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn1.setTitleFontName(FONT_FACE_BODY);
-    btn1.setPosition(cc.p(opt1Layer.width * 0.5, opt1Layer.height * 0.1));
-    btn1.setContentSize(cc.size(opt1Layer.width * 1.0, opt1Layer.height * 0.25));
-    world.btn1 = btn1;
-    opt1Layer.addChild(btn1, 2);
+    btn1.setScale9Enabled(true);
+    btn1.loadTextures(res.button_white, res.button_grey, res.button_grey);
+    btn1.setBright(true);
+    btn1.setEnabled(true);
+    btn1.setAnchorPoint(cc.p(0, 0));
+    btn1.setPosition(cc.p(opt1Layer.width * 0.05, opt1Layer.height * 0.05));
+    btn1.setContentSize(cc.size(opt1Layer.width * 0.9, opt1Layer.height * 0.25));
+    opt1Layer.addChild(btn1);
 
     handleMouseTouchEvent(btn1, () => {
 
@@ -942,10 +946,10 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     let option2Text = new ccui.Text(rightAnswer, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     option2Text.ignoreContentAdaptWithSize(false);
     option2Text.setAnchorPoint(cc.p(0, 0));
-    option2Text.setPosition(cc.p(opt2Layer.width * 0.05, opt2Layer.height * 0.1));
+    option2Text.setPosition(cc.p(opt2Layer.width * 0.05, opt2Layer.height * 0.3));
     option2Text.setContentSize(cc.size(opt2Layer.width * 0.9, opt2Layer.height * 0.7));
     option2Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    option2Text.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+    option2Text.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     option2Text.setColor(COLOR_LICORICE);
     opt2Layer.addChild(option2Text, 2);
 
@@ -956,9 +960,13 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     btn2.setTitleColor(COLOR_LICORICE);
     btn2.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn2.setTitleFontName(FONT_FACE_BODY);
+    btn2.setScale9Enabled(true);
+    btn2.loadTextures(res.button_white, res.button_grey, res.button_grey);
+    btn2.setBright(true);
+    btn2.setEnabled(true);
     btn2.setAnchorPoint(cc.p(0, 0));
-    btn2.setContentSize(cc.size(opt2Layer.width * 0.5, opt2Layer.height * 0.15));
-    btn2.setPosition(cc.p(opt2Layer.width * 0.5, opt2Layer.height * 0.1));
+    btn2.setPosition(cc.p(opt2Layer.width * 0.05, opt2Layer.height * 0.05));
+    btn2.setContentSize(cc.size(opt2Layer.width * 0.9, opt2Layer.height * 0.25));
     opt2Layer.addChild(btn2);  
 
     handleMouseTouchEvent(btn2, () => {
@@ -1893,7 +1901,7 @@ const WorldLayer = cc.Layer.extend({
                     let wrong_answer = qi.wrong_answer[cc.sys.localStorage.language];
                     let right_answer = qi.right_answer[cc.sys.localStorage.language];
 
-                    showQuizBox(world, "ALERT!", quiz, wrong_answer, right_answer);
+                    showQuizBox(world, "CRISIS ALERT!", quiz, wrong_answer, right_answer);
 
                 }
 
