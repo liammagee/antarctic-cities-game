@@ -1,6 +1,6 @@
 
 // Version
-var VERSION_ANTARCTIC_FUTURES = "Build: 1011";
+var VERSION_ANTARCTIC_FUTURES = "Build: 1010";
 
 // Game data
 var gd = {};
