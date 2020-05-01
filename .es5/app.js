@@ -3053,7 +3053,7 @@ var WorldLayer = cc.Layer.extend({
 
                 beginSim();
             });
-        }, gd.lang.start_prepare[cc.sys.localStorage.language], function (that) {
+        }, gd.lang.start_tutorial_skip[cc.sys.localStorage.language], function (that) {
 
             gameParams.tutorialMode = false;
             gameParams.startCountry = startCountry;

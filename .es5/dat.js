@@ -1,6 +1,6 @@
 
 // Version
-var VERSION_ANTARCTIC_FUTURES = "Build: 1011";
+var VERSION_ANTARCTIC_FUTURES = "Build: 1010";
 
 // Game data
 var gd = {};
@@ -968,12 +968,12 @@ gd.lang = {
         esp: "Iniciar Tutorial"
     },
     start_tutorial_skip: {
-        eng: "Skip Tutorial",
-        esp: "Saltar Tutorial"
+        eng: "Straight to Game",
+        esp: "Straight to Game"
     },
     start_prepare: {
-        eng: "Straight to Game",
-        esp: "Saltar Tutorial"
+        eng: "Prepare the world...",
+        esp: "Preparar al mundo..."
     },
     start_mission_a: {
         eng: "In 2019, your global policy mission begins in ",

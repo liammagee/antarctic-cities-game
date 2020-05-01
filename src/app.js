@@ -3352,7 +3352,7 @@ const WorldLayer = cc.Layer.extend({
                 });
 
             },
-            gd.lang.start_prepare[cc.sys.localStorage.language], (that) => {
+            gd.lang.start_tutorial_skip[cc.sys.localStorage.language], (that) => {
 
                 gameParams.tutorialMode = false;
                 gameParams.startCountry = startCountry;
