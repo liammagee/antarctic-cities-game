@@ -23,8 +23,6 @@ const ShaderOutlineEffect = cc.LayerGradient.extend({
         this.loss = loss;
         this.timeCounter = 0;
 
-        const ccbjs = "res/";
-
         if( 'opengl' in cc.sys.capabilities ) {
 
             if(cc.sys.isNative){
@@ -45,11 +43,14 @@ const ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.updateUniforms();
                 this.shader.use();
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_threshold'), 1.75);
-                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), 1.0);
+                this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_colorForLoss'), 255 / 255, 0 / 255, 0 / 255);
+                this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_colorForPreparedness'), 0 / 255, 255 / 255, 0 / 255);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_percentageLoss'), 0.0);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_percentagePreparedness'), 0.0);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_selected'), 0.0);
                 this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_location'), parseFloat(this.node.x), parseFloat(this.node.y));
-                this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_mouse'), 0.0, 0.0);
-                this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor1'), 255 / 255, 0 / 255, 0 / 255);
-                this.shader.setUniformLocationWith3f(this.shader.getUniformLocationForName('u_outlineColor2'), 0 / 255, 255 / 255, 0 / 255);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), 1.0);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_dotSize'), 2.0);
 
                 const program = this.shader.getProgram();
                 this.uniformResolution = gl.getUniformLocation( program, "resolution");
@@ -63,14 +64,13 @@ const ShaderOutlineEffect = cc.LayerGradient.extend({
 
                 const glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this.shader);
                 glProgram_state.setUniformFloat("u_threshold", 1.75);
-                glProgram_state.setUniformFloat("u_zoom", world.worldBackground.getScale());
+                glProgram_state.setUniformVec3("u_colorForLoss", {x: 255/255, y: 0/255, z: 0/255});
+                glProgram_state.setUniformVec3("u_colorForPreparedness", {x: 0/255, y: 255/255, z: 0/255});
+                glProgram_state.setUniformFloat("u_percentageLoss", 1.0);
+                glProgram_state.setUniformFloat("u_percentagePreparedness", 1.0);
                 glProgram_state.setUniformFloat("u_selected", 0.0);
-                glProgram_state.setUniformFloat("u_fill1", 1.0);
-                glProgram_state.setUniformFloat("u_fill2", 1.0);
                 glProgram_state.setUniformVec2("u_location", {x: this.node.x, y: this.node.y});
-                glProgram_state.setUniformVec2("u_mouse", {x: 0.0, y: 0.0});
-                glProgram_state.setUniformVec3("u_outlineColor1", {x: 255/255, y: 0/255, z: 0/255});
-                glProgram_state.setUniformVec3("u_outlineColor2", {x: 0/255, y: 255/255, z: 0/255});
+                glProgram_state.setUniformFloat("u_zoom", world.worldBackground.getScale());
                 node.setGLProgramState(glProgram_state);
 
             }
@@ -89,15 +89,6 @@ const ShaderOutlineEffect = cc.LayerGradient.extend({
 
         // if (gameParams.state != GAME_STATES.STARTED || gameParams.state != GAME_STATES.PAUSED)
         //     return;
-        let mouseX = -1.0, mouseY = -1.0;
-
-        if (world.mouse.x > this.node.x && world.mouse.x < this.node.x + this.node.width &&
-            world.mouse.y > this.node.y && world.mouse.y < this.node.y + this.node.height) {
-
-            mouseX = ((world.mouse.x - this.node.x) / this.node.width );
-            mouseY = ((world.mouse.y - (2 * Y_OFFSET) - this.node.y) / this.node.height );
-
-        }
 
         let selected = this.country.selected ? 1.0 : 0.0;
 
@@ -105,24 +96,23 @@ const ShaderOutlineEffect = cc.LayerGradient.extend({
 
             if (cc.sys.isNative) {
 
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_percentageLoss'), (this.country.loss));
+                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_percentagePreparedness'), (this.country.pop_prepared_percent));
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_selected'), selected);
                 this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
-                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill1'), (this.country.loss));
-                this.node.getGLProgramState().setUniformFloat(this.shader.getUniformLocationForName('u_fill2'), (this.country.pop_prepared_percent));
-                this.node.getGLProgramState().setUniformVec2(this.shader.getUniformLocationForName('u_mouse'), {x: (mouseX), y: (mouseY)});
-                this.node.getGLProgramState().setUniformFloat("u_radius", Math.abs(this.node.getRotation() / 500));
             
             }
             else {
 
                 this.shader.use();
-                this.shader.setUniformLocationF32( this.uniformResolution, 256, 256);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_percentageLoss'), (this.country.loss));
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_percentagePreparedness'), (this.country.pop_prepared_percent));
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_selected'), selected);
+                this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_location'), parseFloat(world.worldBackground.x), parseFloat(world.worldBackground.y));
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
-                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill1'), (this.country.loss));
-                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_fill2'), (this.country.pop_prepared_percent));
-                this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_mouse'), (mouseX), (mouseY));
-                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_radius'), Math.abs(this.node.getRotation() / 500));
+                //this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_dotSize'), 2.0);
+                
+                this.shader.setUniformLocationF32( this.uniformResolution, 256, 256);
                 this.shader.updateUniforms();
 
             }
@@ -757,7 +747,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
     // Hacks for line height and no smoothing
-    contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + 4);
+    contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + FONT_SPACING);
     contentText.getVirtualRenderer()._renderCmd._labelContext.imageSmoothingEnabled = false;
     layerBackground.addChild(contentText, 2);
 
@@ -768,7 +758,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     btn1.setScale9Enabled(true);
     btn1.loadTextures(res.button_white, res.button_grey, res.button_grey);
     btn1.setTitleText(prompt1);
-    btn1.setTitleColor(COLOR_BLACK);
+    btn1.setTitleColor(COLOR_LICORICE);
     btn1.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn1.setTitleFontName(FONT_FACE_BODY);
     btn1.attr({ x: layerBackground.width * btn1Offset, y: layerBackground.height * 0.2 });
@@ -797,7 +787,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
         btn2.setScale9Enabled(true);
         btn2.loadTextures(res.button_white, res.button_grey, res.button_grey);
         btn2.setTitleText(prompt2);
-        btn2.setTitleColor(COLOR_UMBER);
+        btn2.setTitleColor(COLOR_BLACK);
         btn2.setTitleFontSize(FONT_FACE_BODY_BIG);
         btn2.setTitleFontName(FONT_FACE_BODY);
         btn2.attr({ x: layerBackground.width * btn2Offset, y: layerBackground.height * 0.2 });
@@ -840,10 +830,13 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
 const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
 
     parent.pause(); 
+    gameParams.modal = true;
     gameParams.state = GAME_STATES.PAUSED;
 
     let winWidth = cc.winSize.width, 
         winHeight = cc.winSize.height;
+    let lyr1OffsetX = 0.05, lyr2OffsetX = 0.55,
+        lyr1OffsetY = 0.05, lyr2OffsetY = 0.05;
     let lbl1OffsetX = 0.05, lbl2OffsetX = 0.55,
         lbl1OffsetY = 0.2, lbl2OffsetY = 0.2;
     let btn1OffsetX = 0.25, btn2OffsetX = 0.75,
@@ -852,7 +845,10 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     
     if (Math.random() > 0.5) {
 
-        let tmp = lbl1OffsetX;
+        let tmp = lyr1OffsetX;
+        lyr1OffsetX = lyr2OffsetX;
+        lyr2OffsetX = tmp;
+        tmp = lbl1OffsetX;
         lbl1OffsetX = lbl2OffsetX;
         lbl2OffsetX = tmp;
         tmp = btn1OffsetX;
@@ -880,42 +876,50 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
-    let contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_BIG);
+    let contentText = new ccui.Text(message, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     contentText.ignoreContentAdaptWithSize(false);
     contentText.setAnchorPoint(cc.p(0, 0));
-    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.4));
-    contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.4));
+    contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.3));
+    contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.5));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
     contentText.setColor(COLOR_WHITE);
+    contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_BIG + FONT_SPACING)
     layerBackground.addChild(contentText, 2);
 
     let buttons = [];
+    let opt1Layer = new cc.LayerColor(COLOR_WHITE);
+    opt1Layer.setPosition(cc.p(layerBackground.width * lyr1OffsetX, layerBackground.height * lyr1OffsetY));
+    opt1Layer.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.5));
+    layerBackground.addChild(opt1Layer, 2);
     let option1Text = new ccui.Text(wrongAnswer, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     option1Text.ignoreContentAdaptWithSize(false);
     option1Text.setAnchorPoint(cc.p(0, 0));
-    option1Text.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.3));
-    option1Text.setPosition(cc.p(layerBackground.width * lbl1OffsetX, layerBackground.height * lbl1OffsetY));
+    option1Text.setPosition(cc.p(opt1Layer.width * 0.05, opt1Layer.height * 0.1));
+    option1Text.setContentSize(cc.size(opt1Layer.width * 0.9, opt1Layer.height * 0.7));
     option1Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    option1Text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    option1Text.setColor(COLOR_WHITE);
-    layerBackground.addChild(option1Text, 2);
+    option1Text.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+    option1Text.setColor(COLOR_LICORICE);
+    opt1Layer.addChild(option1Text, 2);
 
     let btn1 = new ccui.Button();
     btn1.setTouchEnabled(true);
     btn1.setSwallowTouches(false);
     btn1.setTitleText(btn1Text);
-    btn1.setTitleColor(COLOR_WHITE);
+    btn1.setTitleColor(COLOR_LICORICE);
     btn1.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn1.setTitleFontName(FONT_FACE_BODY);
-    btn1.attr({ x: layerBackground.width * btn1OffsetX, y: layerBackground.height * btn1OffsetY });
-    layerBackground.addChild(btn1);
+    btn1.setPosition(cc.p(opt1Layer.width * 0.5, opt1Layer.height * 0.1));
+    btn1.setContentSize(cc.size(opt1Layer.width * 1.0, opt1Layer.height * 0.25));
+    world.btn1 = btn1;
+    opt1Layer.addChild(btn1, 2);
 
     handleMouseTouchEvent(btn1, () => {
 
         layerBackground.removeAllChildren(true);
         layerBackground.removeFromParent(true);
         parent.resume(); 
+        gameParams.modal = false;
 
         showMessageBoxOK(world, "CRISIS RESPONSE", "Good try, but this won't be enough to preserve the future of Antarctica!", "OK!", function() {
             
@@ -931,32 +935,39 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
 
     });
 
+    let opt2Layer = new cc.LayerColor(COLOR_WHITE);
+    opt2Layer.setPosition(cc.p(layerBackground.width * lyr2OffsetX, layerBackground.height * lyr2OffsetY));
+    opt2Layer.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.5));
+    layerBackground.addChild(opt2Layer, 2);
     let option2Text = new ccui.Text(rightAnswer, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
     option2Text.ignoreContentAdaptWithSize(false);
     option2Text.setAnchorPoint(cc.p(0, 0));
-    option2Text.setContentSize(cc.size(layerBackground.width * 0.4, layerBackground.height * 0.3));
-    option2Text.setPosition(cc.p(layerBackground.width * lbl2OffsetX, layerBackground.height * lbl2OffsetY));
+    option2Text.setPosition(cc.p(opt2Layer.width * 0.05, opt2Layer.height * 0.1));
+    option2Text.setContentSize(cc.size(opt2Layer.width * 0.9, opt2Layer.height * 0.7));
     option2Text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    option2Text.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    option2Text.setColor(COLOR_WHITE);
-    layerBackground.addChild(option2Text, 2);
+    option2Text.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+    option2Text.setColor(COLOR_LICORICE);
+    opt2Layer.addChild(option2Text, 2);
 
     btn2 = new ccui.Button();
     btn2.setTouchEnabled(true);
     btn2.setSwallowTouches(false);
     btn2.setTitleText(btn2Text);
-    btn2.setTitleColor(COLOR_WHITE);
+    btn2.setTitleColor(COLOR_LICORICE);
     btn2.setTitleFontSize(FONT_FACE_BODY_BIG);
     btn2.setTitleFontName(FONT_FACE_BODY);
-    btn2.attr({ x: layerBackground.width * btn2OffsetX, y: layerBackground.height * btn2OffsetY });
-    layerBackground.addChild(btn2);  
+    btn2.setAnchorPoint(cc.p(0, 0));
+    btn2.setContentSize(cc.size(opt2Layer.width * 0.5, opt2Layer.height * 0.15));
+    btn2.setPosition(cc.p(opt2Layer.width * 0.5, opt2Layer.height * 0.1));
+    opt2Layer.addChild(btn2);  
 
     handleMouseTouchEvent(btn2, () => {
         
         layerBackground.removeAllChildren(true);
         layerBackground.removeFromParent(true);
         parent.resume(); 
-        
+        gameParams.modal = false;
+
         showMessageBoxOK(world, "CRISIS RESPONSE", "Great response to this crisis!", "OK!", function() {
             
             const res = Math.floor(1 + Math.random() * 3);
@@ -1428,7 +1439,7 @@ const WorldLayer = cc.Layer.extend({
             const sprite = new cc.Sprite(l.tileset.sourceImage);
 
             sprite.setPosition(cc.p(parseInt(country.offsetX), 
-                parseInt(cc.winSize.height - ( 2 * Y_OFFSET ) - country.offsetY)));
+                parseInt(cc.winSize.height - ( 2 * Y_OFFSET - 2 ) - country.offsetY)));
             sprite.setAnchorPoint(cc.p(0., 0.));
             world.worldBackground.addChild(sprite, 3);
 
@@ -1873,8 +1884,8 @@ const WorldLayer = cc.Layer.extend({
             else {
 
                 // Add Crisis Quiz, 50% of the time
-                if (Math.random() < 0.5) {
-                // if (Math.random() < 1.0) {
+                // if (Math.random() < 0.5) {
+                if (Math.random() < 1.0) {
 
                     // Show quiz
                     let qi = gd.quizzes[Math.floor(Math.random() * gd.quizzes.length)];
