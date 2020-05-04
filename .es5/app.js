@@ -50,9 +50,18 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), 1.0);
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_dotSize'), 2.0);
 
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_cellSize'), gameParams.shader.u_cellSize);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_randFactor'), gameParams.shader.u_randFactor);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_randAlpha'), gameParams.shader.u_randAlpha);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_sizePower'), gameParams.shader.u_sizePower);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_sizeMultiplier'), gameParams.shader.u_sizeMultiplier);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_stepMin'), gameParams.shader.u_stepMin);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_stepMax'), gameParams.shader.u_stepMax);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_borderRadius'), gameParams.shader.u_borderRadius);
+
                 var program = this.shader.getProgram();
                 this.uniformResolution = gl.getUniformLocation(program, "resolution");
-                this.shader.setUniformLocationF32(this.uniformResolution, 256, 256);
+                this.shader.setUniformLocationF32(this.uniformResolution, node.width, node.height);
             }
 
             // this.sprite.runAction(cc.sequence(cc.rotateTo(1.0, 10), cc.rotateTo(1.0, -10)).repeatForever());
@@ -102,6 +111,16 @@ var ShaderOutlineEffect = cc.LayerGradient.extend({
                 this.shader.setUniformLocationWith2f(this.shader.getUniformLocationForName('u_location'), parseFloat(world.worldBackground.x), parseFloat(world.worldBackground.y));
                 this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_zoom'), world.worldBackground.getScale());
                 //this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_dotSize'), 2.0);
+
+                // Tweak params
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_cellSize'), gameParams.shader.u_cellSize);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_randFactor'), gameParams.shader.u_randFactor);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_randAlpha'), gameParams.shader.u_randAlpha);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_sizePower'), gameParams.shader.u_sizePower);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_sizeMultiplier'), gameParams.shader.u_sizeMultiplier);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_stepMin'), gameParams.shader.u_stepMin);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_stepMax'), gameParams.shader.u_stepMax);
+                this.shader.setUniformLocationWith1f(this.shader.getUniformLocationForName('u_borderRadius'), gameParams.shader.u_borderRadius);
 
                 this.shader.setUniformLocationF32(this.uniformResolution, 256, 256);
                 this.shader.updateUniforms();
@@ -486,6 +505,17 @@ var initGameParams = function initGameParams(scenarioData) {
     gameParams.tutorialMode = false;
     gameParams.tutorialHints = [];
     gameParams.stats = {};
+
+    // Shader options
+    gameParams.shader = {};
+    gameParams.shader.u_cellSize = 5.0;
+    gameParams.shader.u_randFactor = 0.5;
+    gameParams.shader.u_randAlpha = 0.3;
+    gameParams.shader.u_sizePower = 4.0;
+    gameParams.shader.u_sizeMultiplier = 1.8;
+    gameParams.shader.u_stepMin = 0.9;
+    gameParams.shader.u_stepMax = 1.0;
+    gameParams.shader.u_borderRadius = 10.0;
 
     // Obtain automation setting from parent
     if (world.automateID > -1) {
@@ -1324,7 +1354,7 @@ var WorldLayer = cc.Layer.extend({
 
             var sprite = new cc.Sprite(l.tileset.sourceImage);
 
-            sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - (2 * Y_OFFSET - 2) - country.offsetY)));
+            sprite.setPosition(cc.p(parseInt(country.offsetX), parseInt(cc.winSize.height - 2 * Y_OFFSET - country.offsetY)));
             sprite.setAnchorPoint(cc.p(0., 0.));
             world.worldBackground.addChild(sprite, 3);
 
@@ -4055,9 +4085,31 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         layer.addChild(pageView, 100);
         pageView.setCurrentPageIndex(0);
+        var pvl = function pvl(sender, type) {
+            switch (type) {
+                case ccui.PageView.EVENT_TURNING:
 
+            }
+        };
+        pageView.addEventListener(layer);
+        handleMouseTouchEvent(pageView, function (target) {
+
+            // Handle swipes
+            for (var i = 0; i < allButtons.length; i++) {
+
+                allButtons[i].setBright(true);
+                allButtons[i].enabled = true;
+                allButtons[i].setColor(COLOR_ICE);
+            }
+
+            target.setBright(false);
+            target.enabled = false;
+            target.setColor(COLOR_UMBER);
+        });
         // Add buttons to jump to specific page
         var prevButton = null;
+        var allButtons = [];
+
         var makeButton = function makeButton(text, point, index) {
 
             var btn = new ccui.Button();
@@ -4104,11 +4156,14 @@ var DesignPolicyLayer = cc.Layer.extend({
             }
 
             layer.addChild(btn, 100);
+
+            return btn;
         };
 
         Object.values(RESOURCES).forEach(function (res, index) {
 
-            makeButton(res[cc.sys.localStorage.language].name, cc.p(300 + 200 * index, 80), index);
+            var btn = makeButton(res[cc.sys.localStorage.language].name, cc.p(300 + 200 * index, 80), index);
+            allButtons.push(btn);
         });
 
         // Add resource
@@ -4157,10 +4212,10 @@ var StatsLayer = cc.Layer.extend({
         heading.setColor(COLOR_ICE);
         layer.addChild(heading, 101);
 
-        var pageView = new ccui.PageView();
-        pageView.setContentSize(cc.size(size.width, size.height - 80));
-        pageView.setAnchorPoint(cc.p(0, 0));
-        pageView.setPosition(cc.p(0, 0));
+        var statsPageView = new ccui.PageView();
+        statsPageView.setContentSize(cc.size(size.width, size.height - 80));
+        statsPageView.setAnchorPoint(cc.p(0, 0));
+        statsPageView.setPosition(cc.p(0, 0));
 
         var layoutWorld = new ccui.Layout();
         layoutWorld.setContentSize(size.width * 0.5, size.height * 0.5);
@@ -4195,7 +4250,7 @@ var StatsLayer = cc.Layer.extend({
             btn.setTitleFontName(FONT_FACE_TITLE);
 
             handleMouseTouchEvent(btn, function () {
-                //pageView.setCurrentPageIndex(index);
+                //statsPageView.setCurrentPageIndex(index);
                 switch (index) {
                     case 0:
                     default:

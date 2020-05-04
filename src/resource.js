@@ -45,7 +45,7 @@
     ctrls_background: "res/images/ctrls-background.png",
     status_button: "res/images/status-button-55.png",
     shader_outline_vertex: "res/shaders/mask_country.vsh",
-    shader_outline_fragment: "res/shaders/mask_country.fsh",
+    shader_outline_fragment: "res/shaders/mask_country2.fsh",
     ArvoFont : {
       type:"font",
       name:"ArvoFont",

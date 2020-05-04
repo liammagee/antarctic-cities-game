@@ -219,7 +219,7 @@ var writeProj = function(proj) {
       var featPop = tractsCity.features[index];
       var propsPop = featPop.properties;
       context.fillStyle = BORDER_GREY;
-
+      // console.log(propsPop);
       // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
       let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
       // context.fillStyle = "#000";
@@ -341,7 +341,7 @@ var writeProj = function(proj) {
       
       // contextCountry.fillStyle = '#F00';
       if (greyscale)
-        contextCountry.fillStyle = COUNTRY_GREY;
+        contextCountry.fillStyle = BORDER_GREY;
       else
         contextCountry.fillStyle = '#' + col.toString(16)  + 'AA00';
       if (props.ISO_A3 == "ATA") {
@@ -351,20 +351,28 @@ var writeProj = function(proj) {
       contextCountry.beginPath();
       pathCountry(tracts.features[i]);
       contextCountry.fill();
+      contextCountry.closePath();
 
+      // if (false) {
       if (city) {
-        let index = i;
-        var featPop = tractsCity.features[index];
-        var propsPop = featPop.properties;
-        contextCountry.fillStyle = BORDER_GREY;
-  
-        // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
-        let countryPopScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
-        contextCountry.beginPath();
-        path.pointRadius(countryPopScale * 5);
-        path(featPop.geometry);
-        contextCountry.fill();
-        contextCountry.closePath();
+        for (let j = 0; j < tractsCity.features.length; j++) {
+          let index = j;
+          var featPop = tractsCity.features[index];
+          var propsPop = featPop.properties;
+          if (propsPop.ISO_A2 == props.ISO_A2) {
+            contextCountry.fillStyle = "#FFFFFF";
+    
+            // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
+            let countryPopScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
+            contextCountry.beginPath();
+            pathCountry.pointRadius(countryPopScale * 5);
+            pathCountry(featPop.geometry);
+            contextCountry.fill();
+            if (greyscale)
+              context.stroke();
+            contextCountry.closePath();
+          }
+        }
       }
 
       var out2 = fs.createWriteStream('./res/countries/' + countryFile);
@@ -548,7 +556,6 @@ var writeProj = function(proj) {
       var featPop = tractsCity.features[index];
       var propsPop = featPop.properties;
       var coordsPlace = path(featPop).split(',').slice(0, 2).map(item => { return item.replace(/[A-Za-z]/, '') });
-      console.log(coordsPlace);
       let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
       let px = Math.round((parseFloat(coordsPlace[0]) + translatex) * scalex * decimalFactor) / decimalFactor;
       let py = Math.round((parseFloat(coordsPlace[1]) + translatey) * scaley * decimalFactor) / decimalFactor;
