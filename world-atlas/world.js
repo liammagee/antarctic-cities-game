@@ -16,6 +16,7 @@ program
     .option("-j, --json <file>", "specify the JSON file to use as input (must be in TopoJSON format)")
     .option("-g, --greyscale", "use greyscale rather than colour scheme")
     .option("-p, --projection <projectionType>", "specify the type of projection; one of stereographic|mercator|equirectangular|peirce|patterson|guyou")
+    .option("-m, --population <populationLevel>", "in conjunction with --city, specifies the minimum place population to include")
     .parse(process.argv);
 
 
@@ -27,6 +28,7 @@ let greyscale = (program.greyscale !== undefined);
 let scheme = (greyscale ? 'greyscale' : 'colour');
 let projectionName = (program.projection !== undefined) ? program.projection : 'equal';
 let city = (program.city !== undefined);
+let minPopulation = (program.population !== undefined) ? parseInt(program.population) : 0;
 
 // Common variables
 const COUNTRY_GREY = '#D8E1E3';
@@ -219,18 +221,20 @@ var writeProj = function(proj) {
       var featPop = tractsCity.features[index];
       var propsPop = featPop.properties;
       context.fillStyle = BORDER_GREY;
-      // console.log(propsPop);
-      // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
-      let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
-      // context.fillStyle = "#000";
-      context.beginPath();
-      // context.arc(featPop.geometry.coordinates[0], featPop.geometry.coordinates[1], popScale * 5, 0, Math.PI * 2);
-      path.pointRadius(popScale * 5);
-      path(featPop.geometry);
-      context.fill();
-      if (greyscale)
-        context.stroke();
-      context.closePath();
+      if (propsPop.POP_MAX > minPopulation) {
+        // console.log(propsPop);
+        // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
+        let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
+        // context.fillStyle = "#000";
+        context.beginPath();
+        // context.arc(featPop.geometry.coordinates[0], featPop.geometry.coordinates[1], popScale * 5, 0, Math.PI * 2);
+        path.pointRadius(popScale * 5);
+        path(featPop.geometry);
+        context.fill();
+        if (greyscale)
+          context.stroke();
+        context.closePath();
+      }
     }
   }
 
@@ -353,13 +357,12 @@ var writeProj = function(proj) {
       contextCountry.fill();
       contextCountry.closePath();
 
-      // if (false) {
       if (city) {
         for (let j = 0; j < tractsCity.features.length; j++) {
           let index = j;
           var featPop = tractsCity.features[index];
           var propsPop = featPop.properties;
-          if (propsPop.ISO_A2 == props.ISO_A2) {
+          if (propsPop.ISO_A2 == props.ISO_A2 && propsPop.POP_MAX > minPopulation) {
             contextCountry.fillStyle = "#FFFFFF";
     
             // Divide pop by 100,000, add one, and divide log by log of 500 (i.e. 50 mill should equal 1.0)
@@ -555,23 +558,25 @@ var writeProj = function(proj) {
       let index = i;
       var featPop = tractsCity.features[index];
       var propsPop = featPop.properties;
-      var coordsPlace = path(featPop).split(',').slice(0, 2).map(item => { return item.replace(/[A-Za-z]/, '') });
-      let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
-      let px = Math.round((parseFloat(coordsPlace[0]) + translatex) * scalex * decimalFactor) / decimalFactor;
-      let py = Math.round((parseFloat(coordsPlace[1]) + translatey) * scaley * decimalFactor) / decimalFactor;
-      xml += '\t<object id="' + (obj_id++) + '" name="' + propsPop.NAME + '" x="0" y="0" visible="0">\n'
-      xml += "\t\t<polygon points=\"" + px + "," + py + "\"/>\n";
-      xml += "\t\t<properties>\n";
-      xml += "\t\t\t<property name=\"NAME\" value=\"" + propsPop.NAME + "\"/>\n";
-      xml += "\t\t\t<property name=\"ISO_A2\" value=\"" + propsPop.ISO_A2 + "\"/>\n";
-      xml += "\t\t\t<property name=\"ADM0_A3\" value=\"" + propsPop.ADM0_A3 + "\"/>\n";
-      xml += "\t\t\t<property name=\"LATITUDE\" value=\"" + propsPop.LATITUDE + "\"/>\n";
-      xml += "\t\t\t<property name=\"LONGITUDE\" value=\"" + propsPop.LONGITUDE + "\"/>\n";
-      xml += "\t\t\t<property name=\"POP_MAX\" value=\"" + propsPop.POP_MAX + "\"/>\n";
-      xml += "\t\t\t<property name=\"POP_MIN\" value=\"" + propsPop.POP_MIN + "\"/>\n";
-      xml += "\t\t\t<property name=\"POP_SCALE\" value=\"" + popScale + "\"/>\n";
-      xml += "\t\t</properties>\n";
-      xml += '\t</object>\n';
+      if (propsPop.POP_MAX > minPopulation) {
+        var coordsPlace = path(featPop).split(',').slice(0, 2).map(item => { return item.replace(/[A-Za-z]/, '') });
+        let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
+        let px = Math.round((parseFloat(coordsPlace[0]) + translatex) * scalex * decimalFactor) / decimalFactor;
+        let py = Math.round((parseFloat(coordsPlace[1]) + translatey) * scaley * decimalFactor) / decimalFactor;
+        xml += '\t<object id="' + (obj_id++) + '" name="' + propsPop.NAME + '" x="0" y="0" visible="0">\n'
+        xml += "\t\t<polygon points=\"" + px + "," + py + "\"/>\n";
+        xml += "\t\t<properties>\n";
+        xml += "\t\t\t<property name=\"NAME\" value=\"" + propsPop.NAME + "\"/>\n";
+        xml += "\t\t\t<property name=\"ISO_A2\" value=\"" + propsPop.ISO_A2 + "\"/>\n";
+        xml += "\t\t\t<property name=\"ADM0_A3\" value=\"" + propsPop.ADM0_A3 + "\"/>\n";
+        xml += "\t\t\t<property name=\"LATITUDE\" value=\"" + propsPop.LATITUDE + "\"/>\n";
+        xml += "\t\t\t<property name=\"LONGITUDE\" value=\"" + propsPop.LONGITUDE + "\"/>\n";
+        xml += "\t\t\t<property name=\"POP_MAX\" value=\"" + propsPop.POP_MAX + "\"/>\n";
+        xml += "\t\t\t<property name=\"POP_MIN\" value=\"" + propsPop.POP_MIN + "\"/>\n";
+        xml += "\t\t\t<property name=\"POP_SCALE\" value=\"" + popScale + "\"/>\n";
+        xml += "\t\t</properties>\n";
+        xml += '\t</object>\n';
+      }
     }
     xml += '  </objectgroup>\n'
   }

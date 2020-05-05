@@ -508,14 +508,25 @@ var initGameParams = function initGameParams(scenarioData) {
 
     // Shader options
     gameParams.shader = {};
-    gameParams.shader.u_cellSize = 5.0;
-    gameParams.shader.u_randFactor = 0.5;
-    gameParams.shader.u_randAlpha = 0.3;
-    gameParams.shader.u_sizePower = 4.0;
-    gameParams.shader.u_sizeMultiplier = 1.8;
-    gameParams.shader.u_stepMin = 0.9;
-    gameParams.shader.u_stepMax = 1.0;
-    gameParams.shader.u_borderRadius = 10.0;
+    if (cc.sys.isMobile) {
+        gameParams.shader.u_cellSize = 1.0;
+        gameParams.shader.u_randFactor = 0.5;
+        gameParams.shader.u_randAlpha = 0.3;
+        gameParams.shader.u_sizePower = 4.0;
+        gameParams.shader.u_sizeMultiplier = 1.0;
+        gameParams.shader.u_stepMin = 0.9;
+        gameParams.shader.u_stepMax = 1.0;
+        gameParams.shader.u_borderRadius = 10.0;
+    } else {
+        gameParams.shader.u_cellSize = 10.0;
+        gameParams.shader.u_randFactor = 0.5;
+        gameParams.shader.u_randAlpha = 0.3;
+        gameParams.shader.u_sizePower = 4.0;
+        gameParams.shader.u_sizeMultiplier = 1.0;
+        gameParams.shader.u_stepMin = 0.9;
+        gameParams.shader.u_stepMax = 1.0;
+        gameParams.shader.u_borderRadius = 10.0;
+    }
 
     // Obtain automation setting from parent
     if (world.automateID > -1) {
@@ -3299,15 +3310,11 @@ var SelectOptionsScene = cc.Scene.extend({
 
         var playHandler = function playHandler() {
 
-            //&& 
-            // sys.browserType !== sys.BROWSER_TYPE_BAIDU &&
-            // sys.browserType !== sys.BROWSER_TYPE_WECHAT &&
-            // cc.sys.os != cc.sys.OS_IOS 
-            if (cc.sys.isMobile && FULLSCREEN) {
+            if (cc.sys.isMobile && cc.sys.browserType !== cc.sys.BROWSER_TYPE_BAIDU && cc.sys.browserType !== cc.sys.BROWSER_TYPE_WECHAT && cc.sys.os != cc.sys.OS_IOS && FULLSCREEN) {
 
                 var el = document.getElementById('gameCanvas');
                 cc.screen.requestFullScreen(document.documentElement).catch(function (err) {
-                    //alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    // alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
                 });
             }
 
@@ -3926,6 +3933,8 @@ var DesignPolicyLayer = cc.Layer.extend({
         policyDetailsBackground.addChild(btnPolicyInvest, 100);
 
         var pageView = new ccui.PageView();
+        pageView.setTouchEnabled(true);
+        pageView.setSwallowTouches(false);
         pageView.setContentSize(cc.size(size.width, size.height - Y_OFFSET));
         pageView.setAnchorPoint(cc.p(0, 0));
         pageView.setPosition(cc.p(X_OFFSET, Y_OFFSET));
@@ -4085,27 +4094,22 @@ var DesignPolicyLayer = cc.Layer.extend({
 
         layer.addChild(pageView, 100);
         pageView.setCurrentPageIndex(0);
-        var pvl = function pvl(sender, type) {
-            switch (type) {
-                case ccui.PageView.EVENT_TURNING:
-
-            }
-        };
-        pageView.addEventListener(layer);
-        handleMouseTouchEvent(pageView, function (target) {
-
-            // Handle swipes
+        // /* NOT WORKING!
+        /*
+        handleMouseTouchEvent(pageView, (target) => {
+             // Handle swipes
             for (var i = 0; i < allButtons.length; i++) {
-
+            
                 allButtons[i].setBright(true);
                 allButtons[i].enabled = true;
-                allButtons[i].setColor(COLOR_ICE);
+                allButtons[i].setColor(COLOR_ICE);  
+            
             }
-
-            target.setBright(false);
-            target.enabled = false;
-            target.setColor(COLOR_UMBER);
-        });
+             // target.setBright(false);
+            // target.enabled = false;
+            // target.setColor(COLOR_UMBER);
+         });
+        // */
         // Add buttons to jump to specific page
         var prevButton = null;
         var allButtons = [];
@@ -4165,6 +4169,46 @@ var DesignPolicyLayer = cc.Layer.extend({
             var btn = makeButton(res[cc.sys.localStorage.language].name, cc.p(300 + 200 * index, 80), index);
             allButtons.push(btn);
         });
+
+        var pvl = function pvl(sender, type) {
+
+            switch (type) {
+                case ccui.PageView.EVENT_TURNING:
+                case 10:
+                    // Don't know what this is
+                    policySelected = null;
+                    var index = sender.getCurPageIndex();
+
+                    for (var i = 0; i < allButtons.length; i++) {
+
+                        allButtons[i].setBright(true);
+                        allButtons[i].enabled = true;
+                        allButtons[i].setColor(COLOR_ICE);
+                    }
+                    var btn = allButtons[index];
+
+                    if (prevButton != null && prevButton != btn) {
+
+                        prevButton.setBright(true);
+                        prevButton.enabled = true;
+                        prevButton.setColor(COLOR_ICE);
+                    }
+
+                    btn.setBright(false);
+                    btn.enabled = false;
+                    btn.setColor(COLOR_UMBER);
+
+                    prevButton = btn;
+
+                    policyLabel.setVisible(false);
+                    policyDescription.setString(policyGeneralLabel);
+                    policyCostLabel.setVisible(false);
+                    btnPolicyInvest.setVisible(false);
+
+                    break;
+            }
+        };
+        pageView.addEventListener(pvl);
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);

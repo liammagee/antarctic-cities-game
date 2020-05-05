@@ -34,9 +34,6 @@ uniform float u_stepMin;
 uniform float u_stepMax;
 uniform float u_borderRadius;
 
-
-
-
 uniform vec2 resolution;
 
 
@@ -59,7 +56,6 @@ float cell(vec2 coord, vec2 offset, vec2 shift) {
     vec2 cellDist = vec2(mod((coord.x + offset.x), u_cellSize), mod((coord.y + offset.y), u_cellSize));
     // Get a pseudo random number
     float r = 1.0 - rand(cellCoords + shift) * u_randFactor;
-
     // Subtract cell cell, with a pseudo random value
     cellDist -= u_cellSize / 2.0 * r;
     // Subtract from offset, to allow for overlapping
@@ -73,8 +69,7 @@ float cell(vec2 coord, vec2 offset, vec2 shift) {
     float size = 1. / (u_sizeMultiplier * pow(r, u_sizePower));
     
     // Adjust alpha
-
-    return 1.-smoothstep(u_stepMin, u_stepMax, cd * size * r);
+    return 1. - smoothstep(u_stepMin, u_stepMax, cd * size * r);
 }
 
 // Centre of cell
@@ -143,9 +138,7 @@ vec4 overlay(vec4 under, vec4 over) {
 }
 
 
-
-void main()
-{
+void main() {
     // Accumulates various effects
     vec4 mask = vec4(0., 0., 0., 0.);
 
@@ -186,10 +179,12 @@ void main()
     // Add random dots
     vec4 color2 = vec4(0., di2, 0., di2);
     color2 *= 1. - v2;
+    
     // Add slow pulse affect
     // float sf = (1.+sin(iTime*3.)) / 2.;
     // color1.a = sf;
     // color2.a = 1.-sf;
+
     // Overlay blend for colours
     mask = overlay(mask, color1);
     mask = overlay(mask, color2);

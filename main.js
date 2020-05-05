@@ -64,9 +64,10 @@ cc.game.onStart = function(){
     // Disable auto full screen on baidu and wechat, you might also want to eliminate sys.BROWSER_TYPE_MOBILE_QQ
     if (sys.isMobile && 
         sys.browserType !== sys.BROWSER_TYPE_BAIDU &&
-        sys.browserType !== sys.BROWSER_TYPE_WECHAT) {
+        sys.browserType !== sys.BROWSER_TYPE_WECHAT &&
+        sys.os != cc.sys.OS_IOS) {
         
-        cc.view.enableAutoFullScreen(false);
+        cc.view.enableAutoFullScreen(true);
         
     }
 
@@ -74,14 +75,13 @@ cc.game.onStart = function(){
     cc.view.adjustViewPort(true);
 
     // Uncomment the following line to set a fixed orientation for your game
-    //cc.view.setOrientation(cc.ORIENTATION_LANDSCAPE);
+    cc.view.setOrientation(cc.ORIENTATION_LANDSCAPE);
 
     // Setup the resolution policy and design resolution size
     cc.view.setDesignResolutionSize(1334, 750, cc.ResolutionPolicy.SHOW_ALL);
     
-    // The game will be resized when browser size change
+    // The game will be resized when browser size changes
     cc.view.resizeWithBrowserSize(true);
-
 
     // Force image smoothing to be disabled
     if(!sys.isNative) {

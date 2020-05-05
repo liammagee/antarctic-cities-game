@@ -1,8 +1,8 @@
 
   var res = {
-    world_tilemap_tmx : "res/tmx-equal-colour.tmx",
-    world_tilemap_background : "res/background-equal-colour.png",
-    world_tilemap_foreground : "res/foreground-equal-colour.png",
+    world_tilemap_tmx : "res/tmx-equal-greyscale.tmx",
+    world_tilemap_background : "res/background-equal-greyscale.png",
+    world_tilemap_foreground : "res/foreground-equal-greyscale.png",
     dot_png : "res/images/dot.png",
     fire_texture: "res/images/fire.png",
     policy_dot_off_png : "res/images/BUTTONS/DOT_OFF.png",
