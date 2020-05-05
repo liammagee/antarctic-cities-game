@@ -776,7 +776,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
     titleText.setPosition(cc.p(layerBackground.width * 0.5, layerBackground.height * 0.8));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
@@ -786,7 +786,7 @@ const showMessageBoxOK = (parent, title, message, prompt1, callback1, prompt2, c
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
     contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
     // Hacks for line height and no smoothing
     contentText.getVirtualRenderer().setLineHeight(FONT_FACE_BODY_MEDIUM + FONT_SPACING);
@@ -914,7 +914,7 @@ const showQuizBox = (parent, title, message, wrongAnswer, rightAnswer) => {
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
     titleText.setPosition(cc.p(layerBackground.width * 0.5, layerBackground.height * 0.85));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
@@ -1133,7 +1133,7 @@ const gameOver = (parent, message, prompt) => {
     titleText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.15));
     titleText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.8));
     titleText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-    titleText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    titleText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     titleText.setColor(COLOR_WHITE);
     layerBackground.addChild(titleText, 2);
 
@@ -1143,7 +1143,7 @@ const gameOver = (parent, message, prompt) => {
     contentText.setContentSize(cc.size(layerBackground.width * 0.9, layerBackground.height * 0.6));
     contentText.setPosition(cc.p(layerBackground.width * 0.05, layerBackground.height * 0.2));
     contentText.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
-    contentText.setTextVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+    contentText.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_CENTER);
     contentText.setColor(COLOR_WHITE);
     layerBackground.addChild(contentText, 2);
 
@@ -4600,15 +4600,13 @@ const DesignPolicyLayer = cc.Layer.extend({
                     policySelected = null;
                     let index = sender.getCurPageIndex();
                     let btn = allButtons[index];
-                    
+
                     switchPage(btn, index);
     
                     break;
             }
         };
         pageView.addEventListener(pvl);
-
-
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
@@ -4688,7 +4686,7 @@ const StatsLayer = cc.Layer.extend({
             const btn = new ccui.Button();
             btn.setTouchEnabled(true);
             btn.setSwallowTouches(false);
-            btn.setAnchorPoint(cc.p(0, 0));
+            //btn.setAnchorPoint(cc.p(0, 0));
             btn.setColor(COLOR_ICE);
             btn.setPosition(point);
             btn.setName(text);
@@ -4748,9 +4746,9 @@ const StatsLayer = cc.Layer.extend({
 
         };
 
-        makeButton(gd.lang.stats_world[cc.sys.localStorage.language], cc.p(300, 80), 0);
-        makeButton(gd.lang.stats_countries[cc.sys.localStorage.language], cc.p(600, 80), 1);
-        makeButton(gd.lang.stats_trends[cc.sys.localStorage.language], cc.p(900, 80), 2);
+        makeButton(gd.lang.stats_world[cc.sys.localStorage.language], cc.p(size.width * 0.25, 80), 0);
+        makeButton(gd.lang.stats_countries[cc.sys.localStorage.language], cc.p(size.width * 0.5, 80), 1);
+        makeButton(gd.lang.stats_trends[cc.sys.localStorage.language], cc.p(size.width * 0.75, 80), 2);
 
         // Add resource
         this.resourceScoreBackground = new cc.LayerColor(COLOR_RESOURCE, 160, Y_OFFSET);
@@ -4797,13 +4795,20 @@ const StatsLayer = cc.Layer.extend({
         
         this.policyLabel = new cc.LabelTTF(gd.lang.stats_preparedness[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + " / " + Math.round(gameParams.populationPrepared / 1000000) + "M", FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
         this.policyLabel.setAnchorPoint(cc.p(0, 0));
+        this.policyLabel.setContentSize(cc.size(size.width * 0.6, size.height * 0.1));
         this.policyLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.35));
         layoutWorld.addChild(this.policyLabel, 100);
         
-        this.policyDescriptionLabel = new cc.LabelTTF(gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language], FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
+        console.log(size)
+        let pd = gd.lang.stats_preparedness_message_a[cc.sys.localStorage.language] + makeString(gameParams.populationPreparedPercent) + gd.lang.stats_preparedness_message_b[cc.sys.localStorage.language];
+        this.policyDescriptionLabel = new ccui.Text(pd, FONT_FACE_BODY, FONT_FACE_BODY_MEDIUM);
+        this.policyDescriptionLabel.ignoreContentAdaptWithSize(false);
         this.policyDescriptionLabel.setAnchorPoint(cc.p(0, 0));
-        this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.3));
-        layoutWorld.addChild(this.policyDescriptionLabel, 100);
+        this.policyDescriptionLabel.setPosition(cc.p(size.width * 0.2, size.height * 0.125));
+        this.policyDescriptionLabel.setContentSize(cc.size(size.width * 0.6, size.height * 0.2));
+        this.policyDescriptionLabel.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
+        this.policyDescriptionLabel.setTextVerticalAlignment(cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+        layoutWorld.addChild(this.policyDescriptionLabel, 101);
 
         // Country view
         this.tableCountryLabel = new cc.LabelTTF(gd.lang.stats_country[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_MEDIUM);
