@@ -4114,6 +4114,30 @@ var DesignPolicyLayer = cc.Layer.extend({
         var prevButton = null;
         var allButtons = [];
 
+        // Changes buttons with switching pages
+        var switchPage = function switchPage(btn, index) {
+
+            policySelected = null;
+            pageView.setCurrentPageIndex(index);
+            btn.setBright(false);
+            btn.enabled = false;
+            btn.setColor(COLOR_UMBER);
+
+            if (prevButton != null && prevButton != btn) {
+
+                prevButton.setBright(true);
+                prevButton.enabled = true;
+                prevButton.setColor(COLOR_ICE);
+            }
+
+            prevButton = btn;
+
+            policyLabel.setVisible(false);
+            policyDescription.setString(policyGeneralLabel);
+            policyCostLabel.setVisible(false);
+            btnPolicyInvest.setVisible(false);
+        };
+
         var makeButton = function makeButton(text, point, index) {
 
             var btn = new ccui.Button();
@@ -4129,25 +4153,7 @@ var DesignPolicyLayer = cc.Layer.extend({
 
             handleMouseTouchEvent(btn, function () {
 
-                policySelected = null;
-                pageView.setCurrentPageIndex(index);
-                btn.setBright(false);
-                btn.enabled = false;
-                btn.setColor(COLOR_UMBER);
-
-                if (prevButton != null && prevButton != btn) {
-
-                    prevButton.setBright(true);
-                    prevButton.enabled = true;
-                    prevButton.setColor(COLOR_ICE);
-                }
-
-                prevButton = btn;
-
-                policyLabel.setVisible(false);
-                policyDescription.setString(policyGeneralLabel);
-                policyCostLabel.setVisible(false);
-                btnPolicyInvest.setVisible(false);
+                switchPage(btn, index);
             });
 
             // Select the first button only
@@ -4178,32 +4184,9 @@ var DesignPolicyLayer = cc.Layer.extend({
                     // Don't know what this is
                     policySelected = null;
                     var index = sender.getCurPageIndex();
-
-                    for (var i = 0; i < allButtons.length; i++) {
-
-                        allButtons[i].setBright(true);
-                        allButtons[i].enabled = true;
-                        allButtons[i].setColor(COLOR_ICE);
-                    }
                     var btn = allButtons[index];
 
-                    if (prevButton != null && prevButton != btn) {
-
-                        prevButton.setBright(true);
-                        prevButton.enabled = true;
-                        prevButton.setColor(COLOR_ICE);
-                    }
-
-                    btn.setBright(false);
-                    btn.enabled = false;
-                    btn.setColor(COLOR_UMBER);
-
-                    prevButton = btn;
-
-                    policyLabel.setVisible(false);
-                    policyDescription.setString(policyGeneralLabel);
-                    policyCostLabel.setVisible(false);
-                    btnPolicyInvest.setVisible(false);
+                    switchPage(btn, index);
 
                     break;
             }
