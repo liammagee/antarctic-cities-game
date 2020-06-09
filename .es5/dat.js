@@ -59,11 +59,15 @@ var COLOR_WHITE = new cc.Color(255, 255, 255, 255); // White
 var COLOR_BACKGROUND = COLOR_BLACK;
 var COLOR_FOREGROUND = COLOR_ICE;
 var COLOR_HIGHLIGHT = COLOR_OAK;
-var COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Green, with transparency; COLOR_UMBER; 
+var COLOR_RESOURCE = new cc.Color(108, 180, 244, 255); // Blue with transparency; COLOR_UMBER; 
 var COLOR_POLICY_POINTS = new cc.Color(0, 255, 0, 100); // Green, with transparency
 var COLOR_DESTRUCTION_POINTS = new cc.Color(255, 0, 0, 100); // Red, with transparency
+var COLOR_DESTRUCTION_POINTS_HALF = new cc.Color(255, 0, 0, 100); // Red, with transparency
 var COLOR_BACKGROUND_TRANS = new cc.Color(42, 54, 68, 200); // Black, with transparency
 
+// DEFAULT LOSS CUTOFFs - Can be modified by narratives below
+var LOSS_TOTAL = 80;
+var LOSS_PARTIAL = 80;
 
 // RESOURCES
 var RESOURCES = {

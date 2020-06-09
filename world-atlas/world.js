@@ -153,10 +153,10 @@ var writeProj = function(proj) {
   let context = canvas.getContext('2d');
   context.clearRect();
 
-  if (greyscale) {
-    context.fillStyle = '#fff';
-    context.fillRect(0, 0, width, height);
-  }
+  // if (greyscale) {
+  //   context.fillStyle = '#fff';
+  //   context.fillRect(0, 0, width, height);
+  // }
 
   let path = d3.geoPath(proj, context);
   let bounds = path.bounds(topojson.mesh(data)),
@@ -259,7 +259,10 @@ var writeProj = function(proj) {
   });
 
   // Add countries
-  var countries = [], countryFiles = [], frags = [], fragPlaces = [], iso_a3s = [];
+  var countries = {}, countryFiles = [], 
+    frags = [], fragPlaces = [], 
+    fragsJson = [], fragPlacesJson = [], iso_a3s = [];
+  
 
   var featureGenerator = function(i, gid) {
 
@@ -268,17 +271,19 @@ var writeProj = function(proj) {
     country.iso_a3 = props['ISO_A3'];
     if (country.iso_a3 == "-99")
       country.iso_a3 = props['ADM0_A3_IS'];
-    country.NAME = props.NAME;
-    country.ECONOMY = props.ECONOMY;
-    country.INCOME_GRP = props.INCOME_GRP;
-    country.ISO_A2 = props.ISO_A2;
-    country.POP_EST = props.POP_EST;
-    country.SUBREGION = props.SUBREGION;
-    country.GDP_MD_EST = props.GDP_MD_EST;
-    country.MAPCOLOR7 = props.MAPCOLOR7;
-    country.MAPCOLOR8 = props.MAPCOLOR8;
-    country.MAPCOLOR9 = props.MAPCOLOR9;
-    country.MAPCOLOR13 = props.MAPCOLOR13;
+    country.name = props.NAME;
+    country.economy = props.ECONOMY;
+    country.income_grp = props.INCOME_GRP;
+    country.iso_a2 = props.ISO_A2;
+    country.pop_est = props.POP_EST;
+    country.subregion = props.SUBREGION;
+    country.gdp_md_est = props.GDP_MD_EST;
+    country.mapcolor7 = props.MAPCOLOR7;
+    country.mapcolor8 = props.MAPCOLOR8;
+    country.mapcolor9 = props.MAPCOLOR9;
+    country.mapcolor13 = props.MAPCOLOR13;
+    country.points = [];
+    country.places = [];
 
     countryFile = country.iso_a3 + '_' + projectionName + '.png';
     if (iso_a3s.indexOf(country.iso_a3) !== -1)
@@ -410,6 +415,8 @@ var writeProj = function(proj) {
     zones = svg_text.split(/[Z]/);
     tmx_frag = "";
     tmxFragPlace = "";
+    jsonFrag = "";
+    jsonFragPlace = "";
     var internalCounter = 0;
   
     // Parses the SVG comma-delimited pairs to builds an array of arrays of coordinate pairs
@@ -458,6 +465,11 @@ var writeProj = function(proj) {
       }
   // coords.forEach(s => {
       s = coord.join(' ');
+      let coordsSplit = coord.map((c) => {
+        let cx = parseFloat(c.split(',')[0]);
+        let cy = parseFloat(c.split(',')[1]);
+        return {x: cx, y: cy};
+      });
 
       /*
       s_simp = path.bounds(tracts_sim.features[i]).map(function(p){ return [parseInt((parseFloat(p[0]) + translatex) * scalex),parseInt((parseFloat(p[1]) + translatey) * scaley)];});
@@ -467,6 +479,7 @@ var writeProj = function(proj) {
 
       tmx_frag += '\t<object id="' + (228 + i + internalCounter++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">\n'
       tmx_frag += "\t\t<polygon points=\"" + s + "\"/>\n";
+      jsonFrag += "{\"country\":\"" + country.iso_a3 +"\",";
       tmx_frag += "\t\t<properties>\n";
       if (internalCounter == 1) {
         tmx_frag += "\t\t\t<property name=\"GID\" value=\"" + (gid + 3) + "\"/>\n";
@@ -481,17 +494,36 @@ var writeProj = function(proj) {
         tmx_frag += "\t\t\t<property name=\"EQUATOR_DIST\" value=\"" + meanLongitudes + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"OFFSET_X\" value=\"" + minX + "\"/>\n";
         tmx_frag += "\t\t\t<property name=\"OFFSET_Y\" value=\"" + maxY + "\"/>\n";
+        jsonFrag += "\"NAME\": \"" + country.NAME +"\",";
+        jsonFrag += "\"ECONOMY\": \"" + country.ECONOMY +"\",";
+        jsonFrag += "\"INCOME_GRP\": \"" + country.INCOME_GRP +"\",";
+        jsonFrag += "\"ISO_A2\": \"" + country.ISO_A2 +"\",";
+        jsonFrag += "\"POP_EST\": \"" + country.POP_EST +"\",";
+        jsonFrag += "\"SUBREGION\": \"" + country.SUBREGION +"\",";
+        jsonFrag += "\"GDP_MD_EST\": \"" + country.GDP_MD_EST +"\",";
+        jsonFrag += "\"ISO_A3\": \"" + country.iso_a3 +"\",";
+        jsonFrag += "\"EQUATOR_DIST\": \"" + meanLongitudes +"\",";
+        jsonFrag += "\"OFFSET_X\": \"" + minX +"\",";
+        jsonFrag += "\"OFFSET_Y\": \"" + maxY +"\",";
+        country.equatorDist = meanLongitudes;
+        country.offsetX = minX;
+        country.offsetY = maxY;
       }
       tmx_frag += "\t\t</properties>\n";
       tmx_frag += '\t</object>\n';
+      jsonFrag += "\"points\":\"" + s +"\"";
+      jsonFrag += "}";
+      country.points.push(coordsSplit);
     };
 
     if (mainland_coords.length > mainlandCoordCutoff) {
-      countries.push(country);
+      countries[country.iso_a3] = country;
       iso_a3s.push(country.iso_a3);
       countryFiles.push(countryFile);
       frags.push(tmx_frag);
       fragPlaces.push(tmxFragPlace);
+      fragsJson.push(jsonFrag);
+      fragPlacesJson.push(jsonFragPlace);
 
       return gid + 1;
     }
@@ -506,6 +538,7 @@ var writeProj = function(proj) {
   } );
 
   obj_id = 1;
+  let jsonOutput = "";
   xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
   xml += '<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="' + width + '" tileheight="' + height + '" infinite="0" nextobjectid="16">\n'
   xml += '   <tileset firstgid="' + (obj_id++) + '" name="background" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
@@ -516,9 +549,9 @@ var writeProj = function(proj) {
   xml += '   </tileset>\n'
 
   for (var i = 0; i < countryFiles.length; i++) {
-    countryFile = countryFiles[i]
-    country = countries[i]
-    xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + country.iso_a3 + '" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
+    let countryFile = countryFiles[i]
+    let iso_a3 = iso_a3s[i];
+    xml += '   <tileset firstgid="' + (obj_id++) + '" name="' + iso_a3 + '" tilewidth="' + width + '" tileheight="' + height + '" tilecount="1" columns="1">\n'
     xml += '    <image source="countries/' + countryFile + '" trans="ff00ff" width="' + width + '" height="' + height + '"/>\n'
     xml += '   </tileset>\n'
   }
@@ -543,26 +576,37 @@ var writeProj = function(proj) {
   }
   
   xml += '  <objectgroup name="Object Layer 1">\n'
+  jsonOutput += "{\"countries\":[{},"
   for (var i = 0; i < countryFiles.length; i++) {
-    country = countries[i];
     tmx_frag = frags[i];
+    jsonFrag = fragsJson[i];
     // xml += '    <object id="' + (obj_id++) + '" name="' + country.iso_a3 + '" x="0" y="0" visible="0">'
     xml += tmx_frag + '\n';
+    jsonOutput += jsonFrag + '\n';
+    if (i < countryFiles.length - 1)
+      jsonOutput += ',';
+    jsonOutput += '\n';
     // xml += '    </object>\n'
   }
   xml += '  </objectgroup>\n'
+  jsonOutput += "]"
   
   if (city) {
     xml += '  <objectgroup name="Object Layer 2">\n'
+    jsonOutput += "\n,\"cities\":["
     for (let i = 0; i < tractsCity.features.length; i++) {
       let index = i;
       var featPop = tractsCity.features[index];
       var propsPop = featPop.properties;
+      if (propsPop.ADM0_A3 == 'AUS') {
+        console.log(propsPop.NAME +": "+ propsPop.POP_MAX)
+      }
       if (propsPop.POP_MAX > minPopulation) {
         var coordsPlace = path(featPop).split(',').slice(0, 2).map(item => { return item.replace(/[A-Za-z]/, '') });
         let popScale = Math.log(1 + propsPop.POP_MAX / 100000) / Math.log(500);
         let px = Math.round((parseFloat(coordsPlace[0]) + translatex) * scalex * decimalFactor) / decimalFactor;
         let py = Math.round((parseFloat(coordsPlace[1]) + translatey) * scaley * decimalFactor) / decimalFactor;
+        
         xml += '\t<object id="' + (obj_id++) + '" name="' + propsPop.NAME + '" x="0" y="0" visible="0">\n'
         xml += "\t\t<polygon points=\"" + px + "," + py + "\"/>\n";
         xml += "\t\t<properties>\n";
@@ -576,12 +620,44 @@ var writeProj = function(proj) {
         xml += "\t\t\t<property name=\"POP_SCALE\" value=\"" + popScale + "\"/>\n";
         xml += "\t\t</properties>\n";
         xml += '\t</object>\n';
+        jsonOutput += "{";
+        jsonOutput += "\"points\":[" + px + "," + py +"],";
+        jsonOutput += "\"NAME\":\"" + propsPop.NAME +"\",";
+        jsonOutput += "\"ISO_A2\":\"" + propsPop.ISO_A2 +"\",";
+        jsonOutput += "\"ADM0_A3\":\"" + propsPop.ADM0_A3 +"\",";
+        jsonOutput += "\"LATITUDE\":\"" + propsPop.LATITUDE +"\",";
+        jsonOutput += "\"LONGITUDE\":\"" + propsPop.LONGITUDE +"\",";
+        jsonOutput += "\"POP_MAX\":\"" + propsPop.POP_MAX +"\",";
+        jsonOutput += "\"POP_MIN\":\"" + propsPop.POP_MIN +"\",";
+        jsonOutput += "\"POP_SCALE\":\"" + propsPop.POP_SCALE +"\"";
+        jsonOutput += "}";
+        if (i < tractsCity.features.length - 1)
+          jsonOutput += ",";
+        jsonOutput += "\n";
+        let iso_a3 = propsPop.ADM0_A3;
+        let place = {};
+        place["points"] = [px, py];
+        place["NAME"] = propsPop.NAME;
+        place["ISO_A2"] = propsPop.ISO_A2;
+        place["ADM0_A3"] = propsPop.ADM0_A3;
+        place["LATITUDE"] = propsPop.LATITUDE;
+        place["LONGITUDE"] = propsPop.LONGITUDE;
+        place["POP_MAX"] = propsPop.POP_MAX;
+        place["POP_MIN"] = propsPop.POP_MIN;
+        place["POP_SCALE"] = propsPop.POP_SCALE;
+        // console.log(iso_a3);
+        if (countries[iso_a3] !== undefined)
+          countries[iso_a3].places.push(place);
+        else
+          console.log("No country for " + iso_a3 +":" +propsPop.NAME);
       }
     }
     xml += '  </objectgroup>\n'
+    jsonOutput += "]"
   }
 
   xml += '</map>\n'
+  jsonOutput += "}"
 
   let tmxFile = "./res/tmx-" + projectionName + "-" + scheme + ".tmx"
   fs.writeFile(tmxFile, xml, function(err) {
@@ -589,6 +665,16 @@ var writeProj = function(proj) {
         return console.log(err);
     }
     console.log("The file '" + tmxFile + "' was saved!");
+  });
+
+  jsonOutput = JSON.stringify(countries);
+  // console.log(jsonOutput);
+  let jsonOutputFile = "./res/json-" + projectionName + "-" + scheme + ".json"
+  fs.writeFile(jsonOutputFile, jsonOutput, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("The file '" + jsonOutputFile + "' was saved!");
   });
   
   let resourceJavaScript = `

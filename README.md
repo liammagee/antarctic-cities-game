@@ -1,3 +1,9 @@
+
+# Antarctic Futures
+
+This repository is an archive. The latest version can be found at <https://github.com/liammagee/antarctic-cities-game-creator>.
+
+
 # World Atlas
 
 *world.js* generates a tile map XML file, and associatedimages from world maps for the game.

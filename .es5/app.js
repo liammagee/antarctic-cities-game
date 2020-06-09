@@ -1182,14 +1182,14 @@ var WorldLayer = cc.Layer.extend({
 
                 gameParams.state = GAME_STATES.PAUSED;
 
-                showMessageBoxOK(world, "Options", "", "QUIT GAME", function () {
+                showMessageBoxOK(world, "Options", "", "Quit Game", function () {
 
                     postResultsToServer();
 
                     gameParams.state = GAME_STATES.GAME_OVER;
                     // cc.director.runScene(new LoadingScene());
                     cc.director.runScene(new SelectOptionsScene());
-                }, "RETURN TO GAME", function () {
+                }, "Return to Game", function () {
 
                     gameParams.state = GAME_STATES.STARTED;
                 });
@@ -1571,11 +1571,11 @@ var WorldLayer = cc.Layer.extend({
         this.btnDevelopPolicy.setPosition(cc.p(0, 0));
         this.statusLayout.addChild(this.btnDevelopPolicy, 1);
 
-        var countryDetailLayout = new cc.Layer();
-        countryDetailLayout.setAnchorPoint(new cc.p(0, 0));
-        countryDetailLayout.setContentSize(cc.size(cc.winSize.width * (4 / 6), Y_OFFSET));
-        countryDetailLayout.attr({ x: cc.winSize.width * (1 / 6), y: 0 });
-        this.statusLayout.addChild(countryDetailLayout);
+        world.countryDetailLayout = new cc.Layer();
+        world.countryDetailLayout.setAnchorPoint(new cc.p(0, 0));
+        world.countryDetailLayout.setContentSize(cc.size(cc.winSize.width * (4 / 6), Y_OFFSET));
+        world.countryDetailLayout.attr({ x: cc.winSize.width * (1 / 6), y: 0 });
+        this.statusLayout.addChild(world.countryDetailLayout);
         var labelOffsetY = Y_OFFSET / 2;
 
         this.countryLabel = new cc.LabelTTF("", FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
@@ -1584,7 +1584,7 @@ var WorldLayer = cc.Layer.extend({
         this.countryLabel.setColor(COLOR_ICE);
         this.countryLabel.setAnchorPoint(new cc.p(0, 0.5));
         this.countryLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-        countryDetailLayout.addChild(this.countryLabel);
+        world.countryDetailLayout.addChild(this.countryLabel);
 
         var lossLabel = new cc.LabelTTF(gd.lang.commands_loss[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         lossLabel.setContentSize(cc.size(50, Y_OFFSET));
@@ -1592,28 +1592,47 @@ var WorldLayer = cc.Layer.extend({
         lossLabel.setColor(COLOR_ICE);
         lossLabel.setAnchorPoint(new cc.p(0, 0.5));
         lossLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-        countryDetailLayout.addChild(lossLabel);
+        world.countryDetailLayout.addChild(lossLabel);
 
         this.countryLoss = new cc.LabelTTF("0%", FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         this.countryLoss.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryLoss.setPosition(cc.p(360, labelOffsetY));
+        this.countryLoss.setPosition(cc.p(396, labelOffsetY));
         this.countryLoss.setColor(COLOR_DESTRUCTION_POINTS);
-        this.countryLoss.setAnchorPoint(new cc.p(0, 0.5));
+        this.countryLoss.setAnchorPoint(new cc.p(1, 0.5));
         this.countryLoss.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         this.countryLoss.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
-        countryDetailLayout.addChild(this.countryLoss);
+        world.countryDetailLayout.addChild(this.countryLoss);
 
-        this.countryLossProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
+        this.countryLossProgressBase = ccui.LoadingBar.create();
         this.countryLossProgressBase.setContentSize(cc.size(80, 10));
         this.countryLossProgressBase.setPosition(cc.p(400, Y_OFFSET / 2));
         this.countryLossProgressBase.setAnchorPoint(new cc.p(0, 0.5));
+        this.countryLossProgressBase.setColor(COLOR_WHITE);
+        this.countryLossProgressCutoff1 = ccui.LoadingBar.create();
+        this.countryLossProgressCutoff1.setContentSize(cc.size(80, 10));
+        this.countryLossProgressCutoff1.setPosition(cc.p(400, Y_OFFSET / 2));
+        this.countryLossProgressCutoff1.setAnchorPoint(new cc.p(0, 0.5));
+        this.countryLossProgressCutoff1.setColor(COLOR_ICE);
+        this.countryLossProgressCutoff1.setOpacity(127);
+        this.countryLossProgressCutoff1.setPercent(LOSS_TOTAL);
+        this.countryLossProgressCutoff2 = ccui.LoadingBar.create();
+        this.countryLossProgressCutoff2.setContentSize(cc.size(80, 10));
+        this.countryLossProgressCutoff2.setPosition(cc.p(400, Y_OFFSET / 2));
+        this.countryLossProgressCutoff2.setAnchorPoint(new cc.p(0, 0.5));
+        this.countryLossProgressCutoff2.setColor(COLOR_ICE);
+        this.countryLossProgressCutoff2.setOpacity(255);
+        this.countryLossProgressCutoff2.setPercent(LOSS_PARTIAL);
         this.countryLossProgress = new ccui.LoadingBar(res.progress_bar, 0);
         this.countryLossProgress.setColor(COLOR_DESTRUCTION_POINTS);
         this.countryLossProgress.setContentSize(cc.size(80, 10));
         this.countryLossProgress.setPosition(cc.p(400, Y_OFFSET / 2));
         this.countryLossProgress.setAnchorPoint(new cc.p(0, 0.5));
-        countryDetailLayout.addChild(this.countryLossProgressBase, 100);
-        countryDetailLayout.addChild(this.countryLossProgress, 101);
+        // Half opacity
+        this.countryLossProgress.setOpacity(127);
+        world.countryDetailLayout.addChild(this.countryLossProgressBase, 100);
+        world.countryDetailLayout.addChild(this.countryLossProgressCutoff1, 101);
+        world.countryDetailLayout.addChild(this.countryLossProgressCutoff2, 102);
+        world.countryDetailLayout.addChild(this.countryLossProgress, 103);
 
         var preparednessLabel = new cc.LabelTTF(gd.lang.commands_prepared[cc.sys.localStorage.language], FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         preparednessLabel.setContentSize(cc.size(100, Y_OFFSET));
@@ -1621,17 +1640,17 @@ var WorldLayer = cc.Layer.extend({
         preparednessLabel.setColor(COLOR_ICE);
         preparednessLabel.setAnchorPoint(new cc.p(0, 0.5));
         preparednessLabel.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
-        countryDetailLayout.addChild(preparednessLabel);
+        world.countryDetailLayout.addChild(preparednessLabel);
 
         this.countryAwarePrepared = new cc.LabelTTF("0%", FONT_FACE_TITLE, FONT_FACE_TITLE_SMALL);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
         this.countryAwarePrepared.setContentSize(cc.size(20, Y_OFFSET));
-        this.countryAwarePrepared.setPosition(cc.p(670, labelOffsetY));
+        this.countryAwarePrepared.setPosition(cc.p(706, labelOffsetY));
         this.countryAwarePrepared.setColor(COLOR_POLICY_POINTS);
-        this.countryAwarePrepared.setAnchorPoint(new cc.p(0, 0.5));
+        this.countryAwarePrepared.setAnchorPoint(new cc.p(1, 0.5));
         this.countryAwarePrepared.setVerticalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         this.countryAwarePrepared.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
-        countryDetailLayout.addChild(this.countryAwarePrepared);
+        world.countryDetailLayout.addChild(this.countryAwarePrepared);
 
         this.countryPreparedProgressBase = new ccui.LoadingBar(res.progress_bar, 100);
         this.countryPreparedProgressBase.setContentSize(cc.size(80, 10));
@@ -1642,8 +1661,10 @@ var WorldLayer = cc.Layer.extend({
         this.countryPreparedProgress.setContentSize(cc.size(80, 10));
         this.countryPreparedProgress.setPosition(cc.p(710, Y_OFFSET / 2));
         this.countryPreparedProgress.setAnchorPoint(new cc.p(0, 0.5));
-        countryDetailLayout.addChild(this.countryPreparedProgressBase, 100);
-        countryDetailLayout.addChild(this.countryPreparedProgress, 101);
+        // Half opacity
+        //this.countryPreparedProgress.setOpacity(127);
+        world.countryDetailLayout.addChild(this.countryPreparedProgressBase, 104);
+        world.countryDetailLayout.addChild(this.countryPreparedProgress, 105);
 
         // Stats button
         this.btnStats = new ccui.Button(res.status_button, res.status_button, res.status_button);
@@ -1830,7 +1851,11 @@ var WorldLayer = cc.Layer.extend({
 
             world.countryLoss.setString(lossPercent + "%");
             world.countryLossProgress.setPercent(lossPercent);
+
+            if (lossPercent >= LOSS_TOTAL) world.countryLossProgress.setOpacity(255);else if (lossPercent >= LOSS_PARTIAL) world.countryLossProgress.setOpacity(191);
             world.countryAwarePrepared.setString(preparedPercent + "%");
+            // if (preparedPercent >= 20)
+            //     world.countryAwarePrepared.setOpacity(255);
             world.countryPreparedProgress.setPercent(preparedPercent);
         };
 
@@ -2697,6 +2722,7 @@ var WorldLayer = cc.Layer.extend({
 
                             gameParams.state = GAME_STATES.PAUSED;
                             var _buttons2 = showMessageBoxOK(world, gd.lang.bulletin[cc.sys.localStorage.language] + currentYear, message, "OK", function () {
+
                                 gameParams.state = GAME_STATES.STARTED;
                             });
 
@@ -3070,13 +3096,9 @@ var WorldLayer = cc.Layer.extend({
             world.btnFF.setBright(true);
 
             doSim();
-
-            // Add particle emitter
-            // world.addEmitter();
         };
 
         var nestedButtons = null;
-        var keys = Object.keys(world.countries);
 
         var antCountries = ["NZL", "AUS", "ZAF", "ARG", "CHL"];
         var startCountry = antCountries[Math.floor(Math.random() * antCountries.length)];

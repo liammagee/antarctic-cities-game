@@ -112,6 +112,25 @@ vec4 overlay(vec4 under, vec4 over) {
     return over.a * over + ((1.-length(over.rgb)*over.a) * under);
 }
 
+vec4 makeBorder(vec2 coord) {
+    float radius = (u_borderRadius * u_borderRadius) / (resolution.x * resolution.y);
+    vec3 greyDark = vec3(42.0 / 255.0, 54.0 / 255.0, 68.0 / 255.0);
+    vec4 accum = texture2D(CC_Texture0, (v_texCoord.xy));
+    // vec4 accum = vec4(0.);
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(0., radius)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(0., - radius)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(radius, 0.)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(- radius, 0.)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(- radius, - radius)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(radius, - radius)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(radius, radius)));
+    accum += texture2D(CC_Texture0, (v_texCoord.xy + vec2(- radius, radius)));
+    accum /= 9.;
+    accum = 1.0 - (abs(0.5 - accum) * 2.);
+    accum.rgb = greyDark * accum.a;
+    accum *= u_selected;
+    return accum;
+}
 void main() {
 
     // Accumulates various effects
